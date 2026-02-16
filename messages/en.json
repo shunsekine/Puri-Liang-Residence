@@ -64,5 +64,30 @@
         "priceMonthly": "¥{price} / Month",
         "capacity": "Max: {count} Guest(s)",
         "size": "Size: {size}㎡"
+    },
+    "Metadata": {
+        "Base": {
+            "siteName": "Puri Liang"
+        },
+        "Home": {
+            "title": "Long-term Stay Apartment & Coworking in Bali | Puri Liang",
+            "description": "Functional and affordable apartment in Tukad Balian, Bali. Perfect base for remote workers and surfers with reliable Wi-Fi and workspace."
+        },
+        "Features": {
+            "title": "Features & Amenities | Puri Liang Bali Apartment",
+            "description": "Discover our amenities designed for digital nomads. High-speed Wi-Fi, dedicated workspaces, communal areas, and surfer-friendly facilities."
+        },
+        "Rooms": {
+            "title": "Room Types & Rates | Puri Liang",
+            "description": "Choose from our Villa, King Studio, or Twin Studio rooms. All units feature kitchenettes and are perfect for long-term stays in Bali."
+        },
+        "Location": {
+            "title": "Location & Neighborhood | Puri Liang",
+            "description": "Located in the quiet area of Tukad Balian. Enjoy authentic Balinese life with easy access to markets, cafes, and the beach."
+        },
+        "Reserve": {
+            "title": "Reserve Your Stay | Puri Liang",
+            "description": "Check availability and book your long-term stay in Bali. Join our community of remote workers and travelers."
+        }
     }
 }

@@ -1,22 +1,41 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 
-export const metadata: Metadata = {
-  title: "Puri Liang Apartment, Bali - Long-term Stay",
-  description: "Functional and affordable long-term apartment in Tukad Balian, Bali. Perfect for remote workers and surfers.",
+
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({ params }: Omit<Props, 'children'>) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Metadata.Base' });
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://puri-liang-residence.vercel.app';
+
+  return {
+    metadataBase: new URL(baseUrl),
+    title: {
+      template: `%s | ${t('siteName')}`,
+      default: t('siteName'),
+    },
+    alternates: {
+      canonical: '/',
+      languages: {
+        'ja': '/ja',
+        'en': '/en',
+      },
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
   params
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}>) {
+}: Readonly<Props>) {
   const { locale } = await params;
   const messages = await getMessages();
 

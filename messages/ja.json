@@ -64,5 +64,30 @@
     "priceMonthly": "¥{price} / 月",
     "capacity": "定員: {count}名",
     "size": "広さ: {size}㎡"
+  },
+  "Metadata": {
+    "Base": {
+      "siteName": "Puri Liang"
+    },
+    "Home": {
+      "title": "バリ島の長期滞在・リモートワーク向けアパートメント | Puri Liang",
+      "description": "バリ島トゥカッド・バリアンで快適なリモートワーク生活を。高速Wi-Fi、ワークスペース、サーフスポットへのアクセスが良好な、デジタルノマドのための住まいです。"
+    },
+    "Features": {
+      "title": "特徴・設備 | Puri Liang バリ島アパートメント",
+      "description": "Puri Liangの充実した設備をご確認ください。高速Wi-Fi完備のワークスペース、リラックスできる共有エリア、そしてサーファーに嬉しい設備が整っています。"
+    },
+    "Rooms": {
+      "title": "お部屋タイプ・料金 | Puri Liang",
+      "description": "ヴィラ、キングスタジオ、ツインスタジオの3タイプをご用意。全室キッチン完備で、長期滞在でも快適にお過ごしいただけます。"
+    },
+    "Location": {
+      "title": "ロケーション・周辺環境 | Puri Liang",
+      "description": "静かな住宅街トゥカッド・バリアンに位置し、カフェやスーパー、ビーチへのアクセスも便利。ローカルな暮らしと利便性を両立したエリアです。"
+    },
+    "Reserve": {
+      "title": "予約・お問い合わせ | Puri Liang",
+      "description": "空室状況の確認や長期滞在のご相談はこちらから。バリ島での新しい生活をPuri Liangで始めませんか？"
+    }
   }
 }

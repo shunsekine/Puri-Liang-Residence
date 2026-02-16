@@ -1,6 +1,21 @@
 import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/navigation';
 import ImageCarousel from '@/components/common/ImageCarousel';
+
+type Props = {
+    params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props) {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: 'Metadata.Rooms' });
+
+    return {
+        title: t('title'),
+        description: t('description'),
+    };
+}
 
 export default function RoomsPage() {
     const t = useTranslations('Rooms');

@@ -1,5 +1,20 @@
 'use client';
 import { useState } from 'react';
+import { getTranslations } from 'next-intl/server';
+
+type Props = {
+    params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props) {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: 'Metadata.Reserve' });
+
+    return {
+        title: t('title'),
+        description: t('description'),
+    };
+}
 
 export default function ReservePage() {
     const [formData, setFormData] = useState({
