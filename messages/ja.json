@@ -1,0 +1,68 @@
+{
+  "Navigation": {
+    "home": "ホーム",
+    "features": "特徴",
+    "rooms": "部屋",
+    "location": "アクセス",
+    "reserve": "予約"
+  },
+  "Hero": {
+    "title": "バリ島での長期滞在を、賢く、快適に。",
+    "subtitle": "リモートワークとサーフィンのための、機能的で手頃な拠点。バリ島トゥカッド・バリアンで、暮らすように泊まる。",
+    "splitTitle": "バリ島の温かい拠点で、<br />暮らすように、働く。",
+    "splitDesc": "本物のバリ島の暮らしと、信頼できるワークスペースを両立。<br />リゾートではなく、デジタルノマドのための快適なコミュニティです。",
+    "cta": "詳細を見る",
+    "splitCta": "特徴を見る"
+  },
+  "Home": {
+    "communityTitle": "コミュニティ & 雰囲気",
+    "eventTitle": "コミュニティイベント",
+    "eventDesc": "週替わりのディナー、スキルシェア、ローカルへのお出かけ。",
+    "wellnessTitle": "ウェルネス & つながり",
+    "wellnessDesc": "毎日のヨガ、瞑想スペース、ミートアップ。",
+    "localTitle": "地域との融合",
+    "localDesc": "近隣住民との交流を通して、真のバリを体験。",
+    "lifeTitle": "本物のバリ生活と快適さ",
+    "spaceTitle": "考え抜かれた居住空間",
+    "spaceDesc": "簡易キッチンと居心地の良いインテリアを備えた、プライベートなアパートメント。",
+    "spaceLink": "部屋を見る →",
+    "realBaliTitle": "リアルなバリを体験",
+    "realBaliDesc": "静かな住宅街に位置し、地元の市場や文化体験もすぐそば。",
+    "realBaliLink": "ロケーションを見る →",
+    "workspaceSectionTitle": "快適なワークスペース",
+    "workspaceMainTitle": "自宅のように頼れるオフィス",
+    "workspaceDesc": "高速インターネット、静かなゾーン、生産性を高める快適なセットアップ。",
+    "feat1": "専用ワークエリア",
+    "feat2": "高速Wi-Fi",
+    "feat3": "防音ルーム",
+    "workspaceCta": "ワークスペース詳細",
+    "testimonialTitle": "居住者の声",
+    "test1Text": "「Puri Liangはコミュニティと孤独の完璧なバランスです。ワークスペースは素晴らしく、ここで素晴らしい人々に出会いました。」",
+    "test1Author": "— Alex, デジタルノマド",
+    "test2Text": "「単なるアパートではなく、家です。サーフトリップは最高で、インターネットも非常に安定しています。」",
+    "test2Author": "— Sarah, フリーランサー",
+    "test3Text": "「真の隠れた名所。静かで、本物で、驚くほど快適。スタッフの対応も最高です。」",
+    "test3Author": "— Michael, 起業家",
+    "ctaTitle": "バリ島を拠点にしませんか？",
+    "ctaDesc": "リモートワーカーと冒険家のコミュニティに参加しましょう。",
+    "ctaBtn": "滞在を予約する"
+  },
+  "Features": {
+    "title": "Puri Liangの特徴",
+    "workTitle": "高速Wi-Fiとワークスペース",
+    "workDesc": "安定したインターネット環境と、集中できる専用デスクを完備。リモートワークに最適な環境です。",
+    "lifeTitle": "サーファー向け設備",
+    "lifeDesc": "ボード置き場やシャワー、ビーチへのアクセスも良好。サーフィンライフを満喫できます。",
+    "costTitle": "コミュニティと利便性",
+    "costDesc": "同じ志を持つ仲間との交流や、周辺の便利な施設。長期滞在に必要なすべてが揃っています。"
+  },
+  "Rooms": {
+    "title": "部屋の紹介",
+    "villa": "ヴィラ",
+    "kingStudio": "キングスタジオルーム",
+    "twinStudio": "ツインスタジオルーム",
+    "priceMonthly": "¥{price} / 月",
+    "capacity": "定員: {count}名",
+    "size": "広さ: {size}㎡"
+  }
+}

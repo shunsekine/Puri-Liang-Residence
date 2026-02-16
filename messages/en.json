@@ -1,0 +1,68 @@
+{
+    "Navigation": {
+        "home": "Home",
+        "features": "Features",
+        "rooms": "Rooms",
+        "location": "Location",
+        "reserve": "Reserve"
+    },
+    "Hero": {
+        "title": "Smart & Comfortable Long-term Stay in Bali",
+        "subtitle": "A functional and affordable base for remote work and surfing. Live like a local in Tukad Balian, Bali.",
+        "splitTitle": "Your Cozy Home Base in Bali.<br />Work, Live, & Connect in a Quiet Neighborhood.",
+        "splitDesc": "Experience authentic Balinese living with a reliable workspace.<br />Not a resort, but a comfortable community for digital nomads.",
+        "cta": "View Details",
+        "splitCta": "See Features"
+    },
+    "Home": {
+        "communityTitle": "Our Community & Vibe",
+        "eventTitle": "Community Events",
+        "eventDesc": "Weekly dinners, skill shares, and local outings.",
+        "wellnessTitle": "Wellness & Connection",
+        "wellnessDesc": "Daily yoga, meditation space, and meetups.",
+        "localTitle": "Local Integration",
+        "localDesc": "Connect with neighbors and experience true Bali.",
+        "lifeTitle": "Authentic Bali Life & Comfort",
+        "spaceTitle": "Thoughtful Living Spaces",
+        "spaceDesc": "Private, fully equipped apartments with kitchenettes and cozy décor.",
+        "spaceLink": "View Apartments →",
+        "realBaliTitle": "Experience the Real Bali",
+        "realBaliDesc": "Located in a peaceful neighborhood, steps away from local markets and culture.",
+        "realBaliLink": "See Location →",
+        "workspaceSectionTitle": "Comfortable Workspace",
+        "workspaceMainTitle": "Your Reliable Office Away from Home.",
+        "workspaceDesc": "High-speed internet, quiet zones, and comfortable setups for productive days.",
+        "feat1": "Dedicated Work Areas",
+        "feat2": "Blazing-Fast WiFi",
+        "feat3": "Sound-Insulated Rooms",
+        "workspaceCta": "See Workspace Details",
+        "testimonialTitle": "What Our Residents Say",
+        "test1Text": "\"Puri Liang is the perfect blend of community and solitude. The workspace is incredible, and I've met amazing people here.\"",
+        "test1Author": "— Alex, Digital Nomad",
+        "test2Text": "\"More than just an apartment, It's a home. The surf trips make it even more special, and the internet is rock solid.\"",
+        "test2Author": "— Sarah, Freelancer",
+        "test3Text": "\"A true hidden gem. Quiet, authentic, and beautifully comfortable. The staff go above and beyond.\"",
+        "test3Author": "— Michael, Entrepreneur",
+        "ctaTitle": "Ready to Make Bali Your Home?",
+        "ctaDesc": "Join our community of remote workers and adventurers.",
+        "ctaBtn": "Book Your Stay"
+    },
+    "Features": {
+        "title": "Why Choose Puri Liang",
+        "workTitle": "High-Speed Wi-Fi & Workspace",
+        "workDesc": "Reliable internet connection and dedicated desks for focused work. Perfect for digital nomads.",
+        "lifeTitle": "Surfer Friendly",
+        "lifeDesc": "Board storage, outdoor showers, and easy access to the best surf breaks in the area.",
+        "costTitle": "Community & Convenience",
+        "costDesc": "Connect with like-minded people and enjoy nearby cafes, shops, and local amenities."
+    },
+    "Rooms": {
+        "title": "Our Rooms",
+        "villa": "Villa",
+        "kingStudio": "King Studio Room",
+        "twinStudio": "Twin Studio Room",
+        "priceMonthly": "¥{price} / Month",
+        "capacity": "Max: {count} Guest(s)",
+        "size": "Size: {size}㎡"
+    }
+}
