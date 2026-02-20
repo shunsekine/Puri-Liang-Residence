@@ -31,6 +31,9 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>) {
         'en': '/en',
       },
     },
+    verification: {
+      google: 'NaGMClFV2UBOpjtvmu5z3Mnf2Kj9jUdOvV_fRc8JG3Q',
+    },
   };
 }
 
