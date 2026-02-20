@@ -66,10 +66,19 @@ h3 {
 
 .site-logo {
   font-family: 'Noto Serif JP', Georgia, serif;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 600;
   color: #1a5f5a;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.site-logo-icon {
+  flex-shrink: 0;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(26, 95, 90, 0.15);
 }
 
 .site-nav {

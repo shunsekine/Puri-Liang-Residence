@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
+import Image from 'next/image';
 
 export default function Header() {
     const t = useTranslations('Navigation');
@@ -25,7 +26,8 @@ export default function Header() {
         <header className="site-header">
             <div className="site-header-inner">
                 <Link href="/" className="site-logo" onClick={closeMenu}>
-                    Puri Liang
+                    <Image src="/logo.png" alt="Puri Liang Logo" width={30} height={30} className="site-logo-icon" />
+                    <span>Puri Liang Residence, Bali</span>
                 </Link>
 
                 {/* Desktop Nav */}
