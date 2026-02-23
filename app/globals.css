@@ -364,11 +364,13 @@ h3 {
 }
 
 .footer-inner {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .footer-brand h2 {
@@ -381,7 +383,8 @@ h3 {
 .footer-brand p {
   font-size: 12px;
   opacity: 0.8;
-  line-height: 1.5;
+  line-height: 1.6;
+  max-width: 380px;
 }
 
 .footer-links h3,
@@ -395,10 +398,13 @@ h3 {
 
 .footer-links ul {
   list-style: none;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .footer-links li {
-  margin-bottom: 6px;
+  margin-bottom: 0;
 }
 
 .footer-links a {
@@ -414,8 +420,8 @@ h3 {
 
 .footer-social {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 12px;
+  margin-top: 0;
 }
 
 .footer-social a {
