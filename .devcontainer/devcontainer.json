@@ -1,0 +1,6 @@
+{
+  "name": "puri-liang-residence",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "postCreateCommand": "npm install",
+  "forwardPorts": [3000]
+}
