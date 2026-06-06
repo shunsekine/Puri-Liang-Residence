@@ -25,6 +25,19 @@ export default function Footer() {
                 <div style={{ fontSize: 12.5, opacity: 0.7, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                     {tBrand('address')}
                 </div>
+                <a
+                    href="https://japanpft.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'inline-block', marginTop: 16 }}
+                >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src="/images/powered-by.png"
+                        alt="Powered by JPFT Group"
+                        style={{ maxWidth: 160, height: 'auto', opacity: 0.85 }}
+                    />
+                </a>
             </div>
 
             <div>
