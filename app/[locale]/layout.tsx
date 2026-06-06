@@ -19,6 +19,8 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Metadata.Base' });
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://puri-liang-residence.vercel.app';
+  const OG_LOCALE = { ja: 'ja_JP', en: 'en_US', id: 'id_ID' };
+  const ogLocale = OG_LOCALE[locale as keyof typeof OG_LOCALE] ?? 'ja_JP';
 
   return {
     metadataBase: new URL(baseUrl),
@@ -29,7 +31,20 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>) {
     openGraph: {
       siteName: t('siteName'),
       type: 'website',
-      locale,
+      locale: ogLocale,
+      images: [
+        {
+          url: '/images/Home_Villa.jpg',
+          width: 2048,
+          height: 1536,
+          alt: 'Puri Liang Residence',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('siteName'),
+      images: ['/images/Home_Villa.jpg'],
     },
     alternates: {
       canonical: '/',
