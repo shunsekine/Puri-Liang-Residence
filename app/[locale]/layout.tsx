@@ -26,6 +26,11 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>) {
       template: `%s | ${t('siteName')}`,
       default: t('siteName'),
     },
+    openGraph: {
+      siteName: t('siteName'),
+      type: 'website',
+      locale,
+    },
     alternates: {
       canonical: '/',
       languages: {
@@ -47,6 +52,14 @@ export default async function RootLayout({
 }: Readonly<Props>) {
   const { locale } = await params;
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: 'Metadata.Base' });
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://puri-liang-residence.vercel.app';
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": t('siteName'),
+    "url": baseUrl,
+  };
 
   return (
     <html lang={locale}>
@@ -58,6 +71,10 @@ export default async function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap"
           rel="stylesheet"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
       <body>
