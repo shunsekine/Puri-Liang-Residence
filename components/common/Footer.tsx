@@ -33,7 +33,7 @@ export default function Footer() {
                         display: 'inline-block',
                         marginTop: 16,
                         background: 'var(--v2-cream)',
-                        padding: '10px 14px',
+                        padding: '1px 14px 9px 14px',
                         borderRadius: 12,
                         boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
                     }}
