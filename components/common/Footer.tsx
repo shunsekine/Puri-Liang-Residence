@@ -8,7 +8,7 @@ export default function Footer() {
     const t = useTranslations('Footer');
     const tNav = useTranslations('Nav');
     const tBrand = useTranslations('Brand');
-    const tCommon = useTranslations('Common');
+
     const currentYear = new Date().getFullYear();
 
     // Pull link labels from Footer.stayLinks etc. (arrays in messages)
@@ -75,7 +75,6 @@ export default function Footer() {
 
             <div className="v2-footer-bottom">
                 <span>© {currentYear} {tBrand('fullName')}. All Rights Reserved.</span>
-                <span>{tCommon('languagesLabel')}</span>
             </div>
         </footer>
     );
