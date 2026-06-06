@@ -20,7 +20,7 @@ export default function Footer() {
             <div>
                 <Link href="/" className="v2-footer-logo">
                     <Image src="/logo.png" alt="" width={36} height={36} />
-                    <span>{tBrand('name')}</span>
+                    <span>{tBrand('fullName')}</span>
                 </Link>
                 <div style={{ fontSize: 12.5, opacity: 0.7, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
                     {tBrand('address')}

@@ -54,7 +54,7 @@ export default function Header() {
             <nav className="v2-nav">
                 <Link href="/" className="v2-nav-logo" onClick={() => setIsMenuOpen(false)}>
                     <Image src="/logo.png" alt="" width={32} height={32} />
-                    <span>{tBrand('name')}</span>
+                    <span>{tBrand('fullName')}</span>
                 </Link>
 
                 {/* Desktop nav (hidden under 720px via .v2-nav-mid media rule) */}
