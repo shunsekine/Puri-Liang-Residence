@@ -29,13 +29,20 @@ export default function Footer() {
                     href="https://japanpft.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ display: 'inline-block', marginTop: 16 }}
+                    style={{
+                        display: 'inline-block',
+                        marginTop: 16,
+                        background: 'var(--v2-cream)',
+                        padding: '10px 14px',
+                        borderRadius: 12,
+                        boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
+                    }}
                 >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src="/images/powered-by.png"
                         alt="Powered by JPFT Group"
-                        style={{ maxWidth: 160, height: 'auto', opacity: 0.85 }}
+                        style={{ maxWidth: 150, height: 'auto', display: 'block' }}
                     />
                 </a>
             </div>
