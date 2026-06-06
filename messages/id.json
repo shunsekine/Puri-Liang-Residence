@@ -8,7 +8,7 @@
   },
   "Hero": {
     "title": "Tinggal jangka panjang di Bali, dengan cerdas dan nyaman.",
-    "subtitle": "Basis fungsional dan terjangkau untuk kerja remote dan surfing. Tinggal seperti penduduk lokal di Tukad Balian, Bali.",
+    "subtitle": "Basis fungsional dan terjangkau untuk kerja remote dan surfing. Tinggal seperti penduduk lokal di Sidakarya, Denpasar Selatan, Bali.",
     "splitTitle": "Basis nyaman Anda di Bali.<br />Bekerja, tinggal, dan terhubung di lingkungan yang tenang.",
     "splitDesc": "Rasakan kehidupan Bali yang autentik dengan ruang kerja yang dapat diandalkan.<br />Bukan resor, tapi komunitas nyaman untuk digital nomad.",
     "cta": "Lihat detail",
@@ -47,13 +47,11 @@
     "ctaDesc": "Bergabunglah dengan komunitas pekerja remote dan petualang kami.",
     "ctaBtn": "Pesan tempat tinggal Anda",
     "hero": {
-      "badge": "3 kamar · Ketersediaan diperbarui · Tukad Balian, Bali",
       "title1": "Sebulan,",
       "title2": "tinggal di",
       "title3": "Bali.",
       "lead": "Apartemen bulanan di kawasan perumahan lokal — bukan di tengah area wisata. Suara burung di pagi hari, suara serangga di malam hari, dan Wi-Fi yang selalu terhubung.",
       "priceUnit": "/ bulan · mulai 1 bulan",
-      "ctaPrimary": "Lihat ketersediaan",
       "ctaSecondary": "Tentang kamar"
     },
     "manifesto": {
@@ -97,7 +95,7 @@
       "emphasis": "satu bulan",
       "lead": "Cek ketersediaan dan minta perkiraan harga di sini. Balasan dalam 2 hari kerja, dalam JP, EN, atau ID.",
       "ctaPrimary": "Form reservasi →",
-      "ctaSecondary": "Hubungi via email"
+      "ctaSecondary": "Lihat FAQ"
     }
   },
   "Features": {
@@ -263,7 +261,7 @@
     },
     "Home": {
       "title": "Apartemen Tinggal Jangka Panjang & Coworking di Bali | Puri Liang",
-      "description": "Apartemen fungsional dan terjangkau di Tukad Balian, Bali. Basis sempurna untuk pekerja remote dan surfer dengan Wi-Fi andal dan ruang kerja."
+      "description": "Apartemen fungsional dan terjangkau di Sidakarya, Denpasar Selatan, Bali. Basis sempurna untuk pekerja remote dan surfer dengan Wi-Fi andal dan ruang kerja."
     },
     "Features": {
       "title": "Fasilitas & Amenitas | Apartemen Bali Puri Liang",
@@ -275,7 +273,7 @@
     },
     "Location": {
       "title": "Lokasi & Lingkungan | Puri Liang",
-      "description": "Berlokasi di area tenang Tukad Balian. Nikmati kehidupan Bali autentik dengan akses mudah ke pasar, kafe, dan pantai."
+      "description": "Berlokasi di area tenang Sidakarya, Denpasar Selatan. Nikmati kehidupan Bali autentik dengan akses mudah ke pasar, kafe, dan pantai."
     },
     "Reserve": {
       "title": "Reservasi Tinggal Anda | Puri Liang",
@@ -290,8 +288,8 @@
     "name": "Puri Liang",
     "fullName": "Puri Liang Residence",
     "tagline": "Tinggal, bekerja, dan rileks di Bali — sebulan demi sebulan.",
-    "address": "Jl. Tukad Balian, Tabanan, Bali 82122, Indonesia",
-    "addressShort": "Tukad Balian, Tabanan, Bali",
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
+    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
     "email": "stay@puriliang.com",
     "whatsapp": "+62 813-xxxx-xxxx"
   },
@@ -301,6 +299,7 @@
     "perMonthLong": "/ bulan · minimal 1 bulan",
     "approx": "sekitar",
     "currencyNote": "Harga berbasis IDR. Konversi mata uang lain hanya perkiraan.",
+    "priceRefNote": "Harga referensi · dibayar dalam IDR",
     "yen": "yen",
     "monthsUnit": "bulan",
     "guestsUnit": "orang",
@@ -381,7 +380,7 @@
     "twin": {
       "name": "Twin Studio",
       "nameLocal": "Twin Studio",
-      "description": "Untuk dua teman atau rekan kerja yang berbagi tempat. Luas yang sama dengan biaya lebih hemat per orang.",
+      "description": "Untuk dua teman atau rekan kerja yang berbagi tempat. Hemat biaya per orang.",
       "bullets": [
         "2 × tempat tidur semi-double",
         "Meja kerja",
@@ -485,8 +484,8 @@
   "Location": {
     "hero": {
       "eyebrow": "Lokasi",
-      "title1": "Tukad Balian,",
-      "emphasis": "Tabanan",
+      "title1": "Sidakarya,",
+      "emphasis": "Denpasar Selatan",
       "title2": ".",
       "lead": "Bukan di tengah area wisata, tapi seperti \"persimpangan\" — mudah menjangkau segala arah, sekaligus menghindari kemacetan jalan utama Bali."
     },
@@ -495,9 +494,9 @@
       "title1": "Bukan di tengah satu kawasan wisata —",
       "emphasis": "tapi di tengah semuanya",
       "title2": ".",
-      "lead": "Tukad Balian berada sedikit di luar kawasan wisata utama Bali, tapi memungkinkan Anda mencapai distrik-distrik penting di segala arah dalam waktu yang relatif singkat.",
+      "lead": "Sidakarya berada sedikit di luar kawasan wisata utama Bali, tapi memungkinkan Anda mencapai distrik-distrik penting di segala arah dalam waktu yang relatif singkat.",
       "hubLabel": "Puri Liang",
-      "hubMeta": "Tukad Balian, Tabanan"
+      "hubMeta": "Sidakarya, Denpasar Selatan"
     },
     "directions": [
       {
@@ -551,23 +550,23 @@
     ],
     "info": {
       "name": "Puri Liang Residence",
-      "address": "Jl. Tukad Balian,\nTabanan, Bali 82122,\nIndonesia",
+      "address": "Jl. Tukad Balian Selatan No.12,\nSidakarya, Denpasar Selatan, Bali",
       "openInGoogle": "Buka di Google Maps",
       "openInApple": "Buka di Apple Maps",
       "stats": [
         {
           "k": "Bandara Internasional Ngurah Rai",
-          "v": "90",
+          "v": "25",
           "unit": "menit · mobil"
         },
         {
-          "k": "Pantai terdekat",
-          "v": "10",
+          "k": "Pantai terdekat (Sanur)",
+          "v": "5",
           "unit": "menit · mobil"
         },
         {
           "k": "Jarak jalan kaki",
-          "v": "5–12",
+          "v": "5–10",
           "unit": "menit"
         }
       ]
@@ -578,18 +577,18 @@
       "lead": "Kami mengungkap \"berapa menit dari sini\" lengkap dengan jarak, waktu, dan moda transportasi. Termasuk waktu jujur ke kawasan wisata.",
       "items": [
         {
-          "title": "Pantai Balian",
-          "en": "Balian Beach",
-          "detail": "10 menit mobil · spot surfing. Ombak menengah–mahir, sedikit turis.",
-          "dist": "4,2",
+          "title": "Pantai Mertasari (Sanur)",
+          "en": "Mertasari Beach (Sanur)",
+          "detail": "5 menit mobil (atau 10 menit sepeda). Ombak tenang, tempat matahari terbit terkenal, cocok untuk kiting dan yoga.",
+          "dist": "2.5",
           "unit": "km",
-          "time": "10 menit",
+          "time": "5 menit",
           "mode": "mobil"
         },
         {
-          "title": "Bintang Supermarket",
+          "title": "Supermarket Lokal",
           "en": "Local supermarket",
-          "detail": "10 menit jalan kaki. Kebutuhan harian, bahan makanan, buah lokal. SIM card tersedia.",
+          "detail": "10 menit jalan kaki atau 3 menit berkendara. Kebutuhan harian, bahan makanan, barang impor, dan buah lokal.",
           "dist": "0,8",
           "unit": "km",
           "time": "10 menit",
@@ -607,46 +606,46 @@
         {
           "title": "Bank Mandiri / ATM",
           "en": "ATM",
-          "detail": "12 menit jalan kaki. Visa / Master diterima. Dua money changer di dekatnya.",
-          "dist": "1,1",
+          "detail": "5 menit jalan kaki. Menerima Visa / Master. Beberapa bank dan money changer terdekat.",
+          "dist": "0,5",
           "unit": "km",
-          "time": "12 menit",
+          "time": "5 menit",
           "mode": "jalan"
         },
         {
           "title": "Bandara Internasional Ngurah Rai",
           "en": "I Gusti Ngurah Rai Intl.",
-          "detail": "Sekitar 1 jam 30 menit dengan mobil (hingga 2 jam jika macet). Antar-jemput Rp 350.000.",
-          "dist": "52",
+          "detail": "Sekitar 25 menit dengan taksi (lewat bypass atau tol). Antar-jemput bandara Rp 200.000.",
+          "dist": "12",
           "unit": "km",
-          "time": "90 menit",
+          "time": "25 menit",
           "mode": "mobil"
         },
         {
           "title": "Pusat Ubud",
           "en": "Ubud",
-          "detail": "45 menit mobil. Yoga, pasar, sawah — bagus untuk day trip.",
-          "dist": "38",
+          "detail": "50 menit mobil. Yoga, pasar, sawah — bagus untuk day trip.",
+          "dist": "28",
           "unit": "km",
-          "time": "45 menit",
+          "time": "50 menit",
           "mode": "mobil"
         },
         {
-          "title": "Kuta / Seminyak",
-          "en": "Kuta / Seminyak",
-          "detail": "1 jam mobil. Wisata dan nightlife saat akhir pekan.",
-          "dist": "48",
-          "unit": "km",
-          "time": "60 menit",
-          "mode": "mobil"
-        },
-        {
-          "title": "Pura Tanah Lot",
-          "en": "Tanah Lot Temple",
-          "detail": "30 menit mobil. Spot sunset yang terkenal.",
-          "dist": "24",
+          "title": "Kuta / Seminyak / Canggu",
+          "en": "Kuta / Seminyak / Canggu",
+          "detail": "30–45 menit berkendara. Untuk belanja, kuliner, kehidupan malam, dan beach club.",
+          "dist": "12",
           "unit": "km",
           "time": "30 menit",
+          "mode": "mobil"
+        },
+        {
+          "title": "Pusat & Pelabuhan Sanur",
+          "en": "Sanur Center & Harbor",
+          "detail": "10 menit mobil. Kafe trendi, kuliner, dan kapal cepat ke Nusa Penida/Lembongan.",
+          "dist": "4,5",
+          "unit": "km",
+          "time": "10 menit",
           "mode": "mobil"
         }
       ]
@@ -660,7 +659,7 @@
       "notes": [
         {
           "title": "Bukan area wisata, dan itu yang penting",
-          "body": "Tukad Balian jarang muncul di buku panduan wisata. Justru karena itu, warung tempat warga sarapan dan alun-alun tempat mereka berkumpul sore hari masih ada. Bali sehari-hari masih berlangsung sebagai bagian kehidupan di kawasan ini."
+          "body": "Sidakarya jarang muncul di buku panduan wisata. Justru karena itu, warung tempat warga sarapan dan alun-alun tempat mereka berkumpul sore hari masih ada. Bali sehari-hari masih berlangsung sebagai bagian kehidupan di kawasan ini."
         },
         {
           "title": "Tentang keamanan",
@@ -852,7 +851,7 @@
       "rulesRequired": "Mohon menyetujui peraturan rumah.",
       "cancelRequired": "Mohon menyetujui kebijakan pembatalan.",
       "submitFailed": "Pengiriman gagal. Silakan coba lagi sebentar.",
-      "networkError": "Terjadi kesalahan jaringan. Silakan hubungi kami via WhatsApp atau email.",
+      "networkError": "Silakan coba lagi sebentar.",
       "errorTitle": "Tidak dapat dikirim"
     },
     "summary": {
@@ -869,16 +868,11 @@
       "included": "Termasuk",
       "total": "Total",
       "monthlyAvg": "Rata-rata / bulan",
-      "currencyNote": "Berbasis IDR · USD perkiraan",
+      "currencyNote": "Ditagih dalam IDR",
       "depositTitle": "Pembayaran saat reservasi",
       "depositSuffix": "+ Rp 2.000.000",
       "depositNote": "(deposit)",
-      "balanceNote": "Sisa pembayaran saat check-in / bisa dicicil bulanan",
-      "contactTitle": "Kontak langsung",
-      "whatsappLabel": "WhatsApp",
-      "emailLabel": "Email",
-      "responseLabel": "Waktu respons",
-      "responseValue": "Dalam 2 hari kerja"
+      "balanceNote": "Sisa pembayaran saat check-in / bisa dicicil bulanan"
     },
     "success": {
       "eyebrow": "Reservasi · Terkirim",
@@ -905,7 +899,6 @@
         "Setelah ketersediaan dicek, kami kirim estimasi akhir dan pilihan pembayaran.",
         "Jika Anda setuju dengan ketentuan, kami lanjut ke penandatanganan kontrak dan pembayaran reservasi."
       ],
-      "urgentTitle": "Untuk kontak mendesak",
       "resendButton": "Kirim permintaan lain"
     },
     "faqHeader": {

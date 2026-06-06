@@ -8,7 +8,7 @@
   },
   "Hero": {
     "title": "Smart & Comfortable Long-term Stay in Bali",
-    "subtitle": "A functional and affordable base for remote work and surfing. Live like a local in Tukad Balian, Bali.",
+    "subtitle": "A functional and affordable base for remote work and surfing. Live like a local in Sidakarya, Denpasar Selatan, Bali.",
     "splitTitle": "Your Cozy Home Base in Bali.<br />Work, Live, & Connect in a Quiet Neighborhood.",
     "splitDesc": "Experience authentic Balinese living with a reliable workspace.<br />Not a resort, but a comfortable community for digital nomads.",
     "cta": "View Details",
@@ -47,13 +47,11 @@
     "ctaDesc": "Join our community of remote workers and adventurers.",
     "ctaBtn": "Book Your Stay",
     "hero": {
-      "badge": "3 rooms · Availability updated · Tukad Balian, Bali",
       "title1": "A month of",
       "title2": "living in",
       "title3": "Bali.",
       "lead": "A monthly apartment set in a quiet residential neighborhood — away from the tourist strips. Birdsong in the morning, crickets at night, and Wi-Fi that just works.",
       "priceUnit": "/ month · 1-month minimum",
-      "ctaPrimary": "Check availability",
       "ctaSecondary": "About the rooms"
     },
     "manifesto": {
@@ -97,7 +95,7 @@
       "emphasis": "one month",
       "lead": "Check availability and request a quote here. We reply within two business days, in JP, EN, or ID.",
       "ctaPrimary": "Reservation form →",
-      "ctaSecondary": "Contact us by email"
+      "ctaSecondary": "View FAQ"
     }
   },
   "Features": {
@@ -263,7 +261,7 @@
     },
     "Home": {
       "title": "Long-term Stay Apartment & Coworking in Bali | Puri Liang",
-      "description": "Functional and affordable apartment in Tukad Balian, Bali. Perfect base for remote workers and surfers with reliable Wi-Fi and workspace."
+      "description": "Functional and affordable apartment in Sidakarya, Denpasar Selatan, Bali. Perfect base for remote workers and surfers with reliable Wi-Fi and workspace."
     },
     "Features": {
       "title": "Features & Amenities | Puri Liang Bali Apartment",
@@ -275,7 +273,7 @@
     },
     "Location": {
       "title": "Location & Neighborhood | Puri Liang",
-      "description": "Located in the quiet area of Tukad Balian. Enjoy authentic Balinese life with easy access to markets, cafes, and the beach."
+      "description": "Located in the quiet area of Sidakarya, Denpasar Selatan. Enjoy authentic Balinese life with easy access to markets, cafes, and the beach."
     },
     "Reserve": {
       "title": "Reserve Your Stay | Puri Liang",
@@ -290,8 +288,8 @@
     "name": "Puri Liang",
     "fullName": "Puri Liang Residence",
     "tagline": "Live, work, and unwind in Bali — by the month.",
-    "address": "Jl. Tukad Balian, Tabanan, Bali 82122, Indonesia",
-    "addressShort": "Tukad Balian, Tabanan, Bali",
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
+    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
     "email": "stay@puriliang.com",
     "whatsapp": "+62 813-xxxx-xxxx"
   },
@@ -301,6 +299,7 @@
     "perMonthLong": "/ month · 1-month minimum",
     "approx": "approx.",
     "currencyNote": "Prices are based on IDR. USD shown is an approximation.",
+    "priceRefNote": "Reference price · billed in IDR",
     "yen": "yen",
     "monthsUnit": "months",
     "guestsUnit": "guests",
@@ -381,7 +380,7 @@
     "twin": {
       "name": "Twin Studio",
       "nameLocal": "Twin Studio",
-      "description": "Two friends or colleagues sharing a stay. Same comfort, lower cost per person.",
+      "description": "Two friends or colleagues sharing a stay. Lower cost per person.",
       "bullets": [
         "2 × semi-double beds",
         "Work desk",
@@ -485,8 +484,8 @@
   "Location": {
     "hero": {
       "eyebrow": "Location",
-      "title1": "Tukad Balian,",
-      "emphasis": "Tabanan",
+      "title1": "Sidakarya,",
+      "emphasis": "Denpasar Selatan",
       "title2": ".",
       "lead": "Not at the center of any tourist area, but at a kind of \"crossroads\" — easy access in every direction, while sidestepping the worst of Bali's traffic."
     },
@@ -495,9 +494,9 @@
       "title1": "Not in the middle of a tourist hub —",
       "emphasis": "in the middle of all of them",
       "title2": ".",
-      "lead": "Tukad Balian sits slightly outside Bali's main tourist areas, but lets you reach the major districts in every direction in a relatively short drive.",
+      "lead": "Sidakarya sits slightly outside Bali's main tourist areas, but lets you reach the major districts in every direction in a relatively short drive.",
       "hubLabel": "Puri Liang",
-      "hubMeta": "Tukad Balian, Tabanan"
+      "hubMeta": "Sidakarya, Denpasar Selatan"
     },
     "directions": [
       {
@@ -551,23 +550,23 @@
     ],
     "info": {
       "name": "Puri Liang Residence",
-      "address": "Jl. Tukad Balian,\nTabanan, Bali 82122,\nIndonesia",
+      "address": "Jl. Tukad Balian Selatan No.12,\nSidakarya, Denpasar Selatan, Bali",
       "openInGoogle": "Open in Google Maps",
       "openInApple": "Open in Apple Maps",
       "stats": [
         {
           "k": "Ngurah Rai Intl. Airport",
-          "v": "90",
+          "v": "25",
           "unit": "min · by car"
         },
         {
-          "k": "Nearest beach",
-          "v": "10",
+          "k": "Nearest beach (Sanur)",
+          "v": "5",
           "unit": "min · by car"
         },
         {
           "k": "Walking range",
-          "v": "5–12",
+          "v": "5–10",
           "unit": "min"
         }
       ]
@@ -578,18 +577,18 @@
       "lead": "We disclose \"how many minutes from here\" with distance, time, and mode. Including honest travel times to tourist hubs.",
       "items": [
         {
-          "title": "Balian Beach",
-          "en": "Balian Beach",
-          "detail": "10 min by car · surf spot. Intermediate–advanced waves, few tourists.",
-          "dist": "4.2",
+          "title": "Mertasari Beach (Sanur)",
+          "en": "Mertasari Beach (Sanur)",
+          "detail": "5 mins by car (or 10 mins by bike). Calm waves, famous sunrise spot, perfect for kite surfing and yoga.",
+          "dist": "2.5",
           "unit": "km",
-          "time": "10 min",
+          "time": "5 min",
           "mode": "by car"
         },
         {
-          "title": "Bintang Supermarket",
+          "title": "Local Supermarket",
           "en": "Local supermarket",
-          "detail": "10 min on foot. Daily goods, groceries, local fruit. SIM cards available.",
+          "detail": "10 mins walk or 3 mins drive. Daily necessities, groceries, imports, and local fruits.",
           "dist": "0.8",
           "unit": "km",
           "time": "10 min",
@@ -607,46 +606,46 @@
         {
           "title": "Bank Mandiri / ATM",
           "en": "ATM",
-          "detail": "12 min on foot. Visa / Master accepted. Two money changers nearby.",
-          "dist": "1.1",
+          "detail": "5 min on foot. Visa / Master accepted. Multiple banks and money changers nearby.",
+          "dist": "0.5",
           "unit": "km",
-          "time": "12 min",
+          "time": "5 min",
           "mode": "on foot"
         },
         {
           "title": "Ngurah Rai Intl. Airport",
           "en": "I Gusti Ngurah Rai Intl.",
-          "detail": "About 90 min by taxi (up to 2 hrs in traffic). Airport pickup Rp 350,000.",
-          "dist": "52",
+          "detail": "About 25 min by taxi (via bypass or toll road). Airport pickup Rp 200,000.",
+          "dist": "12",
           "unit": "km",
-          "time": "90 min",
+          "time": "25 min",
           "mode": "by car"
         },
         {
           "title": "Central Ubud",
           "en": "Ubud",
-          "detail": "45 min by car. Yoga, markets, rice terraces — great for day trips.",
-          "dist": "38",
+          "detail": "50 min by car. Yoga, markets, rice terraces — great for day trips.",
+          "dist": "28",
           "unit": "km",
-          "time": "45 min",
+          "time": "50 min",
           "mode": "by car"
         },
         {
-          "title": "Kuta / Seminyak",
-          "en": "Kuta / Seminyak",
-          "detail": "1 hr by car. Sightseeing and nightlife on weekends.",
-          "dist": "48",
-          "unit": "km",
-          "time": "60 min",
-          "mode": "by car"
-        },
-        {
-          "title": "Tanah Lot Temple",
-          "en": "Tanah Lot Temple",
-          "detail": "30 min by car. Famous sunset spot.",
-          "dist": "24",
+          "title": "Kuta / Seminyak / Canggu",
+          "en": "Kuta / Seminyak / Canggu",
+          "detail": "30–45 mins by car. For shopping, dining, nightlife, and beach clubs.",
+          "dist": "12",
           "unit": "km",
           "time": "30 min",
+          "mode": "by car"
+        },
+        {
+          "title": "Sanur Center & Harbor",
+          "en": "Sanur Center & Harbor",
+          "detail": "10 min by car. Trendy cafes, dining, and speedboats to Nusa Penida/Lembongan.",
+          "dist": "4.5",
+          "unit": "km",
+          "time": "10 min",
           "mode": "by car"
         }
       ]
@@ -660,7 +659,7 @@
       "notes": [
         {
           "title": "Not a tourist area, which matters",
-          "body": "Tukad Balian rarely shows up in guidebooks. That is exactly why the warungs where locals eat breakfast and the squares they gather in the evening are still here. Everyday Bali continues as daily life in this area."
+          "body": "Sidakarya rarely shows up in guidebooks. That is exactly why the warungs where locals eat breakfast and the squares they gather in the evening are still here. Everyday Bali continues as daily life in this area."
         },
         {
           "title": "On safety",
@@ -852,7 +851,7 @@
       "rulesRequired": "Please agree to the house rules.",
       "cancelRequired": "Please agree to the cancellation policy.",
       "submitFailed": "Sending failed. Please try again in a moment.",
-      "networkError": "A network error occurred. Please reach out via WhatsApp or email.",
+      "networkError": "Please try again in a moment.",
       "errorTitle": "Could not send"
     },
     "summary": {
@@ -869,16 +868,11 @@
       "included": "Included",
       "total": "Total",
       "monthlyAvg": "Avg. / month",
-      "currencyNote": "Based on IDR · USD approx.",
+      "currencyNote": "Billed in IDR · USD reference",
       "depositTitle": "Due at booking",
       "depositSuffix": "+ Rp 2,000,000",
       "depositNote": "(deposit)",
-      "balanceNote": "Balance payable at check-in / monthly installments accepted",
-      "contactTitle": "Direct contact",
-      "whatsappLabel": "WhatsApp",
-      "emailLabel": "Email",
-      "responseLabel": "Response time",
-      "responseValue": "Within 2 business days"
+      "balanceNote": "Balance payable at check-in / monthly installments accepted"
     },
     "success": {
       "eyebrow": "Reserve · Sent",
@@ -905,7 +899,6 @@
         "Once we verify availability, we'll send a final quote and payment options.",
         "If you're happy with the terms, we'll proceed to contract signing and the booking payment."
       ],
-      "urgentTitle": "For urgent contact",
       "resendButton": "Send another request"
     },
     "faqHeader": {

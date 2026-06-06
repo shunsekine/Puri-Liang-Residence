@@ -2,8 +2,8 @@
 
 'use client';
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { ROOMS, SIMULATOR_DEFAULTS, type RoomId } from '@/lib/data';
+import { useTranslations, useLocale } from 'next-intl';
+import { ROOMS, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, electricityAmount } from '@/lib/data';
 
 function getDiscount(months: number) {
     for (const tier of SIMULATOR_DEFAULTS.discounts) {
@@ -13,6 +13,8 @@ function getDiscount(months: number) {
 }
 
 export default function RoomSimulator() {
+    const locale = useLocale();
+    const code = currencyForLocale(locale);
     const t = useTranslations('Simulator');
     const tRoom = useTranslations('RoomData');
     const tCommon = useTranslations('Common');
@@ -21,8 +23,8 @@ export default function RoomSimulator() {
     const [roomId, setRoomId] = useState<RoomId>('villa');
 
     const r = ROOMS.find(x => x.id === roomId)!;
-    const rent = r.priceJPY * months;
-    const elec = SIMULATOR_DEFAULTS.electricityJPYPerMonth * months;
+    const rent = roomPriceAmount(r, code) * months;
+    const elec = electricityAmount(code) * months;
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
     const total = rent - disc + elec;
@@ -51,7 +53,7 @@ export default function RoomSimulator() {
                                 >
                                     <div className="n">{tRoom(`${rr.id}.name`)}</div>
                                     <div className="s">{rr.size}{tCommon('metersSq')} · {rr.capacity}{tCommon('guestsUnit')}</div>
-                                    <div className="p">{tCommon('approx')} ¥{(rr.priceJPY / 1000).toFixed(0)},000<span> / {tCommon('monthsUnit')}</span></div>
+                                    <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span> / {tCommon('monthsUnit')}</span></div>
                                 </button>
                             ))}
                         </div>
@@ -81,17 +83,17 @@ export default function RoomSimulator() {
                     </div>
                     <div className="v2-simx-line">
                         <span className="l">{t('rent')}</span>
-                        <span className="r">{tCommon('approx')} ¥{rent.toLocaleString()}</span>
+                        <span className="r">{tCommon('approx')} {formatPrice(code, rent)}</span>
                     </div>
                     {disc > 0 && (
                         <div className="v2-simx-line disc">
                             <span className="l">{t('discountRow')} ({discount * 100}%)</span>
-                            <span className="r">−¥{disc.toLocaleString()}</span>
+                            <span className="r">−{formatPrice(code, disc)}</span>
                         </div>
                     )}
                     <div className="v2-simx-line">
                         <span className="l">{t('electricity')}</span>
-                        <span className="r">{tCommon('approx')} ¥{elec.toLocaleString()}</span>
+                        <span className="r">{tCommon('approx')} {formatPrice(code, elec)}</span>
                     </div>
                     <div className="v2-simx-line">
                         <span className="l">{t('includedRow1')}</span>
@@ -104,9 +106,9 @@ export default function RoomSimulator() {
                     <div className="v2-simx-total">
                         <div>
                             <div className="lbl">{t('totalMonths', { months })}</div>
-                            <div className="avg">{t('monthlyAvg')} {tCommon('approx')} ¥{Math.round(total / months).toLocaleString()}</div>
+                            <div className="avg">{t('monthlyAvg')} {tCommon('approx')} {formatPrice(code, Math.round(total / months))}</div>
                         </div>
-                        <div className="big">{tCommon('approx')} ¥{total.toLocaleString()}</div>
+                        <div className="big">{tCommon('approx')} {formatPrice(code, total)}</div>
                     </div>
                     <div className="v2-simx-note">{t('note')}</div>
                 </div>

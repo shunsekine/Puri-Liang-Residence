@@ -8,7 +8,7 @@
   },
   "Hero": {
     "title": "バリ島での長期滞在を、賢く、快適に。",
-    "subtitle": "リモートワークとサーフィンのための、機能的で手頃な拠点。バリ島トゥカッド・バリアンで、暮らすように泊まる。",
+    "subtitle": "リモートワークとサーフィンのための、機能的で手頃な拠点。バリ島デンパサール南部シダカルヤで、暮らすように泊まる。",
     "splitTitle": "バリ島の温かい拠点で、<br />暮らすように、働く。",
     "splitDesc": "本物のバリ島の暮らしと、信頼できるワークスペースを両立。<br />リゾートではなく、デジタルノマドのための快適なコミュニティです。",
     "cta": "詳細を見る",
@@ -47,13 +47,11 @@
     "ctaDesc": "リモートワーカーと冒険家のコミュニティに参加しましょう。",
     "ctaBtn": "滞在を予約する",
     "hero": {
-      "badge": "3室・空き状況更新中 · Tukad Balian, Bali",
       "title1": "ひと月、",
       "title2": "暮らしてみる",
       "title3": "バリ島。",
       "lead": "観光地ではなく、地元の人が暮らす住宅街にある月単位のアパートメント。朝の鳥の声と、夜の虫の音と、いつでも繋がる Wi-Fi。",
       "priceUnit": "/ month · 1ヶ月から",
-      "ctaPrimary": "空室を見る",
       "ctaSecondary": "部屋について"
     },
     "manifesto": {
@@ -97,7 +95,7 @@
       "emphasis": "始めてみませんか",
       "lead": "空室状況のご確認・お見積もりはこちら。返信は2営業日以内、JP / EN / ID 対応です。",
       "ctaPrimary": "予約フォーム →",
-      "ctaSecondary": "Email で問い合わせ"
+      "ctaSecondary": "よくある質問"
     }
   },
   "Features": {
@@ -263,7 +261,7 @@
     },
     "Home": {
       "title": "バリ島の長期滞在・リモートワーク向けアパートメント | Puri Liang",
-      "description": "バリ島トゥカッド・バリアンで快適なリモートワーク生活を。高速Wi-Fi、ワークスペース、サーフスポットへのアクセスが良好な、デジタルノマドのための住まいです。"
+      "description": "バリ島デンパサール南部シダカルヤで快適なリモートワーク生活を。高速Wi-Fi、ワークスペース、サーフスポットへのアクセスが良好な、デジタルノマドのための住まいです。"
     },
     "Features": {
       "title": "特徴・設備 | Puri Liang バリ島アパートメント",
@@ -275,7 +273,7 @@
     },
     "Location": {
       "title": "ロケーション・周辺環境 | Puri Liang",
-      "description": "静かな住宅街トゥカッド・バリアンに位置し、カフェやスーパー、ビーチへのアクセスも便利。ローカルな暮らしと利便性を両立したエリアです。"
+      "description": "静かな住宅街シダカルヤに位置し、カフェやスーパー、ビーチへのアクセスも便利。ローカルな暮らしと利便性を両立したエリアです。"
     },
     "Reserve": {
       "title": "予約・お問い合わせ | Puri Liang",
@@ -290,8 +288,8 @@
     "name": "Puri Liang",
     "fullName": "Puri Liang Residence",
     "tagline": "バリ島で、暮らすように働く一ヶ月。",
-    "address": "Jl. Tukad Balian, Tabanan, Bali 82122, Indonesia",
-    "addressShort": "Tukad Balian, Tabanan, Bali",
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
+    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
     "email": "stay@puriliang.com",
     "whatsapp": "+62 813-xxxx-xxxx"
   },
@@ -301,6 +299,7 @@
     "perMonthLong": "/ month · 1ヶ月から",
     "approx": "約",
     "currencyNote": "料金は IDR 建てが基準。表示は JPY 換算",
+    "priceRefNote": "参考価格・支払いは IDR",
     "yen": "円",
     "monthsUnit": "ヶ月",
     "guestsUnit": "名",
@@ -381,7 +380,7 @@
     "twin": {
       "name": "Twin Studio",
       "nameLocal": "ツインスタジオ",
-      "description": "2名でシェアする友人・出張に。同じ広さでもコストを抑えたい人向け。",
+      "description": "2名でシェアする友人・出張に。コストを抑えたい人向け。",
       "bullets": [
         "セミダブルベッド × 2",
         "ワークデスク",
@@ -485,8 +484,8 @@
   "Location": {
     "hero": {
       "eyebrow": "Location · 立地",
-      "title1": "Tukad Balian、",
-      "emphasis": "Tabanan",
+      "title1": "Sidakarya、",
+      "emphasis": "Denpasar Selatan",
       "title2": "。",
       "lead": "観光地の中心ではないけれど、東西南北どこにでも行きやすい「交差点」のような立地。表通りの渋滞を避けつつ、バリの主要エリアへ短時間でアクセスできます。"
     },
@@ -495,9 +494,9 @@
       "title1": "観光地の真ん中ではなく、",
       "emphasis": "四方の真ん中",
       "title2": "に。",
-      "lead": "Tukad Balian は観光地から少し外れた住宅街ですが、東西南北どの方面の主要エリアへも比較的短時間で出られる場所にあります。",
+      "lead": "Sidakarya は観光地から少し外れた住宅街ですが、東西南北どの方面の主要エリアへも比較的短時間で出られる場所にあります。",
       "hubLabel": "Puri Liang",
-      "hubMeta": "Tukad Balian, Tabanan"
+      "hubMeta": "Sidakarya, Denpasar Selatan"
     },
     "directions": [
       {
@@ -551,23 +550,23 @@
     ],
     "info": {
       "name": "Puri Liang Residence",
-      "address": "Jl. Tukad Balian,\nTabanan, Bali 82122,\nIndonesia",
+      "address": "Jl. Tukad Balian Selatan No.12,\nSidakarya, Denpasar Selatan, Bali",
       "openInGoogle": "Google Map で開く",
       "openInApple": "Apple Map で開く",
       "stats": [
         {
           "k": "ングラ・ライ国際空港",
-          "v": "90",
+          "v": "25",
           "unit": "分 · 車"
         },
         {
-          "k": "最寄りビーチ",
-          "v": "10",
+          "k": "最寄りビーチ（サヌール）",
+          "v": "5",
           "unit": "分 · 車"
         },
         {
           "k": "徒歩圏",
-          "v": "5–12",
+          "v": "5–10",
           "unit": "分"
         }
       ]
@@ -578,18 +577,18 @@
       "lead": "「ここから何分か」を距離・所要時間・手段で開示します。観光地までの所要時間も正直に。",
       "items": [
         {
-          "title": "バリアンビーチ",
-          "en": "Balian Beach",
-          "detail": "車10分・サーフスポット。波は中〜上級者向け、観光客は少なめ。",
-          "dist": "4.2",
+          "title": "メルタサリビーチ（サヌール）",
+          "en": "Mertasari Beach (Sanur)",
+          "detail": "車5分（または自転車10分）。穏やかな波で、朝日の名所、カイトサーフィンやヨガに最適。",
+          "dist": "2.5",
           "unit": "km",
-          "time": "10分",
+          "time": "5分",
           "mode": "車"
         },
         {
-          "title": "Bintang スーパーマーケット",
+          "title": "スーパーマーケット",
           "en": "Local supermarket",
-          "detail": "徒歩10分。日用品・食料品・地元産フルーツ。SIM入手も可。",
+          "detail": "徒歩10分または車3分。日用品・食料品・輸入食材から地元産フルーツまで。",
           "dist": "0.8",
           "unit": "km",
           "time": "10分",
@@ -607,46 +606,46 @@
         {
           "title": "Bank Mandiri / ATM",
           "en": "ATM",
-          "detail": "徒歩12分。Visa / Master 対応。両替所も近隣に2軒。",
-          "dist": "1.1",
+          "detail": "徒歩5分。Visa / Master 対応。近隣に複数の銀行と両替所。",
+          "dist": "0.5",
           "unit": "km",
-          "time": "12分",
+          "time": "5分",
           "mode": "徒歩"
         },
         {
           "title": "ングラ・ライ国際空港",
           "en": "I Gusti Ngurah Rai Intl.",
-          "detail": "タクシー約1時間30分（混雑時2時間）。送迎手配可 Rp 350,000。",
-          "dist": "52",
+          "detail": "タクシー約25分（バイパスまたは高速道路経由）。送迎手配可 Rp 200,000。",
+          "dist": "12",
           "unit": "km",
-          "time": "90分",
+          "time": "25分",
           "mode": "車"
         },
         {
           "title": "ウブド中心部",
           "en": "Ubud",
-          "detail": "車45分。ヨガ・マーケット・棚田。日帰り観光に。",
-          "dist": "38",
+          "detail": "車約50分。ヨガ・マーケット・棚田。週末の日帰り観光に。",
+          "dist": "28",
           "unit": "km",
-          "time": "45分",
+          "time": "50分",
           "mode": "車"
         },
         {
-          "title": "クタ / スミニャック",
-          "en": "Kuta / Seminyak",
-          "detail": "車1時間。観光・ナイトライフは週末に。",
-          "dist": "48",
-          "unit": "km",
-          "time": "60分",
-          "mode": "車"
-        },
-        {
-          "title": "タナロット寺院",
-          "en": "Tanah Lot Temple",
-          "detail": "車30分。夕日のスポットとして有名。",
-          "dist": "24",
+          "title": "クタ / スミニャック / チャングー",
+          "en": "Kuta / Seminyak / Canggu",
+          "detail": "車約30〜45分。ショッピング、レストラン、ナイトライフやビーチクラブへ。",
+          "dist": "12",
           "unit": "km",
           "time": "30分",
+          "mode": "車"
+        },
+        {
+          "title": "サヌール中心部・港",
+          "en": "Sanur Center & Harbor",
+          "detail": "車10分。お洒落なカフェ・レストランが並び、ペニダ島など離島への高速船も発着。",
+          "dist": "4.5",
+          "unit": "km",
+          "time": "10分",
           "mode": "車"
         }
       ]
@@ -660,7 +659,7 @@
       "notes": [
         {
           "title": "観光地ではない、ということ",
-          "body": "Tukad Balian は観光ガイドにほとんど載りません。だからこそ、ローカルの人が朝食を取る食堂や、夕方に集まる広場がそのまま残っています。バリ「らしさ」が日常として続いているエリアです。"
+          "body": "Sidakarya は観光ガイドにほとんど載りません。だからこそ、ローカルの人が朝食を取る食堂や、夕方に集まる広場がそのまま残っています。バリ「らしさ」が日常として続いているエリアです。"
         },
         {
           "title": "安全について",
@@ -852,7 +851,7 @@
       "rulesRequired": "ハウスルールへの同意が必要です。",
       "cancelRequired": "キャンセルポリシーへの同意が必要です。",
       "submitFailed": "送信に失敗しました。時間をおいて再度お試しください。",
-      "networkError": "ネットワークエラーが発生しました。WhatsApp / メールで直接お問い合わせください。",
+      "networkError": "恐れ入りますが、時間をおいて再度お試しください。",
       "errorTitle": "送信できませんでした"
     },
     "summary": {
@@ -869,16 +868,11 @@
       "included": "含む",
       "total": "合計",
       "monthlyAvg": "月平均",
-      "currencyNote": "IDR 基準・JPY 換算",
+      "currencyNote": "IDR 基準 · JPY 参考換算",
       "depositTitle": "予約時のお支払い",
       "depositSuffix": "+ Rp 2,000,000",
       "depositNote": "(デポジット)",
-      "balanceNote": "残額はチェックイン時 / 月毎の分割払いに対応",
-      "contactTitle": "直接問い合わせ",
-      "whatsappLabel": "WhatsApp",
-      "emailLabel": "Email",
-      "responseLabel": "応答時間",
-      "responseValue": "2営業日以内"
+      "balanceNote": "残額はチェックイン時 / 月毎の分割払いに対応"
     },
     "success": {
       "eyebrow": "Reserve · 送信完了",
@@ -905,7 +899,6 @@
         "空室確認後、最終見積もりとお支払い方法のご案内をお送りします。",
         "ご納得いただけたら、契約書面の取り交わしと予約金のお支払いに進みます。"
       ],
-      "urgentTitle": "急ぎのご連絡",
       "resendButton": "別の条件で再送信する"
     },
     "faqHeader": {

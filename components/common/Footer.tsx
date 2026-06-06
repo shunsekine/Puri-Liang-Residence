@@ -14,7 +14,6 @@ export default function Footer() {
     // Pull link labels from Footer.stayLinks etc. (arrays in messages)
     const stayLinks = t.raw('stayLinks') as string[];
     const placeLinks = t.raw('placeLinks') as string[];
-    const contactLinks = t.raw('contactLinks') as string[];
 
     return (
         <footer className="v2-footer">
@@ -49,9 +48,8 @@ export default function Footer() {
             <div>
                 <h4>{t('contactHeading')}</h4>
                 <ul>
-                    <li><a href={`mailto:${tBrand('email')}`}>{contactLinks[0] ?? 'Email'}</a></li>
-                    <li><a href="#">{contactLinks[1] ?? 'WhatsApp'}</a></li>
-                    <li><a href="#" target="_blank" rel="noopener">{contactLinks[2] ?? 'Instagram'}</a></li>
+                    <li><Link href="/reserve">{tNav('reserve')}</Link></li>
+                    <li><Link href="/faq">{tNav('faq')}</Link></li>
                 </ul>
             </div>
 

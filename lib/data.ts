@@ -23,8 +23,8 @@
 export const BRAND = {
   name: 'Puri Liang',
   fullName: 'Puri Liang Residence',
-  address: 'Jl. Tukad Balian, Tabanan, Bali 82122, Indonesia',
-  addressShort: 'Tukad Balian, Tabanan, Bali',
+  address: 'Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali',
+  addressShort: 'Sidakarya, Denpasar Selatan, Bali',
   email: 'stay@puriliang.com',
   whatsapp: '+62 813-xxxx-xxxx',
 } as const;
@@ -38,8 +38,8 @@ export const IMG = {
   villa1: '/images/Room_Villa_1.jpg',
   villa2: '/images/Room_Villa_2.jpg',
   villa3: '/images/Room_Villa_3.jpg',
-  twin1: '/images/Room_Twin Studio_1.webp',
-  twin2: '/images/Room_Twin Studio_2.webp',
+  twin1: '/images/Room_Twin_Studio_1.webp',
+  twin2: '/images/Room_Twin_Studio_2.webp',
   logo: '/logo.png',
 } as const;
 
@@ -75,9 +75,9 @@ export const ROOMS: Room[] = [
     bedrooms: 1,
     bathrooms: 1,
     floor: '1F & 2F',
-    priceJPY: 78000,
-    priceUSD: 520,
-    priceIDR: 8200000,
+    priceJPY: 77000,
+    priceUSD: 470,
+    priceIDR: 8500000,
     photos: ['villa1', 'villa2', 'villa3'],
   },
   {
@@ -87,9 +87,9 @@ export const ROOMS: Room[] = [
     bedrooms: 1,
     bathrooms: 1,
     floor: '3F',
-    priceJPY: 58000,
-    priceUSD: 390,
-    priceIDR: 6100000,
+    priceJPY: 59000,
+    priceUSD: 360,
+    priceIDR: 6500000,
     photos: [],
   },
   {
@@ -99,9 +99,9 @@ export const ROOMS: Room[] = [
     bedrooms: 1,
     bathrooms: 1,
     floor: '2F',
-    priceJPY: 48000,
-    priceUSD: 320,
-    priceIDR: 5000000,
+    priceJPY: 50000,
+    priceUSD: 310,
+    priceIDR: 5500000,
     photos: ['twin1', 'twin2'],
   },
 ];
@@ -111,22 +111,22 @@ export const ROOMS: Room[] = [
 // -----------------------------------------------------------------------------
 
 export const LOCATION = {
-  area: 'Tukad Balian',
-  region: 'Tabanan, Bali',
+  area: 'Sidakarya',
+  region: 'Denpasar Selatan, Bali',
   country: 'Indonesia',
-  lat: -8.42,
-  lng: 115.07,
-  coord: { ns: '8°25′12″S', ew: '115°04′48″E' },
-} as const;
+  lat: -8.7054,
+  lng: 115.2392,
+  coord: { ns: '8°42′20″S', ew: '115°14′21″E' },
+};
 
 // -----------------------------------------------------------------------------
 // Simulator defaults (for the monthly estimator on /rooms)
 // -----------------------------------------------------------------------------
 
 export const SIMULATOR_DEFAULTS = {
-  electricityIDR: 900000,    // monthly average per room
-  electricityJPYPerMonth: 9000,
-  // Long-stay discount thresholds — applied as a % off rent only.
+  electricityIDR: 500000,
+  electricityJPY: 4500,   // 旧 electricityJPYPerMonth(9000) を改名・更新
+  electricityUSD: 30,     // 追加
   discounts: [
     { months: 6, rate: 0.15 },
     { months: 3, rate: 0.10 },
@@ -161,3 +161,28 @@ export const FAQ_CATEGORIES: { id: FAQCategory; icon: string }[] = [
   { id: 'location', icon: '④' },
   { id: 'rules', icon: '⑤' },
 ];
+
+// 通貨表示（基準は IDR。表示のみ locale で切替。支払いは常に IDR）
+export type CurrencyCode = 'JPY' | 'USD' | 'IDR';
+
+const LOCALE_CURRENCY: Record<string, CurrencyCode> = { ja: 'JPY', en: 'USD', id: 'IDR' };
+
+export function currencyForLocale(locale: string): CurrencyCode {
+  return LOCALE_CURRENCY[locale] ?? 'IDR';
+}
+
+const SYMBOL: Record<CurrencyCode, string> = { JPY: '¥', USD: '$', IDR: 'Rp ' };
+
+export function formatPrice(code: CurrencyCode, amount: number): string {
+  return `${SYMBOL[code]}${amount.toLocaleString('en-US')}`;
+}
+
+export function roomPriceAmount(room: Room, code: CurrencyCode): number {
+  return code === 'JPY' ? room.priceJPY : code === 'USD' ? room.priceUSD : room.priceIDR;
+}
+
+export function electricityAmount(code: CurrencyCode): number {
+  return code === 'JPY' ? SIMULATOR_DEFAULTS.electricityJPY
+       : code === 'USD' ? SIMULATOR_DEFAULTS.electricityUSD
+       : SIMULATOR_DEFAULTS.electricityIDR;
+}

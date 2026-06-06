@@ -3,13 +3,15 @@
 // from messages.RoomData.{id} and renders the V2-styled card.
 
 'use client';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/navigation';
-import { IMG, type Room } from '@/lib/data';
+import { IMG, type Room, currencyForLocale, formatPrice, roomPriceAmount } from '@/lib/data';
 
 export default function RoomPreviewCard({ room }: { room: Room }) {
+    const locale = useLocale();
     const t = useTranslations(`RoomData.${room.id}`);
     const tCommon = useTranslations('Common');
+    const code = currencyForLocale(locale);
 
     const has = room.photos.length > 0;
     const bullets = t.raw('bullets') as string[];
@@ -18,7 +20,7 @@ export default function RoomPreviewCard({ room }: { room: Room }) {
         <article className="v2-room">
             <div
                 className={`v2-room-img${has ? '' : ' placeholder'}`}
-                style={has ? { backgroundImage: `url(${IMG[room.photos[0]]})` } : undefined}
+                style={has ? { backgroundImage: `url("${IMG[room.photos[0]]}")` } : undefined}
             >
                 {has ? (
                     <span className="v2-room-tag">{room.size}{tCommon('metersSq')} · {room.capacity}{tCommon('guestsUnit')}</span>
@@ -44,7 +46,7 @@ export default function RoomPreviewCard({ room }: { room: Room }) {
                 </ul>
                 <div className="v2-room-foot">
                     <div>
-                        <span className="p">{tCommon('approx')} ¥{(room.priceJPY / 1000).toFixed(0)},000</span>
+                        <span className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(room, code))}</span>
                         <span className="u">/ {tCommon('monthsUnit')}</span>
                     </div>
                     <Link href="/rooms" className="v2-btn" style={{ padding: '8px 16px', fontSize: 12 }}>→</Link>

@@ -2,10 +2,10 @@
 // Sections: Hero / Manifesto / Story / Rooms preview / Amenities / Trust band / CTA
 // (Workspace section removed per V2 2026-05.)
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/navigation';
-import { ROOMS, IMG } from '@/lib/data';
+import { ROOMS, IMG, currencyForLocale, formatPrice, roomPriceAmount } from '@/lib/data';
 import RoomPreviewCard from '@/components/pages/v2/RoomPreviewCard';
 
 type Props = { params: Promise<{ locale: string }> };
@@ -17,22 +17,20 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default function HomePage() {
+    const locale = useLocale();
     const t = useTranslations('Home');
     const tCommon = useTranslations('Common');
-    const tBrand = useTranslations('Brand');
+    const code = currencyForLocale(locale);
+    const fromAmount = roomPriceAmount(ROOMS[ROOMS.length - 1], code);
 
     return (
         <main className="v2">
             {/* ── Hero ───────────────────────────────────────────────── */}
             <section className="v2-hero">
                 <div className="v2-hero-frame">
-                    <div className="v2-hero-img" style={{ backgroundImage: `url(${IMG.hero})` }} />
+                    <div className="v2-hero-img" style={{ backgroundImage: `url("${IMG.hero}")` }} />
                     <div className="v2-hero-text">
                         <div>
-                            <div className="badge">
-                                <span className="dot" />
-                                {t('hero.badge')}
-                            </div>
                             <h1>
                                 {t('hero.title1')}<br />
                                 <em>{t('hero.title2')}</em><br />
@@ -43,12 +41,14 @@ export default function HomePage() {
                         <div>
                             <div className="price">
                                 <span className="eyebrow">{tCommon('from')}</span>
-                                <span className="p">{tCommon('approx')} ¥48,000</span>
+                                <span className="p">{tCommon('approx')} {formatPrice(code, fromAmount)}</span>
                                 <span className="u">{t('hero.priceUnit')}</span>
+                                <div style={{ fontSize: 10, opacity: 0.7, marginTop: 4 }}>
+                                    {tCommon('priceRefNote')}
+                                </div>
                             </div>
                             <div className="cta-row">
-                                <Link href="/rooms" className="v2-btn">{t('hero.ctaPrimary')}</Link>
-                                <Link href="/rooms" className="v2-btn outline">{t('hero.ctaSecondary')}</Link>
+                                <Link href="/rooms" className="v2-btn">{t('hero.ctaSecondary')}</Link>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@ export default function HomePage() {
             {/* ── Story ──────────────────────────────────────────────── */}
             <section className="v2-section" id="story">
                 <div className="v2-story">
-                    <div className="v2-story-img" style={{ backgroundImage: `url(${IMG.villa3})` }} />
+                    <div className="v2-story-img" style={{ backgroundImage: `url("${IMG.villa3}")` }} />
                     <div className="v2-story-text">
                         <div className="eyebrow">{t('story.eyebrow')}</div>
                         <h2>
@@ -111,7 +111,7 @@ export default function HomePage() {
                 <div className="v2-trust">
                     <div className="v2-trust-stat">
                         <div className="big">
-                            <span style={{ color: 'var(--v2-terracotta-dark)' }}>★</span> {t('trust.rating')}
+                            <span style={{ color: 'var(--v2-focus)' }}>★</span> {t('trust.rating')}
                         </div>
                         <div className="lbl">{t('trust.ratingMeta')}</div>
                     </div>
@@ -135,7 +135,7 @@ export default function HomePage() {
                     <p>{t('cta.lead')}</p>
                     <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                         <Link href="/reserve" className="v2-btn">{t('cta.ctaPrimary')}</Link>
-                        <a href={`mailto:${tBrand('email')}`} className="v2-btn ghost">{t('cta.ctaSecondary')}</a>
+                        <Link href="/faq" className="v2-btn ghost">{t('cta.ctaSecondary')}</Link>
                     </div>
                 </div>
             </section>

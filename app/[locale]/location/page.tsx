@@ -121,8 +121,8 @@ export default function LocationPage() {
                             <div className="t">{t('info.name')}</div>
                             <div className="addr">{t('info.address')}</div>
                             <div className="v2-locinfo-actions">
-                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href="https://maps.google.com">{t('info.openInGoogle')}</a>
-                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href="https://maps.apple.com">{t('info.openInApple')}</a>
+                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-8.7054,115.2392">{t('info.openInGoogle')}</a>
+                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href="https://maps.apple.com/?q=-8.7054,115.2392">{t('info.openInApple')}</a>
                             </div>
                         </div>
                         <div className="v2-locinfo-stat">

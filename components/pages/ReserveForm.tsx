@@ -18,9 +18,8 @@
 //      review keeps working without a backend.
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
-import { ROOMS, IMG, BRAND, SIMULATOR_DEFAULTS, type RoomId } from '@/lib/data';
+import { useTranslations, useLocale } from 'next-intl';
+import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, electricityAmount } from '@/lib/data';
 
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 
@@ -33,10 +32,6 @@ function getDiscount(months: number): number {
     return 0;
 }
 
-function formatJPY(n: number): string {
-    return `¥${n.toLocaleString('en-US')}`;
-}
-
 function addMonths(dateStr: string, months: number): string {
     const d = new Date(dateStr);
     if (Number.isNaN(d.getTime())) return dateStr;
@@ -45,11 +40,12 @@ function addMonths(dateStr: string, months: number): string {
 }
 
 export default function ReserveForm() {
+    const locale = useLocale();
+    const code = currencyForLocale(locale);
     const t = useTranslations('Reserve');
     const tHouseRules = useTranslations('HouseRules');
     const tRoom = useTranslations('RoomData');
     const tCommon = useTranslations('Common');
-    const tBrand = useTranslations('Brand');
 
     // --- Stay (Step 1) ---
     const [room, setRoom] = useState<RoomId>('villa');
@@ -66,8 +62,8 @@ export default function ReserveForm() {
     const [notes, setNotes] = useState('');
 
     // --- Terms (Step 3) ---
-    const [agreeRules, setAgreeRules] = useState(true);
-    const [agreeCancel, setAgreeCancel] = useState(true);
+    const [agreeRules, setAgreeRules] = useState(false);
+    const [agreeCancel, setAgreeCancel] = useState(false);
 
     // --- House rules modal ---
     const [rulesOpen, setRulesOpen] = useState(false);
@@ -89,12 +85,19 @@ export default function ReserveForm() {
     const honeypotRef = useRef<HTMLInputElement>(null);
 
     const r = ROOMS.find(x => x.id === room)!;
-    const rent = r.priceJPY * months;
-    const elec = SIMULATOR_DEFAULTS.electricityJPYPerMonth * months;
+    const unitPrice = roomPriceAmount(r, code);
+    const rent = unitPrice * months;
+    const elec = electricityAmount(code) * months;
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
     const total = rent - disc + elec;
     const checkout = addMonths(checkin, months);
+
+    // IDR calculations for the payload (actual billing is always in IDR)
+    const rentIDR = r.priceIDR * months;
+    const elecIDR = SIMULATOR_DEFAULTS.electricityIDR * months;
+    const discIDR = Math.round(rentIDR * discount);
+    const totalIDR = rentIDR - discIDR + elecIDR;
 
     const togglePurpose = (label: string) => {
         setPurposes(p => p.includes(label) ? p.filter(x => x !== label) : [...p, label]);
@@ -109,9 +112,11 @@ export default function ReserveForm() {
         return null;
     };
 
+    const canSubmit = agreeRules && agreeCancel && status !== 'sending';
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (status === 'sending') return;
+        if (!canSubmit) return;
 
         // Bot honeypot
         if (honeypotRef.current && honeypotRef.current.value) {
@@ -148,11 +153,16 @@ export default function ReserveForm() {
             guests,
             stay_purposes: purposes.length ? purposes.join(', ') : '(none)',
             notes: notes || '(none)',
-            rent_jpy: rent,
+            currency: code,
+            rent_amount: rent,
             discount_pct: discount * 100,
-            discount_jpy: disc,
-            electricity_jpy: elec,
-            total_jpy: total,
+            discount_amount: disc,
+            electricity_amount: elec,
+            total_amount: total,
+            total_idr: totalIDR,
+            rent_idr: rentIDR,
+            electricity_idr: elecIDR,
+            discount_idr: discIDR,
             submitted_at: new Date().toISOString(),
             page: typeof location !== 'undefined' ? location.href : '',
         };
@@ -205,18 +215,12 @@ export default function ReserveForm() {
                             <div><span className="k">{t('success.grid.checkin')}</span><span className="v">{checkin}</span></div>
                             <div><span className="k">{t('success.grid.checkout')}</span><span className="v">{checkout}</span></div>
                             <div><span className="k">{t('success.grid.guests')}</span><span className="v">{guests} {tCommon('guestsUnit')}</span></div>
-                            <div><span className="k">{t('success.grid.total')}</span><span className="v">{tCommon('approx')} {formatJPY(total)}</span></div>
+                            <div><span className="k">{t('success.grid.total')}</span><span className="v">{tCommon('approx')} {formatPrice(code, total)}</span></div>
                         </div>
 
                         <div className="v2-res-success-next">
                             <div className="t">{t('success.nextStepsTitle')}</div>
                             <ol>{nextSteps.map((step, i) => <li key={i}>{step}</li>)}</ol>
-                        </div>
-
-                        <div className="v2-res-success-contact">
-                            <div className="k">{t('success.urgentTitle')}</div>
-                            <div className="row"><span>{t('summary.whatsappLabel')}</span><span>{tBrand('whatsapp')}</span></div>
-                            <div className="row"><span>{t('summary.emailLabel')}</span><span>{tBrand('email')}</span></div>
                         </div>
 
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -273,7 +277,7 @@ export default function ReserveForm() {
                                             >
                                                 <div className="n">{tRoom(`${rr.id}.name`)}</div>
                                                 <div className="s">{rr.size}{tCommon('metersSq')} · {rr.capacity}{tCommon('guestsUnit')} · {rr.floor}</div>
-                                                <div className="p">{tCommon('approx')} ¥{(rr.priceJPY / 1000).toFixed(0)},000<span>/{tCommon('monthsUnit').slice(0, 1)}</span></div>
+                                                <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span>/{tCommon('monthsUnit').slice(0, 1)}</span></div>
                                             </button>
                                         ))}
                                     </div>
@@ -411,8 +415,8 @@ export default function ReserveForm() {
                         <div className="v2-res-submit">
                             <button
                                 type="submit"
-                                className="v2-btn"
-                                disabled={status === 'sending'}
+                                className={`v2-btn${canSubmit ? '' : ' is-disabled'}`}
+                                disabled={!canSubmit}
                                 style={{ padding: '16px 28px', fontSize: 14, width: '100%' }}
                             >
                                 {status === 'sending' ? t('submit.sending') : t('submit.idle')}
@@ -435,7 +439,7 @@ export default function ReserveForm() {
                                 className="v2-res-summary-img"
                                 style={{
                                     background: r.photos.length
-                                        ? `url(${IMG[r.photos[0]]}) center/cover`
+                                        ? `url("${IMG[r.photos[0]]}") center/cover`
                                         : `repeating-linear-gradient(135deg, var(--v2-sand-light) 0 14px, var(--v2-sand) 14px 28px)`,
                                 }}
                             >
@@ -460,18 +464,18 @@ export default function ReserveForm() {
                             </div>
                             <div className="v2-res-summary-pricing">
                                 <div className="line">
-                                    <span className="l">{t('summary.rentLine')} {tCommon('approx')} ¥{r.priceJPY.toLocaleString()} × {months}</span>
-                                    <span className="r">{tCommon('approx')} {formatJPY(rent)}</span>
+                                    <span className="l">{t('summary.rentLine')} {tCommon('approx')} {formatPrice(code, unitPrice)} × {months}</span>
+                                    <span className="r">{tCommon('approx')} {formatPrice(code, rent)}</span>
                                 </div>
                                 {disc > 0 && (
                                     <div className="line disc">
                                         <span className="l">{t('summary.discountLine')} {discount * 100}%</span>
-                                        <span className="r">−{formatJPY(disc)}</span>
+                                        <span className="r">−{formatPrice(code, disc)}</span>
                                     </div>
                                 )}
                                 <div className="line">
                                     <span className="l">{t('summary.electricityLine')}</span>
-                                    <span className="r">{tCommon('approx')} {formatJPY(elec)}</span>
+                                    <span className="r">{tCommon('approx')} {formatPrice(code, elec)}</span>
                                 </div>
                                 <div className="line">
                                     <span className="l">{t('summary.includedLine')}</span>
@@ -479,25 +483,22 @@ export default function ReserveForm() {
                                 </div>
                                 <div className="line total">
                                     <span className="l">{t('summary.total')}</span>
-                                    <span className="r">{tCommon('approx')} {formatJPY(total)}</span>
+                                    <span className="r">{tCommon('approx')} {formatPrice(code, total)}</span>
                                 </div>
                                 <div className="avg">
-                                    {t('summary.monthlyAvg')} {tCommon('approx')} {formatJPY(Math.round(total / months))} · {t('summary.currencyNote')}
+                                    {t('summary.monthlyAvg')} {tCommon('approx')} {formatPrice(code, Math.round(total / months))} · {t('summary.currencyNote')}
+                                </div>
+                                <div style={{ fontSize: 10, opacity: 0.8, color: 'var(--v2-muted)', marginTop: 8, textAlign: 'right' }}>
+                                    {tCommon('priceRefNote')}
                                 </div>
                             </div>
                             <div className="v2-res-summary-deposit">
                                 <div className="k">{t('summary.depositTitle')}</div>
                                 <div className="v">
-                                    {tCommon('approx')} {formatJPY(r.priceJPY)}{' '}
+                                    {tCommon('approx')} {formatPrice(code, unitPrice)} + Rp 2,000,000{' '}
                                     <small>{t('summary.depositSuffix')} <span>{t('summary.depositNote')}</span></small>
                                 </div>
                                 <div className="note">{t('summary.balanceNote')}</div>
-                            </div>
-                            <div className="v2-res-summary-contact">
-                                <div className="k">{t('summary.contactTitle')}</div>
-                                <div className="row"><span>{t('summary.whatsappLabel')}</span><span>{tBrand('whatsapp')}</span></div>
-                                <div className="row"><span>{t('summary.emailLabel')}</span><span>{tBrand('email')}</span></div>
-                                <div className="row"><span>{t('summary.responseLabel')}</span><span>{t('summary.responseValue')}</span></div>
                             </div>
                         </div>
                     </aside>

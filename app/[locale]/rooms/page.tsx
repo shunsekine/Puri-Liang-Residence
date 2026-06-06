@@ -1,9 +1,9 @@
 // V2 Bohemian Natural — Rooms page
 // 3 room detail rows + simulator + amenities + house rules
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import { ROOMS, IMG, type Room } from '@/lib/data';
+import { ROOMS, IMG, type Room, currencyForLocale, formatPrice, roomPriceAmount } from '@/lib/data';
 import RoomSimulator from '@/components/pages/v2/RoomSimulator';
 import { Link } from '@/navigation';
 
@@ -64,9 +64,11 @@ export default function RoomsPage() {
 }
 
 function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; reverse: boolean }) {
+    const locale = useLocale();
     const t = useTranslations(`RoomData.${room.id}`);
     const tRooms = useTranslations('Rooms');
     const tCommon = useTranslations('Common');
+    const code = currencyForLocale(locale);
     const has = room.photos.length > 0;
     const bullets = t.raw('bullets') as string[];
 
@@ -75,9 +77,9 @@ function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; re
             <div className="v2-rd-imgs">
                 {has ? (
                     <>
-                        <div style={{ backgroundImage: `url(${IMG[room.photos[0]]})` }} />
-                        {room.photos[1] ? <div style={{ backgroundImage: `url(${IMG[room.photos[1]]})` }} /> : <div className="placeholder">—</div>}
-                        {room.photos[2] ? <div style={{ backgroundImage: `url(${IMG[room.photos[2]]})` }} /> : <div className="placeholder">—</div>}
+                        <div style={{ backgroundImage: `url("${IMG[room.photos[0]]}")` }} />
+                        {room.photos[1] ? <div style={{ backgroundImage: `url("${IMG[room.photos[1]]}")` }} /> : <div className="placeholder">—</div>}
+                        {room.photos[2] ? <div style={{ backgroundImage: `url("${IMG[room.photos[2]]}")` }} /> : <div className="placeholder">—</div>}
                     </>
                 ) : (
                     <>
@@ -112,8 +114,11 @@ function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; re
                 </ul>
                 <div className="v2-rd-price">
                     <div>
-                        <span className="p">{tCommon('approx')} ¥{room.priceJPY.toLocaleString()}</span>
+                        <span className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(room, code))}</span>
                         <div className="u">{tRooms('priceNote')}</div>
+                        <div style={{ fontSize: 11, color: 'var(--v2-muted)', marginTop: 2 }}>
+                            {tCommon('priceRefNote')}
+                        </div>
                     </div>
                     <Link href="/reserve" className="v2-btn">{tRooms('reserveCta')}</Link>
                 </div>
