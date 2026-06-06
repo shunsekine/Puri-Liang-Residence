@@ -6,99 +6,115 @@
 
 ## プロジェクト概要
 
-- **目的**: バリ・サヌール地区の長期滞在向けレジデンス「Puri Liang Residence」の公式ウェブサイト
-- **方向性**: V2 Bohemian Natural リデザイン適用 — Forest 緑系パレット + Docked nav + 3言語化 + FAQ追加 + Web3Forms 実送信
-- **現状**: V2リデザインを `feat/v2-bohemian-natural` ブランチに適用完了。ローカルビルド・3言語×6ページ動作確認済。PR未作成。
+- **目的**: バリ島 デンパサール南部シダカルヤ（Sidakarya, Denpasar Selatan）の長期滞在・リモートワーク向けレジデンス「Puri Liang Residence」公式ウェブサイト
+- **方向性**: V2 Bohemian Natural リデザイン（Forest 緑系パレット / Docked nav / 3言語 / FAQ / Web3Forms 実送信 / IDRベース価格）
+- **現状**: `feat/v2-bohemian-natural` に全実装完了・Vercelプレビュー稼働中。**PR #1 オープン（未マージ＝本番は旧デザインのまま）**。Web3Forms 設定・デプロイ済。**本番公開（main マージ）前の最終検証段階**。
 
 ## 技術スタック
 
-| カテゴリ | バージョン |
+| カテゴリ | バージョン / 内容 |
 |---|---|
 | Next.js | 16.2.3 (App Router, Turbopack) |
 | React | 19.2.3 |
 | next-intl | 4.8.1 |
 | Tailwind CSS | 4.1.18 |
-| TypeScript | (tsconfig path alias: `@/*` → `./*`) |
-| Node ランタイム | (devcontainer 構成あり) |
-| フォーム送信 | Web3Forms（`NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` 未設定時はモック成功） |
-| デプロイ | Vercel（想定） |
+| TypeScript | path alias `@/*` → `./*` |
+| フォーム送信 | Web3Forms（`NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` を Vercel に設定済 / 未設定時はモック成功フォールバック）。届け先: `shun.sekine14@gmail.com`（将来変更の可能性あり） |
+| デプロイ | Vercel（チーム: shun-projects-workspace / owner: puriliangresidence.bali@gmail.com / Hobby・無料 / リポ Public） |
 
-## ディレクトリ構成（V2適用後）
+## 価格・通貨方針（重要）
+
+- **基準通貨は IDR（実支払い）**。表示は locale 別: `ja→JPY` / `en→USD` / `id→IDR`。各価格に「参考価格・支払いは IDR」注記。
+- 簡易レート: **100 JPY = 11,000 IDR（1JPY=110IDR）** / **1 USD = 18,000 IDR**
+- 月額: Villa `Rp 8,500,000`(¥77,000/$470) / King `Rp 6,500,000`(¥59,000/$360) / Twin `Rp 5,500,000`(¥50,000/$310)。電気代 `Rp 500,000`(¥4,500/$30)/月。
+- ヘルパー: `lib/data.ts` の `currencyForLocale` / `formatPrice` / `roomPriceAmount` / `electricityAmount`
+
+## ディレクトリ構成（主要）
 
 ```
 app/
-├── globals.v2.css              # V2デザインシステム（Forest + Docked baked-in）
-├── globals.v2.pages.css        # ページ固有スタイル
+├── globals.v2.css / globals.v2.pages.css   # V2デザインシステム
 ├── sitemap.ts
-└── [locale]/                   # ja | en | id
-    ├── layout.tsx
-    ├── page.tsx                # Home (V2)
-    ├── faq/page.tsx            # 新規（V2）
-    ├── features/page.tsx       # 4グループ + Inclusions + Voices
-    ├── location/page.tsx       # Crossroads + Map + POI + Neighborhood
-    ├── reserve/page.tsx        # ヒーロー + ReserveForm
-    └── rooms/page.tsx          # 詳細行 × 3 + Simulator + Amenities + House Rules
+└── [locale]/   (ja|en|id)
+    ├── layout.tsx        # メタデータ(siteName/OG/Twitter/WebSite JSON-LD/google verification)
+    ├── page.tsx          # Home（title:{absolute}）
+    ├── faq|features|location|reserve|rooms/page.tsx
 components/
-├── common/{Header,Footer,LanguageSwitcher}.tsx
-└── pages/
-    ├── ReserveForm.tsx         # Web3Forms送信 + ハウスルールmodal + i18n
-    └── v2/{RoomPreviewCard,RoomSimulator,FAQAccordionItem}.tsx
-lib/
-├── data.ts                     # ROOMS / IMG / LOCATION / SIMULATOR_DEFAULTS / CANCELLATION / FAQ_CATEGORIES
-└── tokens.ts                   # V2_TOKENS（CSS変数のJS版）
-messages/{ja,en,id}.json         # 591 keys × 3言語（旧+V2マージ済）
-middleware.ts
-navigation.ts                    # locales: ['ja','en','id']
-.incoming/                       # 受領パッケージ展開先（gitignore済）
+├── common/{Header,Footer,LanguageSwitcher}.tsx   # ロゴは fullName 表示 / Footerに Powered by JPFT
+└── pages/ReserveForm.tsx + v2/{RoomPreviewCard,RoomSimulator,FAQAccordionItem}.tsx
+lib/{data.ts(通貨ヘルパー含む), tokens.ts}
+messages/{ja,en,id}.json
+public/images/   # 客室画像 + powered-by.png（会社ロゴ）
+修正指示_20260606.md   # Claude作成の修正指示書（未追跡 / 作業メモ）
+.incoming/             # 受領パッケージ展開先（gitignore済）
 ```
 
 ## コーディング規約・設計方針
 
-- **Strategy A 段階移行**: messages/*.json は旧スキーマと V2 スキーマをディープマージ。旧キーは V2 完全移行後の別PRで削除予定。
-- **Tweaks ベイクイン**: V2 で確定した設計値（Forest / Manifesto / Bohemian / Split hero / Docked nav / Pill button）は `.v2-*` クラスに直接書き込み済。Tweaks切替用の動的スタイルシートは不採用。
-- **path alias**: `@/lib/*`, `@/navigation`, `@/components/*`
-- **多言語**: `app/[locale]/...` で動的セグメント。matcher は `/(ja|en|id)/:path*`。
-- **lint**: eslint-config-next の core-web-vitals + typescript を使用。`.incoming/**` はignore。
+- **Strategy A 段階移行**: messages は旧スキーマ + V2 スキーマ共存（旧キーは安定後に別PRで削除）
+- **Tweaks ベイクイン**: Forest / Manifesto / Bohemian / Split hero / Docked nav / Pill を `.v2-*` に直書き
+- **多言語**: `app/[locale]/...` / matcher `/(ja|en|id)/:path*`
+- **連絡先非掲載ポリシー**: Email/WhatsApp 等の直接連絡先はサイトに一切載せない。問い合わせは **Reserve フォームに一本化**（フッターは Reserve / FAQ 導線）。**物件住所は掲載可**。
+- **lint**: eslint-config-next（core-web-vitals + typescript）。`.incoming/**` ignore。
+
+## 役割分担（VM共用）
+
+- **Antigravity**: コード実装・commit・push を担当
+- **Claude**: 監査・修正指示書（`修正指示_20260606.md`）生成・本ドキュメント更新を担当
+- 双方、他エージェントの作業ファイル・プロセスを予告なく上書き/停止しないこと
 
 ## 現在のブランチ・最終コミット
 
-- **ブランチ**: `feat/v2-bohemian-natural`（main から派生）
-- **main最終コミット**: `93937dc fix: update next and dependencies to fix security vulnerabilities`
-- **本ブランチの未コミット差分**: 17ファイル変更 + 9ファイル新規（PROJECT_CONTEXT.md含まず）
+- **ブランチ**: `feat/v2-bohemian-natural`
+- **feat 最新**: `08db701 feat: OG Localeマッピングと Twitterカード設定`
+- **main 最新**: `93937dc`（**未マージ＝本番は旧デザイン**）
+- **PR**: #1「V2 Bohemian Natural リデザイン」 **open（未マージ）**
 
-## 完了済みタスク（直近）
+## 完了済みタスク（2026-06-06 時点）
 
-- [2026-05-23] V2 Bohemian Natural リデザインパッケージ受領（zipでscp転送）
-- [2026-05-23] `.incoming/20260514/` に展開、`.gitignore` 追加
-- [2026-05-23] feat/v2-bohemian-natural ブランチ作成、rsync で 24ファイル配置
-- [2026-05-23] lint エラー3件修正（`.incoming/**` ignore、Header.tsx の React 19 ルール対応、i18n.ts の `any` 修正）
-- [2026-05-23] `npm install` / `npm run lint` / `npm run build` すべて成功
-- [2026-05-23] dev server で 3言語×6ページ=18URL すべて HTTP 200 を確認
+- V2リデザイン適用 / PR #1 作成 / Vercel公開（リポ Public 化で作者アクセス問題を解決、commit作者を `puriliangresidence.bali@gmail.com` に統一）
+- 価格を IDR ベース化＋locale 別通貨表示（参考価格注記）
+- Twin Studio 画像表示修正（ファイル名のスペース→アンダースコア + `url()` クォート化）
+- ホーム Hero の「3 rooms · …」バナー＋「空室を見る」ボタン削除（全言語）
+- 予約: 規約2チェックが両方ONで送信ボタン有効化
+- 連絡先（Email/WhatsApp）全削除 → Reserve / FAQ 導線へ置換
+- Twin 説明文の「同じ広さ」等の誤表現を削除（全言語）
+- 住所変更: `Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali`（"Tabanan" 全廃）／地図座標も Sidakarya 系へ更新
+- ブランド表記: ヘッダー/フッターのロゴを「Puri Liang Residence」(fullName) に
+- フッターに「Powered by JPFT」ロゴ＋ japanpft.com リンク（ローカル設置 `public/images/powered-by.png`、クリーム角丸チップで視認性確保）
+- フッター縦余白の半減＋「JP · EN · ID」ラベル削除
+- SEO: siteName「Puri Liang Residence」/ Home title ブランド先頭＋新description / title absolute化 / og:site_name / WebSite JSON-LD / og:locale(ja_JP/en_US/id_ID) / og:image(Home_Villa.jpg) / Twitterカード
+- Web3Forms 設定・デプロイ完了
 
 ## 次にやること（優先順）
 
-1. **commit + push + PR作成** (`feat: V2 Bohemian Natural redesign`) ※公開操作のためユーザー承認待ち
-2. Vercel に `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` を登録（無料: https://web3forms.com/#start）
-3. Vercel プレビューで全18URLの目視確認
-4. en/id 翻訳のネイティブレビュー（特に id：富裕層・長期滞在者向け敬語トーン）
-5. 旧スキーマキー削除（V2安定後、別PR）
-6. King Studio 写真の差し込み（2026年6月撮影予定）
-7. Next.js 16 の `middleware.ts` → `proxy.ts` 移行（廃止予定警告対応）
+1. **【最終検証・未実施】問い合わせフォームの実送信テスト**（実際に届け先メールへ届くか E2E 確認）
+2. **本番公開**: PR #1 を main にマージ → 本番デプロイ
+3. **Google Search Console で再インデックス申請**（タイトル/説明/サイト名の反映促進）
+4. （任意）専用 OG 画像 1200×630 を作成し差し替え
+5. en/id 翻訳のネイティブレビュー（特に id）
+6. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
+7. 旧スキーマキー削除（V2 安定後、別PR）
+8. （任意）独自ドメイン取得（`.vercel.app` 脱却 / Google の「Vercel」サイト名表示の根本解消）
+9. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）
 
 ## 既知の問題・触ってはいけない箇所
 
-- **lint warning（非ブロッキング、要追跡）**:
-  - `app/[locale]/layout.tsx`: 未使用 `Metadata` import / `no-page-custom-font`
-  - `components/pages/ReserveForm.tsx`: 未使用 `Image`, `BRAND`
-- **VM共用注意**: 別ユーザ所有の `next dev` プロセス（cwd: `/app/...`）が起動中。Gemini/Antigravity の作業の可能性。**触らないこと**。
-- `.incoming/` は受領パッケージ展開先。原本保管目的で残しているが gitignore 済。
+- **フォーム**: キー未設定だと「モック成功（無送信）」になる設計。Vercel にキー設定済みだが、**環境(Production/Preview)別の設定漏れに注意**。実送信は要 E2E 確認。
+- 残存 lint warning（非ブロッキング）。連絡先削除に伴い `ReserveForm.tsx` の `BRAND`/`tBrand` 等が未使用化していないか要確認。
+- **VM共用**: 他エージェント（Gemini/Antigravity）のプロセス・作業を予告なく停止/上書きしない。
+- `.incoming/`（受領パッケージ, gitignore済）/ `修正指示_20260606.md`（未追跡の作業メモ）。
+- King Studio は写真未撮影 → プレースホルダ表示中。
 
-## 起動中のプロセス・ポート
+## デプロイ / 環境
 
-- Claude が起動した dev server (port 3210) は **停止済**
-- 別エージェント所有の `next dev` プロセス（PID 2357/2417、`/app/node_modules/.bin/next dev`）が稼働中 — **不可侵**
+- Vercel: shun-projects-workspace / Hobby / リポ **Public**
+- 本番URL: `https://puri-liang-residence.vercel.app`（現在は旧 main）
+- プレビュー: feat ブランチ自動デプロイ（**Deployment Protection 有効＝閲覧にVercelログイン必要**）
+- 環境変数: `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`（設定済）/ `NEXT_PUBLIC_BASE_URL`（任意・既定 `https://puri-liang-residence.vercel.app`）
+- Google site verification token: `layout.tsx` に設定済（Search Console 連携可）
 
 ---
 
-- **最終更新日時**: 2026-05-23
+- **最終更新日時**: 2026-06-06
 - **更新したエージェント名**: Claude
