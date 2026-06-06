@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import "../globals.v2.css";        // V2 Bohemian Natural design system
+import "../globals.v2.pages.css";  // V2 page-specific styles
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import Header from '../../components/common/Header';
@@ -27,8 +29,10 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>) {
     alternates: {
       canonical: '/',
       languages: {
+        // 2026-05 update: id を alternates に追加
         'ja': '/ja',
         'en': '/en',
+        'id': '/id',
       },
     },
     verification: {
@@ -49,12 +53,20 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        {/* 2026-05 update: V2 Bohemian Natural の DM Serif Display + Outfit に変更
+            Indonesian (id) も Noto Sans JP / Noto Serif JP でフォールバック可 */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <div style={{ paddingTop: '70px' }}>
+          {/* V2 pages use their own .v2 wrapper which handles top spacing; the
+              legacy 70px padding stays here for any page that still renders the
+              legacy header styling. */}
+          <div style={{ paddingTop: '0' }}>
             {children}
           </div>
           <Footer />

@@ -1,130 +1,157 @@
+// V2 Bohemian Natural — Rooms page
+// 3 room detail rows + simulator + amenities + house rules
+
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
+import { ROOMS, IMG, type Room } from '@/lib/data';
+import RoomSimulator from '@/components/pages/v2/RoomSimulator';
 import { Link } from '@/navigation';
-import ImageCarousel from '@/components/common/ImageCarousel';
 
-type Props = {
-    params: Promise<{ locale: string }>;
-};
+type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props) {
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: 'Metadata.Rooms' });
-
-    return {
-        title: t('title'),
-        description: t('description'),
-    };
+    return { title: t('title'), description: t('description') };
 }
 
 export default function RoomsPage() {
     const t = useTranslations('Rooms');
 
-    const rooms = [
-        {
-            id: 'villa',
-            name: t('villa'),
-            price: '78,000',
-            size: '50',
-            capacity: '4',
-            features: ['キングベッド', 'プライベートガーデン', 'フルキッチン', 'リビングエリア'],
-            images: [
-                '/images/Room_Villa_1.jpg',
-                '/images/Room_Villa_2.jpg',
-                '/images/Room_Villa_3.jpg'
-            ]
-        },
-        {
-            id: 'king-studio',
-            name: t('kingStudio'),
-            price: '58,000',
-            size: '30',
-            capacity: '2',
-            features: ['キングベッド', 'ワークデスク', 'ミニキッチン', 'バルコニー'],
-            images: [] // No user provided images yet
-        },
-        {
-            id: 'twin-studio',
-            name: t('twinStudio'),
-            price: '48,000',
-            size: '20',
-            capacity: '2',
-            features: ['シングルベッド×2', 'ワークデスク', 'ミニキッチン', 'エアコン完備'],
-            images: [
-                '/images/Room_Twin Studio_1.webp',
-                '/images/Room_Twin Studio_2.webp'
-            ]
-        },
-    ];
-
     return (
-        <main>
-            {/* Hero Banner */}
-            <section className="page-hero">
-                <h1 className="page-hero-title">{t('title')}</h1>
-                <p className="page-hero-subtitle">Find the perfect space for your long-term stay</p>
+        <main className="v2">
+            {/* Hero */}
+            <section className="v2-rhero">
+                <div className="eyebrow">{t('hero.eyebrow')}</div>
+                <h1>
+                    {t('hero.title1')}<br />
+                    <em>{t('hero.emphasis')}</em>{t('hero.title2')}
+                </h1>
+                <p>{t('hero.lead')}</p>
             </section>
 
-            {/* Rooms Grid */}
-            <section className="rooms-detail-section">
-                <div className="rooms-detail-grid">
-                    {rooms.map((room) => (
-                        <div key={room.id} className="room-detail-card">
-                            <ImageCarousel images={room.images} alt={room.name} />
-                            <div className="room-detail-content">
-                                <h2 className="room-detail-title">{room.name}</h2>
-                                <div className="room-detail-meta">
-                                    <span>~{room.size}㎡</span>
-                                    <span>•</span>
-                                    <span>定員{room.capacity}名</span>
-                                </div>
-                                <p className="room-detail-price">
-                                    {t('priceMonthly', { price: room.price })}
-                                </p>
-                                <ul className="room-features">
-                                    {room.features.map((feature, idx) => (
-                                        <li key={idx}>{feature}</li>
-                                    ))}
-                                </ul>
-                                <Link href="/reserve" className="room-cta-btn">
-                                    予約する
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
+            {/* Detail rows */}
+            <div style={{ padding: '0 56px' }} className="v2-rd-wrap">
+                {ROOMS.map((r, i) => (
+                    <RoomDetailRow key={r.id} room={r} index={i} reverse={i % 2 === 1} />
+                ))}
+            </div>
+
+            {/* Simulator */}
+            <RoomSimulator />
 
             {/* Amenities */}
-            <section className="amenities-section">
-                <h2 className="section-title">共通設備・サービス</h2>
-                <div className="amenities-grid">
-                    <div className="amenity-item">
-                        <span className="amenity-icon">📶</span>
-                        <span>高速Wi-Fi</span>
-                    </div>
-                    <div className="amenity-item">
-                        <span className="amenity-icon">❄️</span>
-                        <span>エアコン</span>
-                    </div>
-                    <div className="amenity-item">
-                        <span className="amenity-icon">🚿</span>
-                        <span>温水シャワー</span>
-                    </div>
-                    <div className="amenity-item">
-                        <span className="amenity-icon">🧹</span>
-                        <span>週2回清掃</span>
-                    </div>
-                    <div className="amenity-item">
-                        <span className="amenity-icon">🧺</span>
-                        <span>ランドリー</span>
-                    </div>
-                    <div className="amenity-item">
-                        <span className="amenity-icon">🏍️</span>
-                        <span>駐車場</span>
-                    </div>
+            <section className="v2-section">
+                <div className="v2-secthead">
+                    <div className="eyebrow">{t('amenitiesHeader.eyebrow')}</div>
+                    <h2>{t('amenitiesHeader.title')}</h2>
+                    <p>{t('amenitiesHeader.lead')}</p>
                 </div>
+                <AmenitiesGrid />
+            </section>
+
+            {/* House rules */}
+            <section className="v2-section" style={{ background: 'var(--v2-sand-light)' }}>
+                <div className="v2-secthead">
+                    <div className="eyebrow">{t('houseRulesHeader.eyebrow')}</div>
+                    <h2>{t('houseRulesHeader.title')}</h2>
+                    <p>{t('houseRulesHeader.lead')}</p>
+                </div>
+                <HouseRulesGrid />
             </section>
         </main>
+    );
+}
+
+function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; reverse: boolean }) {
+    const t = useTranslations(`RoomData.${room.id}`);
+    const tRooms = useTranslations('Rooms');
+    const tCommon = useTranslations('Common');
+    const has = room.photos.length > 0;
+    const bullets = t.raw('bullets') as string[];
+
+    return (
+        <article className={`v2-rd${reverse ? ' reverse' : ''}`}>
+            <div className="v2-rd-imgs">
+                {has ? (
+                    <>
+                        <div style={{ backgroundImage: `url(${IMG[room.photos[0]]})` }} />
+                        {room.photos[1] ? <div style={{ backgroundImage: `url(${IMG[room.photos[1]]})` }} /> : <div className="placeholder">—</div>}
+                        {room.photos[2] ? <div style={{ backgroundImage: `url(${IMG[room.photos[2]]})` }} /> : <div className="placeholder">—</div>}
+                    </>
+                ) : (
+                    <>
+                        <div className="placeholder">
+                            <span style={{ fontFamily: 'var(--v2-display)', fontSize: 28 }}>📷</span>
+                            <span style={{ fontFamily: 'var(--v2-display)', fontStyle: 'italic', fontSize: 13 }}>{t('available')}</span>
+                        </div>
+                        <div className="placeholder">—</div>
+                        <div className="placeholder">—</div>
+                    </>
+                )}
+            </div>
+            <div>
+                <div className="v2-rd-meta">
+                    <span className="chip">№ {String(index + 1).padStart(2, '0')}</span>
+                    <span className="chip">{room.size}{tCommon('metersSq')}</span>
+                    <span className="chip">{room.capacity}{tCommon('guestsUnit')}</span>
+                </div>
+                <h2>
+                    {t('name')}
+                    <span className="jp">{t('nameLocal')}</span>
+                </h2>
+                <p className="lead">{t('description')}</p>
+                <div className="v2-rd-spec">
+                    <div><div className="k">{tRooms('specLabels.size')}</div><div className="v">{room.size}{tCommon('metersSq')}</div></div>
+                    <div><div className="k">{tRooms('specLabels.sleeps')}</div><div className="v">{room.capacity}</div></div>
+                    <div><div className="k">{tRooms('specLabels.floor')}</div><div className="v">{room.floor}</div></div>
+                    <div><div className="k">{tRooms('specLabels.bath')}</div><div className="v">{room.bathrooms}</div></div>
+                </div>
+                <ul className="v2-rd-bullets">
+                    {bullets.map((b, i) => <li key={i}>{b}</li>)}
+                </ul>
+                <div className="v2-rd-price">
+                    <div>
+                        <span className="p">{tCommon('approx')} ¥{room.priceJPY.toLocaleString()}</span>
+                        <div className="u">{tRooms('priceNote')}</div>
+                    </div>
+                    <Link href="/reserve" className="v2-btn">{tRooms('reserveCta')}</Link>
+                </div>
+            </div>
+        </article>
+    );
+}
+
+function AmenitiesGrid() {
+    const t = useTranslations('Amenities');
+    const items = t.raw('items') as { label: string; tag: string }[];
+    return (
+        <div className="v2-amen">
+            {items.map((a, i) => (
+                <div key={i} className="v2-amen-card">
+                    <div className="v2-amen-ico">{String(i + 1).padStart(2, '0')}</div>
+                    <div style={{ flex: 1 }}>
+                        <div className="l">{a.label}</div>
+                        <div className="t">{a.tag}</div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function HouseRulesGrid() {
+    const t = useTranslations('HouseRules');
+    const items = t.raw('items') as string[];
+    const icons = ['◐', '◯', '◇', '◇', '◯'];
+    return (
+        <div className="v2-rules">
+            {items.map((label, i) => (
+                <div key={i} className="v2-rule">
+                    <span className="ic">{icons[i] || '◯'}</span>
+                    <span className="l">{label}</span>
+                </div>
+            ))}
+        </div>
     );
 }
