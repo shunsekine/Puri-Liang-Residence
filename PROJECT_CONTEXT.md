@@ -8,7 +8,7 @@
 
 - **目的**: バリ島 デンパサール南部シダカルヤ（Sidakarya, Denpasar Selatan）の長期滞在・リモートワーク向けレジデンス「Puri Liang Residence」公式ウェブサイト
 - **方向性**: V2 Bohemian Natural リデザイン（Forest 緑系パレット / Docked nav / 3言語 / FAQ / Web3Forms 実送信 / IDRベース価格）
-- **現状**: `feat/v2-bohemian-natural` に全実装完了・Vercelプレビュー稼働中。**PR #1 オープン（未マージ＝本番は旧デザインのまま）**。Web3Forms 設定・デプロイ済。**本番公開（main マージ）前の最終検証段階**。
+- **現状**: 🟢 **本番公開済み**（2026-06-06 / PR #1 を main にマージ）。本番URL `https://puri-liang-residence.vercel.app` で新サイト稼働中。Web3Forms 実送信・本番フォームE2Eテスト確認済。残るは Google 再インデックス等の公開後タスクのみ。
 
 ## 技術スタック
 
@@ -65,10 +65,10 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）
 
 ## 現在のブランチ・最終コミット
 
-- **ブランチ**: `feat/v2-bohemian-natural`
-- **feat 最新**: `08db701 feat: OG Localeマッピングと Twitterカード設定`
-- **main 最新**: `93937dc`（**未マージ＝本番は旧デザイン**）
-- **PR**: #1「V2 Bohemian Natural リデザイン」 **open（未マージ）**
+- **canonical ブランチ**: `main`（本番）
+- **main 最新**: `e6e2f97 Merge PR #1: V2 Bohemian Natural リデザイン`（**本番デプロイ済み**）
+- **PR**: #1「V2 Bohemian Natural リデザイン」 **マージ済み（クローズ）**
+- **feat/v2-bohemian-natural**: 役割完了。**今後の変更は main から新ブランチを切る**こと（feat は整理/削除可）。
 
 ## 完了済みタスク（2026-06-06 時点）
 
@@ -84,19 +84,18 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）
 - フッターに「Powered by JPFT」ロゴ＋ japanpft.com リンク（ローカル設置 `public/images/powered-by.png`、クリーム角丸チップで視認性確保）
 - フッター縦余白の半減＋「JP · EN · ID」ラベル削除
 - SEO: siteName「Puri Liang Residence」/ Home title ブランド先頭＋新description / title absolute化 / og:site_name / WebSite JSON-LD / og:locale(ja_JP/en_US/id_ID) / og:image(Home_Villa.jpg) / Twitterカード
-- Web3Forms 設定・デプロイ完了
+- Web3Forms 設定・デプロイ完了 / **本番フォーム実送信E2Eテスト確認済**
+- **本番公開**: PR #1 を main にマージ（`e6e2f97`）→ 本番デプロイ success → 本番URLで全反映確認（Tabanan 0件 / 価格IDR / OGタグ / Powered by）
 
-## 次にやること（優先順）
+## 次にやること（公開後 / 優先順）
 
-1. **【最終検証・未実施】問い合わせフォームの実送信テスト**（実際に届け先メールへ届くか E2E 確認）
-2. **本番公開**: PR #1 を main にマージ → 本番デプロイ
-3. **Google Search Console で再インデックス申請**（タイトル/説明/サイト名の反映促進）
+1. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
+2. en/id 翻訳のネイティブレビュー（特に id）
+3. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
 4. （任意）専用 OG 画像 1200×630 を作成し差し替え
-5. en/id 翻訳のネイティブレビュー（特に id）
-6. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
-7. 旧スキーマキー削除（V2 安定後、別PR）
-8. （任意）独自ドメイン取得（`.vercel.app` 脱却 / Google の「Vercel」サイト名表示の根本解消）
-9. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）
+5. 旧スキーマキー削除（V2 安定後、別PR）
+6. （任意）独自ドメイン取得（`.vercel.app` 脱却 / Google の「Vercel」サイト名表示の根本解消）
+7. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）
 
 ## 既知の問題・触ってはいけない箇所
 
@@ -109,12 +108,12 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）
 ## デプロイ / 環境
 
 - Vercel: shun-projects-workspace / Hobby / リポ **Public**
-- 本番URL: `https://puri-liang-residence.vercel.app`（現在は旧 main）
-- プレビュー: feat ブランチ自動デプロイ（**Deployment Protection 有効＝閲覧にVercelログイン必要**）
+- 本番URL: `https://puri-liang-residence.vercel.app`（🟢 **新サイト稼働中** / main `e6e2f97`）
+- プレビュー: ブランチ自動デプロイ（**Deployment Protection 有効＝閲覧にVercelログイン必要**）
 - 環境変数: `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`（設定済）/ `NEXT_PUBLIC_BASE_URL`（任意・既定 `https://puri-liang-residence.vercel.app`）
 - Google site verification token: `layout.tsx` に設定済（Search Console 連携可）
 
 ---
 
-- **最終更新日時**: 2026-06-06
+- **最終更新日時**: 2026-06-06（本番公開後）
 - **更新したエージェント名**: Claude
