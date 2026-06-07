@@ -1,44 +1,80 @@
+// V2 Bohemian Natural — Footer
+// Multi-column footer reading from messages.Footer + messages.Brand
 import { Link } from '@/navigation';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 export default function Footer() {
+    const t = useTranslations('Footer');
+    const tNav = useTranslations('Nav');
+    const tBrand = useTranslations('Brand');
+
     const currentYear = new Date().getFullYear();
 
+    // Pull link labels from Footer.stayLinks etc. (arrays in messages)
+    const stayLinks = t.raw('stayLinks') as string[];
+    const placeLinks = t.raw('placeLinks') as string[];
+
     return (
-        <footer className="site-footer">
-            <div className="footer-inner">
-                <div className="footer-brand">
-                    <h2 style={{ fontSize: '18px', marginBottom: '8px' }}>Puri Liang Residence, Bali</h2>
-                    <p>12, Pas, Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan,<br />Kota Denpasar, Bali 80227, Indonesia</p>
+        <footer className="v2-footer">
+            <div>
+                <Link href="/" className="v2-footer-logo">
+                    <Image src="/logo.png" alt="" width={36} height={36} />
+                    <span>{tBrand('fullName')}</span>
+                </Link>
+                <div style={{ fontSize: 12.5, opacity: 0.7, lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+                    {tBrand('address')}
                 </div>
-
-                <div className="footer-links-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '16px' }}>
-                    <div className="footer-links">
-                        <ul>
-                            <li><Link href="/">Home</Link></li>
-                            <li><Link href="/features">Features</Link></li>
-                            <li><Link href="/rooms">Rooms</Link></li>
-                            <li><Link href="/location">Location</Link></li>
-                            <li><Link href="/reserve">Reserve</Link></li>
-                        </ul>
-                    </div>
-
-                    <div className="footer-contact">
-                        <div className="footer-social">
-                            <a href="#" aria-label="Facebook">
-                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-                            </a>
-                            <a href="#" aria-label="Instagram">
-                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
-                            </a>
-                            <a href="#" aria-label="X">
-                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <a
+                    href="https://japanpft.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                        display: 'inline-block',
+                        marginTop: 16,
+                        background: 'var(--v2-cream)',
+                        padding: '1px 14px 9px 14px',
+                        borderRadius: 12,
+                        boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
+                    }}
+                >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src="/images/powered-by.png"
+                        alt="Powered by JPFT Group"
+                        style={{ maxWidth: 150, height: 'auto', display: 'block' }}
+                    />
+                </a>
             </div>
-            <div className="footer-bottom">
-                &copy; {currentYear} Puri Liang. All Rights Reserved.
+
+            <div>
+                <h4>{t('stayHeading')}</h4>
+                <ul>
+                    <li><Link href="/rooms">{stayLinks[0] ?? tNav('rooms')}</Link></li>
+                    <li><Link href="/features">{stayLinks[1] ?? tNav('features')}</Link></li>
+                    <li><Link href="/reserve">{stayLinks[2] ?? tNav('reserve')}</Link></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>{t('placeHeading')}</h4>
+                <ul>
+                    <li><Link href="/location">{placeLinks[0] ?? tNav('location')}</Link></li>
+                    <li><Link href="/location#neighborhood">{placeLinks[1] ?? '—'}</Link></li>
+                    <li><Link href="/#story">{placeLinks[2] ?? '—'}</Link></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>{t('contactHeading')}</h4>
+                <ul>
+                    <li><Link href="/reserve">{tNav('reserve')}</Link></li>
+                    <li><Link href="/faq">{tNav('faq')}</Link></li>
+                </ul>
+            </div>
+
+            <div className="v2-footer-bottom">
+                <span>© {currentYear} {tBrand('fullName')}. All Rights Reserved.</span>
             </div>
         </footer>
     );

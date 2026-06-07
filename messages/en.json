@@ -1,93 +1,910 @@
 {
-    "Navigation": {
-        "home": "Home",
-        "features": "Features",
-        "rooms": "Rooms",
-        "location": "Location",
-        "reserve": "Reserve"
+  "Navigation": {
+    "home": "Home",
+    "features": "Features",
+    "rooms": "Rooms",
+    "location": "Location",
+    "reserve": "Reserve"
+  },
+  "Hero": {
+    "title": "Smart & Comfortable Long-term Stay in Bali",
+    "subtitle": "A functional and affordable base for remote work and surfing. Live like a local in Sidakarya, Denpasar Selatan, Bali.",
+    "splitTitle": "Your Cozy Home Base in Bali.<br />Work, Live, & Connect in a Quiet Neighborhood.",
+    "splitDesc": "Experience authentic Balinese living with a reliable workspace.<br />Not a resort, but a comfortable community for digital nomads.",
+    "cta": "View Details",
+    "splitCta": "See Features"
+  },
+  "Home": {
+    "communityTitle": "Our Community & Vibe",
+    "eventTitle": "Community Events",
+    "eventDesc": "Weekly dinners, skill shares, and local outings.",
+    "wellnessTitle": "Wellness & Connection",
+    "wellnessDesc": "Daily yoga, meditation space, and meetups.",
+    "localTitle": "Local Integration",
+    "localDesc": "Connect with neighbors and experience true Bali.",
+    "lifeTitle": "Authentic Bali Life & Comfort",
+    "spaceTitle": "Thoughtful Living Spaces",
+    "spaceDesc": "Private, fully equipped apartments with kitchenettes and cozy décor.",
+    "spaceLink": "View Apartments →",
+    "realBaliTitle": "Experience the Real Bali",
+    "realBaliDesc": "Located in a peaceful neighborhood, steps away from local markets and culture.",
+    "realBaliLink": "See Location →",
+    "workspaceSectionTitle": "Comfortable Workspace",
+    "workspaceMainTitle": "Your Reliable Office Away from Home.",
+    "workspaceDesc": "High-speed internet, quiet zones, and comfortable setups for productive days.",
+    "feat1": "Dedicated Work Areas",
+    "feat2": "Blazing-Fast WiFi",
+    "feat3": "Sound-Insulated Rooms",
+    "workspaceCta": "See Workspace Details",
+    "testimonialTitle": "What Our Residents Say",
+    "test1Text": "\"Puri Liang is the perfect blend of community and solitude. The workspace is incredible, and I've met amazing people here.\"",
+    "test1Author": "— Alex, Digital Nomad",
+    "test2Text": "\"More than just an apartment, It's a home. The surf trips make it even more special, and the internet is rock solid.\"",
+    "test2Author": "— Sarah, Freelancer",
+    "test3Text": "\"A true hidden gem. Quiet, authentic, and beautifully comfortable. The staff go above and beyond.\"",
+    "test3Author": "— Michael, Entrepreneur",
+    "ctaTitle": "Ready to Make Bali Your Home?",
+    "ctaDesc": "Join our community of remote workers and adventurers.",
+    "ctaBtn": "Book Your Stay",
+    "hero": {
+      "title1": "A month of",
+      "title2": "living in",
+      "title3": "Bali.",
+      "lead": "A monthly apartment set in a quiet residential neighborhood — away from the tourist strips. Birdsong in the morning, crickets at night, and Wi-Fi that just works.",
+      "priceUnit": "/ month · 1-month minimum",
+      "ctaSecondary": "About the rooms"
     },
-    "Hero": {
-        "title": "Smart & Comfortable Long-term Stay in Bali",
-        "subtitle": "A functional and affordable base for remote work and surfing. Live like a local in Tukad Balian, Bali.",
-        "splitTitle": "Your Cozy Home Base in Bali.<br />Work, Live, & Connect in a Quiet Neighborhood.",
-        "splitDesc": "Experience authentic Balinese living with a reliable workspace.<br />Not a resort, but a comfortable community for digital nomads.",
-        "cta": "View Details",
-        "splitCta": "See Features"
+    "manifesto": {
+      "mark": "— ✦ —",
+      "line1": "Too long for a hotel, too short for a lease.",
+      "line2": "Somewhere in between, ",
+      "emphasis": "a month to actually live",
+      "lineSuffix": ".",
+      "signature": "Puri Liang Residence"
+    },
+    "story": {
+      "eyebrow": "About us · Our story",
+      "title1": "Not flashy —",
+      "emphasis": "but sustainable",
+      "title2": ".",
+      "p1": "Puri Liang is not a resort. We have a pool, but it is not an infinity pool, and we are not on the beach. We are a regular residence built for families and colleagues spending a few months on the island.",
+      "p2": "What we focused on instead is the everyday — making sure daily life runs smoothly without surprise bills piling up. Utilities, housekeeping, towel changes, and an on-site laundry service are all bundled into the monthly rate. Hot water around the clock, staff who respond on weekends, and a ground-floor laundry that operates seven days a week.",
+      "quote": "\"Too long for a hotel, too short for a lease. We exist to fill that gap.\""
+    },
+    "roomsPreview": {
+      "eyebrow": "Rooms",
+      "title": "Three rooms, three ways to live.",
+      "lead": "From a family-sized villa to a studio for one. Three rooms with different layouts and capacities — all on the same property.",
+      "detailCta": "Details →"
+    },
+    "amenities": {
+      "eyebrow": "Inclusions",
+      "title": "What's included in the monthly rate.",
+      "lead": "Utilities, housekeeping, towel changes, Wi-Fi, and the on-site laundry — disclosed up front so the bill never grows."
+    },
+    "trust": {
+      "rating": "4.86",
+      "ratingMeta": "142 stays · 2024–2026",
+      "eyebrow": "Voices",
+      "lead": "Long-stay residents share their honest impressions — Wi-Fi reliability, neighborhood feel, community vibe — all gathered by category on the Features page.",
+      "cta": "Read their voices →"
+    },
+    "cta": {
+      "eyebrow": "Reserve",
+      "title1": "Why not start with",
+      "emphasis": "one month",
+      "lead": "Check availability and request a quote here. We reply within two business days, in JP, EN, or ID.",
+      "ctaPrimary": "Reservation form →",
+      "ctaSecondary": "View FAQ"
+    }
+  },
+  "Features": {
+    "title": "Why Choose Puri Liang",
+    "workTitle": "High-Speed Wi-Fi & Workspace",
+    "workDesc": "Reliable internet connection and dedicated desks for focused work. Perfect for digital nomads.",
+    "lifeTitle": "Surfer Friendly",
+    "lifeDesc": "Board storage, outdoor showers, and easy access to the best surf breaks in the area.",
+    "costTitle": "Community & Convenience",
+    "costDesc": "Connect with like-minded people and enjoy nearby cafes, shops, and local amenities.",
+    "hero": {
+      "eyebrow": "Features",
+      "title1": "Forget flashy features —",
+      "emphasis": "design that makes daily life work",
+      "title2": ".",
+      "lead": "Small features you actually notice on a long stay, all bundled into the monthly rate. No add-on bills later."
+    },
+    "groups": [
+      {
+        "eyebrow": "Workspace",
+        "title": "A focused place to work",
+        "lead": "Large work desks in every room, and Wi-Fi that measures 80 Mbps+. Remote meetings and everyday work both run smoothly.",
+        "bullets": [
+          {
+            "k": "Wi-Fi (measured)",
+            "v": "80–150 Mbps↓ / 50–100 Mbps↑"
+          },
+          {
+            "k": "Desk",
+            "v": "W120 × D60 cm (height-adjustable in Villa only)"
+          },
+          {
+            "k": "Outlet",
+            "v": "Type C/F · 220V · Villa includes a 100V adapter"
+          },
+          {
+            "k": "Coverage",
+            "v": "Whole building (including shared areas)"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Living",
+        "title": "Comfort for the long run",
+        "lead": "Weekly housekeeping, towel changes twice a week, an on-site ground-floor laundry — the bare minimum to keep daily life running, included in the monthly rate.",
+        "bullets": [
+          {
+            "k": "Housekeeping",
+            "v": "Weekly · service while you're out is fine"
+          },
+          {
+            "k": "Towel change",
+            "v": "Twice a week"
+          },
+          {
+            "k": "Kitchen",
+            "v": "Stove, fridge, basic cookware"
+          },
+          {
+            "k": "Hot water",
+            "v": "24 hours · in every room"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Laundry",
+        "title": "On-site laundry, seven days a week",
+        "lead": "A laundry service operates on the ground floor of the building. You can drop off laundry, drying, or ironing without worrying about hours or days — no \"clothes piling up\" problems on a long stay.",
+        "bullets": [
+          {
+            "k": "Location",
+            "v": "Ground floor (zero walk)"
+          },
+          {
+            "k": "Hours",
+            "v": "7 days · morning–evening (incl. holidays)"
+          },
+          {
+            "k": "Service",
+            "v": "By kg · same-day or next-day finish"
+          },
+          {
+            "k": "Pricing",
+            "v": "Actual cost · priority lane for residents"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Neighborhood",
+        "title": "Daily essentials, all on foot.",
+        "lead": "Everything you need day-to-day sits just outside the building. Short routes to shops, cafes, and exercise mean the \"travel fatigue\" that builds up on long stays barely happens here.",
+        "bullets": [
+          {
+            "k": "Convenience store",
+            "v": "0-min walk (in front of the building)"
+          },
+          {
+            "k": "Cafe",
+            "v": "0-min walk (in front of the building)"
+          },
+          {
+            "k": "Padel court",
+            "v": "4-min walk"
+          },
+          {
+            "k": "Main road",
+            "v": "2-min walk (Grab / Gojek pickup)"
+          }
+        ]
+      }
+    ],
+    "included": {
+      "eyebrow": "Included · in the monthly rate",
+      "title": "All 9 items are included in your monthly rate.",
+      "lead": "The only variable cost is actual electricity usage. Everything else is fixed."
+    },
+    "voices": {
+      "eyebrow": "Voices",
+      "title1": "Not our claims —",
+      "emphasis": "the words of people who actually lived here",
+      "title2": ".",
+      "lead": "How these features feel in real life is best heard from past residents. Placeholders — to be replaced by real interviews.",
+      "rating": "★ 4.86 / 142 stays · 2024–2026"
+    }
+  },
+  "Rooms": {
+    "title": "Our Rooms",
+    "villa": "Villa",
+    "kingStudio": "King Studio Room",
+    "twinStudio": "Twin Studio Room",
+    "priceMonthly": "¥{price} / Month",
+    "capacity": "Max: {count} Guest(s)",
+    "size": "Size: {size}㎡",
+    "hero": {
+      "eyebrow": "Rooms",
+      "title1": "Three rooms, three",
+      "emphasis": "ways of living",
+      "title2": ".",
+      "lead": "Three rooms with different sizes and purposes — all on the same property. A family-friendly villa, and studios for those who want a focused, private space."
+    },
+    "specLabels": {
+      "size": "Size",
+      "sleeps": "Sleeps",
+      "floor": "Floor",
+      "bath": "Bath"
+    },
+    "priceNote": "JPY / month · 1-month minimum",
+    "reserveCta": "Reserve →",
+    "amenitiesHeader": {
+      "eyebrow": "Amenities",
+      "title": "What every room shares",
+      "lead": "All 9 items are included in the monthly rate. No add-on bills after move-in."
+    },
+    "houseRulesHeader": {
+      "eyebrow": "House Rules",
+      "title": "House rules",
+      "lead": "A short set of shared expectations to keep long-term stays comfortable for everyone."
+    }
+  },
+  "Metadata": {
+    "Base": {
+      "siteName": "Puri Liang Residence"
     },
     "Home": {
-        "communityTitle": "Our Community & Vibe",
-        "eventTitle": "Community Events",
-        "eventDesc": "Weekly dinners, skill shares, and local outings.",
-        "wellnessTitle": "Wellness & Connection",
-        "wellnessDesc": "Daily yoga, meditation space, and meetups.",
-        "localTitle": "Local Integration",
-        "localDesc": "Connect with neighbors and experience true Bali.",
-        "lifeTitle": "Authentic Bali Life & Comfort",
-        "spaceTitle": "Thoughtful Living Spaces",
-        "spaceDesc": "Private, fully equipped apartments with kitchenettes and cozy décor.",
-        "spaceLink": "View Apartments →",
-        "realBaliTitle": "Experience the Real Bali",
-        "realBaliDesc": "Located in a peaceful neighborhood, steps away from local markets and culture.",
-        "realBaliLink": "See Location →",
-        "workspaceSectionTitle": "Comfortable Workspace",
-        "workspaceMainTitle": "Your Reliable Office Away from Home.",
-        "workspaceDesc": "High-speed internet, quiet zones, and comfortable setups for productive days.",
-        "feat1": "Dedicated Work Areas",
-        "feat2": "Blazing-Fast WiFi",
-        "feat3": "Sound-Insulated Rooms",
-        "workspaceCta": "See Workspace Details",
-        "testimonialTitle": "What Our Residents Say",
-        "test1Text": "\"Puri Liang is the perfect blend of community and solitude. The workspace is incredible, and I've met amazing people here.\"",
-        "test1Author": "— Alex, Digital Nomad",
-        "test2Text": "\"More than just an apartment, It's a home. The surf trips make it even more special, and the internet is rock solid.\"",
-        "test2Author": "— Sarah, Freelancer",
-        "test3Text": "\"A true hidden gem. Quiet, authentic, and beautifully comfortable. The staff go above and beyond.\"",
-        "test3Author": "— Michael, Entrepreneur",
-        "ctaTitle": "Ready to Make Bali Your Home?",
-        "ctaDesc": "Join our community of remote workers and adventurers.",
-        "ctaBtn": "Book Your Stay"
+      "title": "Puri Liang Residence: Modern long-stay apartments in Bali",
+      "description": "Enjoy a comfortable long-term stay in modern Balinese apartments. The perfect home for long-stayers with excellent access to all key areas."
     },
     "Features": {
-        "title": "Why Choose Puri Liang",
-        "workTitle": "High-Speed Wi-Fi & Workspace",
-        "workDesc": "Reliable internet connection and dedicated desks for focused work. Perfect for digital nomads.",
-        "lifeTitle": "Surfer Friendly",
-        "lifeDesc": "Board storage, outdoor showers, and easy access to the best surf breaks in the area.",
-        "costTitle": "Community & Convenience",
-        "costDesc": "Connect with like-minded people and enjoy nearby cafes, shops, and local amenities."
+      "title": "Features & Amenities | Puri Liang Bali Apartment",
+      "description": "Discover our amenities designed for digital nomads. High-speed Wi-Fi, dedicated workspaces, communal areas, and surfer-friendly facilities."
     },
     "Rooms": {
-        "title": "Our Rooms",
-        "villa": "Villa",
-        "kingStudio": "King Studio Room",
-        "twinStudio": "Twin Studio Room",
-        "priceMonthly": "¥{price} / Month",
-        "capacity": "Max: {count} Guest(s)",
-        "size": "Size: {size}㎡"
+      "title": "Room Types & Rates | Puri Liang",
+      "description": "Choose from our Villa, King Studio, or Twin Studio rooms. All units feature kitchenettes and are perfect for long-term stays in Bali."
     },
-    "Metadata": {
-        "Base": {
-            "siteName": "Puri Liang"
-        },
-        "Home": {
-            "title": "Long-term Stay Apartment & Coworking in Bali | Puri Liang",
-            "description": "Functional and affordable apartment in Tukad Balian, Bali. Perfect base for remote workers and surfers with reliable Wi-Fi and workspace."
-        },
-        "Features": {
-            "title": "Features & Amenities | Puri Liang Bali Apartment",
-            "description": "Discover our amenities designed for digital nomads. High-speed Wi-Fi, dedicated workspaces, communal areas, and surfer-friendly facilities."
-        },
-        "Rooms": {
-            "title": "Room Types & Rates | Puri Liang",
-            "description": "Choose from our Villa, King Studio, or Twin Studio rooms. All units feature kitchenettes and are perfect for long-term stays in Bali."
-        },
-        "Location": {
-            "title": "Location & Neighborhood | Puri Liang",
-            "description": "Located in the quiet area of Tukad Balian. Enjoy authentic Balinese life with easy access to markets, cafes, and the beach."
-        },
-        "Reserve": {
-            "title": "Reserve Your Stay | Puri Liang",
-            "description": "Check availability and book your long-term stay in Bali. Join our community of remote workers and travelers."
-        }
+    "Location": {
+      "title": "Location & Neighborhood | Puri Liang",
+      "description": "Located in the quiet area of Sidakarya, Denpasar Selatan. Enjoy authentic Balinese life with easy access to markets, cafes, and the beach."
+    },
+    "Reserve": {
+      "title": "Reserve Your Stay | Puri Liang",
+      "description": "Check availability and book your long-term stay in Bali. Join our community of remote workers and travelers."
+    },
+    "FAQ": {
+      "title": "FAQ | Puri Liang",
+      "description": "Two years of frequently asked questions about pricing, payment, cancellation, and minimum stay — grouped by category. For anything else, please use the reservation form."
     }
+  },
+  "Brand": {
+    "name": "Puri Liang",
+    "fullName": "Puri Liang Residence",
+    "tagline": "Live, work, and unwind in Bali — by the month.",
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
+    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
+    "email": "stay@puriliang.com",
+    "whatsapp": "+62 813-xxxx-xxxx"
+  },
+  "Common": {
+    "from": "From",
+    "perMonth": "/ month",
+    "perMonthLong": "/ month · 1-month minimum",
+    "approx": "approx.",
+    "currencyNote": "Prices are based on IDR. USD shown is an approximation.",
+    "priceRefNote": "Reference price · billed in IDR",
+    "yen": "yen",
+    "monthsUnit": "months",
+    "guestsUnit": "guests",
+    "metersSq": "m²",
+    "kmUnit": "km",
+    "minutesUnit": "min",
+    "byCar": "by car",
+    "onFoot": "on foot",
+    "yearFounded": "Est. 2024"
+  },
+  "Nav": {
+    "stay": "Stay",
+    "rooms": "Rooms",
+    "features": "Features",
+    "location": "Location",
+    "faq": "FAQ",
+    "reserve": "Reserve",
+    "reserveCta": "Reserve →"
+  },
+  "Footer": {
+    "stayHeading": "Stay",
+    "placeHeading": "Place",
+    "contactHeading": "Contact",
+    "stayLinks": [
+      "Rooms",
+      "Features",
+      "Reserve"
+    ],
+    "placeLinks": [
+      "Location",
+      "Neighborhood",
+      "Story"
+    ],
+    "contactLinks": [
+      "Email",
+      "WhatsApp",
+      "Instagram"
+    ],
+    "copyright": "© 2026 Puri Liang Residence"
+  },
+  "Band": {
+    "items": [
+      "Long-stay residence",
+      "Wi-Fi 80–150 Mbps",
+      "Weekly housekeeping",
+      "10% off from 3 months",
+      "JP · EN · ID",
+      "Est. 2024"
+    ]
+  },
+  "RoomData": {
+    "villa": {
+      "name": "Villa",
+      "nameLocal": "Villa",
+      "description": "For families or couples on a longer stay. A standalone unit overlooking the poolside.",
+      "bullets": [
+        "King-size bed + sofa bed",
+        "Private garden & pool view",
+        "Full kitchen (induction + fridge + dishware)",
+        "Living & dining",
+        "Two dedicated work desks"
+      ],
+      "available": "Photographed"
+    },
+    "king": {
+      "name": "King Studio",
+      "nameLocal": "King Studio",
+      "description": "For remote workers who want a private, focused space. Compact, but everything you need to live is in one room.",
+      "bullets": [
+        "1 × king-size bed",
+        "Work desk",
+        "Mini kitchen (microwave + fridge)",
+        "Balcony"
+      ],
+      "available": "Photoshoot scheduled (June 2026)"
+    },
+    "twin": {
+      "name": "Twin Studio",
+      "nameLocal": "Twin Studio",
+      "description": "Two friends or colleagues sharing a stay. Lower cost per person.",
+      "bullets": [
+        "2 × semi-double beds",
+        "Work desk",
+        "Mini kitchen",
+        "Air conditioning"
+      ],
+      "available": "Photographed"
+    }
+  },
+  "Amenities": {
+    "items": [
+      {
+        "label": "High-speed Wi-Fi (measured 80 Mbps+)",
+        "tag": "Connectivity"
+      },
+      {
+        "label": "Dedicated work desk",
+        "tag": "Workspace"
+      },
+      {
+        "label": "Inverter air conditioning",
+        "tag": "Comfort"
+      },
+      {
+        "label": "Hot shower (24h)",
+        "tag": "Comfort"
+      },
+      {
+        "label": "Stove",
+        "tag": "Kitchen"
+      },
+      {
+        "label": "Weekly housekeeping",
+        "tag": "Service"
+      },
+      {
+        "label": "Towel change twice a week",
+        "tag": "Service"
+      },
+      {
+        "label": "Motorbike parking + 2 helmets",
+        "tag": "Mobility"
+      },
+      {
+        "label": "On-site laundry, 7 days a week",
+        "tag": "Service"
+      }
+    ]
+  },
+  "HouseRules": {
+    "items": [
+      "Check-in 14:00 / out 11:00",
+      "Quiet hours 22:00–07:00",
+      "Indoor non-smoking / designated outdoor area only",
+      "No pets",
+      "Visitors require advance notice (free, capacity-limited)"
+    ]
+  },
+  "Simulator": {
+    "eyebrow": "Calculator · Monthly estimator",
+    "title1": "See what you'll pay,",
+    "emphasis": "before you commit",
+    "title2": ".",
+    "lead": "Choose a room and number of months — including utilities and discounts — and see what you would actually pay.",
+    "roomLabel": "Room type",
+    "monthsLabel": "Length of stay",
+    "discount3m": "10% off from 3 months",
+    "discount6m": "15% off from 6 months",
+    "estimateTitle": "Estimated payment",
+    "rent": "Rent",
+    "discountRow": "Long-stay discount",
+    "electricity": "Electricity (estimated actual)",
+    "includedRow1": "Wi-Fi / water / housekeeping",
+    "includedRow2": "Towel change × 2/week",
+    "included": "✓ Included",
+    "total": "Total",
+    "totalMonths": "Total ({months} months)",
+    "monthlyAvg": "Avg. per month",
+    "note": "* Prices are based on IDR. Varies with exchange rate and electricity usage · Rp 2,000,000 deposit separate · USD shown is an approximation"
+  },
+  "ReviewPlaceholders": [
+    {
+      "stay": "3-month stay",
+      "role": "Remote PM / Tokyo",
+      "headline": "\"More focused than my home office in Japan\"",
+      "body": "Wi-Fi is genuinely stable. Mornings by the pool to work, evenings down to Balian Beach."
+    },
+    {
+      "stay": "2-month stay",
+      "role": "Designer / Singapore",
+      "headline": "\"Being away from the tourist areas is exactly the point\"",
+      "body": "Breakfast at a local warung for Rp 25,000. Staff speak both English and Japanese, so day-to-day friction is basically zero."
+    },
+    {
+      "stay": "6-month stay",
+      "role": "Founder / Jakarta",
+      "headline": "\"Perfect for living long-term with family\"",
+      "body": "The Villa was plenty for two kids. The weekly housekeeping and twice-weekly towel changes quietly make a difference, and the ground-floor laundry was a huge help."
+    }
+  ],
+  "Location": {
+    "hero": {
+      "eyebrow": "Location",
+      "title1": "Sidakarya,",
+      "emphasis": "Denpasar Selatan",
+      "title2": ".",
+      "lead": "Not at the center of any tourist area, but at a kind of \"crossroads\" — easy access in every direction, while sidestepping the worst of Bali's traffic."
+    },
+    "crossroads": {
+      "eyebrow": "Crossroads · The four directions",
+      "title1": "Not in the middle of a tourist hub —",
+      "emphasis": "in the middle of all of them",
+      "title2": ".",
+      "lead": "Sidakarya sits slightly outside Bali's main tourist areas, but lets you reach the major districts in every direction in a relatively short drive.",
+      "hubLabel": "Puri Liang",
+      "hubMeta": "Sidakarya, Denpasar Selatan"
+    },
+    "directions": [
+      {
+        "dir": "E",
+        "bearing": "East",
+        "title": "Toward Sanur",
+        "en": "East · Sanur",
+        "body": "Close to the newly opened international hospital in the medical special zone, the ferry port for nearby islands (Nusa Lembongan / Penida), and the redeveloping Sanur area. Easy access to healthcare and island hopping during a long stay.",
+        "bullets": [
+          "International hospital (medical zone)",
+          "Inter-island ferry port",
+          "Sanur redevelopment area"
+        ]
+      },
+      {
+        "dir": "W",
+        "bearing": "West",
+        "title": "Toward Seminyak / Canggu",
+        "en": "West · Seminyak / Canggu",
+        "body": "Multiple access roads run toward Seminyak, Canggu, Kuta, and Legian — you can choose your route depending on traffic. Easy for weekend nightlife and beach clubs.",
+        "bullets": [
+          "Canggu / Seminyak",
+          "Kuta / Legian",
+          "Multiple bypass routes"
+        ]
+      },
+      {
+        "dir": "S",
+        "bearing": "South",
+        "title": "Toward Nusa Dua / Uluwatu",
+        "en": "South · Nusa Dua / Uluwatu",
+        "body": "Close to the toll-road entrance that shortcuts to Nusa Dua, Benoa, and Uluwatu. Kura Kura Island — with its large mall and financial special zone — is also reachable without sitting in traffic.",
+        "bullets": [
+          "Near toll-road entrance",
+          "Nusa Dua / Uluwatu",
+          "Kura Kura Island (financial zone)"
+        ]
+      },
+      {
+        "dir": "N",
+        "bearing": "North",
+        "title": "Toward Ubud",
+        "en": "North · Ubud",
+        "body": "Near the main road to Ubud — most trips take under an hour. An easy base for weekend day trips and access to yoga, rice terraces, and markets.",
+        "bullets": [
+          "Central Ubud",
+          "Rice terraces / yoga studios",
+          "Walking distance to main road"
+        ]
+      }
+    ],
+    "info": {
+      "name": "Puri Liang Residence",
+      "address": "Jl. Tukad Balian Selatan No.12,\nSidakarya, Denpasar Selatan, Bali",
+      "openInGoogle": "Open in Google Maps",
+      "openInApple": "Open in Apple Maps",
+      "stats": [
+        {
+          "k": "Ngurah Rai Intl. Airport",
+          "v": "25",
+          "unit": "min · by car"
+        },
+        {
+          "k": "Nearest beach (Sanur)",
+          "v": "5",
+          "unit": "min · by car"
+        },
+        {
+          "k": "Walking range",
+          "v": "5–10",
+          "unit": "min"
+        }
+      ]
+    },
+    "around": {
+      "eyebrow": "Around · Key nearby spots",
+      "title": "From the building, on foot or by car.",
+      "lead": "We disclose \"how many minutes from here\" with distance, time, and mode. Including honest travel times to tourist hubs.",
+      "items": [
+        {
+          "title": "Mertasari Beach (Sanur)",
+          "en": "Mertasari Beach (Sanur)",
+          "detail": "5 mins by car (or 10 mins by bike). Calm waves, famous sunrise spot, perfect for kite surfing and yoga.",
+          "dist": "2.5",
+          "unit": "km",
+          "time": "5 min",
+          "mode": "by car"
+        },
+        {
+          "title": "Local Supermarket",
+          "en": "Local supermarket",
+          "detail": "10 mins walk or 3 mins drive. Daily necessities, groceries, imports, and local fruits.",
+          "dist": "0.8",
+          "unit": "km",
+          "time": "10 min",
+          "mode": "on foot"
+        },
+        {
+          "title": "Local warung & cafe",
+          "en": "Warung & cafe",
+          "detail": "5 min on foot. Breakfast from Rp 25,000, coffee around Rp 18,000.",
+          "dist": "0.4",
+          "unit": "km",
+          "time": "5 min",
+          "mode": "on foot"
+        },
+        {
+          "title": "Bank Mandiri / ATM",
+          "en": "ATM",
+          "detail": "5 min on foot. Visa / Master accepted. Multiple banks and money changers nearby.",
+          "dist": "0.5",
+          "unit": "km",
+          "time": "5 min",
+          "mode": "on foot"
+        },
+        {
+          "title": "Ngurah Rai Intl. Airport",
+          "en": "I Gusti Ngurah Rai Intl.",
+          "detail": "About 25 min by taxi (via bypass or toll road). Airport pickup Rp 200,000.",
+          "dist": "12",
+          "unit": "km",
+          "time": "25 min",
+          "mode": "by car"
+        },
+        {
+          "title": "Central Ubud",
+          "en": "Ubud",
+          "detail": "50 min by car. Yoga, markets, rice terraces — great for day trips.",
+          "dist": "28",
+          "unit": "km",
+          "time": "50 min",
+          "mode": "by car"
+        },
+        {
+          "title": "Kuta / Seminyak / Canggu",
+          "en": "Kuta / Seminyak / Canggu",
+          "detail": "30–45 mins by car. For shopping, dining, nightlife, and beach clubs.",
+          "dist": "12",
+          "unit": "km",
+          "time": "30 min",
+          "mode": "by car"
+        },
+        {
+          "title": "Sanur Center & Harbor",
+          "en": "Sanur Center & Harbor",
+          "detail": "10 min by car. Trendy cafes, dining, and speedboats to Nusa Penida/Lembongan.",
+          "dist": "4.5",
+          "unit": "km",
+          "time": "10 min",
+          "mode": "by car"
+        }
+      ]
+    },
+    "neighborhood": {
+      "eyebrow": "Neighborhood · Living here",
+      "title1": "What it's actually like",
+      "emphasis": "to live here",
+      "title2": ".",
+      "lead": "The things you only see when you live somewhere — written honestly.",
+      "notes": [
+        {
+          "title": "Not a tourist area, which matters",
+          "body": "Sidakarya rarely shows up in guidebooks. That is exactly why the warungs where locals eat breakfast and the squares they gather in the evening are still here. Everyday Bali continues as daily life in this area."
+        },
+        {
+          "title": "On safety",
+          "body": "It's a residential neighborhood and stays relatively quiet at night. We don't recommend walking alone late, but plenty of women have stayed here long-term solo. Building entrance is always locked, shared areas have cameras."
+        },
+        {
+          "title": "Cost of living",
+          "body": "A meal at a local warung is Rp 25,000–50,000 (about US $1.50–3) — roughly half of tourist-area prices. Cooking at home from the supermarket is cheaper still. Some residents keep monthly food costs under US $200."
+        },
+        {
+          "title": "Getting around",
+          "body": "Motorbike rental (Rp 800,000/month) is the norm. If you're not used to riding, Grab / Gojek (Bali's Uber) is convenient — they pick up right at the building."
+        }
+      ]
+    }
+  },
+  "FAQ": {
+    "hero": {
+      "eyebrow": "FAQ",
+      "title1": "Worth checking",
+      "emphasis": "before you book",
+      "title2": ".",
+      "lead": "Two years of frequently asked questions, grouped by category. For anything else, please use the reservation form — we reply within two business days."
+    },
+    "categories": {
+      "booking": "Booking",
+      "pricing": "Pricing & Payment",
+      "facilities": "Facilities",
+      "location": "Location",
+      "rules": "House rules"
+    },
+    "sideNav": {
+      "head": "Categories",
+      "ctaTitle": "For other questions",
+      "ctaTarget": "Use the reservation form",
+      "ctaSubtitle": "Reply within 2 business days",
+      "ctaButton": "Send a question →"
+    },
+    "items": [
+      {
+        "category": "pricing",
+        "q": "What's included in the rate?",
+        "a": "Rent + Wi-Fi + utilities in shared areas + weekly housekeeping + twice-weekly towel change. Only electricity is billed at actual usage (roughly Rp 600,000–1,200,000 / month per room). Prices are based on Indonesian Rupiah (IDR); JPY and USD displays are approximate."
+      },
+      {
+        "category": "booking",
+        "q": "What's the minimum stay?",
+        "a": "We accept stays from 1 month. Continuous stays of 3+ months are 10% off, 6+ months are 15% off."
+      },
+      {
+        "category": "pricing",
+        "q": "How can I pay?",
+        "a": "Bank transfer (JPY / USD), Wise, Revolut, and Wise Business are supported. Initial payment is 1 month + Rp 2,000,000 deposit at booking."
+      },
+      {
+        "category": "booking",
+        "q": "What's the cancellation policy?",
+        "a": "Up to 2 weeks before check-in: 50% refund. Up to 1 week before: 25% refund. After that: non-refundable."
+      },
+      {
+        "category": "rules",
+        "q": "Pets / smoking?",
+        "a": "No pets. Strict no-smoking indoors; designated outdoor areas only."
+      },
+      {
+        "category": "facilities",
+        "q": "Actual measured internet speed?",
+        "a": "Download 80–150 Mbps, upload 50–100 Mbps. Stable across the building and every room."
+      },
+      {
+        "category": "booking",
+        "q": "Check-in / check-out times?",
+        "a": "Check-in from 14:00, check-out by 11:00. Please ask about early / late arrangements."
+      },
+      {
+        "category": "location",
+        "q": "How do I get here from the airport?",
+        "a": "About 1 hr 30 min by car from Ngurah Rai International Airport (up to 2 hrs in traffic). Pickup available (Rp 350,000) or Grab/Gojek (around Rp 250,000)."
+      },
+      {
+        "category": "facilities",
+        "q": "What's in the kitchen?",
+        "a": "Villa has a full kitchen (stove, fridge, microwave, cookware, dishware). Studios have a mini kitchen (microwave, fridge, kettle, basic dishware)."
+      },
+      {
+        "category": "facilities",
+        "q": "Is there a washing machine?",
+        "a": "An on-site laundry service operates on the ground floor, available seven days a week. The twice-weekly towel change is included in the monthly rate."
+      },
+      {
+        "category": "location",
+        "q": "Is there a hospital nearby?",
+        "a": "General clinic 5 min by car. Siloam Hospitals (international hospital) 30 min by car — English-speaking, cashless insurance accepted. Staff help arrange transport in emergencies."
+      },
+      {
+        "category": "rules",
+        "q": "Are visitors allowed?",
+        "a": "Yes, with advance notice (free). Overnight visitors are Rp 200,000 per night, up to 3 nights. Shared areas are open to all residents."
+      }
+    ]
+  },
+  "Reserve": {
+    "hero": {
+      "eyebrow": "Reserve",
+      "title1": "Check availability,",
+      "emphasis": "get a quote",
+      "title2": ".",
+      "lead": "Fill out the form below. We'll respond within two business days with availability and a final quote. JP / EN / ID supported. This is not a hold — you can cancel any time."
+    },
+    "steps": {
+      "step1": {
+        "num": "01",
+        "title": "Your stay",
+        "subtitle": "Room, length, guests"
+      },
+      "step2": {
+        "num": "02",
+        "title": "Contact",
+        "subtitle": "Reply address and identity"
+      },
+      "step3": {
+        "num": "03",
+        "title": "Confirmation",
+        "subtitle": "Things to know before booking"
+      }
+    },
+    "fields": {
+      "roomType": "Room type",
+      "checkin": "Check-in",
+      "stayMonths": "Stay length (months)",
+      "guests": "Number of guests",
+      "name": "Name (Roman alphabet)",
+      "namePlaceholder": "Taro Yamada",
+      "nationality": "Nationality",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "phone": "WhatsApp / phone",
+      "phonePlaceholder": "+81 90-xxxx-xxxx",
+      "stayPurpose": "Purpose of stay (optional · multi-select)",
+      "otherRequests": "Other requests (optional)",
+      "otherRequestsPlaceholder": "Extra bed, airport pickup, etc.",
+      "checkoutLabel": "Expected check-out",
+      "capacityHint": "max capacity",
+      "guestsUnit": "guests",
+      "required": "*"
+    },
+    "nationalities": {
+      "JP": "Japan",
+      "ID": "Indonesia",
+      "US": "United States",
+      "SG": "Singapore",
+      "other": "Other"
+    },
+    "purposes": [
+      "Remote work",
+      "Family stay",
+      "Surfing",
+      "Property tour",
+      "Workation",
+      "Other"
+    ],
+    "terms": {
+      "rulesLabel": " — I have read",
+      "rulesLinkText": "the house rules",
+      "rulesDescription": "Check-in 14:00 / out 11:00, quiet hours 22:00–07:00, no indoor smoking, no pets. Tap the link for full rules.",
+      "cancelLabel": "I have read the cancellation policy",
+      "cancelDescription": "2 weeks before check-in: 50% refund. 1 week before: 25% refund. After that: non-refundable."
+    },
+    "modal": {
+      "eyebrow": "House Rules · shared expectations",
+      "title": "House rules",
+      "lead": "A short set of rules we share with every resident, so long stays stay comfortable for everyone. Your form is preserved — when you're done reading, just close this and continue filling in.",
+      "footNote": "For requests not covered here (extra bed, airport pickup, traveling with a pet, etc.), please use the \"Other requests\" field at the bottom of the form.",
+      "closeButton": "Got it (back to form)",
+      "closeAria": "Close"
+    },
+    "submit": {
+      "idle": "Check availability →",
+      "sending": "Sending…",
+      "disclaimer1": "Submitting does not confirm your booking. We reply within two business days.",
+      "disclaimer2Prefix": "By submitting, you agree to our ",
+      "disclaimer2Link": "privacy policy",
+      "disclaimer2Suffix": "."
+    },
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "emailInvalid": "Please enter a valid email address.",
+      "phoneRequired": "Please enter a WhatsApp number or phone.",
+      "rulesRequired": "Please agree to the house rules.",
+      "cancelRequired": "Please agree to the cancellation policy.",
+      "submitFailed": "Sending failed. Please try again in a moment.",
+      "networkError": "Please try again in a moment.",
+      "errorTitle": "Could not send"
+    },
+    "summary": {
+      "stayKeys": {
+        "in": "In",
+        "out": "Out",
+        "period": "Stay",
+        "guests": "Guests"
+      },
+      "rentLine": "Rent",
+      "discountLine": "Long-stay discount",
+      "electricityLine": "Electricity (est. actual)",
+      "includedLine": "Wi-Fi · housekeeping · towels",
+      "included": "Included",
+      "total": "Total",
+      "monthlyAvg": "Avg. / month",
+      "currencyNote": "Billed in IDR · USD reference",
+      "depositTitle": "Due at booking",
+      "depositSuffix": "+ Rp 2,000,000",
+      "depositNote": "(deposit)",
+      "balanceNote": "Balance payable at check-in / monthly installments accepted"
+    },
+    "success": {
+      "eyebrow": "Reserve · Sent",
+      "title1": "Your request",
+      "emphasis": "has been received",
+      "title2": ".",
+      "leadPrefix": "We'll respond within 2 business days at (",
+      "leadDefault": "your registered address",
+      "leadSuffix": ") with availability and a final quote. Please check your spam folder if you don't see our reply.",
+      "salutation": ", thank you",
+      "salutationDefault": "Hello",
+      "subtitle": "Here's the information you submitted — please keep it for your records.",
+      "grid": {
+        "room": "Room",
+        "period": "Stay length",
+        "checkin": "Check-in",
+        "checkout": "Check-out",
+        "guests": "Guests",
+        "total": "Estimated total"
+      },
+      "nextStepsTitle": "Next steps",
+      "nextSteps": [
+        "We'll send a confirmation email within 2 business days.",
+        "Once we verify availability, we'll send a final quote and payment options.",
+        "If you're happy with the terms, we'll proceed to contract signing and the booking payment."
+      ],
+      "resendButton": "Send another request"
+    },
+    "faqHeader": {
+      "eyebrow": "FAQ · Booking questions",
+      "title": "Things worth knowing before booking",
+      "lead": "Pricing, payment, cancellation, minimum stay — see the FAQ page for the full list.",
+      "cta": "See all FAQ →"
+    }
+  }
 }

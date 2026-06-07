@@ -1,0 +1,910 @@
+{
+  "Navigation": {
+    "home": "Beranda",
+    "features": "Fasilitas",
+    "rooms": "Kamar",
+    "location": "Lokasi",
+    "reserve": "Reservasi"
+  },
+  "Hero": {
+    "title": "Tinggal jangka panjang di Bali, dengan cerdas dan nyaman.",
+    "subtitle": "Basis fungsional dan terjangkau untuk kerja remote dan surfing. Tinggal seperti penduduk lokal di Sidakarya, Denpasar Selatan, Bali.",
+    "splitTitle": "Basis nyaman Anda di Bali.<br />Bekerja, tinggal, dan terhubung di lingkungan yang tenang.",
+    "splitDesc": "Rasakan kehidupan Bali yang autentik dengan ruang kerja yang dapat diandalkan.<br />Bukan resor, tapi komunitas nyaman untuk digital nomad.",
+    "cta": "Lihat detail",
+    "splitCta": "Lihat fasilitas"
+  },
+  "Home": {
+    "communityTitle": "Komunitas & Suasana Kami",
+    "eventTitle": "Acara Komunitas",
+    "eventDesc": "Makan malam mingguan, berbagi keahlian, dan jalan-jalan lokal.",
+    "wellnessTitle": "Kesehatan & Koneksi",
+    "wellnessDesc": "Yoga harian, ruang meditasi, dan pertemuan.",
+    "localTitle": "Integrasi dengan Lokal",
+    "localDesc": "Berkenalan dengan tetangga dan rasakan Bali yang sesungguhnya.",
+    "lifeTitle": "Hidup Bali Autentik & Nyaman",
+    "spaceTitle": "Ruang Tinggal yang Dipikirkan Matang",
+    "spaceDesc": "Apartemen pribadi lengkap dengan dapur mini dan dekorasi yang nyaman.",
+    "spaceLink": "Lihat kamar →",
+    "realBaliTitle": "Rasakan Bali Sesungguhnya",
+    "realBaliDesc": "Berlokasi di lingkungan tenang, hanya beberapa langkah dari pasar dan budaya lokal.",
+    "realBaliLink": "Lihat lokasi →",
+    "workspaceSectionTitle": "Ruang Kerja yang Nyaman",
+    "workspaceMainTitle": "Kantor Andalan Anda, Jauh dari Rumah.",
+    "workspaceDesc": "Internet cepat, zona tenang, dan setup nyaman untuk hari-hari yang produktif.",
+    "feat1": "Area Kerja Khusus",
+    "feat2": "Wi-Fi Super Cepat",
+    "feat3": "Ruang Kedap Suara",
+    "workspaceCta": "Lihat detail ruang kerja",
+    "testimonialTitle": "Suara Penghuni Kami",
+    "test1Text": "\"Puri Liang adalah perpaduan sempurna antara komunitas dan kesendirian. Ruang kerjanya luar biasa, dan saya bertemu orang-orang hebat di sini.\"",
+    "test1Author": "— Alex, Digital Nomad",
+    "test2Text": "\"Lebih dari sekadar apartemen, ini adalah rumah. Trip surfing membuatnya lebih istimewa, dan internetnya sangat stabil.\"",
+    "test2Author": "— Sarah, Freelancer",
+    "test3Text": "\"Permata tersembunyi yang sesungguhnya. Tenang, autentik, dan sangat nyaman. Staf melayani di atas dan di luar yang diharapkan.\"",
+    "test3Author": "— Michael, Pengusaha",
+    "ctaTitle": "Siap menjadikan Bali rumah Anda?",
+    "ctaDesc": "Bergabunglah dengan komunitas pekerja remote dan petualang kami.",
+    "ctaBtn": "Pesan tempat tinggal Anda",
+    "hero": {
+      "title1": "Sebulan,",
+      "title2": "tinggal di",
+      "title3": "Bali.",
+      "lead": "Apartemen bulanan di kawasan perumahan lokal — bukan di tengah area wisata. Suara burung di pagi hari, suara serangga di malam hari, dan Wi-Fi yang selalu terhubung.",
+      "priceUnit": "/ bulan · mulai 1 bulan",
+      "ctaSecondary": "Tentang kamar"
+    },
+    "manifesto": {
+      "mark": "— ✦ —",
+      "line1": "Terlalu lama untuk hotel, terlalu singkat untuk sewa tahunan.",
+      "line2": "Di antara keduanya — ",
+      "emphasis": "sebulan untuk benar-benar tinggal",
+      "lineSuffix": ".",
+      "signature": "Puri Liang Residence"
+    },
+    "story": {
+      "eyebrow": "Tentang kami · Cerita kami",
+      "title1": "Bukan mewah —",
+      "emphasis": "tapi bertahan lama",
+      "title2": ".",
+      "p1": "Puri Liang bukan resor. Kami punya kolam renang, tapi bukan infinity pool, dan kami tidak berada di tepi pantai. Kami adalah hunian biasa untuk keluarga atau rekan kerja yang tinggal beberapa bulan.",
+      "p2": "Sebagai gantinya, kami merancang agar kehidupan sehari-hari berjalan lancar. Untuk menghindari tagihan tambahan setelah check-in, kami memasukkan lebih banyak hal ke dalam biaya bulanan: utilitas, housekeeping, ganti handuk, dan layanan laundry di lantai 1 yang buka tujuh hari seminggu. Air panas 24 jam dan staf yang siap merespons saat akhir pekan.",
+      "quote": "\"Terlalu lama untuk hotel, terlalu singkat untuk sewa tahunan. Kami ada untuk mengisi celah itu.\""
+    },
+    "roomsPreview": {
+      "eyebrow": "Kamar",
+      "title": "Tiga kamar, tiga gaya hidup.",
+      "lead": "Mulai dari villa untuk keluarga hingga studio untuk satu orang. Tiga kamar dengan ukuran dan kegunaan berbeda, semuanya dalam satu properti yang sama.",
+      "detailCta": "Detail →"
+    },
+    "amenities": {
+      "eyebrow": "Termasuk",
+      "title": "Yang sudah termasuk dalam biaya bulanan.",
+      "lead": "Utilitas, housekeeping, ganti handuk, Wi-Fi, dan laundry di lantai 1 — semua diungkap di awal agar tidak ada kejutan tagihan."
+    },
+    "trust": {
+      "rating": "4,86",
+      "ratingMeta": "142 stays · 2024–2026",
+      "eyebrow": "Suara penghuni",
+      "lead": "Penghuni jangka panjang berbagi kesan jujur mereka — stabilitas Wi-Fi, suasana lingkungan, hingga rasa komunitas — semua dikelompokkan per kategori di halaman Fasilitas.",
+      "cta": "Baca cerita mereka →"
+    },
+    "cta": {
+      "eyebrow": "Reservasi",
+      "title1": "Mulailah dengan",
+      "emphasis": "satu bulan",
+      "lead": "Cek ketersediaan dan minta perkiraan harga di sini. Balasan dalam 2 hari kerja, dalam JP, EN, atau ID.",
+      "ctaPrimary": "Form reservasi →",
+      "ctaSecondary": "Lihat FAQ"
+    }
+  },
+  "Features": {
+    "title": "Mengapa Memilih Puri Liang",
+    "workTitle": "Wi-Fi Cepat & Ruang Kerja",
+    "workDesc": "Koneksi internet yang dapat diandalkan dan meja khusus untuk bekerja dengan fokus. Sempurna untuk digital nomad.",
+    "lifeTitle": "Ramah Surfer",
+    "lifeDesc": "Penyimpanan papan, shower outdoor, dan akses mudah ke spot surfing terbaik di kawasan ini.",
+    "costTitle": "Komunitas & Kemudahan",
+    "costDesc": "Terhubung dengan orang-orang sevisi dan nikmati kafe, toko, dan fasilitas lokal di sekitar.",
+    "hero": {
+      "eyebrow": "Fasilitas",
+      "title1": "Bukan fitur mewah —",
+      "emphasis": "tapi desain yang membuat hari-hari berjalan",
+      "title2": ".",
+      "lead": "Fitur-fitur kecil yang baru terasa berharga setelah tinggal lama, semua sudah masuk dalam biaya bulanan. Tidak ada tagihan tambahan."
+    },
+    "groups": [
+      {
+        "eyebrow": "Ruang kerja",
+        "title": "Tempat fokus untuk bekerja",
+        "lead": "Meja kerja luas di setiap kamar, dan Wi-Fi dengan kecepatan terukur 80 Mbps+. Meeting remote maupun pekerjaan sehari-hari berjalan lancar.",
+        "bullets": [
+          {
+            "k": "Wi-Fi (terukur)",
+            "v": "80–150 Mbps↓ / 50–100 Mbps↑"
+          },
+          {
+            "k": "Meja",
+            "v": "W120 × D60 cm (adjustable hanya di Villa)"
+          },
+          {
+            "k": "Stopkontak",
+            "v": "Type C/F · 220V · Villa termasuk adapter 100V"
+          },
+          {
+            "k": "Jangkauan",
+            "v": "Seluruh bangunan (termasuk area bersama)"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Tinggal",
+        "title": "Kenyamanan untuk jangka panjang",
+        "lead": "Housekeeping mingguan, ganti handuk 2× seminggu, layanan laundry di lantai 1 — kebutuhan dasar untuk hidup sehari-hari sudah masuk dalam biaya bulanan.",
+        "bullets": [
+          {
+            "k": "Housekeeping",
+            "v": "1×/minggu · bisa saat penghuni keluar"
+          },
+          {
+            "k": "Ganti handuk",
+            "v": "2× seminggu"
+          },
+          {
+            "k": "Dapur",
+            "v": "Kompor, kulkas, peralatan dasar"
+          },
+          {
+            "k": "Air panas",
+            "v": "24 jam · di setiap kamar"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Laundry",
+        "title": "Laundry on-site, tujuh hari seminggu",
+        "lead": "Layanan laundry beroperasi di lantai dasar gedung. Anda bisa menitipkan cuci, kering, atau setrika tanpa pusing soal hari atau jam — masalah \"baju menumpuk\" saat tinggal lama hampir tidak terjadi.",
+        "bullets": [
+          {
+            "k": "Lokasi",
+            "v": "Lantai 1 gedung (jalan 0 menit)"
+          },
+          {
+            "k": "Jam buka",
+            "v": "7 hari · pagi–sore (termasuk hari libur)"
+          },
+          {
+            "k": "Layanan",
+            "v": "Per kg · selesai hari ini atau besok"
+          },
+          {
+            "k": "Harga",
+            "v": "Sesuai biaya · jalur prioritas untuk penghuni"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Lingkungan",
+        "title": "Kebutuhan harian, semua dalam jarak jalan kaki.",
+        "lead": "Semua yang Anda butuhkan sehari-hari ada di sekitar gedung. Jarak ke toko, kafe, atau olahraga pendek — sehingga \"kelelahan perjalanan\" yang menumpuk saat tinggal lama hampir tidak terasa.",
+        "bullets": [
+          {
+            "k": "Minimarket",
+            "v": "Jalan 0 menit (di depan gedung)"
+          },
+          {
+            "k": "Kafe",
+            "v": "Jalan 0 menit (di depan gedung)"
+          },
+          {
+            "k": "Lapangan padel",
+            "v": "Jalan 4 menit"
+          },
+          {
+            "k": "Jalan utama",
+            "v": "Jalan 2 menit (jemput Grab / Gojek)"
+          }
+        ]
+      }
+    ],
+    "included": {
+      "eyebrow": "Termasuk · dalam biaya bulanan",
+      "title": "Semua 9 item sudah termasuk dalam biaya bulanan.",
+      "lead": "Satu-satunya biaya yang berubah adalah pemakaian listrik aktual. Lainnya tetap."
+    },
+    "voices": {
+      "eyebrow": "Suara penghuni",
+      "title1": "Bukan klaim kami —",
+      "emphasis": "kata-kata orang yang benar-benar tinggal di sini",
+      "title2": ".",
+      "lead": "Bagaimana fitur-fitur di atas terasa dalam kehidupan nyata paling baik didengar dari penghuni sebelumnya. Placeholder — akan diganti dengan wawancara penghuni asli.",
+      "rating": "★ 4,86 / 142 stays · 2024–2026"
+    }
+  },
+  "Rooms": {
+    "title": "Kamar Kami",
+    "villa": "Villa",
+    "kingStudio": "King Studio",
+    "twinStudio": "Twin Studio",
+    "priceMonthly": "¥{price} / bulan",
+    "capacity": "Maks: {count} tamu",
+    "size": "Luas: {size}㎡",
+    "hero": {
+      "eyebrow": "Kamar",
+      "title1": "Tiga kamar, tiga",
+      "emphasis": "cara tinggal",
+      "title2": ".",
+      "lead": "Tiga kamar dengan kapasitas dan tujuan berbeda — semuanya di properti yang sama. Villa untuk keluarga, studio untuk yang ingin ruang pribadi dan fokus."
+    },
+    "specLabels": {
+      "size": "Luas",
+      "sleeps": "Kapasitas",
+      "floor": "Lantai",
+      "bath": "Kamar mandi"
+    },
+    "priceNote": "JPY / bulan · minimal 1 bulan",
+    "reserveCta": "Reservasi →",
+    "amenitiesHeader": {
+      "eyebrow": "Fasilitas",
+      "title": "Fasilitas yang sama untuk semua kamar",
+      "lead": "Semua 9 item sudah termasuk dalam biaya bulanan. Tidak ada tagihan tambahan setelah check-in."
+    },
+    "houseRulesHeader": {
+      "eyebrow": "Peraturan",
+      "title": "Peraturan rumah",
+      "lead": "Beberapa aturan yang kami sepakati bersama agar tinggal jangka panjang tetap nyaman untuk semua."
+    }
+  },
+  "Metadata": {
+    "Base": {
+      "siteName": "Puri Liang Residence"
+    },
+    "Home": {
+      "title": "Puri Liang Residence: Apartemen modern untuk tinggal jangka panjang di Bali",
+      "description": "Nikmati tinggal jangka panjang yang nyaman di apartemen modern di Bali. Rumah yang sempurna untuk tinggal lama dengan akses mudah ke berbagai area."
+    },
+    "Features": {
+      "title": "Fasilitas & Amenitas | Apartemen Bali Puri Liang",
+      "description": "Temukan fasilitas yang dirancang untuk digital nomad. Wi-Fi cepat, ruang kerja khusus, area komunal, dan fasilitas ramah surfer."
+    },
+    "Rooms": {
+      "title": "Jenis Kamar & Tarif | Puri Liang",
+      "description": "Pilih antara Villa, King Studio, atau Twin Studio. Semua unit memiliki dapur mini dan sempurna untuk tinggal jangka panjang di Bali."
+    },
+    "Location": {
+      "title": "Lokasi & Lingkungan | Puri Liang",
+      "description": "Berlokasi di area tenang Sidakarya, Denpasar Selatan. Nikmati kehidupan Bali autentik dengan akses mudah ke pasar, kafe, dan pantai."
+    },
+    "Reserve": {
+      "title": "Reservasi Tinggal Anda | Puri Liang",
+      "description": "Cek ketersediaan dan reservasikan tinggal jangka panjang Anda di Bali. Bergabunglah dengan komunitas pekerja remote dan pengelana kami."
+    },
+    "FAQ": {
+      "title": "FAQ | Puri Liang",
+      "description": "Pertanyaan-pertanyaan paling sering dalam 2 tahun terakhir tentang harga, pembayaran, pembatalan, dan durasi minimum — dikelompokkan per kategori. Untuk yang lain, gunakan form reservasi."
+    }
+  },
+  "Brand": {
+    "name": "Puri Liang",
+    "fullName": "Puri Liang Residence",
+    "tagline": "Tinggal, bekerja, dan rileks di Bali — sebulan demi sebulan.",
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
+    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
+    "email": "stay@puriliang.com",
+    "whatsapp": "+62 813-xxxx-xxxx"
+  },
+  "Common": {
+    "from": "Mulai dari",
+    "perMonth": "/ bulan",
+    "perMonthLong": "/ bulan · minimal 1 bulan",
+    "approx": "sekitar",
+    "currencyNote": "Harga berbasis IDR. Konversi mata uang lain hanya perkiraan.",
+    "priceRefNote": "Harga referensi · dibayar dalam IDR",
+    "yen": "yen",
+    "monthsUnit": "bulan",
+    "guestsUnit": "orang",
+    "metersSq": "m²",
+    "kmUnit": "km",
+    "minutesUnit": "menit",
+    "byCar": "dengan mobil",
+    "onFoot": "jalan kaki",
+    "yearFounded": "Est. 2024"
+  },
+  "Nav": {
+    "stay": "Stay",
+    "rooms": "Kamar",
+    "features": "Fasilitas",
+    "location": "Lokasi",
+    "faq": "FAQ",
+    "reserve": "Reservasi",
+    "reserveCta": "Reservasi →"
+  },
+  "Footer": {
+    "stayHeading": "Stay",
+    "placeHeading": "Tempat",
+    "contactHeading": "Kontak",
+    "stayLinks": [
+      "Kamar",
+      "Fasilitas",
+      "Reservasi"
+    ],
+    "placeLinks": [
+      "Lokasi",
+      "Lingkungan",
+      "Cerita"
+    ],
+    "contactLinks": [
+      "Email",
+      "WhatsApp",
+      "Instagram"
+    ],
+    "copyright": "© 2026 Puri Liang Residence"
+  },
+  "Band": {
+    "items": [
+      "Tempat tinggal jangka panjang",
+      "Wi-Fi 80–150 Mbps",
+      "Housekeeping mingguan",
+      "Diskon 10% mulai 3 bulan",
+      "JP · EN · ID",
+      "Est. 2024"
+    ]
+  },
+  "RoomData": {
+    "villa": {
+      "name": "Villa",
+      "nameLocal": "Villa",
+      "description": "Untuk keluarga atau pasangan yang tinggal lebih lama. Unit mandiri dengan pemandangan ke kolam renang.",
+      "bullets": [
+        "Tempat tidur king-size + sofa bed",
+        "Taman pribadi & pemandangan kolam",
+        "Dapur lengkap (kompor induksi + kulkas + peralatan makan)",
+        "Ruang tamu & ruang makan",
+        "2 meja kerja khusus"
+      ],
+      "available": "Sudah difoto"
+    },
+    "king": {
+      "name": "King Studio",
+      "nameLocal": "King Studio",
+      "description": "Untuk pekerja remote yang menginginkan ruang pribadi dan fokus. Kompak, tapi semua kebutuhan hidup ada di satu ruangan.",
+      "bullets": [
+        "1 × tempat tidur king-size",
+        "Meja kerja",
+        "Mini-kitchen (microwave + kulkas)",
+        "Balkon"
+      ],
+      "available": "Akan difoto (Juni 2026)"
+    },
+    "twin": {
+      "name": "Twin Studio",
+      "nameLocal": "Twin Studio",
+      "description": "Untuk dua teman atau rekan kerja yang berbagi tempat. Hemat biaya per orang.",
+      "bullets": [
+        "2 × tempat tidur semi-double",
+        "Meja kerja",
+        "Mini-kitchen",
+        "AC"
+      ],
+      "available": "Sudah difoto"
+    }
+  },
+  "Amenities": {
+    "items": [
+      {
+        "label": "Wi-Fi cepat (terukur 80 Mbps+)",
+        "tag": "Konektivitas"
+      },
+      {
+        "label": "Meja kerja khusus",
+        "tag": "Ruang kerja"
+      },
+      {
+        "label": "AC inverter",
+        "tag": "Kenyamanan"
+      },
+      {
+        "label": "Shower air panas (24 jam)",
+        "tag": "Kenyamanan"
+      },
+      {
+        "label": "Kompor",
+        "tag": "Dapur"
+      },
+      {
+        "label": "Housekeeping mingguan",
+        "tag": "Layanan"
+      },
+      {
+        "label": "Ganti handuk 2× seminggu",
+        "tag": "Layanan"
+      },
+      {
+        "label": "Parkir motor + 2 helm",
+        "tag": "Mobilitas"
+      },
+      {
+        "label": "Laundry di lantai 1 (buka 7 hari)",
+        "tag": "Layanan"
+      }
+    ]
+  },
+  "HouseRules": {
+    "items": [
+      "Check-in 14.00 / check-out 11.00",
+      "Jam tenang 22.00–07.00",
+      "Dilarang merokok di dalam ruangan / area khusus di luar",
+      "Tidak menerima hewan peliharaan",
+      "Tamu wajib diberitahukan sebelumnya (gratis, ada batas jumlah)"
+    ]
+  },
+  "Simulator": {
+    "eyebrow": "Kalkulator · Estimasi bulanan",
+    "title1": "Lihat dulu",
+    "emphasis": "berapa total biayanya",
+    "title2": ".",
+    "lead": "Pilih kamar dan jumlah bulan — kami hitung total termasuk utilitas dan diskon, agar Anda tahu biaya sebenarnya sebelum memutuskan.",
+    "roomLabel": "Jenis kamar",
+    "monthsLabel": "Durasi tinggal",
+    "discount3m": "Diskon 10% mulai 3 bulan",
+    "discount6m": "Diskon 15% mulai 6 bulan",
+    "estimateTitle": "Estimasi pembayaran",
+    "rent": "Sewa",
+    "discountRow": "Diskon jangka panjang",
+    "electricity": "Listrik (perkiraan aktual)",
+    "includedRow1": "Wi-Fi / air / housekeeping",
+    "includedRow2": "Ganti handuk 2×/minggu",
+    "included": "✓ Termasuk",
+    "total": "Total",
+    "totalMonths": "Total ({months} bulan)",
+    "monthlyAvg": "Rata-rata / bulan",
+    "note": "* Harga berbasis IDR. Bisa berubah karena kurs dan pemakaian listrik · Deposit Rp 2.000.000 terpisah · Tampilan mata uang lain hanya perkiraan"
+  },
+  "ReviewPlaceholders": [
+    {
+      "stay": "Tinggal 3 bulan",
+      "role": "Remote PM / Tokyo",
+      "headline": "\"Lebih fokus daripada di kantor rumah saya di Jepang\"",
+      "body": "Wi-Fi-nya benar-benar stabil. Pagi bekerja di tepi kolam, sore turun ke Pantai Balian."
+    },
+    {
+      "stay": "Tinggal 2 bulan",
+      "role": "Desainer / Singapura",
+      "headline": "\"Justru karena jauh dari area wisata, jadi tempat ini bekerja\"",
+      "body": "Sarapan di warung lokal Rp 25.000. Staf bisa bahasa Inggris dan Jepang, jadi kendala sehari-hari hampir nol."
+    },
+    {
+      "stay": "Tinggal 6 bulan",
+      "role": "Pengusaha / Jakarta",
+      "headline": "\"Cocok untuk tinggal jangka panjang dengan keluarga\"",
+      "body": "Villa cukup luas untuk dua anak. Housekeeping mingguan dan ganti handuk 2× seminggu diam-diam membantu sekali, dan laundry di lantai 1 juga sangat membantu."
+    }
+  ],
+  "Location": {
+    "hero": {
+      "eyebrow": "Lokasi",
+      "title1": "Sidakarya,",
+      "emphasis": "Denpasar Selatan",
+      "title2": ".",
+      "lead": "Bukan di tengah area wisata, tapi seperti \"persimpangan\" — mudah menjangkau segala arah, sekaligus menghindari kemacetan jalan utama Bali."
+    },
+    "crossroads": {
+      "eyebrow": "Persimpangan · Jarak ke empat arah",
+      "title1": "Bukan di tengah satu kawasan wisata —",
+      "emphasis": "tapi di tengah semuanya",
+      "title2": ".",
+      "lead": "Sidakarya berada sedikit di luar kawasan wisata utama Bali, tapi memungkinkan Anda mencapai distrik-distrik penting di segala arah dalam waktu yang relatif singkat.",
+      "hubLabel": "Puri Liang",
+      "hubMeta": "Sidakarya, Denpasar Selatan"
+    },
+    "directions": [
+      {
+        "dir": "E",
+        "bearing": "Timur",
+        "title": "Menuju Sanur",
+        "en": "East · Sanur",
+        "body": "Dekat dengan rumah sakit internasional yang baru dibuka di zona khusus medis, pelabuhan menuju pulau-pulau sekitar (Nusa Lembongan / Penida), dan kawasan Sanur yang sedang dikembangkan. Akses kesehatan dan island hopping mudah selama tinggal lama.",
+        "bullets": [
+          "Rumah sakit internasional (zona medis)",
+          "Pelabuhan feri antar-pulau",
+          "Kawasan redevelopment Sanur"
+        ]
+      },
+      {
+        "dir": "W",
+        "bearing": "Barat",
+        "title": "Menuju Seminyak / Canggu",
+        "en": "West · Seminyak / Canggu",
+        "body": "Beberapa jalur akses menuju Seminyak, Canggu, Kuta, dan Legian — Anda bisa memilih rute sesuai kondisi lalu lintas. Mudah untuk akhir pekan ke beach club dan nightlife.",
+        "bullets": [
+          "Canggu / Seminyak",
+          "Kuta / Legian",
+          "Beberapa rute alternatif"
+        ]
+      },
+      {
+        "dir": "S",
+        "bearing": "Selatan",
+        "title": "Menuju Nusa Dua / Uluwatu",
+        "en": "South · Nusa Dua / Uluwatu",
+        "body": "Dekat pintu masuk tol yang mempersingkat perjalanan ke Nusa Dua, Benoa, dan Uluwatu. Pulau Kura Kura — dengan mall besar dan zona keuangan — juga bisa dijangkau tanpa kemacetan.",
+        "bullets": [
+          "Dekat pintu tol",
+          "Nusa Dua / Uluwatu",
+          "Pulau Kura Kura (zona keuangan)"
+        ]
+      },
+      {
+        "dir": "N",
+        "bearing": "Utara",
+        "title": "Menuju Ubud",
+        "en": "North · Ubud",
+        "body": "Dekat jalan utama ke Ubud — sebagian besar perjalanan kurang dari 1 jam. Basis yang nyaman untuk day trip akhir pekan dan akses ke yoga, sawah, dan pasar.",
+        "bullets": [
+          "Pusat Ubud",
+          "Sawah / studio yoga",
+          "Jalan utama dalam jangkauan jalan kaki"
+        ]
+      }
+    ],
+    "info": {
+      "name": "Puri Liang Residence",
+      "address": "Jl. Tukad Balian Selatan No.12,\nSidakarya, Denpasar Selatan, Bali",
+      "openInGoogle": "Buka di Google Maps",
+      "openInApple": "Buka di Apple Maps",
+      "stats": [
+        {
+          "k": "Bandara Internasional Ngurah Rai",
+          "v": "25",
+          "unit": "menit · mobil"
+        },
+        {
+          "k": "Pantai terdekat (Sanur)",
+          "v": "5",
+          "unit": "menit · mobil"
+        },
+        {
+          "k": "Jarak jalan kaki",
+          "v": "5–10",
+          "unit": "menit"
+        }
+      ]
+    },
+    "around": {
+      "eyebrow": "Sekitar · Tempat penting di dekat sini",
+      "title": "Dari gedung, jalan kaki atau mobil.",
+      "lead": "Kami mengungkap \"berapa menit dari sini\" lengkap dengan jarak, waktu, dan moda transportasi. Termasuk waktu jujur ke kawasan wisata.",
+      "items": [
+        {
+          "title": "Pantai Mertasari (Sanur)",
+          "en": "Mertasari Beach (Sanur)",
+          "detail": "5 menit mobil (atau 10 menit sepeda). Ombak tenang, tempat matahari terbit terkenal, cocok untuk kiting dan yoga.",
+          "dist": "2.5",
+          "unit": "km",
+          "time": "5 menit",
+          "mode": "mobil"
+        },
+        {
+          "title": "Supermarket Lokal",
+          "en": "Local supermarket",
+          "detail": "10 menit jalan kaki atau 3 menit berkendara. Kebutuhan harian, bahan makanan, barang impor, dan buah lokal.",
+          "dist": "0,8",
+          "unit": "km",
+          "time": "10 menit",
+          "mode": "jalan"
+        },
+        {
+          "title": "Warung & kafe lokal",
+          "en": "Warung & cafe",
+          "detail": "5 menit jalan kaki. Sarapan mulai Rp 25.000, kopi sekitar Rp 18.000.",
+          "dist": "0,4",
+          "unit": "km",
+          "time": "5 menit",
+          "mode": "jalan"
+        },
+        {
+          "title": "Bank Mandiri / ATM",
+          "en": "ATM",
+          "detail": "5 menit jalan kaki. Menerima Visa / Master. Beberapa bank dan money changer terdekat.",
+          "dist": "0,5",
+          "unit": "km",
+          "time": "5 menit",
+          "mode": "jalan"
+        },
+        {
+          "title": "Bandara Internasional Ngurah Rai",
+          "en": "I Gusti Ngurah Rai Intl.",
+          "detail": "Sekitar 25 menit dengan taksi (lewat bypass atau tol). Antar-jemput bandara Rp 200.000.",
+          "dist": "12",
+          "unit": "km",
+          "time": "25 menit",
+          "mode": "mobil"
+        },
+        {
+          "title": "Pusat Ubud",
+          "en": "Ubud",
+          "detail": "50 menit mobil. Yoga, pasar, sawah — bagus untuk day trip.",
+          "dist": "28",
+          "unit": "km",
+          "time": "50 menit",
+          "mode": "mobil"
+        },
+        {
+          "title": "Kuta / Seminyak / Canggu",
+          "en": "Kuta / Seminyak / Canggu",
+          "detail": "30–45 menit berkendara. Untuk belanja, kuliner, kehidupan malam, dan beach club.",
+          "dist": "12",
+          "unit": "km",
+          "time": "30 menit",
+          "mode": "mobil"
+        },
+        {
+          "title": "Pusat & Pelabuhan Sanur",
+          "en": "Sanur Center & Harbor",
+          "detail": "10 menit mobil. Kafe trendi, kuliner, dan kapal cepat ke Nusa Penida/Lembongan.",
+          "dist": "4,5",
+          "unit": "km",
+          "time": "10 menit",
+          "mode": "mobil"
+        }
+      ]
+    },
+    "neighborhood": {
+      "eyebrow": "Lingkungan · Tinggal di sini",
+      "title1": "Bagaimana rasanya",
+      "emphasis": "benar-benar tinggal di sini",
+      "title2": ".",
+      "lead": "Hal-hal yang hanya terasa saat Anda tinggal di suatu tempat — ditulis sejujur mungkin.",
+      "notes": [
+        {
+          "title": "Bukan area wisata, dan itu yang penting",
+          "body": "Sidakarya jarang muncul di buku panduan wisata. Justru karena itu, warung tempat warga sarapan dan alun-alun tempat mereka berkumpul sore hari masih ada. Bali sehari-hari masih berlangsung sebagai bagian kehidupan di kawasan ini."
+        },
+        {
+          "title": "Tentang keamanan",
+          "body": "Sebagai kawasan perumahan, malam hari relatif tenang. Kami tidak menyarankan jalan sendiri larut malam, tapi banyak perempuan yang pernah tinggal lama sendirian di sini. Pintu gedung selalu terkunci, area bersama dipantau kamera."
+        },
+        {
+          "title": "Tingkat harga",
+          "body": "Sekali makan di warung lokal Rp 25.000–50.000, sekitar separuh harga area wisata. Memasak sendiri dari supermarket lebih hemat lagi. Beberapa penghuni jangka panjang bisa menjaga biaya makan bulanan di bawah Rp 3.000.000."
+        },
+        {
+          "title": "Cara berkeliling",
+          "body": "Sewa motor bulanan (sekitar Rp 800.000) adalah pilihan umum. Bagi yang belum terbiasa, Grab / Gojek sangat membantu — mereka menjemput langsung di depan gedung."
+        }
+      ]
+    }
+  },
+  "FAQ": {
+    "hero": {
+      "eyebrow": "FAQ",
+      "title1": "Hal yang perlu dicek",
+      "emphasis": "sebelum reservasi",
+      "title2": ".",
+      "lead": "Pertanyaan-pertanyaan yang paling sering datang dalam 2 tahun terakhir, dikelompokkan per kategori. Untuk pertanyaan lain, silakan gunakan form reservasi — kami balas dalam 2 hari kerja."
+    },
+    "categories": {
+      "booking": "Reservasi",
+      "pricing": "Harga & pembayaran",
+      "facilities": "Fasilitas",
+      "location": "Lokasi",
+      "rules": "Peraturan rumah"
+    },
+    "sideNav": {
+      "head": "Kategori",
+      "ctaTitle": "Untuk pertanyaan lain",
+      "ctaTarget": "Gunakan form reservasi",
+      "ctaSubtitle": "Balasan dalam 2 hari kerja",
+      "ctaButton": "Kirim pertanyaan →"
+    },
+    "items": [
+      {
+        "category": "pricing",
+        "q": "Apa saja yang termasuk dalam harga?",
+        "a": "Sewa + Wi-Fi + utilitas area bersama + housekeeping mingguan + ganti handuk 2× seminggu. Hanya listrik yang ditagih sesuai pemakaian aktual (sekitar Rp 600.000–1.200.000 / bulan per kamar). Harga berbasis Rupiah Indonesia (IDR); tampilan JPY dan USD bersifat perkiraan."
+      },
+      {
+        "category": "booking",
+        "q": "Berapa minimum tinggalnya?",
+        "a": "Kami menerima mulai dari 1 bulan. Tinggal berturut-turut 3+ bulan dapat diskon 10%, 6+ bulan dapat 15%."
+      },
+      {
+        "category": "pricing",
+        "q": "Bagaimana cara pembayarannya?",
+        "a": "Transfer bank (JPY / USD), Wise, Revolut, dan Wise Business. Pembayaran awal: 1 bulan + deposit Rp 2.000.000 saat reservasi."
+      },
+      {
+        "category": "booking",
+        "q": "Bagaimana kebijakan pembatalan?",
+        "a": "Hingga 2 minggu sebelum check-in: refund 50%. Hingga 1 minggu sebelum: refund 25%. Setelah itu: tidak ada refund."
+      },
+      {
+        "category": "rules",
+        "q": "Hewan peliharaan / merokok?",
+        "a": "Tidak menerima hewan peliharaan. Dilarang merokok di dalam ruangan; hanya boleh di area khusus luar."
+      },
+      {
+        "category": "facilities",
+        "q": "Kecepatan internet aktual?",
+        "a": "Unduh 80–150 Mbps, unggah 50–100 Mbps. Stabil di seluruh gedung dan setiap kamar."
+      },
+      {
+        "category": "booking",
+        "q": "Jam check-in / check-out?",
+        "a": "Check-in mulai 14.00, check-out paling lambat 11.00. Untuk early / late silakan diskusikan dengan kami."
+      },
+      {
+        "category": "location",
+        "q": "Bagaimana dari bandara?",
+        "a": "Sekitar 1 jam 30 menit dari Bandara Ngurah Rai dengan mobil (hingga 2 jam saat macet). Antar-jemput tersedia (Rp 350.000) atau Grab/Gojek (sekitar Rp 250.000)."
+      },
+      {
+        "category": "facilities",
+        "q": "Apa saja di dapur?",
+        "a": "Villa punya dapur lengkap (kompor, kulkas, microwave, peralatan masak, peralatan makan). Studio punya mini-kitchen (microwave, kulkas, ketel, peralatan makan dasar)."
+      },
+      {
+        "category": "facilities",
+        "q": "Apakah ada mesin cuci?",
+        "a": "Layanan laundry beroperasi di lantai 1 gedung, buka 7 hari seminggu. Ganti handuk 2× seminggu sudah termasuk dalam biaya bulanan."
+      },
+      {
+        "category": "location",
+        "q": "Apakah ada rumah sakit di dekatnya?",
+        "a": "Klinik umum 5 menit mobil. Siloam Hospitals (RS internasional) 30 menit mobil — staf berbahasa Inggris, cashless insurance diterima. Staf akan membantu mengatur transport saat darurat."
+      },
+      {
+        "category": "rules",
+        "q": "Apakah boleh menerima tamu?",
+        "a": "Boleh, dengan pemberitahuan sebelumnya (gratis). Tamu menginap Rp 200.000 per malam, maksimal 3 malam. Area bersama bebas digunakan oleh semua penghuni."
+      }
+    ]
+  },
+  "Reserve": {
+    "hero": {
+      "eyebrow": "Reservasi",
+      "title1": "Cek ketersediaan,",
+      "emphasis": "minta perkiraan",
+      "title2": ".",
+      "lead": "Isi form di bawah ini. Kami balas dalam 2 hari kerja dengan ketersediaan dan estimasi akhir. JP / EN / ID. Belum mengikat — Anda bisa batal kapan saja."
+    },
+    "steps": {
+      "step1": {
+        "num": "01",
+        "title": "Detail tinggal",
+        "subtitle": "Kamar, durasi, jumlah tamu"
+      },
+      "step2": {
+        "num": "02",
+        "title": "Kontak",
+        "subtitle": "Alamat balasan & identitas"
+      },
+      "step3": {
+        "num": "03",
+        "title": "Konfirmasi",
+        "subtitle": "Hal yang perlu diketahui sebelum reservasi"
+      }
+    },
+    "fields": {
+      "roomType": "Jenis kamar",
+      "checkin": "Check-in",
+      "stayMonths": "Durasi tinggal (bulan)",
+      "guests": "Jumlah tamu",
+      "name": "Nama (huruf Latin)",
+      "namePlaceholder": "Budi Santoso",
+      "nationality": "Kewarganegaraan",
+      "email": "Alamat email",
+      "emailPlaceholder": "anda@example.com",
+      "phone": "WhatsApp / telepon",
+      "phonePlaceholder": "+62 812-xxxx-xxxx",
+      "stayPurpose": "Tujuan tinggal (opsional · bisa multi)",
+      "otherRequests": "Permintaan lain (opsional)",
+      "otherRequestsPlaceholder": "Tambahan tempat tidur, antar-jemput bandara, dll.",
+      "checkoutLabel": "Perkiraan check-out",
+      "capacityHint": "kapasitas maks.",
+      "guestsUnit": "orang",
+      "required": "*"
+    },
+    "nationalities": {
+      "JP": "Jepang",
+      "ID": "Indonesia",
+      "US": "Amerika Serikat",
+      "SG": "Singapura",
+      "other": "Lainnya"
+    },
+    "purposes": [
+      "Kerja remote",
+      "Tinggal bersama keluarga",
+      "Surfing",
+      "Survei properti",
+      "Workation",
+      "Lainnya"
+    ],
+    "terms": {
+      "rulesLabel": " — Saya sudah membaca",
+      "rulesLinkText": "peraturan rumah",
+      "rulesDescription": "Check-in 14.00 / out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, tidak menerima hewan. Detail di link.",
+      "cancelLabel": "Saya sudah membaca kebijakan pembatalan",
+      "cancelDescription": "2 minggu sebelum check-in: refund 50%. 1 minggu sebelum: refund 25%. Setelah itu: tidak ada refund."
+    },
+    "modal": {
+      "eyebrow": "Peraturan rumah · kesepakatan bersama",
+      "title": "Peraturan rumah",
+      "lead": "Beberapa aturan yang kami bagikan ke semua penghuni, agar tinggal jangka panjang tetap nyaman untuk semua. Data form yang sudah Anda isi tetap tersimpan — setelah selesai membaca, tinggal tutup dan lanjutkan pengisian.",
+      "footNote": "Untuk permintaan yang belum tercakup di sini (tempat tidur tambahan, antar-jemput bandara, bawa hewan peliharaan, dll.), silakan tulis di kolom \"Permintaan lain\" di bagian bawah form.",
+      "closeButton": "Mengerti (kembali ke form)",
+      "closeAria": "Tutup"
+    },
+    "submit": {
+      "idle": "Cek ketersediaan →",
+      "sending": "Mengirim…",
+      "disclaimer1": "Mengirim form belum berarti reservasi terkonfirmasi. Kami balas dalam 2 hari kerja.",
+      "disclaimer2Prefix": "Dengan mengirim, Anda menyetujui ",
+      "disclaimer2Link": "kebijakan privasi",
+      "disclaimer2Suffix": " kami."
+    },
+    "errors": {
+      "nameRequired": "Mohon isi nama Anda.",
+      "emailInvalid": "Mohon isi alamat email yang valid.",
+      "phoneRequired": "Mohon isi nomor WhatsApp atau telepon.",
+      "rulesRequired": "Mohon menyetujui peraturan rumah.",
+      "cancelRequired": "Mohon menyetujui kebijakan pembatalan.",
+      "submitFailed": "Pengiriman gagal. Silakan coba lagi sebentar.",
+      "networkError": "Silakan coba lagi sebentar.",
+      "errorTitle": "Tidak dapat dikirim"
+    },
+    "summary": {
+      "stayKeys": {
+        "in": "Masuk",
+        "out": "Keluar",
+        "period": "Durasi",
+        "guests": "Tamu"
+      },
+      "rentLine": "Sewa",
+      "discountLine": "Diskon jangka panjang",
+      "electricityLine": "Listrik (perkiraan aktual)",
+      "includedLine": "Wi-Fi · housekeeping · handuk",
+      "included": "Termasuk",
+      "total": "Total",
+      "monthlyAvg": "Rata-rata / bulan",
+      "currencyNote": "Ditagih dalam IDR",
+      "depositTitle": "Pembayaran saat reservasi",
+      "depositSuffix": "+ Rp 2.000.000",
+      "depositNote": "(deposit)",
+      "balanceNote": "Sisa pembayaran saat check-in / bisa dicicil bulanan"
+    },
+    "success": {
+      "eyebrow": "Reservasi · Terkirim",
+      "title1": "Permintaan Anda",
+      "emphasis": "telah kami terima",
+      "title2": ".",
+      "leadPrefix": "Kami akan membalas dalam 2 hari kerja ke (",
+      "leadDefault": "alamat yang Anda daftarkan",
+      "leadSuffix": ") dengan ketersediaan dan estimasi akhir. Mohon cek folder spam jika balasan kami tidak terlihat.",
+      "salutation": ", terima kasih",
+      "salutationDefault": "Halo",
+      "subtitle": "Berikut data yang Anda kirim — mohon disimpan sebagai catatan.",
+      "grid": {
+        "room": "Kamar",
+        "period": "Durasi",
+        "checkin": "Check-in",
+        "checkout": "Check-out",
+        "guests": "Tamu",
+        "total": "Estimasi total"
+      },
+      "nextStepsTitle": "Langkah berikutnya",
+      "nextSteps": [
+        "Kami akan mengirim email konfirmasi dalam 2 hari kerja.",
+        "Setelah ketersediaan dicek, kami kirim estimasi akhir dan pilihan pembayaran.",
+        "Jika Anda setuju dengan ketentuan, kami lanjut ke penandatanganan kontrak dan pembayaran reservasi."
+      ],
+      "resendButton": "Kirim permintaan lain"
+    },
+    "faqHeader": {
+      "eyebrow": "FAQ · Pertanyaan reservasi",
+      "title": "Hal yang perlu diketahui sebelum reservasi",
+      "lead": "Harga, pembayaran, pembatalan, durasi minimum — lihat halaman FAQ untuk daftar lengkap.",
+      "cta": "Lihat semua FAQ →"
+    }
+  }
+}

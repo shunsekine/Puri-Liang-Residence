@@ -8,7 +8,7 @@
   },
   "Hero": {
     "title": "バリ島での長期滞在を、賢く、快適に。",
-    "subtitle": "リモートワークとサーフィンのための、機能的で手頃な拠点。バリ島トゥカッド・バリアンで、暮らすように泊まる。",
+    "subtitle": "リモートワークとサーフィンのための、機能的で手頃な拠点。バリ島デンパサール南部シダカルヤで、暮らすように泊まる。",
     "splitTitle": "バリ島の温かい拠点で、<br />暮らすように、働く。",
     "splitDesc": "本物のバリ島の暮らしと、信頼できるワークスペースを両立。<br />リゾートではなく、デジタルノマドのための快適なコミュニティです。",
     "cta": "詳細を見る",
@@ -45,7 +45,58 @@
     "test3Author": "— Michael, 起業家",
     "ctaTitle": "バリ島を拠点にしませんか？",
     "ctaDesc": "リモートワーカーと冒険家のコミュニティに参加しましょう。",
-    "ctaBtn": "滞在を予約する"
+    "ctaBtn": "滞在を予約する",
+    "hero": {
+      "title1": "ひと月、",
+      "title2": "暮らしてみる",
+      "title3": "バリ島。",
+      "lead": "観光地ではなく、地元の人が暮らす住宅街にある月単位のアパートメント。朝の鳥の声と、夜の虫の音と、いつでも繋がる Wi-Fi。",
+      "priceUnit": "/ month · 1ヶ月から",
+      "ctaSecondary": "部屋について"
+    },
+    "manifesto": {
+      "mark": "— ✦ —",
+      "line1": "ホテルでは長すぎる、賃貸では短すぎる。",
+      "line2": "その間にある、",
+      "emphasis": "暮らすための一ヶ月",
+      "lineSuffix": "を。",
+      "signature": "Puri Liang Residence"
+    },
+    "story": {
+      "eyebrow": "私たちについて · Our story",
+      "title1": "派手さよりも、",
+      "emphasis": "続けられること",
+      "title2": "。",
+      "p1": "Puri Liang はリゾートではありません。プールはありますがインフィニティではないし、ビーチフロントでもありません。家族や同僚と数ヶ月暮らすための、ふつうの住居です。",
+      "p2": "そのぶん、毎日の生活が回るように設計しています。光熱費や清掃で後から請求が積み上がらないように、月額に含めるものを増やしました。24時間の温水、1階に併設のランドリーサービス、週末でも対応するスタッフ。",
+      "quote": "\"ホテルでは長すぎる、賃貸では短すぎる。その間を埋めるために。\""
+    },
+    "roomsPreview": {
+      "eyebrow": "Rooms · お部屋",
+      "title": "3室、それぞれの暮らし。",
+      "lead": "家族向けのヴィラから、ひとり用のスタジオまで。同じ敷地の中に、用途と人数の違う3つの部屋があります。",
+      "detailCta": "詳細 →"
+    },
+    "amenities": {
+      "eyebrow": "Inclusions · 含まれているもの",
+      "title": "月額に、これだけ含まれます。",
+      "lead": "光熱費・ハウスキーピング・タオル交換・Wi-Fi・1階の併設ランドリー — 後から請求が増えないように、最初に開示します。"
+    },
+    "trust": {
+      "rating": "4.86",
+      "ratingMeta": "142 stays · 2024–2026",
+      "eyebrow": "Voices · 滞在者の声",
+      "lead": "長期滞在した方々の感想を、Features ページでカテゴリ別にまとめています。Wi-Fi の安定性、立地、コミュニティ感まで。",
+      "cta": "声を読む →"
+    },
+    "cta": {
+      "eyebrow": "Reserve · 予約",
+      "title1": "ひと月から、",
+      "emphasis": "始めてみませんか",
+      "lead": "空室状況のご確認・お見積もりはこちら。返信は2営業日以内、JP / EN / ID 対応です。",
+      "ctaPrimary": "予約フォーム →",
+      "ctaSecondary": "よくある質問"
+    }
   },
   "Features": {
     "title": "Puri Liangの特徴",
@@ -54,7 +105,121 @@
     "lifeTitle": "サーファー向け設備",
     "lifeDesc": "ボード置き場やシャワー、ビーチへのアクセスも良好。サーフィンライフを満喫できます。",
     "costTitle": "コミュニティと利便性",
-    "costDesc": "同じ志を持つ仲間との交流や、周辺の便利な施設。長期滞在に必要なすべてが揃っています。"
+    "costDesc": "同じ志を持つ仲間との交流や、周辺の便利な施設。長期滞在に必要なすべてが揃っています。",
+    "hero": {
+      "eyebrow": "Features · 特徴",
+      "title1": "派手な機能より、",
+      "emphasis": "毎日が回る設計",
+      "title2": "。",
+      "lead": "長期で住むときに「あって良かった」と思える小さな機能を、月額に含めています。後から請求が増えることはありません。"
+    },
+    "groups": [
+      {
+        "eyebrow": "Workspace",
+        "title": "集中できる作業環境",
+        "lead": "広めのワークデスクを全室標準。Wi-Fi は実測 80Mbps↑ で、リモート会議も日常作業も支障ありません。",
+        "bullets": [
+          {
+            "k": "Wi-Fi 実測",
+            "v": "80–150 Mbps↓ / 50–100 Mbps↑"
+          },
+          {
+            "k": "デスク",
+            "v": "W120 × D60 cm（昇降式はヴィラのみ）"
+          },
+          {
+            "k": "電源",
+            "v": "Type C/F · 220V · ヴィラは100V変換器あり"
+          },
+          {
+            "k": "カバー範囲",
+            "v": "建物全体（共用部含む）"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Living",
+        "title": "長期滞在の快適さ",
+        "lead": "週1回のハウスキーピング・週2回のタオル交換・1階の併設ランドリーまで。「生活が回る」最低限を月額に含めました。",
+        "bullets": [
+          {
+            "k": "ハウスキーピング",
+            "v": "週1回 · 不在時のみ対応可"
+          },
+          {
+            "k": "タオル交換",
+            "v": "週2回"
+          },
+          {
+            "k": "キッチン",
+            "v": "コンロ・冷蔵庫・最低限の食器"
+          },
+          {
+            "k": "温水",
+            "v": "24時間・全室"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Laundry",
+        "title": "1階のランドリーで、週7日",
+        "lead": "建物1階にランドリーサービスを併設。曜日や時間を気にせず洗濯・乾燥・アイロンを依頼できます。長期滞在で「衣類が増えてしまう」問題が起きません。",
+        "bullets": [
+          {
+            "k": "所在地",
+            "v": "建物1階（移動 0 分）"
+          },
+          {
+            "k": "稼働",
+            "v": "週7日 · 朝–夕（祝日含む）"
+          },
+          {
+            "k": "受付",
+            "v": "kg 単位・即日 / 翌日仕上げ"
+          },
+          {
+            "k": "料金",
+            "v": "実費・建物住人優先レーンあり"
+          }
+        ]
+      },
+      {
+        "eyebrow": "Neighborhood",
+        "title": "生活の足元が、徒歩圏。",
+        "lead": "日常で必要なものが、建物のすぐそばに揃っています。買い物・カフェ作業・運動の動線が短いので、滞在期間中の「移動の疲れ」がほとんど発生しません。",
+        "bullets": [
+          {
+            "k": "コンビニ",
+            "v": "徒歩 0 分（建物前）"
+          },
+          {
+            "k": "カフェ",
+            "v": "徒歩 0 分（建物前）"
+          },
+          {
+            "k": "パデルコート",
+            "v": "徒歩 4 分"
+          },
+          {
+            "k": "幹線道路",
+            "v": "徒歩 2 分（Grab / Gojek 配車可）"
+          }
+        ]
+      }
+    ],
+    "included": {
+      "eyebrow": "Included · 月額に含まれるもの",
+      "title": "9項目すべて、月額に含まれます。",
+      "lead": "後から請求が増えるものは「電気代の実費」のみ。それ以外は固定です。"
+    },
+    "voices": {
+      "eyebrow": "Voices · 滞在者の声",
+      "title1": "主張ではなく、",
+      "emphasis": "住んでみた人の言葉",
+      "title2": "。",
+      "lead": "上記の機能が実際にどう感じられるかは、滞在者の声で確かめてください。プレースホルダー（実滞在者インタビューに差し替え予定）。",
+      "rating": "★ 4.86 / 142 stays · 2024–2026"
+    }
   },
   "Rooms": {
     "title": "部屋の紹介",
@@ -63,15 +228,40 @@
     "twinStudio": "ツインスタジオルーム",
     "priceMonthly": "¥{price} / 月",
     "capacity": "定員: {count}名",
-    "size": "広さ: {size}㎡"
+    "size": "広さ: {size}㎡",
+    "hero": {
+      "eyebrow": "Rooms",
+      "title1": "3室、それぞれの",
+      "emphasis": "暮らし方",
+      "title2": "。",
+      "lead": "同じ敷地の中に、人数と用途の異なる3つの部屋があります。家族向けのヴィラ、個室で集中したい方向けのスタジオ。"
+    },
+    "specLabels": {
+      "size": "Size",
+      "sleeps": "Sleeps",
+      "floor": "Floor",
+      "bath": "Bath"
+    },
+    "priceNote": "JPY / month · 1ヶ月から",
+    "reserveCta": "予約する →",
+    "amenitiesHeader": {
+      "eyebrow": "Amenities",
+      "title": "全室共通の設備・サービス",
+      "lead": "9項目すべて月額に含まれます。後から請求が増えることはありません。"
+    },
+    "houseRulesHeader": {
+      "eyebrow": "House Rules",
+      "title": "ハウスルール",
+      "lead": "長期で気持ちよく過ごすための、共通の前提です。"
+    }
   },
   "Metadata": {
     "Base": {
-      "siteName": "Puri Liang"
+      "siteName": "Puri Liang Residence"
     },
     "Home": {
-      "title": "バリ島の長期滞在・リモートワーク向けアパートメント | Puri Liang",
-      "description": "バリ島トゥカッド・バリアンで快適なリモートワーク生活を。高速Wi-Fi、ワークスペース、サーフスポットへのアクセスが良好な、デジタルノマドのための住まいです。"
+      "title": "Puri Liang Residence：バリ島の長期滞在・リモートワーク向けアパートメント",
+      "description": "バリ島の近代的なアパートで快適な長期滞在を。各エリアへのアクセスが良好な、長期滞在者のための住まいです。"
     },
     "Features": {
       "title": "特徴・設備 | Puri Liang バリ島アパートメント",
@@ -83,11 +273,638 @@
     },
     "Location": {
       "title": "ロケーション・周辺環境 | Puri Liang",
-      "description": "静かな住宅街トゥカッド・バリアンに位置し、カフェやスーパー、ビーチへのアクセスも便利。ローカルな暮らしと利便性を両立したエリアです。"
+      "description": "静かな住宅街シダカルヤに位置し、カフェやスーパー、ビーチへのアクセスも便利。ローカルな暮らしと利便性を両立したエリアです。"
     },
     "Reserve": {
       "title": "予約・お問い合わせ | Puri Liang",
       "description": "空室状況の確認や長期滞在のご相談はこちらから。バリ島での新しい生活をPuri Liangで始めませんか？"
+    },
+    "FAQ": {
+      "title": "よくある質問・FAQ | Puri Liang",
+      "description": "料金・支払い・キャンセル・最低滞在期間など、過去2年で実際に多かった質問をカテゴリ別にまとめました。それ以外のご質問は予約フォームからお問い合わせください。"
+    }
+  },
+  "Brand": {
+    "name": "Puri Liang",
+    "fullName": "Puri Liang Residence",
+    "tagline": "バリ島で、暮らすように働く一ヶ月。",
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
+    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
+    "email": "stay@puriliang.com",
+    "whatsapp": "+62 813-xxxx-xxxx"
+  },
+  "Common": {
+    "from": "From",
+    "perMonth": "/ 月",
+    "perMonthLong": "/ month · 1ヶ月から",
+    "approx": "約",
+    "currencyNote": "料金は IDR 建てが基準。表示は JPY 換算",
+    "priceRefNote": "参考価格・支払いは IDR",
+    "yen": "円",
+    "monthsUnit": "ヶ月",
+    "guestsUnit": "名",
+    "metersSq": "㎡",
+    "kmUnit": "km",
+    "minutesUnit": "分",
+    "byCar": "車",
+    "onFoot": "徒歩",
+    "yearFounded": "Est. 2024"
+  },
+  "Nav": {
+    "stay": "Stay",
+    "rooms": "Rooms",
+    "features": "Features",
+    "location": "Location",
+    "faq": "FAQ",
+    "reserve": "Reserve",
+    "reserveCta": "Reserve →"
+  },
+  "Footer": {
+    "stayHeading": "Stay",
+    "placeHeading": "Place",
+    "contactHeading": "Contact",
+    "stayLinks": [
+      "Rooms",
+      "Features",
+      "Reserve"
+    ],
+    "placeLinks": [
+      "Location",
+      "Neighborhood",
+      "Story"
+    ],
+    "contactLinks": [
+      "Email",
+      "WhatsApp",
+      "Instagram"
+    ],
+    "copyright": "© 2026 Puri Liang Residence"
+  },
+  "Band": {
+    "items": [
+      "Long-stay residence",
+      "Wi-Fi 80–150 Mbps",
+      "週1回のハウスキーピング",
+      "3ヶ月で10%OFF",
+      "JP · EN · ID",
+      "Est. 2024"
+    ]
+  },
+  "RoomData": {
+    "villa": {
+      "name": "Villa",
+      "nameLocal": "ヴィラ",
+      "description": "家族や夫婦の長期滞在に。プールサイドに面した独立感のある一棟。",
+      "bullets": [
+        "キングサイズベッド + ソファベッド",
+        "プライベートガーデン & プールビュー",
+        "フルキッチン（IH + 冷蔵庫 + 食器）",
+        "リビング & ダイニング",
+        "専用ワークデスク × 2"
+      ],
+      "available": "撮影済み"
+    },
+    "king": {
+      "name": "King Studio",
+      "nameLocal": "キングスタジオ",
+      "description": "個室で集中したいリモートワーカーに。コンパクトでも生活機能が完結する一室。",
+      "bullets": [
+        "キングサイズベッド × 1",
+        "ワークデスク",
+        "ミニキッチン（電子レンジ + 冷蔵庫）",
+        "バルコニー"
+      ],
+      "available": "撮影予定（2026年6月）"
+    },
+    "twin": {
+      "name": "Twin Studio",
+      "nameLocal": "ツインスタジオ",
+      "description": "2名でシェアする友人・出張に。コストを抑えたい人向け。",
+      "bullets": [
+        "セミダブルベッド × 2",
+        "ワークデスク",
+        "ミニキッチン",
+        "エアコン"
+      ],
+      "available": "撮影済み"
+    }
+  },
+  "Amenities": {
+    "items": [
+      {
+        "label": "高速Wi-Fi（実測 80Mbps↑）",
+        "tag": "Connectivity"
+      },
+      {
+        "label": "専用ワークデスク",
+        "tag": "Workspace"
+      },
+      {
+        "label": "インバーター式エアコン",
+        "tag": "Comfort"
+      },
+      {
+        "label": "温水シャワー（24h）",
+        "tag": "Comfort"
+      },
+      {
+        "label": "コンロ",
+        "tag": "Kitchen"
+      },
+      {
+        "label": "週1回ハウスキーピング",
+        "tag": "Service"
+      },
+      {
+        "label": "週2回タオル交換",
+        "tag": "Service"
+      },
+      {
+        "label": "バイク駐車 + ヘルメット2",
+        "tag": "Mobility"
+      },
+      {
+        "label": "1階ランドリーサービス併設（週7日対応）",
+        "tag": "Service"
+      }
+    ]
+  },
+  "HouseRules": {
+    "items": [
+      "チェックイン 14:00 / アウト 11:00",
+      "静音時間 22:00–07:00",
+      "屋内禁煙 / 喫煙は指定エリア",
+      "ペット不可",
+      "訪問者は事前申請制（無料、人数制限あり）"
+    ]
+  },
+  "Simulator": {
+    "eyebrow": "Calculator · 月額シミュレーター",
+    "title1": "支払う金額を、",
+    "emphasis": "先に見ておく",
+    "title2": "。",
+    "lead": "実費・割引まで含めた本当の支払額を、部屋と月数から計算してください。",
+    "roomLabel": "部屋タイプ",
+    "monthsLabel": "滞在月数",
+    "discount3m": "3ヶ月で 10% OFF",
+    "discount6m": "6ヶ月で 15% OFF",
+    "estimateTitle": "支払い見積もり",
+    "rent": "家賃",
+    "discountRow": "長期滞在割引",
+    "electricity": "電気代（実費・推定）",
+    "includedRow1": "Wi-Fi / 水道 / ハウスキーピング",
+    "includedRow2": "タオル交換 週2回",
+    "included": "✓ 含まれる",
+    "total": "合計",
+    "totalMonths": "合計（{months}ヶ月）",
+    "monthlyAvg": "月平均",
+    "note": "※ 料金は IDR 建てが基準。為替・電気使用量で変動 · デポジット Rp 2,000,000 別途 · 表示は JPY 換算"
+  },
+  "ReviewPlaceholders": [
+    {
+      "stay": "3ヶ月滞在",
+      "role": "リモート PM / 東京",
+      "headline": "\"日本の自宅より集中できた\"",
+      "body": "Wi-Fi が本当に安定。朝はプールサイドで作業、夕方はバリアンビーチへ。"
+    },
+    {
+      "stay": "2ヶ月滞在",
+      "role": "デザイナー / シンガポール",
+      "headline": "\"観光地から離れているのが良い\"",
+      "body": "近所のローカル食堂で朝食 Rp 25,000。スタッフが英語・日本語両方できるので生活トラブルがほぼゼロ。"
+    },
+    {
+      "stay": "6ヶ月滞在",
+      "role": "起業家 / ジャカルタ",
+      "headline": "\"家族で長期で住むのに最適\"",
+      "body": "ヴィラは子供2人と十分な広さ。週1回のハウスキーピングと週2回のタオル交換が地味に効く。1階のランドリーサービスも助かった。"
+    }
+  ],
+  "Location": {
+    "hero": {
+      "eyebrow": "Location · 立地",
+      "title1": "Sidakarya、",
+      "emphasis": "Denpasar Selatan",
+      "title2": "。",
+      "lead": "観光地の中心ではないけれど、東西南北どこにでも行きやすい「交差点」のような立地。表通りの渋滞を避けつつ、バリの主要エリアへ短時間でアクセスできます。"
+    },
+    "crossroads": {
+      "eyebrow": "Crossroads · 四方への距離感",
+      "title1": "観光地の真ん中ではなく、",
+      "emphasis": "四方の真ん中",
+      "title2": "に。",
+      "lead": "Sidakarya は観光地から少し外れた住宅街ですが、東西南北どの方面の主要エリアへも比較的短時間で出られる場所にあります。",
+      "hubLabel": "Puri Liang",
+      "hubMeta": "Sidakarya, Denpasar Selatan"
+    },
+    "directions": [
+      {
+        "dir": "E",
+        "bearing": "東",
+        "title": "サヌール方面",
+        "en": "East · Sanur",
+        "body": "医療特区にできたばかりの国際病院、近隣の離島（ヌサ・レンボンガン / ペニダ）への出発港、再開発が進むサヌールに近接。長期滞在中の通院・島巡りが容易です。",
+        "bullets": [
+          "国際病院（医療特区）",
+          "離島フェリー港",
+          "サヌール再開発エリア"
+        ]
+      },
+      {
+        "dir": "W",
+        "bearing": "西",
+        "title": "スミニャック・チャングー方面",
+        "en": "West · Seminyak / Canggu",
+        "body": "スミニャック・チャングー・クタ・レギアンへ抜けるアクセス道路が複数あり、混雑時に経路を選べます。週末のナイトライフやビーチクラブへ。",
+        "bullets": [
+          "Canggu / Seminyak",
+          "Kuta / Legian",
+          "複数の迂回ルート"
+        ]
+      },
+      {
+        "dir": "S",
+        "bearing": "南",
+        "title": "ヌサドゥア・ウルワツ方面",
+        "en": "South · Nusa Dua / Uluwatu",
+        "body": "ヌサドゥア・ブノア・ウルワツへの近道となる高速の入り口に近接。大型ショッピングモールや金融特区の開発が進むクラクラ島にも、渋滞なしでアクセスできます。",
+        "bullets": [
+          "Toll 入口まで近接",
+          "Nusa Dua / Uluwatu",
+          "クラクラ島（金融特区）"
+        ]
+      },
+      {
+        "dir": "N",
+        "bearing": "北",
+        "title": "ウブド方面",
+        "en": "North · Ubud",
+        "body": "ウブドへ向かう主要道路に近く、多くの場合 1 時間かからずに到着できます。週末の日帰りや、ヨガ・棚田・マーケットへの足が確保しやすい立地。",
+        "bullets": [
+          "Ubud 中心部",
+          "棚田 / ヨガスタジオ",
+          "主要道路へ徒歩圏"
+        ]
+      }
+    ],
+    "info": {
+      "name": "Puri Liang Residence",
+      "address": "Jl. Tukad Balian Selatan No.12,\nSidakarya, Denpasar Selatan, Bali",
+      "openInGoogle": "Google Map で開く",
+      "openInApple": "Apple Map で開く",
+      "stats": [
+        {
+          "k": "ングラ・ライ国際空港",
+          "v": "25",
+          "unit": "分 · 車"
+        },
+        {
+          "k": "最寄りビーチ（サヌール）",
+          "v": "5",
+          "unit": "分 · 車"
+        },
+        {
+          "k": "徒歩圏",
+          "v": "5–10",
+          "unit": "分"
+        }
+      ]
+    },
+    "around": {
+      "eyebrow": "Around · 周辺の主要スポット",
+      "title": "建物から、徒歩と車で。",
+      "lead": "「ここから何分か」を距離・所要時間・手段で開示します。観光地までの所要時間も正直に。",
+      "items": [
+        {
+          "title": "メルタサリビーチ（サヌール）",
+          "en": "Mertasari Beach (Sanur)",
+          "detail": "車5分（または自転車10分）。穏やかな波で、朝日の名所、カイトサーフィンやヨガに最適。",
+          "dist": "2.5",
+          "unit": "km",
+          "time": "5分",
+          "mode": "車"
+        },
+        {
+          "title": "スーパーマーケット",
+          "en": "Local supermarket",
+          "detail": "徒歩10分または車3分。日用品・食料品・輸入食材から地元産フルーツまで。",
+          "dist": "0.8",
+          "unit": "km",
+          "time": "10分",
+          "mode": "徒歩"
+        },
+        {
+          "title": "ローカル食堂・カフェ",
+          "en": "Warung & cafe",
+          "detail": "徒歩5分。朝食 Rp 25,000 〜・コーヒー Rp 18,000 前後。",
+          "dist": "0.4",
+          "unit": "km",
+          "time": "5分",
+          "mode": "徒歩"
+        },
+        {
+          "title": "Bank Mandiri / ATM",
+          "en": "ATM",
+          "detail": "徒歩5分。Visa / Master 対応。近隣に複数の銀行と両替所。",
+          "dist": "0.5",
+          "unit": "km",
+          "time": "5分",
+          "mode": "徒歩"
+        },
+        {
+          "title": "ングラ・ライ国際空港",
+          "en": "I Gusti Ngurah Rai Intl.",
+          "detail": "タクシー約25分（バイパスまたは高速道路経由）。送迎手配可 Rp 200,000。",
+          "dist": "12",
+          "unit": "km",
+          "time": "25分",
+          "mode": "車"
+        },
+        {
+          "title": "ウブド中心部",
+          "en": "Ubud",
+          "detail": "車約50分。ヨガ・マーケット・棚田。週末の日帰り観光に。",
+          "dist": "28",
+          "unit": "km",
+          "time": "50分",
+          "mode": "車"
+        },
+        {
+          "title": "クタ / スミニャック / チャングー",
+          "en": "Kuta / Seminyak / Canggu",
+          "detail": "車約30〜45分。ショッピング、レストラン、ナイトライフやビーチクラブへ。",
+          "dist": "12",
+          "unit": "km",
+          "time": "30分",
+          "mode": "車"
+        },
+        {
+          "title": "サヌール中心部・港",
+          "en": "Sanur Center & Harbor",
+          "detail": "車10分。お洒落なカフェ・レストランが並び、ペニダ島など離島への高速船も発着。",
+          "dist": "4.5",
+          "unit": "km",
+          "time": "10分",
+          "mode": "車"
+        }
+      ]
+    },
+    "neighborhood": {
+      "eyebrow": "Neighborhood · 暮らしの実感",
+      "title1": "このエリアで、",
+      "emphasis": "暮らすということ",
+      "title2": "。",
+      "lead": "観光地のホテルでは見えない、長期で住むときに気になる点を正直に。",
+      "notes": [
+        {
+          "title": "観光地ではない、ということ",
+          "body": "Sidakarya は観光ガイドにほとんど載りません。だからこそ、ローカルの人が朝食を取る食堂や、夕方に集まる広場がそのまま残っています。バリ「らしさ」が日常として続いているエリアです。"
+        },
+        {
+          "title": "安全について",
+          "body": "住宅街のため夜間も比較的静か。深夜の単独移動はおすすめしませんが、女性ひとりでの長期滞在実績も多数あります。建物の入り口は常時施錠、共用部は監視カメラ設置済み。"
+        },
+        {
+          "title": "物価感",
+          "body": "ローカル食堂で1食 Rp 25,000–50,000（¥250–500）、観光地の半額程度。スーパーで自炊するとさらに安く済みます。長期滞在で1ヶ月の食費を ¥30,000 以下に抑える人も。"
+        },
+        {
+          "title": "移動手段",
+          "body": "バイクレンタル（月単位 Rp 800,000 前後）が一般的。慣れていない方には Grab / Gojek（バリ版Uber）が便利。建物前まで配車されます。"
+        }
+      ]
+    }
+  },
+  "FAQ": {
+    "hero": {
+      "eyebrow": "FAQ · よくある質問",
+      "title1": "事前に、",
+      "emphasis": "確認しておきたいこと",
+      "title2": "。",
+      "lead": "過去2年間で実際に多かった質問を、カテゴリ別にまとめました。それ以外のご質問は予約フォームからご連絡ください。2営業日以内に回答します。"
+    },
+    "categories": {
+      "booking": "ご予約",
+      "pricing": "料金・支払い",
+      "facilities": "設備",
+      "location": "立地",
+      "rules": "ハウスルール"
+    },
+    "sideNav": {
+      "head": "カテゴリ",
+      "ctaTitle": "それ以外のご質問は",
+      "ctaTarget": "予約フォームから",
+      "ctaSubtitle": "2営業日以内に返信",
+      "ctaButton": "問い合わせてみる →"
+    },
+    "items": [
+      {
+        "category": "pricing",
+        "q": "料金には何が含まれますか？",
+        "a": "家賃 + Wi-Fi + 共用部の水道光熱費 + 週1回のハウスキーピング + 週2回のタオル交換が含まれます。電気代のみ実費精算（目安 月 Rp 600,000–1,200,000 / 室）。料金はインドネシアルピア（IDR）建てが基準のため、日本円・米ドル表示はおおよその金額です。"
+      },
+      {
+        "category": "booking",
+        "q": "最低滞在期間は？",
+        "a": "1ヶ月からお受けしています。3ヶ月以上の連続滞在は月額10%オフ、6ヶ月以上は15%オフ。"
+      },
+      {
+        "category": "pricing",
+        "q": "支払い方法は？",
+        "a": "銀行振込（日本円・USD）、Wise、Revolut、Wise Business に対応。初回は予約時に1ヶ月分 + デポジット Rp 2,000,000。"
+      },
+      {
+        "category": "booking",
+        "q": "キャンセルポリシーは？",
+        "a": "チェックイン2週間前まで50%返金、1週間前まで25%返金、それ以降は返金不可。"
+      },
+      {
+        "category": "rules",
+        "q": "ペット・喫煙は？",
+        "a": "ペット不可。屋内全面禁煙、屋外の指定エリアのみ可。"
+      },
+      {
+        "category": "facilities",
+        "q": "インターネット速度は実測どれくらい？",
+        "a": "ダウンロード 80–150 Mbps、アップロード 50–100 Mbps。共用部・各室で安定して使用できます。"
+      },
+      {
+        "category": "booking",
+        "q": "チェックイン・チェックアウトの時間は？",
+        "a": "チェックイン 14:00 以降、チェックアウト 11:00。アーリー / レイトはご相談ください。"
+      },
+      {
+        "category": "location",
+        "q": "空港からの行き方は？",
+        "a": "ングラ・ライ国際空港から車で約1時間30分（混雑時2時間）。送迎手配可（Rp 350,000）または Grab/Gojek（Rp 250,000 前後）。"
+      },
+      {
+        "category": "facilities",
+        "q": "キッチンには何がありますか？",
+        "a": "ヴィラはフルキッチン（コンロ、冷蔵庫、電子レンジ、調理器具、食器）。スタジオ系はミニキッチン（電子レンジ、冷蔵庫、ケトル、最低限の食器）。"
+      },
+      {
+        "category": "facilities",
+        "q": "洗濯機はありますか？",
+        "a": "1階にランドリーサービスが併設されており、週7日対応可能です。週2回のタオル交換は月額に含まれます。"
+      },
+      {
+        "category": "location",
+        "q": "近くに病院はありますか？",
+        "a": "一般クリニックは車5分。Siloam Hospitals（国際病院）は車30分、英語対応・キャッシュレス保険対応。緊急時はスタッフが手配を支援します。"
+      },
+      {
+        "category": "rules",
+        "q": "訪問者・来客の制限は？",
+        "a": "事前申請制（無料）。宿泊を伴う訪問は1泊あたり Rp 200,000、最大3泊まで。共用部の利用は自由です。"
+      }
+    ]
+  },
+  "Reserve": {
+    "hero": {
+      "eyebrow": "Reserve · 予約",
+      "title1": "空室確認・",
+      "emphasis": "お見積もり",
+      "title2": "。",
+      "lead": "下記フォームに入力ください。2営業日以内に空室状況と最終見積もりをお返しします。JP / EN / ID 対応。仮押さえではないため、いつでもキャンセル可能です。"
+    },
+    "steps": {
+      "step1": {
+        "num": "01",
+        "title": "滞在条件",
+        "subtitle": "部屋・期間・人数"
+      },
+      "step2": {
+        "num": "02",
+        "title": "連絡先",
+        "subtitle": "返信先・身元確認"
+      },
+      "step3": {
+        "num": "03",
+        "title": "ご確認",
+        "subtitle": "予約前に共有しておきたいこと"
+      }
+    },
+    "fields": {
+      "roomType": "部屋タイプ",
+      "checkin": "チェックイン",
+      "stayMonths": "滞在期間(月)",
+      "guests": "ゲスト人数",
+      "name": "お名前(ローマ字)",
+      "namePlaceholder": "Taro Yamada",
+      "nationality": "国籍",
+      "email": "メールアドレス",
+      "emailPlaceholder": "you@example.com",
+      "phone": "WhatsApp / 電話",
+      "phonePlaceholder": "+81 90-xxxx-xxxx",
+      "stayPurpose": "滞在目的(任意・複数選択可)",
+      "otherRequests": "その他のご要望(任意)",
+      "otherRequestsPlaceholder": "追加ベッド、空港送迎など…",
+      "checkoutLabel": "チェックアウト予定日",
+      "capacityHint": "は定員",
+      "guestsUnit": "名まで",
+      "required": "*"
+    },
+    "nationalities": {
+      "JP": "日本",
+      "ID": "インドネシア",
+      "US": "United States",
+      "SG": "Singapore",
+      "other": "その他"
+    },
+    "purposes": [
+      "リモートワーク",
+      "家族滞在",
+      "サーフィン",
+      "物件視察",
+      "ワーケーション",
+      "その他"
+    ],
+    "terms": {
+      "rulesLabel": "を確認しました",
+      "rulesLinkText": "ハウスルール",
+      "rulesDescription": "チェックイン 14:00 / アウト 11:00、静音時間 22:00–07:00、屋内禁煙、ペット不可。詳細はリンクをタップ。",
+      "cancelLabel": "キャンセルポリシーを確認しました",
+      "cancelDescription": "チェックイン 2 週間前まで 50% 返金、1 週間前まで 25% 返金、それ以降は返金不可。"
+    },
+    "modal": {
+      "eyebrow": "House Rules · 共通の前提",
+      "title": "ハウスルール",
+      "lead": "長期で気持ちよく過ごすための、滞在者全員に共有しているルールです。フォームに入力された内容はそのまま保持されますので、読み終えたら閉じてご記入を続けてください。",
+      "footNote": "記載のないご要望（追加ベッド・空港送迎・ペット同伴のご相談など）はフォーム末尾の「その他のご要望」にご記入ください。",
+      "closeButton": "確認しました（フォームに戻る）",
+      "closeAria": "閉じる"
+    },
+    "submit": {
+      "idle": "空室を確認する →",
+      "sending": "送信中…",
+      "disclaimer1": "送信時点では確定しません。2営業日以内に返信します。",
+      "disclaimer2Prefix": "送信ボタンを押すことで ",
+      "disclaimer2Link": "プライバシーポリシー",
+      "disclaimer2Suffix": " に同意したものとみなします。"
+    },
+    "errors": {
+      "nameRequired": "お名前を入力してください。",
+      "emailInvalid": "有効なメールアドレスを入力してください。",
+      "phoneRequired": "WhatsApp または電話番号を入力してください。",
+      "rulesRequired": "ハウスルールへの同意が必要です。",
+      "cancelRequired": "キャンセルポリシーへの同意が必要です。",
+      "submitFailed": "送信に失敗しました。時間をおいて再度お試しください。",
+      "networkError": "恐れ入りますが、時間をおいて再度お試しください。",
+      "errorTitle": "送信できませんでした"
+    },
+    "summary": {
+      "stayKeys": {
+        "in": "In",
+        "out": "Out",
+        "period": "期間",
+        "guests": "人数"
+      },
+      "rentLine": "家賃",
+      "discountLine": "長期割",
+      "electricityLine": "電気代(実費・推定)",
+      "includedLine": "Wi-Fi · ハウスキーピング · タオル",
+      "included": "含む",
+      "total": "合計",
+      "monthlyAvg": "月平均",
+      "currencyNote": "IDR 基準 · JPY 参考換算",
+      "depositTitle": "予約時のお支払い",
+      "depositSuffix": "+ Rp 2,000,000",
+      "depositNote": "(デポジット)",
+      "balanceNote": "残額はチェックイン時 / 月毎の分割払いに対応"
+    },
+    "success": {
+      "eyebrow": "Reserve · 送信完了",
+      "title1": "お問い合わせを",
+      "emphasis": "受け付けました",
+      "title2": "。",
+      "leadPrefix": "2営業日以内に、メール（",
+      "leadDefault": "ご登録のアドレス",
+      "leadSuffix": "）宛に空室状況と最終見積もりをお返しします。返信が届かない場合は、迷惑メールフォルダもご確認ください。",
+      "salutation": "様、ありがとうございます",
+      "salutationDefault": "お客様",
+      "subtitle": "以下の内容で送信されました。お控えとしてご確認ください。",
+      "grid": {
+        "room": "お部屋",
+        "period": "期間",
+        "checkin": "チェックイン",
+        "checkout": "チェックアウト",
+        "guests": "人数",
+        "total": "見積もり合計"
+      },
+      "nextStepsTitle": "次のステップ",
+      "nextSteps": [
+        "2営業日以内に確認メールをお送りします。",
+        "空室確認後、最終見積もりとお支払い方法のご案内をお送りします。",
+        "ご納得いただけたら、契約書面の取り交わしと予約金のお支払いに進みます。"
+      ],
+      "resendButton": "別の条件で再送信する"
+    },
+    "faqHeader": {
+      "eyebrow": "FAQ · 予約に関するご質問",
+      "title": "事前に確認しておきたいこと",
+      "lead": "料金、支払い、キャンセル、最低滞在期間など — 詳細は FAQ ページにまとめています。",
+      "cta": "FAQページで全件見る →"
     }
   }
 }
