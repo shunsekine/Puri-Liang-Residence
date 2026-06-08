@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
+import PageTransitionLoader from '../../components/common/PageTransitionLoader';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
 
@@ -93,6 +94,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        <PageTransitionLoader />
         <NextIntlClientProvider messages={messages}>
           <Header />
           {/* V2 pages use their own .v2 wrapper which handles top spacing; the

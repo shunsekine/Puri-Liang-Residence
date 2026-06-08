@@ -444,3 +444,74 @@
 
 /* See app/globals.v2.pages.css for page-specific styles (rooms detail,
  * features rows, location map + crossroads, FAQ accordion, reserve form). */
+
+/* =====================================================================
+ * Page Transition Loader (初回ロード + 全ページ遷移オーバーレイ)
+ * components/common/PageTransitionLoader.tsx で使用。
+ * クラス名は他スタイルとの衝突回避のため plr- 接頭辞を付与。
+ * ===================================================================== */
+.plr-loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(220, 220, 215, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 56px;
+  z-index: 99999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.plr-loading-overlay.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.plr-spinner-wrap {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plr-spinner-ring {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  transform-origin: center;
+  animation: plr-spin-animation 1.8s linear infinite;
+}
+
+@keyframes plr-spin-animation {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.plr-centered-logo {
+  width: 144px;
+  height: 144px;
+  object-fit: contain;
+  z-index: 10;
+}
+
+.plr-status-text {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 400;
+  color: #555555;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plr-spinner-ring { animation-duration: 3.6s; }
+  .plr-loading-overlay { transition: none; }
+}
