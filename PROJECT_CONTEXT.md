@@ -8,7 +8,7 @@
 
 - **目的**: バリ島 デンパサール南部シダカルヤ（Sidakarya, Denpasar Selatan）の長期滞在・リモートワーク向けレジデンス「Puri Liang Residence」公式ウェブサイト
 - **方向性**: V2 Bohemian Natural リデザイン（Forest 緑系パレット / Docked nav / 3言語 / FAQ / Web3Forms 実送信 / IDRベース価格）
-- **現状**: 🟢 **本番公開済み**（2026-06-06 / PR #1 を main にマージ）。本番URL `https://puri-liang-residence.vercel.app` で新サイト稼働中。Web3Forms 実送信・本番フォームE2Eテスト確認済。残るは Google 再インデックス等の公開後タスクのみ。
+- **現状**: 🟢 **本番公開済み・運用中**（2026-06-06 公開 / PR #1）。本番URL `https://puri-liang-residence.vercel.app` で新サイト稼働中。Web3Forms 実送信・本番フォームE2Eテスト確認済。2026-06-08 に**全ページ遷移ローディングアニメーション**を本番反映（`a5ea213`）。現在は文言（コピー）加筆修正フェーズへ移行中。
 
 ## 技術スタック
 
@@ -40,11 +40,12 @@ app/
     ├── page.tsx          # Home（title:{absolute}）
     ├── faq|features|location|reserve|rooms/page.tsx
 components/
-├── common/{Header,Footer,LanguageSwitcher}.tsx   # ロゴは fullName 表示 / Footerに Powered by JPFT
-└── pages/ReserveForm.tsx + v2/{RoomPreviewCard,RoomSimulator,FAQAccordionItem}.tsx
+├── common/{Header,Footer,LanguageSwitcher,ImageCarousel}.tsx   # ロゴは fullName 表示 / Footerに Powered by JPFT
+├── common/PageTransitionLoader.tsx   # 初回ロード+全ページ遷移ローディングオーバーレイ(client)
+└── pages/{Hero,ReserveForm}.tsx + v2/{RoomPreviewCard,RoomSimulator,FAQAccordionItem}.tsx
 lib/{data.ts(通貨ヘルパー含む), tokens.ts}
 messages/{ja,en,id}.json
-public/images/   # 客室画像 + powered-by.png（会社ロゴ）
+public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.png（ローダー用ブランドマーク288px/11KB）
 修正指示_20260606.md   # Claude作成の修正指示書（未追跡 / 作業メモ）
 .incoming/             # 受領パッケージ展開先（gitignore済）
 ```
@@ -66,9 +67,19 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）
 ## 現在のブランチ・最終コミット
 
 - **canonical ブランチ**: `main`（本番）
-- **main 最新**: `e6e2f97 Merge PR #1: V2 Bohemian Natural リデザイン`（**本番デプロイ済み**）
+- **main 最新**: `a5ea213 Merge feat/page-transition-loader: 全ページ遷移ローディングアニメーション`（**本番デプロイ success 確認済み**）
+- **直近の作業ブランチ**: `feat/page-transition-loader`（main へマージ済み / 削除可。念のため残置）
 - **PR**: #1「V2 Bohemian Natural リデザイン」 **マージ済み（クローズ）**
-- **feat/v2-bohemian-natural**: 役割完了。**今後の変更は main から新ブランチを切る**こと（feat は整理/削除可）。
+- **feat/v2-bohemian-natural**: 役割完了（feat は整理/削除可）
+- **今後の変更は main から新ブランチを切る**こと
+
+## 完了済みタスク（直近 / 2026-06-08）
+
+- **全ページ遷移ローディングアニメーション追加**（`a5ea213` 本番反映済み）
+  - `components/common/PageTransitionLoader.tsx`（client）新規。初回ロードで表示→フェードアウト／内部リンククリック捕捉で即時表示→`usePathname` 変化（遷移完了）で消去／戻る・進む(popstate)対応／最小表示 600ms でちらつき防止／`prefers-reduced-motion` 対応
+  - スタイルは `app/globals.v2.css` に `plr-` 接頭辞で追記（衝突回避）。`app/[locale]/layout.tsx` の `<body>` 直下に組み込み（3言語共通・SSRで初回ペイントから被覆）
+  - ロゴ素材（家＋木＋赤い太陽のブランドマーク）を Drive 受領 → 2048px原本を sharp で 288px/11KB に最適化し `public/images/loader-logo.png` 配置
+  - 元素材は単体HTML（`showLoading/hideLoading` 手動制御）。React+ルーティング自動検知へ変換し見た目は100%維持
 
 ## 完了済みタスク（2026-06-06 時点）
 
@@ -89,6 +100,7 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）
 
 ## 次にやること（公開後 / 優先順）
 
+0. **文言（コピー）の加筆・修正フェーズ**（現在進行中）。messages/{ja,en,id}.json を3言語同期で修正。住所/価格/連絡先非掲載/ブランド表記の制約を厳守。
 1. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
 2. en/id 翻訳のネイティブレビュー（特に id）
 3. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
@@ -115,5 +127,5 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）
 
 ---
 
-- **最終更新日時**: 2026-06-06（本番公開後）
+- **最終更新日時**: 2026-06-08（ローディングアニメーション本番反映後）
 - **更新したエージェント名**: Claude
