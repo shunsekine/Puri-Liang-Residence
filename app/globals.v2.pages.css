@@ -201,6 +201,60 @@
   .v2-feat-row-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
+/* ── /location バリ島南部 俯瞰マップ(エリア相対図) ──────────────────────── */
+.v2-balimap-layout { display: flex; flex-direction: column; gap: 28px; max-width: 1180px; margin: 0 auto; }
+.v2-balimap { margin: 0; }
+.v2-balimap-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--v2-rule);
+  background: var(--v2-sand-light);
+}
+.v2-balimap-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.v2-balimap-cap { text-align: center; font-size: 12px; color: var(--v2-muted); margin-top: 14px; letter-spacing: 0.02em; }
+
+.v2-balimap-poi { position: absolute; transform: translate(-50%, -50%); width: 0; height: 0; z-index: 3; }
+.v2-balimap-poi .dot {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--v2-sage-dark); border: 2px solid var(--v2-cream);
+  box-shadow: 0 1px 4px rgba(58, 46, 34, 0.25);
+}
+.v2-balimap-poi .lbl {
+  position: absolute; top: 0; transform: translateY(-50%);
+  display: flex; flex-direction: column; line-height: 1.2;
+  background: rgba(250, 245, 234, 0.95); border: 1px solid var(--v2-rule);
+  border-radius: 9px; padding: 4px 9px; white-space: nowrap;
+  font-size: 11.5px; color: var(--v2-mocha);
+  box-shadow: 0 3px 10px rgba(58, 46, 34, 0.1);
+}
+.v2-balimap-poi .lbl small { font-size: 9.5px; color: var(--v2-muted); letter-spacing: 0.02em; }
+.v2-balimap-poi.side-r .lbl { left: 12px; }
+.v2-balimap-poi.side-l .lbl { right: 12px; text-align: right; }
+.v2-balimap-poi.side-l .lbl { align-items: flex-end; }
+
+.v2-balimap-poi.is-home { z-index: 5; }
+.v2-balimap-poi.is-home .dot {
+  width: 16px; height: 16px; background: var(--v2-terracotta); border-color: var(--v2-cream);
+  box-shadow: 0 0 0 5px rgba(196, 122, 82, 0.22), 0 0 0 12px rgba(196, 122, 82, 0.1), 0 4px 12px rgba(154, 92, 60, 0.3);
+}
+.v2-balimap-poi.is-home.side-r .lbl { left: 16px; }
+.v2-balimap-poi.is-home .lbl {
+  background: var(--v2-mocha); color: var(--v2-cream); border-color: var(--v2-mocha);
+  font-family: var(--v2-display); font-style: italic; font-size: 13px;
+}
+.v2-balimap-poi.is-home .lbl small { color: rgba(250, 245, 234, 0.7); font-style: normal; }
+
+@media (max-width: 720px) {
+  .v2-balimap-poi .lbl { font-size: 10px; padding: 3px 7px; }
+  .v2-balimap-poi .lbl small { font-size: 8.5px; }
+}
+
 /* ── /location compass (Crossroads) ────────────────────────────────────── */
 .v2-compass { display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: center; max-width: 1180px; margin: 0 auto; }
 .v2-compass-hub {

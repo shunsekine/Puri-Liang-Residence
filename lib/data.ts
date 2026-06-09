@@ -114,8 +114,8 @@ export const LOCATION = {
   area: 'Sidakarya',
   region: 'Denpasar Selatan, Bali',
   country: 'Indonesia',
-  lat: -8.7054,
-  lng: 115.2392,
+  lat: -8.70543,
+  lng: 115.2392145,
   coord: { ns: '8°42′20″S', ew: '115°14′21″E' },
 };
 
