@@ -4,6 +4,7 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { LOCATION } from '@/lib/data';
+import { BALI_OUTLINE_PATH, BALI_OUTLINE_BBOX, BALI_OUTLINE_GEO } from '@/lib/baliOutline';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -50,6 +51,14 @@ export default function LocationPage() {
         y: m_offY + (M_LAT_TOP - lat) * m_scale,
     });
     const homePt = project(LOCATION.lat, LOCATION.lng);
+
+    // バリ島輪郭(Wikimedia)を投影に整合させるアフィン変換。
+    // 輪郭パスbbox端を実地理の端へ対応付け、project() と同じ投影に合わせる。
+    const o_sx = ((BALI_OUTLINE_GEO.lngE - BALI_OUTLINE_GEO.lngW) / (BALI_OUTLINE_BBOX.x1 - BALI_OUTLINE_BBOX.x0)) * m_scale;
+    const o_tx = m_offX + (BALI_OUTLINE_GEO.lngW - M_LNG_LEFT) * m_scale - BALI_OUTLINE_BBOX.x0 * o_sx;
+    const o_sy = ((BALI_OUTLINE_GEO.latN - BALI_OUTLINE_GEO.latS) / (BALI_OUTLINE_BBOX.y1 - BALI_OUTLINE_BBOX.y0)) * m_scale;
+    const o_ty = m_offY + (M_LAT_TOP - BALI_OUTLINE_GEO.latN) * m_scale - BALI_OUTLINE_BBOX.y0 * o_sy;
+    const baliOutlineTransform = `translate(${o_tx} ${o_ty}) scale(${o_sx} ${o_sy})`;
     const baliPois: { id: string; name: string; lat: number; lng: number; km: number; side: 'l' | 'r'; lpos?: 'tr' | 'b'; air?: boolean }[] = [
         { id: 'ubud', name: 'Ubud', lat: -8.5069, lng: 115.2625, km: 22, side: 'l' },
         { id: 'canggu', name: 'Canggu', lat: -8.6478, lng: 115.1385, km: 16, side: 'l' },
@@ -110,8 +119,10 @@ export default function LocationPage() {
                                 <rect width="600" height="600" fill="url(#balimapOceanSW)" />
                                 <rect width="600" height="600" fill="url(#balimapOceanE)" />
                                 <rect width="600" height="600" fill="url(#balimapGrid)" />
-                                {/* おおまかな海岸線(南西=インド洋) */}
-                                <path d="M 0 250 Q 110 300 130 400 Q 150 500 90 600" fill="none" stroke="rgba(93,111,86,0.45)" strokeWidth="1.5" strokeDasharray="2 6" />
+                                {/* バリ島南部の海岸線アウトライン(Wikimedia, CC BY-SA / 投影整合) */}
+                                <g transform={baliOutlineTransform}>
+                                    <path d={BALI_OUTLINE_PATH} fill="#5d6f56" fillOpacity={0.42} stroke="none" />
+                                </g>
                                 {/* Puri Liang からの距離コネクタ */}
                                 {poiPts.map(p => (
                                     <line key={p.id} x1={homePt.x} y1={homePt.y} x2={p.x} y2={p.y}
@@ -139,7 +150,10 @@ export default function LocationPage() {
                                 <span className="lbl">{t('crossroads.hubLabel')}<small>{LOCATION.area}</small></span>
                             </div>
                         </div>
-                        <figcaption className="v2-balimap-cap">{t('crossroads.mapCaption')}</figcaption>
+                        <figcaption className="v2-balimap-cap">
+                            {t('crossroads.mapCaption')}
+                            <span className="v2-balimap-credit">Island outline: Wikimedia Commons · CC BY-SA</span>
+                        </figcaption>
                     </figure>
                     <div className="v2-compass-grid">
                         {directions.map(d => (
