@@ -32,8 +32,10 @@ export default function LocationPage() {
     const stats = t.raw('info.stats') as { k: string; v: string; unit: string }[];
     const locale = useLocale();
 
-    // Google Maps 埋め込み(APIキー不要)。ピン座標は lib/data.ts の LOCATION を使用。
-    const mapEmbedSrc = `https://maps.google.com/maps?q=${LOCATION.lat},${LOCATION.lng}&z=15&hl=${locale}&output=embed`;
+    // Google Maps 埋め込み(APIキー不要)。
+    // 座標ではなく場所名+住所で指定することで、ピンに「場所情報」を表示させる
+    // (q=緯度,経度 だと "ドロップピン"=場所情報なし になるため)。
+    const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(LOCATION.placeQuery)}&z=16&hl=${locale}&output=embed`;
 
     // ── バリ島南部 俯瞰マップ(エリア相対図) ───────────────────────────────
     // 緯度経度を viewBox(600x600) に投影し、Puri Liang を基準に主要エリアを配置。
@@ -196,8 +198,8 @@ export default function LocationPage() {
                             <div className="t">{t('info.name')}</div>
                             <div className="addr">{t('info.address')}</div>
                             <div className="v2-locinfo-actions">
-                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href={`https://www.google.com/maps/search/?api=1&query=${LOCATION.lat},${LOCATION.lng}`}>{t('info.openInGoogle')}</a>
-                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href={`https://maps.apple.com/?q=${LOCATION.lat},${LOCATION.lng}`}>{t('info.openInApple')}</a>
+                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href={LOCATION.googleShareUrl}>{t('info.openInGoogle')}</a>
+                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href={`https://maps.apple.com/?q=${encodeURIComponent('Puri Liang Residence')}&ll=${LOCATION.lat},${LOCATION.lng}&z=16`}>{t('info.openInApple')}</a>
                             </div>
                         </div>
                         <div className="v2-locinfo-stat">
