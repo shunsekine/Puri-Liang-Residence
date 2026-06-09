@@ -4,7 +4,6 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { LOCATION } from '@/lib/data';
-import { BALI_OUTLINE_PATH, BALI_OUTLINE_BBOX, BALI_OUTLINE_GEO } from '@/lib/baliOutline';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -21,6 +20,7 @@ export default function LocationPage() {
         bearing: string;
         title: string;
         en: string;
+        access: string;
         body: string;
         bullets: string[];
     }[];
@@ -36,42 +36,6 @@ export default function LocationPage() {
     // 座標ではなく場所名+住所で指定することで、ピンに「場所情報」を表示させる
     // (q=緯度,経度 だと "ドロップピン"=場所情報なし になるため)。
     const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(LOCATION.placeQuery)}&z=16&hl=${locale}&output=embed`;
-
-    // ── バリ島南部 俯瞰マップ(エリア相対図) ───────────────────────────────
-    // 緯度経度を viewBox(600x600) に投影し、Puri Liang を基準に主要エリアを配置。
-    // km は Puri Liang Residence からのおおよその距離(目安)。
-    const MAP_VB = 600;
-    const M_LAT_TOP = -8.48, M_LAT_BOTTOM = -8.86, M_LNG_LEFT = 115.06, M_LNG_RIGHT = 115.29;
-    const M_PAD_X = 64, M_PAD_Y = 44;
-    const m_drawW = MAP_VB - 2 * M_PAD_X;
-    const m_drawH = MAP_VB - 2 * M_PAD_Y;
-    const m_scale = Math.min(m_drawW / (M_LNG_RIGHT - M_LNG_LEFT), m_drawH / (M_LAT_TOP - M_LAT_BOTTOM));
-    const m_offX = M_PAD_X + (m_drawW - (M_LNG_RIGHT - M_LNG_LEFT) * m_scale) / 2;
-    const m_offY = M_PAD_Y + (m_drawH - (M_LAT_TOP - M_LAT_BOTTOM) * m_scale) / 2;
-    const project = (lat: number, lng: number) => ({
-        x: m_offX + (lng - M_LNG_LEFT) * m_scale,
-        y: m_offY + (M_LAT_TOP - lat) * m_scale,
-    });
-    const homePt = project(LOCATION.lat, LOCATION.lng);
-
-    // バリ島輪郭(Wikimedia)を投影に整合させるアフィン変換。
-    // 輪郭パスbbox端を実地理の端へ対応付け、project() と同じ投影に合わせる。
-    const o_sx = ((BALI_OUTLINE_GEO.lngE - BALI_OUTLINE_GEO.lngW) / (BALI_OUTLINE_BBOX.x1 - BALI_OUTLINE_BBOX.x0)) * m_scale;
-    const o_tx = m_offX + (BALI_OUTLINE_GEO.lngW - M_LNG_LEFT) * m_scale - BALI_OUTLINE_BBOX.x0 * o_sx;
-    const o_sy = ((BALI_OUTLINE_GEO.latN - BALI_OUTLINE_GEO.latS) / (BALI_OUTLINE_BBOX.y1 - BALI_OUTLINE_BBOX.y0)) * m_scale;
-    const o_ty = m_offY + (M_LAT_TOP - BALI_OUTLINE_GEO.latN) * m_scale - BALI_OUTLINE_BBOX.y0 * o_sy;
-    const baliOutlineTransform = `translate(${o_tx} ${o_ty}) scale(${o_sx} ${o_sy})`;
-    const baliPois: { id: string; name: string; lat: number; lng: number; km: number; side: 'l' | 'r'; lpos?: 'tr' | 'b'; air?: boolean }[] = [
-        { id: 'ubud', name: 'Ubud', lat: -8.5069, lng: 115.2625, km: 22, side: 'l' },
-        { id: 'canggu', name: 'Canggu', lat: -8.6478, lng: 115.1385, km: 16, side: 'l' },
-        { id: 'seminyak', name: 'Seminyak', lat: -8.6905, lng: 115.1656, km: 11, side: 'l' },
-        { id: 'kuta', name: 'Kuta', lat: -8.7180, lng: 115.1686, km: 9, side: 'l' },
-        { id: 'airport', name: 'Ngurah Rai', lat: -8.7467, lng: 115.1668, km: 9, side: 'l', air: true },
-        { id: 'sanur', name: 'Sanur', lat: -8.6878, lng: 115.2625, km: 4, side: 'r', lpos: 'tr' },
-        { id: 'nusadua', name: 'Nusa Dua', lat: -8.8008, lng: 115.2317, km: 13, side: 'r' },
-        { id: 'uluwatu', name: 'Uluwatu', lat: -8.8291, lng: 115.0849, km: 20, side: 'r' },
-    ];
-    const poiPts = baliPois.map(p => { const { x, y } = project(p.lat, p.lng); return { ...p, x, y }; });
 
     return (
         <main className="v2">
@@ -96,66 +60,24 @@ export default function LocationPage() {
                     <p>{t('crossroads.lead')}</p>
                 </div>
                 <div className="v2-balimap-layout">
-                    <figure className="v2-balimap">
-                        <div className="v2-balimap-wrap">
-                            <svg className="v2-balimap-bg" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                                <defs>
-                                    <linearGradient id="balimapLand" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#f3ecda" />
-                                        <stop offset="100%" stopColor="#e7dcc5" />
-                                    </linearGradient>
-                                    <radialGradient id="balimapOceanSW" cx="0%" cy="100%" r="85%">
-                                        <stop offset="0%" stopColor="rgba(93,111,86,0.30)" />
-                                        <stop offset="55%" stopColor="rgba(93,111,86,0.12)" />
-                                        <stop offset="100%" stopColor="rgba(93,111,86,0)" />
-                                    </radialGradient>
-                                    <radialGradient id="balimapOceanE" cx="100%" cy="40%" r="55%">
-                                        <stop offset="0%" stopColor="rgba(120,140,150,0.20)" />
-                                        <stop offset="100%" stopColor="rgba(120,140,150,0)" />
-                                    </radialGradient>
-                                    <pattern id="balimapGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(58,46,34,0.05)" strokeWidth="1" />
-                                    </pattern>
-                                </defs>
-                                <rect width="600" height="600" fill="url(#balimapLand)" />
-                                <rect width="600" height="600" fill="url(#balimapOceanSW)" />
-                                <rect width="600" height="600" fill="url(#balimapOceanE)" />
-                                <rect width="600" height="600" fill="url(#balimapGrid)" />
-                                {/* バリ島南部の海岸線アウトライン(Wikimedia, CC BY-SA / 投影整合) */}
-                                <g transform={baliOutlineTransform}>
-                                    <path d={BALI_OUTLINE_PATH} fill="#5d6f56" fillOpacity={0.42} stroke="none" />
-                                </g>
-                                {/* Puri Liang からの距離コネクタ */}
-                                {poiPts.map(p => (
-                                    <line key={p.id} x1={homePt.x} y1={homePt.y} x2={p.x} y2={p.y}
-                                        stroke="rgba(58,46,34,0.18)" strokeWidth="1" strokeDasharray="3 4" />
-                                ))}
-                                {/* 方位(N) */}
-                                <g transform="translate(548 56)">
-                                    <line x1="0" y1="14" x2="0" y2="-14" stroke="var(--v2-mocha)" strokeWidth="1.5" />
-                                    <path d="M 0 -18 L 4 -10 L -4 -10 Z" fill="var(--v2-terracotta)" />
-                                    <text x="0" y="30" textAnchor="middle" fontSize="13" fontStyle="italic" fill="rgba(58,46,34,0.6)">N</text>
-                                </g>
-                                <text x="64" y="566" fontSize="11" letterSpacing="2" fill="rgba(93,111,86,0.7)" style={{ textTransform: 'uppercase' }}>Indian Ocean</text>
-                            </svg>
-
-                            {poiPts.map(p => (
-                                <div key={p.id} className={`v2-balimap-poi side-${p.side}${p.lpos ? ` lpos-${p.lpos}` : ''}${p.air ? ' is-air' : ''}`}
-                                    style={{ left: `${(p.x / MAP_VB) * 100}%`, top: `${(p.y / MAP_VB) * 100}%` }}>
-                                    <span className="dot" />
-                                    <span className="lbl">{p.air ? '✈ ' : ''}{p.name}<small>≈ {p.km} km</small></span>
-                                </div>
-                            ))}
-                            <div className="v2-balimap-poi is-home lpos-b"
-                                style={{ left: `${(homePt.x / MAP_VB) * 100}%`, top: `${(homePt.y / MAP_VB) * 100}%` }}>
-                                <span className="dot" />
-                                <span className="lbl">{t('crossroads.hubLabel')}<small>{LOCATION.area}</small></span>
+                    <figure className="v2-cdial-fig">
+                        <div className="v2-cdial">
+                            <div className="v2-cdial-hub">
+                                <span className="mk">✦</span>
+                                <span className="t">{t('crossroads.hubLabel')}</span>
+                                <span className="s">{t('crossroads.hubMeta')}</span>
                             </div>
+                            {directions.map(d => {
+                                const area = d.en.split('·')[1]?.trim() ?? d.title;
+                                return (
+                                    <div key={d.dir} className={`v2-cdial-poi pos-${d.dir.toLowerCase()}`}>
+                                        <div className="h"><span className="d">{d.dir}</span><span className="a">{area}</span></div>
+                                        <div className="x">{d.access}</div>
+                                    </div>
+                                );
+                            })}
                         </div>
-                        <figcaption className="v2-balimap-cap">
-                            {t('crossroads.mapCaption')}
-                            <span className="v2-balimap-credit">Island outline: Wikimedia Commons · CC BY-SA</span>
-                        </figcaption>
+                        <figcaption className="v2-cdial-cap">{t('crossroads.mapCaption')}</figcaption>
                     </figure>
                     <div className="v2-compass-grid">
                         {directions.map(d => (

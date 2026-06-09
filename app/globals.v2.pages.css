@@ -201,112 +201,68 @@
   .v2-feat-row-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
-/* ── /location バリ島南部 俯瞰マップ(エリア相対図) ──────────────────────── */
+/* ── /location 方位ダイヤル(コンパス改良版) ──────────────────────────── */
 .v2-balimap-layout { display: flex; flex-direction: column; gap: 28px; max-width: 1180px; margin: 0 auto; }
-.v2-balimap { margin: 0; }
-.v2-balimap-wrap {
-  position: relative;
-  width: 100%;
-  max-width: 440px;
-  margin: 0 auto;
-  aspect-ratio: 1 / 1;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid var(--v2-rule);
-  background: var(--v2-sand-light);
-}
-.v2-balimap-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.v2-balimap-cap { text-align: center; font-size: 12px; color: var(--v2-muted); margin-top: 14px; letter-spacing: 0.02em; }
-.v2-balimap-credit { display: block; margin-top: 4px; font-size: 10px; color: var(--v2-muted); opacity: 0.7; letter-spacing: 0.04em; }
-
-.v2-balimap-poi { position: absolute; transform: translate(-50%, -50%); width: 0; height: 0; z-index: 3; }
-.v2-balimap-poi .dot {
-  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
-  width: 16px; height: 16px; border-radius: 50%;
-  background: var(--v2-sage-dark); border: 3px solid var(--v2-cream);
-  box-shadow: 0 1px 5px rgba(58, 46, 34, 0.3);
-}
-.v2-balimap-poi .lbl {
-  position: absolute; top: 0; transform: translateY(-50%);
-  display: flex; flex-direction: row; align-items: baseline; gap: 6px; line-height: 1.2;
-  background: rgba(250, 245, 234, 0.96); border: 1px solid var(--v2-rule);
-  border-radius: 9px; padding: 5px 11px; white-space: nowrap;
-  font-size: 13.5px; color: var(--v2-mocha);
-  box-shadow: 0 3px 12px rgba(58, 46, 34, 0.12);
-}
-.v2-balimap-poi .lbl small { font-size: 11px; color: var(--v2-muted); letter-spacing: 0.02em; }
-
-/* ラベル配置: 既定は左右(side)、特定地点は lpos で上下右に微調整 */
-.v2-balimap-poi.side-r .lbl { left: 18px; }
-.v2-balimap-poi.side-l .lbl { right: 18px; }
-.v2-balimap-poi.lpos-tr .lbl { left: 16px; top: auto; bottom: 14px; transform: none; }
-.v2-balimap-poi.lpos-b .lbl { left: 50%; top: 22px; transform: translateX(-50%); }
-
-.v2-balimap-poi.is-home { z-index: 5; }
-.v2-balimap-poi.is-home .dot {
-  width: 26px; height: 26px; background: var(--v2-terracotta); border-color: var(--v2-cream);
-  box-shadow: 0 0 0 7px rgba(196, 122, 82, 0.22), 0 0 0 15px rgba(196, 122, 82, 0.1), 0 4px 14px rgba(154, 92, 60, 0.32);
-}
-.v2-balimap-poi.is-home .lbl {
-  flex-direction: column; align-items: center; gap: 0; text-align: center;
-  background: var(--v2-mocha); color: var(--v2-cream); border-color: var(--v2-mocha);
-  font-family: var(--v2-display); font-style: italic; font-size: 15.5px;
-}
-.v2-balimap-poi.is-home .lbl small { color: rgba(250, 245, 234, 0.72); font-style: normal; font-family: var(--v2-sans); }
-
-@media (max-width: 720px) {
-  .v2-balimap-wrap { max-width: 380px; }
-  .v2-balimap-poi .lbl { font-size: 11.7px; padding: 4px 9px; }
-  .v2-balimap-poi .lbl small { font-size: 10px; }
-}
-
-/* ── /location compass (Crossroads) ────────────────────────────────────── */
-.v2-compass { display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: center; max-width: 1180px; margin: 0 auto; }
-.v2-compass-hub {
-  position: relative;
-  aspect-ratio: 1;
-  background: var(--v2-sand-light);
-  border: 1px solid var(--v2-rule);
-  border-radius: 50%;
-  display: flex;
+.v2-cdial-fig { margin: 0; }
+.v2-cdial {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas: ". n ." "w c e" ". s .";
+  gap: 18px 22px;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
+  max-width: 860px;
+  margin: 0 auto;
 }
-.v2-compass-hub-inner {
-  width: 64%;
-  height: 64%;
+.v2-cdial-hub {
+  grid-area: c;
+  position: relative;
+  width: 224px; height: 224px;
+  border-radius: 50%;
   background: var(--v2-mocha);
   color: var(--v2-cream);
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 12px;
-  box-shadow: 0 8px 24px rgba(58, 46, 34, 0.18);
-  z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 0 18px;
+  box-shadow: 0 10px 30px rgba(58, 46, 34, 0.2);
 }
-.v2-compass-hub-mark { font-family: var(--v2-display); font-style: italic; font-size: 18px; color: var(--v2-terracotta); letter-spacing: 0.3em; margin-bottom: 6px; }
-.v2-compass-hub-t { font-family: var(--v2-display); font-size: 18px; line-height: 1.1; }
-.v2-compass-hub-s { font-size: 10.5px; letter-spacing: 0.1em; color: rgba(250, 245, 234, 0.6); margin-top: 4px; text-transform: uppercase; }
-.v2-compass-axis { position: absolute; background: var(--v2-rule); z-index: 1; }
-.v2-compass-axis.v { width: 1px; top: 6%; bottom: 6%; left: 50%; transform: translateX(-50%); }
-.v2-compass-axis.h { height: 1px; left: 6%; right: 6%; top: 50%; transform: translateY(-50%); }
-.v2-compass-cardinal { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 1px; background: var(--v2-sand-light); padding: 3px 9px; border-radius: 8px; z-index: 2; border: 1px solid var(--v2-rule); }
-.v2-compass-cardinal .dir { font-family: var(--v2-display); font-style: italic; font-size: 13px; color: var(--v2-terracotta-dark); letter-spacing: 0.1em; line-height: 1; }
-.v2-compass-cardinal .area { font-size: 9.5px; letter-spacing: 0.04em; color: var(--v2-mocha-soft); line-height: 1.1; white-space: nowrap; }
-.v2-compass-cardinal.n { top: 4px; left: 50%; transform: translateX(-50%); }
-.v2-compass-cardinal.s { bottom: 4px; left: 50%; transform: translateX(-50%); }
-.v2-compass-cardinal.e { right: 4px; top: 50%; transform: translateY(-50%); }
-.v2-compass-cardinal.w { left: 4px; top: 50%; transform: translateY(-50%); }
+.v2-cdial-hub .mk { font-family: var(--v2-display); font-style: italic; font-size: 18px; color: var(--v2-terracotta); letter-spacing: 0.3em; margin-bottom: 6px; }
+.v2-cdial-hub .t { font-family: var(--v2-display); font-style: italic; font-size: 22px; line-height: 1.1; }
+.v2-cdial-hub .s { font-size: 10.5px; letter-spacing: 0.12em; color: rgba(250, 245, 234, 0.62); margin-top: 6px; text-transform: uppercase; }
 
+.v2-cdial-poi {
+  width: 100%; max-width: 270px;
+  background: var(--v2-cream);
+  border: 1px solid var(--v2-rule);
+  border-left: 4px solid var(--v2-terracotta);
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 0 3px 12px rgba(58, 46, 34, 0.07);
+}
+.v2-cdial-poi.pos-n { grid-area: n; }
+.v2-cdial-poi.pos-s { grid-area: s; }
+.v2-cdial-poi.pos-e { grid-area: e; }
+.v2-cdial-poi.pos-w { grid-area: w; }
+.v2-cdial-poi .h { display: flex; align-items: baseline; gap: 9px; }
+.v2-cdial-poi .h .d { font-family: var(--v2-display); font-style: italic; font-size: 16px; color: var(--v2-terracotta-dark); letter-spacing: 0.08em; }
+.v2-cdial-poi .h .a { font-family: var(--v2-display); font-size: 17px; color: var(--v2-mocha); line-height: 1.2; }
+.v2-cdial-poi .x { font-size: 12.5px; color: var(--v2-muted); margin-top: 5px; }
+.v2-cdial-cap { text-align: center; font-size: 12px; color: var(--v2-muted); margin-top: 18px; letter-spacing: 0.02em; }
+
+@media (max-width: 720px) {
+  .v2-cdial { grid-template-columns: 1fr; grid-template-areas: "c" "n" "e" "s" "w"; gap: 14px; }
+  .v2-cdial-hub { width: 200px; height: 200px; }
+  .v2-cdial-poi { max-width: 360px; }
+}
+
+/* ── /location 方位詳細カード(4方向) ──────────────────────────────────── */
 .v2-compass-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .v2-compass-card { background: var(--v2-cream); border: 1px solid var(--v2-rule); border-radius: 18px; padding: 20px 22px; position: relative; display: flex; flex-direction: column; gap: 8px; }
-.v2-compass-card.dir-n { border-top: 3px solid var(--v2-sage); }
-.v2-compass-card.dir-e { border-top: 3px solid var(--v2-terracotta); }
-.v2-compass-card.dir-s { border-top: 3px solid var(--v2-mocha); }
-.v2-compass-card.dir-w { border-top: 3px solid var(--v2-sage-dark); }
+/* 方角による色分けはせず、単一アクセント(テラコッタ)で統一 */
+.v2-compass-card.dir-n,
+.v2-compass-card.dir-e,
+.v2-compass-card.dir-s,
+.v2-compass-card.dir-w { border-top: 3px solid var(--v2-terracotta); }
 .v2-compass-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
 .v2-compass-card-dir {
   width: 38px;
@@ -329,8 +285,6 @@
 .v2-compass-card ul { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .v2-compass-card li { font-size: 11px; background: var(--v2-sand-light); color: var(--v2-mocha-soft); padding: 4px 10px; border-radius: 999px; border: 1px dashed var(--v2-rule); }
 @media (max-width: 820px) {
-  .v2-compass { grid-template-columns: 1fr; gap: 24px; }
-  .v2-compass-hub { max-width: 240px; margin: 0 auto; }
   .v2-compass-grid { grid-template-columns: 1fr; }
 }
 
