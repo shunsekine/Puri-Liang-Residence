@@ -50,13 +50,13 @@ export default function LocationPage() {
         y: m_offY + (M_LAT_TOP - lat) * m_scale,
     });
     const homePt = project(LOCATION.lat, LOCATION.lng);
-    const baliPois: { id: string; name: string; lat: number; lng: number; km: number; side: 'l' | 'r'; air?: boolean }[] = [
+    const baliPois: { id: string; name: string; lat: number; lng: number; km: number; side: 'l' | 'r'; lpos?: 'tr' | 'b'; air?: boolean }[] = [
         { id: 'ubud', name: 'Ubud', lat: -8.5069, lng: 115.2625, km: 22, side: 'l' },
         { id: 'canggu', name: 'Canggu', lat: -8.6478, lng: 115.1385, km: 16, side: 'l' },
         { id: 'seminyak', name: 'Seminyak', lat: -8.6905, lng: 115.1656, km: 11, side: 'l' },
         { id: 'kuta', name: 'Kuta', lat: -8.7180, lng: 115.1686, km: 9, side: 'l' },
         { id: 'airport', name: 'Ngurah Rai', lat: -8.7467, lng: 115.1668, km: 9, side: 'l', air: true },
-        { id: 'sanur', name: 'Sanur', lat: -8.6878, lng: 115.2625, km: 4, side: 'l' },
+        { id: 'sanur', name: 'Sanur', lat: -8.6878, lng: 115.2625, km: 4, side: 'r', lpos: 'tr' },
         { id: 'nusadua', name: 'Nusa Dua', lat: -8.8008, lng: 115.2317, km: 13, side: 'r' },
         { id: 'uluwatu', name: 'Uluwatu', lat: -8.8291, lng: 115.0849, km: 20, side: 'r' },
     ];
@@ -127,13 +127,13 @@ export default function LocationPage() {
                             </svg>
 
                             {poiPts.map(p => (
-                                <div key={p.id} className={`v2-balimap-poi side-${p.side}${p.air ? ' is-air' : ''}`}
+                                <div key={p.id} className={`v2-balimap-poi side-${p.side}${p.lpos ? ` lpos-${p.lpos}` : ''}${p.air ? ' is-air' : ''}`}
                                     style={{ left: `${(p.x / MAP_VB) * 100}%`, top: `${(p.y / MAP_VB) * 100}%` }}>
                                     <span className="dot" />
                                     <span className="lbl">{p.air ? '✈ ' : ''}{p.name}<small>≈ {p.km} km</small></span>
                                 </div>
                             ))}
-                            <div className="v2-balimap-poi is-home side-r"
+                            <div className="v2-balimap-poi is-home lpos-b"
                                 style={{ left: `${(homePt.x / MAP_VB) * 100}%`, top: `${(homePt.y / MAP_VB) * 100}%` }}>
                                 <span className="dot" />
                                 <span className="lbl">{t('crossroads.hubLabel')}<small>{LOCATION.area}</small></span>
