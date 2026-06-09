@@ -1,7 +1,7 @@
 // V2 Bohemian Natural — Location page
 // Hero / Crossroads (E/W/S/N) / Map + info / POI grid (8 items) / Neighborhood notes (4)
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { LOCATION } from '@/lib/data';
 
@@ -29,6 +29,17 @@ export default function LocationPage() {
     }[];
     const notes = t.raw('neighborhood.notes') as { title: string; body: string }[];
     const stats = t.raw('info.stats') as { k: string; v: string; unit: string }[];
+    const locale = useLocale();
+
+    // 各方位の代表エリア名を既存データ(en: "方位 · 地名")から導出してコンパスに表示
+    const areaByDir: Record<string, string> = {};
+    directions.forEach(d => {
+        const after = d.en.split('·')[1]?.trim() ?? '';
+        areaByDir[d.dir] = after.split('/')[0].trim();
+    });
+
+    // Google Maps 埋め込み(APIキー不要)。ピン座標は lib/data.ts の LOCATION を使用。
+    const mapEmbedSrc = `https://maps.google.com/maps?q=${LOCATION.lat},${LOCATION.lng}&z=15&hl=${locale}&output=embed`;
 
     return (
         <main className="v2">
@@ -61,10 +72,10 @@ export default function LocationPage() {
                         </div>
                         <div className="v2-compass-axis v" />
                         <div className="v2-compass-axis h" />
-                        <div className="v2-compass-cardinal n">N</div>
-                        <div className="v2-compass-cardinal s">S</div>
-                        <div className="v2-compass-cardinal e">E</div>
-                        <div className="v2-compass-cardinal w">W</div>
+                        <div className="v2-compass-cardinal n"><span className="dir">N</span><span className="area">{areaByDir['N']}</span></div>
+                        <div className="v2-compass-cardinal s"><span className="dir">S</span><span className="area">{areaByDir['S']}</span></div>
+                        <div className="v2-compass-cardinal e"><span className="dir">E</span><span className="area">{areaByDir['E']}</span></div>
+                        <div className="v2-compass-cardinal w"><span className="dir">W</span><span className="area">{areaByDir['W']}</span></div>
                     </div>
                     <div className="v2-compass-grid">
                         {directions.map(d => (
@@ -91,28 +102,14 @@ export default function LocationPage() {
             <section className="v2-section">
                 <div className="v2-loc-wrap">
                     <div className="v2-locmap">
-                        <div className="v2-locmap-bg" />
-                        <svg className="v2-locmap-svg" viewBox="0 0 600 480" preserveAspectRatio="xMidYMid slice">
-                            <defs>
-                                <pattern id="v2locgrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(58,46,34,0.06)" strokeWidth="1" />
-                                </pattern>
-                            </defs>
-                            <rect width="600" height="480" fill="url(#v2locgrid)" />
-                            <path d="M 0 380 Q 150 360 280 400 Q 420 430 600 410 L 600 480 L 0 480 Z" fill="rgba(196,122,82,0.1)" />
-                            <path d="M 0 380 Q 150 360 280 400 Q 420 430 600 410" stroke="rgba(196,122,82,0.4)" strokeWidth="1.5" fill="none" />
-                            <path d="M 0 200 Q 180 180 320 220 Q 460 250 600 200" stroke="rgba(58,46,34,0.35)" strokeWidth="2.5" fill="none" />
-                            <path d="M 0 280 Q 150 270 300 290 Q 450 300 600 280" stroke="rgba(58,46,34,0.25)" strokeWidth="1.8" fill="none" />
-                            <path d="M 280 0 Q 290 150 320 280 Q 340 380 360 480" stroke="rgba(58,46,34,0.3)" strokeWidth="2" fill="none" />
-                            <path d="M 100 0 Q 130 100 110 200 Q 90 320 130 480" stroke="rgba(93,111,86,0.4)" strokeWidth="3" fill="none" />
-                        </svg>
-                        <div className="v2-locmap-pin main" style={{ top: '55%', left: '52%' }}>
-                            <div className="dot" />
-                            <div className="lbl">{t('crossroads.hubLabel')}</div>
-                        </div>
-                        <div className="v2-locmap-pin sub" style={{ top: '82%', left: '78%' }}><div className="d" /><div className="lb">{poiItems[0]?.title ?? '—'}</div></div>
-                        <div className="v2-locmap-pin sub" style={{ top: '40%', left: '38%' }}><div className="d" /><div className="lb">{poiItems[1]?.title ?? '—'}</div></div>
-                        <div className="v2-locmap-pin sub" style={{ top: '62%', left: '38%' }}><div className="d" /><div className="lb">{poiItems[2]?.title ?? '—'}</div></div>
+                        <iframe
+                            className="v2-locmap-frame"
+                            src={mapEmbedSrc}
+                            title={t('info.name')}
+                            loading="lazy"
+                            allowFullScreen
+                            referrerPolicy="no-referrer-when-downgrade"
+                        />
                         <div className="v2-locmap-coord">{LOCATION.coord.ns} · {LOCATION.coord.ew}</div>
                     </div>
 

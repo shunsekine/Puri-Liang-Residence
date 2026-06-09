@@ -19,6 +19,7 @@ const GROUP_IMG_KEYS = ['villa3', 'villa1', 'twin1', 'villa2'] as const;
 
 export default function FeaturesPage() {
     const t = useTranslations('Features');
+    const tCommon = useTranslations('Common');
     const groups = t.raw('groups') as {
         eyebrow: string;
         title: string;
@@ -43,7 +44,7 @@ export default function FeaturesPage() {
                     return (
                         <article key={i} className={`v2-feat-row${i % 2 === 1 ? ' rev' : ''}`}>
                             <div className="v2-feat-img" style={{ backgroundImage: `url(${IMG[imgKey]})` }}>
-                                <div className="v2-feat-tag">{String(i + 1).padStart(2, '0')} / {groups.length}</div>
+                                <div className="v2-photo-tbu">{tCommon('photoPlaceholder')}</div>
                             </div>
                             <div className="v2-feat-body">
                                 <div className="eyebrow">{g.eyebrow}</div>

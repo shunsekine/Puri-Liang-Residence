@@ -168,6 +168,25 @@
   font-family: var(--v2-display);
   font-style: italic;
 }
+/* 写真プレースホルダ注記（写真未確定時に画像上へ表示） */
+.v2-photo-tbu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(58, 46, 34, 0.78);
+  color: var(--v2-cream);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  font-family: var(--v2-display);
+  font-style: italic;
+  white-space: nowrap;
+  z-index: 2;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
 .v2-feat-body h2 { font-size: 38px; line-height: 1.15; margin: 10px 0 14px; }
 .v2-feat-body .lead { font-size: 14.5px; line-height: 1.85; color: var(--v2-mocha-soft); margin-bottom: 20px; }
 .v2-feat-grid { display: flex; flex-direction: column; gap: 0; }
@@ -215,7 +234,9 @@
 .v2-compass-axis { position: absolute; background: var(--v2-rule); z-index: 1; }
 .v2-compass-axis.v { width: 1px; top: 6%; bottom: 6%; left: 50%; transform: translateX(-50%); }
 .v2-compass-axis.h { height: 1px; left: 6%; right: 6%; top: 50%; transform: translateY(-50%); }
-.v2-compass-cardinal { position: absolute; font-family: var(--v2-display); font-style: italic; font-size: 14px; color: var(--v2-terracotta-dark); letter-spacing: 0.1em; background: var(--v2-sand-light); padding: 2px 8px; border-radius: 6px; z-index: 2; }
+.v2-compass-cardinal { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 1px; background: var(--v2-sand-light); padding: 3px 9px; border-radius: 8px; z-index: 2; border: 1px solid var(--v2-rule); }
+.v2-compass-cardinal .dir { font-family: var(--v2-display); font-style: italic; font-size: 13px; color: var(--v2-terracotta-dark); letter-spacing: 0.1em; line-height: 1; }
+.v2-compass-cardinal .area { font-size: 9.5px; letter-spacing: 0.04em; color: var(--v2-mocha-soft); line-height: 1.1; white-space: nowrap; }
 .v2-compass-cardinal.n { top: 4px; left: 50%; transform: translateX(-50%); }
 .v2-compass-cardinal.s { bottom: 4px; left: 50%; transform: translateX(-50%); }
 .v2-compass-cardinal.e { right: 4px; top: 50%; transform: translateY(-50%); }
@@ -265,6 +286,7 @@
   min-height: 520px;
 }
 .v2-locmap-bg { position: absolute; inset: 0; background: linear-gradient(165deg, #f3ecda 0%, #e8dcc4 100%); }
+.v2-locmap-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 .v2-locmap-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .v2-locmap-pin { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 4px; transform: translate(-50%, -100%); }
 .v2-locmap-pin.main .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--v2-terracotta); box-shadow: 0 0 0 6px rgba(196, 122, 82, 0.22), 0 0 0 14px rgba(196, 122, 82, 0.1), 0 4px 12px rgba(154, 92, 60, 0.3); }

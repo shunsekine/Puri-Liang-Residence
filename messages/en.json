@@ -308,7 +308,8 @@
     "minutesUnit": "min",
     "byCar": "by car",
     "onFoot": "on foot",
-    "yearFounded": "Est. 2024"
+    "yearFounded": "Est. 2024",
+    "photoPlaceholder": "To be updated"
   },
   "Nav": {
     "stay": "Stay",
