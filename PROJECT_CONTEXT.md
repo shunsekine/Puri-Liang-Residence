@@ -8,7 +8,7 @@
 
 - **目的**: バリ島 デンパサール南部シダカルヤ（Sidakarya, Denpasar Selatan）の長期滞在・リモートワーク向けレジデンス「Puri Liang Residence」公式ウェブサイト
 - **方向性**: V2 Bohemian Natural リデザイン（Forest 緑系パレット / Docked nav / 3言語 / FAQ / Web3Forms 実送信 / IDRベース価格）
-- **現状**: 🟢 **本番公開済み・運用中**（2026-06-06 公開 / PR #1）。本番URL `https://puri-liang-residence.vercel.app` で新サイト稼働中。Web3Forms 実送信・本番フォームE2Eテスト確認済。2026-06-08 に**全ページ遷移ローディングアニメーション**を本番反映（`a5ea213`）。現在は文言（コピー）加筆修正フェーズへ移行中。
+- **現状**: 🟢 **本番公開済み・運用中**（2026-06-06 公開 / PR #1）。本番URL `https://puri-liang-residence.vercel.app` で新サイト稼働中。Web3Forms 実送信・本番フォームE2Eテスト確認済。2026-06-08 に**全ページ遷移ローディングアニメーション**を本番反映（`a5ea213`）。2026-06-10 に **Feature/Location の改善**を作業ブランチ `feat/features-location-update` で実装（プレビュー確認済み・**main 未マージ**）。現在は文言（コピー）加筆修正フェーズ。
 
 ## 技術スタック
 
@@ -60,18 +60,36 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ## 役割分担（VM共用）
 
-- **Antigravity**: コード実装・commit・push を担当
-- **Claude**: 監査・修正指示書（`修正指示_20260606.md`）生成・本ドキュメント更新を担当
+- **今後の新規実装の原則（クオータ節約方針 / 2026-06-10〜）**: **Claude は実装指示書（Markdown）を生成**し、**実装・commit・push は Antigravity が担当**。Claude は要件整理・指示書作成・監査・本ドキュメント更新に専念。
+  - ただし **Claude が既に実装まで完了した分は、重複作業を避けるためそのまま採用**（Antigravity に作り直させない）。
+- **これまでの実績**: ローディングアニメーション / Feature・Location 改善は Claude が実装・push 済み。
 - 双方、他エージェントの作業ファイル・プロセスを予告なく上書き/停止しないこと
 
 ## 現在のブランチ・最終コミット
 
 - **canonical ブランチ**: `main`（本番）
 - **main 最新**: `a5ea213 Merge feat/page-transition-loader: 全ページ遷移ローディングアニメーション`（**本番デプロイ success 確認済み**）
-- **直近の作業ブランチ**: `feat/page-transition-loader`（main へマージ済み / 削除可。念のため残置）
+- **未マージの作業ブランチ**: ⚠️ **`feat/features-location-update`**（最新 `7f392a1` / プレビュー確認済み・**main 未マージ**）。Feature/Location 改善一式を含む。**ユーザーの「本番反映」指示でマージ予定**。
+- **直近マージ済みブランチ**: `feat/page-transition-loader`（main へマージ済み / 削除可。念のため残置）
 - **PR**: #1「V2 Bohemian Natural リデザイン」 **マージ済み（クローズ）**
 - **feat/v2-bohemian-natural**: 役割完了（feat は整理/削除可）
 - **今後の変更は main から新ブランチを切る**こと
+
+## 完了済みタスク（直近 / 2026-06-10・`feat/features-location-update` / main 未マージ）
+
+- **Feature ページ**（`app/[locale]/features/page.tsx`）
+  - 写真の「01 / 4」番号表示（`v2-feat-tag`）を削除
+  - 全写真に「準備中」注記を画像上に表示。`Common.photoPlaceholder` を3言語追加（ja「写真は準備中（後日更新）」/ en「To be updated」/ id「Segera diperbarui」）。CSS `.v2-photo-tbu`
+- **Location 地図（Google埋め込み）**（`app/[locale]/location/page.tsx`）
+  - 正確なピン座標に更新（`lib/data.ts` LOCATION: lat `-8.70543` / lng `115.2392145`）
+  - 埋め込みを座標指定→**場所名+住所クエリ**に変更しピンで「場所情報」を表示（`LOCATION.placeQuery`）。座標指定は"ドロップピン=場所情報なし"になる
+  - 「Google Mapで開く」=実在地点の共有リンク（`LOCATION.googleShareUrl` = maps.app.goo.gl）、「Apple Mapで開く」=名称+座標
+- **Location 方位ダイヤル（コンパス改良版）**（鳥瞰図の置換）
+  - 当初: コンパス→バリ島南部 俯瞰マップ（Wikimedia 輪郭 `Bali-outline.svg` を投影整合で背景）を試作 → **輪郭品質が不足のため撤去**（`lib/baliOutline.ts` 削除）
+  - 最終: **方位ダイヤル**。中心 Puri Liang(Sidakarya) + N/E/S/W に代表エリア名＋距離/所要時間。CSS `.v2-cdial*`（grid areas で十字配置・レスポンシブ）
+  - 各方位の距離/所要時間は `Location.directions[].access` を3言語追加。エリア名は `en`（"方位 · 地名"）から導出
+  - **方角による色分けは廃止 → 単一アクセント（テラコッタ）で統一**（4方位詳細カード `dir-*` も統一）
+  - 旧 `.v2-compass-hub/axis/cardinal`・`.v2-balimap*` CSS を整理。`Location.crossroads.mapCaption` 追加（3言語）
 
 ## 完了済みタスク（直近 / 2026-06-08）
 
@@ -100,14 +118,15 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ## 次にやること（公開後 / 優先順）
 
-0. **文言（コピー）の加筆・修正フェーズ**（現在進行中）。messages/{ja,en,id}.json を3言語同期で修正。住所/価格/連絡先非掲載/ブランド表記の制約を厳守。
-1. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
-2. en/id 翻訳のネイティブレビュー（特に id）
-3. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
-4. （任意）専用 OG 画像 1200×630 を作成し差し替え
-5. 旧スキーマキー削除（V2 安定後、別PR）
-6. （任意）独自ドメイン取得（`.vercel.app` 脱却 / Google の「Vercel」サイト名表示の根本解消）
-7. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）
+1. **`feat/features-location-update` の本番反映**（ユーザー確認後に main へマージ）。Feature/Location 改善一式を含む（未マージ）。
+2. **文言（コピー）の加筆・修正フェーズ**（進行中）。messages/{ja,en,id}.json を3言語同期で修正。住所/価格/連絡先非掲載/ブランド表記の制約を厳守。**今後の新規実装は Claude が指示書を作成し Antigravity が実装**（クオータ節約）。
+3. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
+4. en/id 翻訳のネイティブレビュー（特に id）
+5. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
+6. （任意）専用 OG 画像 1200×630 を作成し差し替え
+7. 旧スキーマキー削除（V2 安定後、別PR）
+8. （任意）独自ドメイン取得（`.vercel.app` 脱却 / Google の「Vercel」サイト名表示の根本解消）
+9. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）
 
 ## 既知の問題・触ってはいけない箇所
 
@@ -127,5 +146,5 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ---
 
-- **最終更新日時**: 2026-06-08（ローディングアニメーション本番反映後）
+- **最終更新日時**: 2026-06-10（Feature/Location 改善実装後・`feat/features-location-update` は main 未マージ）
 - **更新したエージェント名**: Claude
