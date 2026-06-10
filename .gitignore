@@ -42,3 +42,6 @@ next-env.d.ts
 
 .vercel
 .incoming/
+
+# Claude作成の作業メモ（未追跡運用）
+修正指示_*.md
