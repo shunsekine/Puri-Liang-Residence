@@ -308,7 +308,8 @@
     "minutesUnit": "menit",
     "byCar": "dengan mobil",
     "onFoot": "jalan kaki",
-    "yearFounded": "Est. 2024"
+    "yearFounded": "Est. 2024",
+    "photoPlaceholder": "Segera diperbarui"
   },
   "Nav": {
     "stay": "Stay",
@@ -495,7 +496,8 @@
       "title2": ".",
       "lead": "Sidakarya berada sedikit di luar kawasan wisata utama Bali, tapi memungkinkan Anda mencapai distrik-distrik penting di segala arah dalam waktu yang relatif singkat.",
       "hubLabel": "Puri Liang",
-      "hubMeta": "Sidakarya, Denpasar Selatan"
+      "hubMeta": "Sidakarya, Denpasar Selatan",
+      "mapCaption": "Perkiraan jarak dari Puri Liang Residence ke kawasan-kawasan utama"
     },
     "directions": [
       {
@@ -503,6 +505,7 @@
         "bearing": "Timur",
         "title": "Menuju Sanur",
         "en": "East · Sanur",
+        "access": "≈ 4 km · ~10 menit berkendara",
         "body": "Dekat dengan rumah sakit internasional yang baru dibuka di zona khusus medis, pelabuhan menuju pulau-pulau sekitar (Nusa Lembongan / Penida), dan kawasan Sanur yang sedang dikembangkan. Akses kesehatan dan island hopping mudah selama tinggal lama.",
         "bullets": [
           "Rumah sakit internasional (zona medis)",
@@ -515,6 +518,7 @@
         "bearing": "Barat",
         "title": "Menuju Seminyak / Canggu",
         "en": "West · Seminyak / Canggu",
+        "access": "≈ 11–16 km · ~30–40 menit berkendara",
         "body": "Beberapa jalur akses menuju Seminyak, Canggu, Kuta, dan Legian — Anda bisa memilih rute sesuai kondisi lalu lintas. Mudah untuk akhir pekan ke beach club dan nightlife.",
         "bullets": [
           "Canggu / Seminyak",
@@ -527,6 +531,7 @@
         "bearing": "Selatan",
         "title": "Menuju Nusa Dua / Uluwatu",
         "en": "South · Nusa Dua / Uluwatu",
+        "access": "≈ 13–20 km · ~30–45 menit berkendara",
         "body": "Dekat pintu masuk tol yang mempersingkat perjalanan ke Nusa Dua, Benoa, dan Uluwatu. Pulau Kura Kura — dengan mall besar dan zona keuangan — juga bisa dijangkau tanpa kemacetan.",
         "bullets": [
           "Dekat pintu tol",
@@ -539,6 +544,7 @@
         "bearing": "Utara",
         "title": "Menuju Ubud",
         "en": "North · Ubud",
+        "access": "≈ 22 km · ~60 menit berkendara",
         "body": "Dekat jalan utama ke Ubud — sebagian besar perjalanan kurang dari 1 jam. Basis yang nyaman untuk day trip akhir pekan dan akses ke yoga, sawah, dan pasar.",
         "bullets": [
           "Pusat Ubud",

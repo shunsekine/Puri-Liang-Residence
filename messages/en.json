@@ -308,7 +308,8 @@
     "minutesUnit": "min",
     "byCar": "by car",
     "onFoot": "on foot",
-    "yearFounded": "Est. 2024"
+    "yearFounded": "Est. 2024",
+    "photoPlaceholder": "To be updated"
   },
   "Nav": {
     "stay": "Stay",
@@ -495,7 +496,8 @@
       "title2": ".",
       "lead": "Sidakarya sits slightly outside Bali's main tourist areas, but lets you reach the major districts in every direction in a relatively short drive.",
       "hubLabel": "Puri Liang",
-      "hubMeta": "Sidakarya, Denpasar Selatan"
+      "hubMeta": "Sidakarya, Denpasar Selatan",
+      "mapCaption": "Approximate distances from Puri Liang Residence to the main areas"
     },
     "directions": [
       {
@@ -503,6 +505,7 @@
         "bearing": "East",
         "title": "Toward Sanur",
         "en": "East · Sanur",
+        "access": "≈ 4 km · ~10 min by car",
         "body": "Close to the newly opened international hospital in the medical special zone, the ferry port for nearby islands (Nusa Lembongan / Penida), and the redeveloping Sanur area. Easy access to healthcare and island hopping during a long stay.",
         "bullets": [
           "International hospital (medical zone)",
@@ -515,6 +518,7 @@
         "bearing": "West",
         "title": "Toward Seminyak / Canggu",
         "en": "West · Seminyak / Canggu",
+        "access": "≈ 11–16 km · ~30–40 min by car",
         "body": "Multiple access roads run toward Seminyak, Canggu, Kuta, and Legian — you can choose your route depending on traffic. Easy for weekend nightlife and beach clubs.",
         "bullets": [
           "Canggu / Seminyak",
@@ -527,6 +531,7 @@
         "bearing": "South",
         "title": "Toward Nusa Dua / Uluwatu",
         "en": "South · Nusa Dua / Uluwatu",
+        "access": "≈ 13–20 km · ~30–45 min by car",
         "body": "Close to the toll-road entrance that shortcuts to Nusa Dua, Benoa, and Uluwatu. Kura Kura Island — with its large mall and financial special zone — is also reachable without sitting in traffic.",
         "bullets": [
           "Near toll-road entrance",
@@ -539,6 +544,7 @@
         "bearing": "North",
         "title": "Toward Ubud",
         "en": "North · Ubud",
+        "access": "≈ 22 km · ~60 min by car",
         "body": "Near the main road to Ubud — most trips take under an hour. An easy base for weekend day trips and access to yoga, rice terraces, and markets.",
         "bullets": [
           "Central Ubud",

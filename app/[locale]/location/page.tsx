@@ -1,7 +1,7 @@
 // V2 Bohemian Natural — Location page
 // Hero / Crossroads (E/W/S/N) / Map + info / POI grid (8 items) / Neighborhood notes (4)
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { LOCATION } from '@/lib/data';
 
@@ -20,6 +20,7 @@ export default function LocationPage() {
         bearing: string;
         title: string;
         en: string;
+        access: string;
         body: string;
         bullets: string[];
     }[];
@@ -29,6 +30,12 @@ export default function LocationPage() {
     }[];
     const notes = t.raw('neighborhood.notes') as { title: string; body: string }[];
     const stats = t.raw('info.stats') as { k: string; v: string; unit: string }[];
+    const locale = useLocale();
+
+    // Google Maps 埋め込み(APIキー不要)。
+    // 座標ではなく場所名+住所で指定することで、ピンに「場所情報」を表示させる
+    // (q=緯度,経度 だと "ドロップピン"=場所情報なし になるため)。
+    const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(LOCATION.placeQuery)}&z=16&hl=${locale}&output=embed`;
 
     return (
         <main className="v2">
@@ -52,20 +59,26 @@ export default function LocationPage() {
                     </h2>
                     <p>{t('crossroads.lead')}</p>
                 </div>
-                <div className="v2-compass">
-                    <div className="v2-compass-hub">
-                        <div className="v2-compass-hub-inner">
-                            <div className="v2-compass-hub-mark">✦</div>
-                            <div className="v2-compass-hub-t">{t('crossroads.hubLabel')}</div>
-                            <div className="v2-compass-hub-s">{t('crossroads.hubMeta')}</div>
+                <div className="v2-balimap-layout">
+                    <figure className="v2-cdial-fig">
+                        <div className="v2-cdial">
+                            <div className="v2-cdial-hub">
+                                <span className="mk">✦</span>
+                                <span className="t">{t('crossroads.hubLabel')}</span>
+                                <span className="s">{t('crossroads.hubMeta')}</span>
+                            </div>
+                            {directions.map(d => {
+                                const area = d.en.split('·')[1]?.trim() ?? d.title;
+                                return (
+                                    <div key={d.dir} className={`v2-cdial-poi pos-${d.dir.toLowerCase()}`}>
+                                        <div className="h"><span className="d">{d.dir}</span><span className="a">{area}</span></div>
+                                        <div className="x">{d.access}</div>
+                                    </div>
+                                );
+                            })}
                         </div>
-                        <div className="v2-compass-axis v" />
-                        <div className="v2-compass-axis h" />
-                        <div className="v2-compass-cardinal n">N</div>
-                        <div className="v2-compass-cardinal s">S</div>
-                        <div className="v2-compass-cardinal e">E</div>
-                        <div className="v2-compass-cardinal w">W</div>
-                    </div>
+                        <figcaption className="v2-cdial-cap">{t('crossroads.mapCaption')}</figcaption>
+                    </figure>
                     <div className="v2-compass-grid">
                         {directions.map(d => (
                             <article key={d.dir} className={`v2-compass-card dir-${d.dir.toLowerCase()}`}>
@@ -91,28 +104,14 @@ export default function LocationPage() {
             <section className="v2-section">
                 <div className="v2-loc-wrap">
                     <div className="v2-locmap">
-                        <div className="v2-locmap-bg" />
-                        <svg className="v2-locmap-svg" viewBox="0 0 600 480" preserveAspectRatio="xMidYMid slice">
-                            <defs>
-                                <pattern id="v2locgrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(58,46,34,0.06)" strokeWidth="1" />
-                                </pattern>
-                            </defs>
-                            <rect width="600" height="480" fill="url(#v2locgrid)" />
-                            <path d="M 0 380 Q 150 360 280 400 Q 420 430 600 410 L 600 480 L 0 480 Z" fill="rgba(196,122,82,0.1)" />
-                            <path d="M 0 380 Q 150 360 280 400 Q 420 430 600 410" stroke="rgba(196,122,82,0.4)" strokeWidth="1.5" fill="none" />
-                            <path d="M 0 200 Q 180 180 320 220 Q 460 250 600 200" stroke="rgba(58,46,34,0.35)" strokeWidth="2.5" fill="none" />
-                            <path d="M 0 280 Q 150 270 300 290 Q 450 300 600 280" stroke="rgba(58,46,34,0.25)" strokeWidth="1.8" fill="none" />
-                            <path d="M 280 0 Q 290 150 320 280 Q 340 380 360 480" stroke="rgba(58,46,34,0.3)" strokeWidth="2" fill="none" />
-                            <path d="M 100 0 Q 130 100 110 200 Q 90 320 130 480" stroke="rgba(93,111,86,0.4)" strokeWidth="3" fill="none" />
-                        </svg>
-                        <div className="v2-locmap-pin main" style={{ top: '55%', left: '52%' }}>
-                            <div className="dot" />
-                            <div className="lbl">{t('crossroads.hubLabel')}</div>
-                        </div>
-                        <div className="v2-locmap-pin sub" style={{ top: '82%', left: '78%' }}><div className="d" /><div className="lb">{poiItems[0]?.title ?? '—'}</div></div>
-                        <div className="v2-locmap-pin sub" style={{ top: '40%', left: '38%' }}><div className="d" /><div className="lb">{poiItems[1]?.title ?? '—'}</div></div>
-                        <div className="v2-locmap-pin sub" style={{ top: '62%', left: '38%' }}><div className="d" /><div className="lb">{poiItems[2]?.title ?? '—'}</div></div>
+                        <iframe
+                            className="v2-locmap-frame"
+                            src={mapEmbedSrc}
+                            title={t('info.name')}
+                            loading="lazy"
+                            allowFullScreen
+                            referrerPolicy="no-referrer-when-downgrade"
+                        />
                         <div className="v2-locmap-coord">{LOCATION.coord.ns} · {LOCATION.coord.ew}</div>
                     </div>
 
@@ -121,8 +120,8 @@ export default function LocationPage() {
                             <div className="t">{t('info.name')}</div>
                             <div className="addr">{t('info.address')}</div>
                             <div className="v2-locinfo-actions">
-                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-8.7054,115.2392">{t('info.openInGoogle')}</a>
-                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href="https://maps.apple.com/?q=-8.7054,115.2392">{t('info.openInApple')}</a>
+                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href={LOCATION.googleShareUrl}>{t('info.openInGoogle')}</a>
+                                <a className="v2-btn outline" style={{ padding: '8px 16px', fontSize: 12 }} target="_blank" rel="noopener" href={`https://maps.apple.com/?q=${encodeURIComponent('Puri Liang Residence')}&ll=${LOCATION.lat},${LOCATION.lng}&z=16`}>{t('info.openInApple')}</a>
                             </div>
                         </div>
                         <div className="v2-locinfo-stat">
