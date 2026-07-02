@@ -282,10 +282,6 @@
     "FAQ": {
       "title": "FAQ | Puri Liang",
       "description": "Pertanyaan-pertanyaan paling sering dalam 2 tahun terakhir tentang harga, pembayaran, pembatalan, dan durasi minimum — dikelompokkan per kategori. Untuk yang lain, gunakan form reservasi."
-    },
-    "Terms": {
-      "title": "Syarat & Ketentuan | Puri Liang",
-      "description": "Syarat dan ketentuan menginap di Puri Liang Residence — pendaftaran identitas, jadwal pembayaran, syarat pengembalian deposit, tanggung jawab, dan pelaporan kepada petugas setempat."
     }
   },
   "Brand": {
@@ -727,7 +723,7 @@
       {
         "category": "booking",
         "q": "Bagaimana kebijakan pembatalan?",
-        "a": "Hingga 2 minggu sebelum check-in: refund 50%. Hingga 1 minggu sebelum: refund 25%. Setelah itu: tidak ada refund."
+        "a": "Pembatalan gratis hingga 3 hari sebelum check-in (belum ada pembayaran hingga saat itu, karena pembayaran awal jatuh tempo 3 hari sebelum check-in). Mulai 3 hari sebelum check-in, pembatalan tidak dapat dilakukan."
       },
       {
         "category": "rules",
@@ -848,14 +844,11 @@
       "Lainnya"
     ],
     "terms": {
-      "rulesLabel": " — Saya sudah membaca",
       "rulesLinkText": "peraturan rumah",
-      "rulesDescription": "Check-in 14.00 / out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, tidak menerima hewan. Detail di link.",
-      "cancelLabel": "Saya sudah membaca kebijakan pembatalan",
-      "cancelDescription": "2 minggu sebelum check-in: refund 50%. 1 minggu sebelum: refund 25%. Setelah itu: tidak ada refund.",
-      "termsLinkText": "syarat & ketentuan",
-      "termsLabel": " — Saya sudah membaca dan setuju",
-      "termsDescription": "Mencakup penyerahan identitas saat check-in, tenggat pembayaran, syarat pengembalian deposit, dan tanggung jawab. Terbuka di tab baru."
+      "joiner": " dan ",
+      "termsLinkText": "syarat & ketentuan (termasuk kebijakan pembatalan)",
+      "agreeSuffix": " — Saya sudah membaca dan setuju",
+      "agreeDescription": "Check-in 14.00 / out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, tanpa hewan. Pembatalan tidak dapat dilakukan mulai 3 hari sebelum check-in. Buka tautan untuk detail lengkap (S&K terbuka di tab baru)."
     },
     "modal": {
       "eyebrow": "Peraturan rumah · kesepakatan bersama",
@@ -877,12 +870,10 @@
       "nameRequired": "Mohon isi nama Anda.",
       "emailInvalid": "Mohon isi alamat email yang valid.",
       "phoneRequired": "Mohon isi nomor WhatsApp atau telepon.",
-      "rulesRequired": "Mohon menyetujui peraturan rumah.",
-      "cancelRequired": "Mohon menyetujui kebijakan pembatalan.",
       "submitFailed": "Pengiriman gagal. Silakan coba lagi sebentar.",
       "networkError": "Silakan coba lagi sebentar.",
       "errorTitle": "Tidak dapat dikirim",
-      "termsRequired": "Mohon menyetujui syarat & ketentuan."
+      "agreeRequired": "Mohon konfirmasi dan setujui peraturan rumah serta syarat & ketentuan."
     },
     "summary": {
       "stayKeys": {
@@ -938,14 +929,16 @@
     }
   },
   "Terms": {
-    "hero": {
+    "section": {
       "eyebrow": "Syarat & Ketentuan",
       "title": "Syarat dan Ketentuan",
-      "lead": "Ketentuan ini berlaku bagi semua tamu yang menginap di Puri Liang Residence. Mohon dibaca sebelum melakukan reservasi — formulir reservasi meminta persetujuan Anda."
+      "lead": "Ketentuan lengkap yang berlaku bagi semua tamu Puri Liang Residence. Formulir reservasi meminta persetujuan Anda atas ketentuan ini.",
+      "navLabel": "Syarat & Ketentuan"
     },
     "items": [
       "Fotokopi identitas yang berlaku (paspor, dll.) dari seluruh penghuni wajib diserahkan saat check-in. Hanya orang yang terdaftar yang berhak menghuni kamar.",
       "Pembayaran awal sebesar 1 (satu) bulan sewa wajib ditransfer paling lambat 3 (tiga) hari sebelum check-in. Sisa pembayaran, termasuk deposit, dibayarkan saat check-in.",
+      "Pembatalan tidak dapat dilakukan mulai 3 (tiga) hari sebelum check-in.",
       "Tidak diperkenankan menerima tamu di dalam kamar tanpa izin terlebih dahulu dari pengelola.",
       "Tidak diperkenankan membawa hewan peliharaan.",
       "Perpanjangan sewa dianggap sebagai reservasi baru, sehingga perpanjangan diterima apabila kamar masih tersedia.",
@@ -955,8 +948,6 @@
       "Sesuai peraturan pemerintah, pengelola wajib melaporkan keberadaan penghuni kepada petugas setempat dengan menyerahkan fotokopi kartu identitas penghuni.",
       "Seluruh penghuni wajib menjaga ketertiban dan privasi seluruh penghuni lainnya.",
       "Seluruh penghuni dilarang melakukan perbuatan melawan hukum di area Puri Liang Residence."
-    ],
-    "footNote": "Ada pertanyaan tentang ketentuan ini? Hubungi kami melalui formulir reservasi — kami membalas dalam 2 hari kerja.",
-    "footCta": "Ke formulir reservasi →"
+    ]
   }
 }

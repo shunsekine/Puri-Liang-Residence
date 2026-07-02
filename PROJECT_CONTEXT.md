@@ -77,10 +77,13 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 ## 完了済みタスク（直近 / 2026-07-02・`feat/terms-page` / main 未マージ）
 
 - **利用規約（Terms & Conditions）のサイト統合**（オーナー提供の13条項を監査→統合。条項1(メール/WA限定)・4(12歳未満不可)はオーナー指示で除外、2は「チェックイン時に身分証提出」、3は「初回=1ヶ月分を3日前まで・残額はチェックイン時」、5は「事前許可のない来客禁止」に修正）
-  - `/[locale]/terms` ページ新設（全11条・3言語 / `Terms` namespace / `Metadata.Terms` / sitemap / フッター最下部リンク）
-  - 予約フォーム: 利用規約同意チェック追加（3つ全て同意で送信可）/ Step2 に身分証提出の注記（`Reserve.fields.idNote`）
-  - 支払い表記の整合: FAQ支払い・見積もりサマリー（`Reserve.summary.depositTitle/depositSuffix/balanceNote`、`depositNote` 削除+JSXの重複 "+ Rp 2,000,000" 表示も解消）
+  - 支払い表記の整合: FAQ支払い・見積もりサマリー（`Reserve.summary.depositTitle/depositSuffix/balanceNote`）
   - 来客「事前申請制」→「事前許可制」（`HouseRules.items[4]` / FAQ来客）、FAQ 3件追加（延長・デポジット返金・責任）
+  - Step2 に身分証提出の注記（`Reserve.fields.idNote`）
+- **UX見直し（ユーザー指摘: 予約フォームのチェック3つは心理的障壁が高い／FAQとT&Cは別ページにすると心理的障壁が高い）を受けて再設計**
+  - `/[locale]/terms` 単独ページは**廃止**。利用規約の正文（全12条）は `/[locale]/faq` ページ最下部に `id="terms"` セクションとして統合（`Terms.section.*` / `Terms.items` / サイドナビに項目追加）。導線は「疑問もルールも1ページ」に一本化。フッターの規約リンクも `/faq#terms` へ変更。sitemap から `/terms` を削除。
+  - キャンセル条項を第3条として新設: **「チェックインの3日前以降のキャンセルはできません」のみ**（3日前まで支払い自体が発生しないため無料キャンセルは自明。3日前以降は現地判断とし、返金率などはサイトに明記しない方針）。旧キャンセルポリシー（2週間前50%/1週間前25%）は全箇所から削除。
+  - 予約フォームの同意チェックを**3つ→1つに集約**（`agree` state 1本）。「ハウスルール（モーダル）と利用規約（キャンセルポリシー含む・`/faq#terms` を新タブ）を確認のうえ、同意します」の1チェックのみで送信可（`Reserve.terms.*` / `errors.agreeRequired`）。証跡としての明示同意は残しつつ、契約書面の取り交わし前段（問い合わせ段階）の摩擦を最小化。
 
 ## 完了済みタスク（2026-06-10・`feat/features-location-update`→ `5c0c451` で main マージ済み）
 

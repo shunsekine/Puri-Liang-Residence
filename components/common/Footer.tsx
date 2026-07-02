@@ -75,7 +75,7 @@ export default function Footer() {
 
             <div className="v2-footer-bottom" style={{ gap: 16 }}>
                 <span>© {currentYear} {tBrand('fullName')}. All Rights Reserved.</span>
-                <Link href="/terms" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                <Link href="/faq#terms" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>
                     {t('termsLink')}
                 </Link>
             </div>

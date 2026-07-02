@@ -282,10 +282,6 @@
     "FAQ": {
       "title": "FAQ | Puri Liang",
       "description": "Two years of frequently asked questions about pricing, payment, cancellation, and minimum stay — grouped by category. For anything else, please use the reservation form."
-    },
-    "Terms": {
-      "title": "Terms & Conditions | Puri Liang",
-      "description": "Terms and conditions for staying at Puri Liang Residence — ID registration, payment schedule, deposit refund conditions, liability, and reporting to local authorities."
     }
   },
   "Brand": {
@@ -727,7 +723,7 @@
       {
         "category": "booking",
         "q": "What's the cancellation policy?",
-        "a": "Up to 2 weeks before check-in: 50% refund. Up to 1 week before: 25% refund. After that: non-refundable."
+        "a": "Cancellation is free until 3 days before check-in (no payment is due until then, as the initial payment is due 3 days before check-in). From 3 days before check-in, cancellations are not accepted."
       },
       {
         "category": "rules",
@@ -848,14 +844,11 @@
       "Other"
     ],
     "terms": {
-      "rulesLabel": " — I have read",
       "rulesLinkText": "the house rules",
-      "rulesDescription": "Check-in 14:00 / out 11:00, quiet hours 22:00–07:00, no indoor smoking, no pets. Tap the link for full rules.",
-      "cancelLabel": "I have read the cancellation policy",
-      "cancelDescription": "2 weeks before check-in: 50% refund. 1 week before: 25% refund. After that: non-refundable.",
-      "termsLinkText": "the terms and conditions",
-      "termsLabel": " — I have read and agree",
-      "termsDescription": "Covers ID submission at check-in, payment deadlines, deposit refund conditions, and liability. Opens in a new tab."
+      "joiner": " and ",
+      "termsLinkText": "the terms & conditions (incl. cancellation policy)",
+      "agreeSuffix": " — I have read and agree",
+      "agreeDescription": "Check-in 14:00 / out 11:00, quiet hours 22:00–07:00, no indoor smoking, no pets. No cancellation from 3 days before check-in. Tap the links for full details (terms open in a new tab)."
     },
     "modal": {
       "eyebrow": "House Rules · shared expectations",
@@ -877,12 +870,10 @@
       "nameRequired": "Please enter your name.",
       "emailInvalid": "Please enter a valid email address.",
       "phoneRequired": "Please enter a WhatsApp number or phone.",
-      "rulesRequired": "Please agree to the house rules.",
-      "cancelRequired": "Please agree to the cancellation policy.",
       "submitFailed": "Sending failed. Please try again in a moment.",
       "networkError": "Please try again in a moment.",
       "errorTitle": "Could not send",
-      "termsRequired": "Please agree to the terms and conditions."
+      "agreeRequired": "Please confirm and agree to the house rules and terms & conditions."
     },
     "summary": {
       "stayKeys": {
@@ -938,14 +929,16 @@
     }
   },
   "Terms": {
-    "hero": {
+    "section": {
       "eyebrow": "Terms & Conditions",
       "title": "Terms and Conditions",
-      "lead": "These terms apply to every guest staying at Puri Liang Residence. Please read them before booking — the reservation form asks for your agreement."
+      "lead": "The full terms that apply to every guest staying at Puri Liang Residence. The reservation form asks for your agreement to these terms.",
+      "navLabel": "Terms & Conditions"
     },
     "items": [
       "A photocopy of a valid ID (passport, etc.) of every occupant must be submitted at check-in. Only registered persons are entitled to occupy the room.",
       "The initial payment of one (1) month's rent must be made by bank transfer no later than 3 (three) days before check-in. The remaining balance, including the deposit, is payable at check-in.",
+      "Cancellations are not accepted from 3 (three) days before check-in.",
       "Receiving guests in the room without prior permission from management is not permitted.",
       "No pets are permitted.",
       "A rental extension is treated as a new reservation, so extensions are accepted only if rooms are available.",
@@ -955,8 +948,6 @@
       "In accordance with government regulations, management is obliged to report the whereabouts of tenants to local officers by submitting a photocopy of the tenant's identity card.",
       "All tenants are obliged to maintain order and respect the privacy of all other tenants.",
       "All tenants are prohibited from carrying out unlawful acts in the Puri Liang Residence area."
-    ],
-    "footNote": "Questions about these terms? Reach us via the reservation form — we reply within two business days.",
-    "footCta": "Go to the reservation form →"
+    ]
   }
 }

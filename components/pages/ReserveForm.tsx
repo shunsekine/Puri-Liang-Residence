@@ -8,7 +8,7 @@
 //   - honeypot field to filter bots
 //   - house-rules modal: click the underlined link in step 3 to open;
 //     Esc / × / "got it" button closes; form state is preserved
-//   - terms & conditions checkbox links to /terms (new tab, form state kept)
+//   - single consent checkbox; house-rules modal + /faq#terms link (new tab)
 //   - localized via messages.Reserve.* / messages.HouseRules.items / messages.Terms
 //   - live price summary (sticky on desktop, top-floating on mobile)
 //
@@ -64,9 +64,7 @@ export default function ReserveForm() {
     const [notes, setNotes] = useState('');
 
     // --- Terms (Step 3) ---
-    const [agreeRules, setAgreeRules] = useState(false);
-    const [agreeCancel, setAgreeCancel] = useState(false);
-    const [agreeTerms, setAgreeTerms] = useState(false);
+    const [agree, setAgree] = useState(false);
 
     // --- House rules modal ---
     const [rulesOpen, setRulesOpen] = useState(false);
@@ -110,13 +108,11 @@ export default function ReserveForm() {
         if (!name.trim()) return t('errors.nameRequired');
         if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return t('errors.emailInvalid');
         if (!phone.trim()) return t('errors.phoneRequired');
-        if (!agreeRules) return t('errors.rulesRequired');
-        if (!agreeCancel) return t('errors.cancelRequired');
-        if (!agreeTerms) return t('errors.termsRequired');
+        if (!agree) return t('errors.agreeRequired');
         return null;
     };
 
-    const canSubmit = agreeRules && agreeCancel && agreeTerms && status !== 'sending';
+    const canSubmit = agree && status !== 'sending';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -384,7 +380,7 @@ export default function ReserveForm() {
                             </div>
                             <div className="v2-res-step-body">
                                 <label className="v2-res-check">
-                                    <input type="checkbox" checked={agreeRules} onChange={e => setAgreeRules(e.target.checked)} />
+                                    <input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} />
                                     <div>
                                         <div className="t">
                                             <button
@@ -394,33 +390,18 @@ export default function ReserveForm() {
                                             >
                                                 {t('terms.rulesLinkText')}
                                             </button>
-                                            {t('terms.rulesLabel')} <span className="req">{t('fields.required')}</span>
-                                        </div>
-                                        <div className="s">{t('terms.rulesDescription')}</div>
-                                    </div>
-                                </label>
-                                <label className="v2-res-check">
-                                    <input type="checkbox" checked={agreeCancel} onChange={e => setAgreeCancel(e.target.checked)} />
-                                    <div>
-                                        <div className="t">{t('terms.cancelLabel')} <span className="req">{t('fields.required')}</span></div>
-                                        <div className="s">{t('terms.cancelDescription')}</div>
-                                    </div>
-                                </label>
-                                <label className="v2-res-check">
-                                    <input type="checkbox" checked={agreeTerms} onChange={e => setAgreeTerms(e.target.checked)} />
-                                    <div>
-                                        <div className="t">
+                                            {t('terms.joiner')}
                                             <Link
-                                                href="/terms"
+                                                href="/faq#terms"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="v2-res-rules-link"
                                             >
                                                 {t('terms.termsLinkText')}
                                             </Link>
-                                            {t('terms.termsLabel')} <span className="req">{t('fields.required')}</span>
+                                            {t('terms.agreeSuffix')} <span className="req">{t('fields.required')}</span>
                                         </div>
-                                        <div className="s">{t('terms.termsDescription')}</div>
+                                        <div className="s">{t('terms.agreeDescription')}</div>
                                     </div>
                                 </label>
                             </div>
