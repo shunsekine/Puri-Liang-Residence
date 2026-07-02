@@ -68,14 +68,21 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 ## 現在のブランチ・最終コミット
 
 - **canonical ブランチ**: `main`（本番）
-- **main 最新**: `a5ea213 Merge feat/page-transition-loader: 全ページ遷移ローディングアニメーション`（**本番デプロイ success 確認済み**）
-- **未マージの作業ブランチ**: ⚠️ **`feat/features-location-update`**（最新 `7f392a1` / プレビュー確認済み・**main 未マージ**）。Feature/Location 改善一式を含む。**ユーザーの「本番反映」指示でマージ予定**。
-- **直近マージ済みブランチ**: `feat/page-transition-loader`（main へマージ済み / 削除可。念のため残置）
+- **main 最新**: `e352b68`（`feat/features-location-update` は `5c0c451` で**マージ済み・本番反映済み**）
+- **未マージの作業ブランチ**: ⚠️ **`feat/terms-page`**（2026-07-02 / Claude）。利用規約（Terms & Conditions）統合一式。**ユーザーの「本番反映」指示でマージ予定**。
+- **直近マージ済みブランチ**: `feat/features-location-update` / `feat/page-transition-loader`（削除可。念のため残置）
 - **PR**: #1「V2 Bohemian Natural リデザイン」 **マージ済み（クローズ）**
-- **feat/v2-bohemian-natural**: 役割完了（feat は整理/削除可）
 - **今後の変更は main から新ブランチを切る**こと
 
-## 完了済みタスク（直近 / 2026-06-10・`feat/features-location-update` / main 未マージ）
+## 完了済みタスク（直近 / 2026-07-02・`feat/terms-page` / main 未マージ）
+
+- **利用規約（Terms & Conditions）のサイト統合**（オーナー提供の13条項を監査→統合。条項1(メール/WA限定)・4(12歳未満不可)はオーナー指示で除外、2は「チェックイン時に身分証提出」、3は「初回=1ヶ月分を3日前まで・残額はチェックイン時」、5は「事前許可のない来客禁止」に修正）
+  - `/[locale]/terms` ページ新設（全11条・3言語 / `Terms` namespace / `Metadata.Terms` / sitemap / フッター最下部リンク）
+  - 予約フォーム: 利用規約同意チェック追加（3つ全て同意で送信可）/ Step2 に身分証提出の注記（`Reserve.fields.idNote`）
+  - 支払い表記の整合: FAQ支払い・見積もりサマリー（`Reserve.summary.depositTitle/depositSuffix/balanceNote`、`depositNote` 削除+JSXの重複 "+ Rp 2,000,000" 表示も解消）
+  - 来客「事前申請制」→「事前許可制」（`HouseRules.items[4]` / FAQ来客）、FAQ 3件追加（延長・デポジット返金・責任）
+
+## 完了済みタスク（2026-06-10・`feat/features-location-update`→ `5c0c451` で main マージ済み）
 
 - **Feature ページ**（`app/[locale]/features/page.tsx`）
   - 写真の「01 / 4」番号表示（`v2-feat-tag`）を削除
@@ -118,7 +125,7 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ## 次にやること（公開後 / 優先順）
 
-1. **`feat/features-location-update` の本番反映**（ユーザー確認後に main へマージ）。Feature/Location 改善一式を含む（未マージ）。
+1. **`feat/terms-page` の本番反映**（ユーザー確認後に main へマージ）。利用規約統合一式を含む（未マージ）。
 2. **文言（コピー）の加筆・修正フェーズ**（進行中）。messages/{ja,en,id}.json を3言語同期で修正。住所/価格/連絡先非掲載/ブランド表記の制約を厳守。**今後の新規実装は Claude が指示書を作成し Antigravity が実装**（クオータ節約）。
 3. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
 4. en/id 翻訳のネイティブレビュー（特に id）
@@ -146,5 +153,5 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ---
 
-- **最終更新日時**: 2026-06-10（Feature/Location 改善実装後・`feat/features-location-update` は main 未マージ）
+- **最終更新日時**: 2026-07-02（利用規約統合実装後・`feat/terms-page` は main 未マージ）
 - **更新したエージェント名**: Claude
