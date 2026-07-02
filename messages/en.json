@@ -339,7 +339,8 @@
       "WhatsApp",
       "Instagram"
     ],
-    "copyright": "© 2026 Puri Liang Residence"
+    "copyright": "© 2026 Puri Liang Residence",
+    "termsLink": "Terms & Conditions"
   },
   "Band": {
     "items": [
@@ -436,7 +437,7 @@
       "Quiet hours 22:00–07:00",
       "Indoor non-smoking / designated outdoor area only",
       "No pets",
-      "Visitors require advance notice (free, capacity-limited)"
+      "Visitors require prior permission (free, capacity-limited)"
     ]
   },
   "Simulator": {
@@ -717,12 +718,12 @@
       {
         "category": "pricing",
         "q": "How can I pay?",
-        "a": "Bank transfer (JPY / USD), Wise, Revolut, and Wise Business are supported. Initial payment is 1 month + Rp 2,000,000 deposit at booking."
+        "a": "Bank transfer (JPY / USD), Wise, Revolut, and Wise Business are supported. The initial payment of 1 month's rent is due no later than 3 days before check-in; the balance (including the Rp 2,000,000 deposit) is payable at check-in."
       },
       {
         "category": "booking",
         "q": "What's the cancellation policy?",
-        "a": "Up to 2 weeks before check-in: 50% refund. Up to 1 week before: 25% refund. After that: non-refundable."
+        "a": "Cancellation is free until 3 days before check-in (no payment is due until then, as the initial payment is due 3 days before check-in). From 3 days before check-in, cancellations are not accepted."
       },
       {
         "category": "rules",
@@ -762,7 +763,22 @@
       {
         "category": "rules",
         "q": "Are visitors allowed?",
-        "a": "Yes, with advance notice (free). Overnight visitors are Rp 200,000 per night, up to 3 nights. Shared areas are open to all residents."
+        "a": "Yes, with prior permission (free) — guests cannot be received in the room without it. Overnight visitors are Rp 200,000 per night, up to 3 nights. Shared areas are open to all residents."
+      },
+      {
+        "category": "booking",
+        "q": "Can I extend my stay?",
+        "a": "An extension is treated as a new reservation, so it depends on room availability at that time. If you would like to extend, please let us know as early as possible."
+      },
+      {
+        "category": "pricing",
+        "q": "Is the deposit refundable?",
+        "a": "Yes. The Rp 2,000,000 deposit is returned in full at check-out, provided there are no outstanding payments or arrears to management or any party related to Puri Liang."
+      },
+      {
+        "category": "rules",
+        "q": "Who is responsible for belongings and damage?",
+        "a": "Please look after your own belongings — management is not responsible for their damage or loss. If property of the residence is damaged or lost due to a renter’s negligence, the renter covers the cost. See the terms & conditions for details."
       }
     ]
   },
@@ -809,7 +825,8 @@
       "checkoutLabel": "Expected check-out",
       "capacityHint": "max capacity",
       "guestsUnit": "guests",
-      "required": "*"
+      "required": "*",
+      "idNote": "At check-in, you'll be asked to submit a copy of each guest's ID (passport, etc.) — government regulations require us to register tenants with the local authorities."
     },
     "nationalities": {
       "JP": "Japan",
@@ -827,11 +844,11 @@
       "Other"
     ],
     "terms": {
-      "rulesLabel": " — I have read",
       "rulesLinkText": "the house rules",
-      "rulesDescription": "Check-in 14:00 / out 11:00, quiet hours 22:00–07:00, no indoor smoking, no pets. Tap the link for full rules.",
-      "cancelLabel": "I have read the cancellation policy",
-      "cancelDescription": "2 weeks before check-in: 50% refund. 1 week before: 25% refund. After that: non-refundable."
+      "joiner": " and ",
+      "termsLinkText": "the terms & conditions (incl. cancellation policy)",
+      "agreeSuffix": " — I have read and agree",
+      "agreeDescription": "Check-in 14:00 / out 11:00, quiet hours 22:00–07:00, no indoor smoking, no pets. No cancellation from 3 days before check-in. Tap the links for full details (terms open in a new tab)."
     },
     "modal": {
       "eyebrow": "House Rules · shared expectations",
@@ -853,11 +870,10 @@
       "nameRequired": "Please enter your name.",
       "emailInvalid": "Please enter a valid email address.",
       "phoneRequired": "Please enter a WhatsApp number or phone.",
-      "rulesRequired": "Please agree to the house rules.",
-      "cancelRequired": "Please agree to the cancellation policy.",
       "submitFailed": "Sending failed. Please try again in a moment.",
       "networkError": "Please try again in a moment.",
-      "errorTitle": "Could not send"
+      "errorTitle": "Could not send",
+      "agreeRequired": "Please confirm and agree to the house rules and terms & conditions."
     },
     "summary": {
       "stayKeys": {
@@ -874,10 +890,9 @@
       "total": "Total",
       "monthlyAvg": "Avg. / month",
       "currencyNote": "Billed in IDR · USD reference",
-      "depositTitle": "Due at booking",
-      "depositSuffix": "+ Rp 2,000,000",
-      "depositNote": "(deposit)",
-      "balanceNote": "Balance payable at check-in / monthly installments accepted"
+      "depositTitle": "Initial payment (by 3 days before check-in)",
+      "depositSuffix": "(1 month's rent · bank transfer)",
+      "balanceNote": "Balance (incl. Rp 2,000,000 deposit) payable at check-in / monthly installments accepted"
     },
     "success": {
       "eyebrow": "Reserve · Sent",
@@ -912,5 +927,27 @@
       "lead": "Pricing, payment, cancellation, minimum stay — see the FAQ page for the full list.",
       "cta": "See all FAQ →"
     }
+  },
+  "Terms": {
+    "section": {
+      "eyebrow": "Terms & Conditions",
+      "title": "Terms and Conditions",
+      "lead": "The full terms that apply to every guest staying at Puri Liang Residence. The reservation form asks for your agreement to these terms.",
+      "navLabel": "Terms & Conditions"
+    },
+    "items": [
+      "A photocopy of a valid ID (passport, etc.) of every occupant must be submitted at check-in. Only registered persons are entitled to occupy the room.",
+      "The initial payment of one (1) month's rent must be made by bank transfer no later than 3 (three) days before check-in. The remaining balance, including the deposit, is payable at check-in.",
+      "Cancellations are not accepted from 3 (three) days before check-in.",
+      "Receiving guests in the room without prior permission from management is not permitted.",
+      "No pets are permitted.",
+      "A rental extension is treated as a new reservation, so extensions are accepted only if rooms are available.",
+      "Management is not responsible for any damage to or loss of the renter's belongings. Renters are obliged to look after their own belongings.",
+      "The renter is obliged to compensate for all damage to and/or loss of property belonging to management, if this occurs due to the renter's negligence.",
+      "Renters are required to pay a deposit of Rp 2,000,000 (two million rupiah), which will be returned at check-out provided that the occupant has no outstanding payments or arrears to management or any party related to Puri Liang.",
+      "In accordance with government regulations, management is obliged to report the whereabouts of tenants to local officers by submitting a photocopy of the tenant's identity card.",
+      "All tenants are obliged to maintain order and respect the privacy of all other tenants.",
+      "All tenants are prohibited from carrying out unlawful acts in the Puri Liang Residence area."
+    ]
   }
 }

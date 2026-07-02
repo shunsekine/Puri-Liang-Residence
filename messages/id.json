@@ -339,7 +339,8 @@
       "WhatsApp",
       "Instagram"
     ],
-    "copyright": "© 2026 Puri Liang Residence"
+    "copyright": "© 2026 Puri Liang Residence",
+    "termsLink": "Syarat & Ketentuan"
   },
   "Band": {
     "items": [
@@ -436,7 +437,7 @@
       "Jam tenang 22.00–07.00",
       "Dilarang merokok di dalam ruangan / area khusus di luar",
       "Tidak menerima hewan peliharaan",
-      "Tamu wajib diberitahukan sebelumnya (gratis, ada batas jumlah)"
+      "Tamu wajib mendapat izin terlebih dahulu (gratis, ada batas jumlah)"
     ]
   },
   "Simulator": {
@@ -717,12 +718,12 @@
       {
         "category": "pricing",
         "q": "Bagaimana cara pembayarannya?",
-        "a": "Transfer bank (JPY / USD), Wise, Revolut, dan Wise Business. Pembayaran awal: 1 bulan + deposit Rp 2.000.000 saat reservasi."
+        "a": "Transfer bank (JPY / USD), Wise, Revolut, dan Wise Business. Pembayaran awal 1 bulan sewa paling lambat 3 hari sebelum check-in; sisanya (termasuk deposit Rp 2.000.000) dibayar saat check-in."
       },
       {
         "category": "booking",
         "q": "Bagaimana kebijakan pembatalan?",
-        "a": "Hingga 2 minggu sebelum check-in: refund 50%. Hingga 1 minggu sebelum: refund 25%. Setelah itu: tidak ada refund."
+        "a": "Pembatalan gratis hingga 3 hari sebelum check-in (belum ada pembayaran hingga saat itu, karena pembayaran awal jatuh tempo 3 hari sebelum check-in). Mulai 3 hari sebelum check-in, pembatalan tidak dapat dilakukan."
       },
       {
         "category": "rules",
@@ -762,7 +763,22 @@
       {
         "category": "rules",
         "q": "Apakah boleh menerima tamu?",
-        "a": "Boleh, dengan pemberitahuan sebelumnya (gratis). Tamu menginap Rp 200.000 per malam, maksimal 3 malam. Area bersama bebas digunakan oleh semua penghuni."
+        "a": "Boleh, dengan izin terlebih dahulu (gratis) — tamu tidak dapat diterima di kamar tanpa izin. Tamu menginap Rp 200.000 per malam, maksimal 3 malam. Area bersama bebas digunakan oleh semua penghuni."
+      },
+      {
+        "category": "booking",
+        "q": "Bisakah saya memperpanjang masa tinggal?",
+        "a": "Perpanjangan diperlakukan sebagai reservasi baru, jadi tergantung ketersediaan kamar saat itu. Jika ingin memperpanjang, mohon beri tahu kami sesegera mungkin."
+      },
+      {
+        "category": "pricing",
+        "q": "Apakah deposit dikembalikan?",
+        "a": "Ya. Deposit Rp 2.000.000 dikembalikan sepenuhnya saat check-out, selama tidak ada kewajiban pembayaran atau tunggakan kepada pengelola maupun pihak yang terkait dengan Puri Liang."
+      },
+      {
+        "category": "rules",
+        "q": "Bagaimana tanggung jawab atas barang dan kerusakan?",
+        "a": "Mohon jaga barang milik Anda sendiri — pengelola tidak bertanggung jawab atas kerusakan atau kehilangannya. Jika properti residence rusak atau hilang karena kelalaian penyewa, penyewa wajib menggantinya. Detail ada di syarat & ketentuan."
       }
     ]
   },
@@ -809,7 +825,8 @@
       "checkoutLabel": "Perkiraan check-out",
       "capacityHint": "kapasitas maks.",
       "guestsUnit": "orang",
-      "required": "*"
+      "required": "*",
+      "idNote": "Saat check-in, Anda akan diminta menyerahkan fotokopi identitas (paspor, dll.) setiap penghuni — sesuai peraturan pemerintah, pengelola wajib mendaftarkan penghuni kepada petugas setempat."
     },
     "nationalities": {
       "JP": "Jepang",
@@ -827,11 +844,11 @@
       "Lainnya"
     ],
     "terms": {
-      "rulesLabel": " — Saya sudah membaca",
       "rulesLinkText": "peraturan rumah",
-      "rulesDescription": "Check-in 14.00 / out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, tidak menerima hewan. Detail di link.",
-      "cancelLabel": "Saya sudah membaca kebijakan pembatalan",
-      "cancelDescription": "2 minggu sebelum check-in: refund 50%. 1 minggu sebelum: refund 25%. Setelah itu: tidak ada refund."
+      "joiner": " dan ",
+      "termsLinkText": "syarat & ketentuan (termasuk kebijakan pembatalan)",
+      "agreeSuffix": " — Saya sudah membaca dan setuju",
+      "agreeDescription": "Check-in 14.00 / out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, tanpa hewan. Pembatalan tidak dapat dilakukan mulai 3 hari sebelum check-in. Buka tautan untuk detail lengkap (S&K terbuka di tab baru)."
     },
     "modal": {
       "eyebrow": "Peraturan rumah · kesepakatan bersama",
@@ -853,11 +870,10 @@
       "nameRequired": "Mohon isi nama Anda.",
       "emailInvalid": "Mohon isi alamat email yang valid.",
       "phoneRequired": "Mohon isi nomor WhatsApp atau telepon.",
-      "rulesRequired": "Mohon menyetujui peraturan rumah.",
-      "cancelRequired": "Mohon menyetujui kebijakan pembatalan.",
       "submitFailed": "Pengiriman gagal. Silakan coba lagi sebentar.",
       "networkError": "Silakan coba lagi sebentar.",
-      "errorTitle": "Tidak dapat dikirim"
+      "errorTitle": "Tidak dapat dikirim",
+      "agreeRequired": "Mohon konfirmasi dan setujui peraturan rumah serta syarat & ketentuan."
     },
     "summary": {
       "stayKeys": {
@@ -874,10 +890,9 @@
       "total": "Total",
       "monthlyAvg": "Rata-rata / bulan",
       "currencyNote": "Ditagih dalam IDR",
-      "depositTitle": "Pembayaran saat reservasi",
-      "depositSuffix": "+ Rp 2.000.000",
-      "depositNote": "(deposit)",
-      "balanceNote": "Sisa pembayaran saat check-in / bisa dicicil bulanan"
+      "depositTitle": "Pembayaran awal (maks. 3 hari sebelum check-in)",
+      "depositSuffix": "(sewa 1 bulan · transfer bank)",
+      "balanceNote": "Sisa pembayaran (termasuk deposit Rp 2.000.000) saat check-in / bisa dicicil bulanan"
     },
     "success": {
       "eyebrow": "Reservasi · Terkirim",
@@ -912,5 +927,27 @@
       "lead": "Harga, pembayaran, pembatalan, durasi minimum — lihat halaman FAQ untuk daftar lengkap.",
       "cta": "Lihat semua FAQ →"
     }
+  },
+  "Terms": {
+    "section": {
+      "eyebrow": "Syarat & Ketentuan",
+      "title": "Syarat dan Ketentuan",
+      "lead": "Ketentuan lengkap yang berlaku bagi semua tamu Puri Liang Residence. Formulir reservasi meminta persetujuan Anda atas ketentuan ini.",
+      "navLabel": "Syarat & Ketentuan"
+    },
+    "items": [
+      "Fotokopi identitas yang berlaku (paspor, dll.) dari seluruh penghuni wajib diserahkan saat check-in. Hanya orang yang terdaftar yang berhak menghuni kamar.",
+      "Pembayaran awal sebesar 1 (satu) bulan sewa wajib ditransfer paling lambat 3 (tiga) hari sebelum check-in. Sisa pembayaran, termasuk deposit, dibayarkan saat check-in.",
+      "Pembatalan tidak dapat dilakukan mulai 3 (tiga) hari sebelum check-in.",
+      "Tidak diperkenankan menerima tamu di dalam kamar tanpa izin terlebih dahulu dari pengelola.",
+      "Tidak diperkenankan membawa hewan peliharaan.",
+      "Perpanjangan sewa dianggap sebagai reservasi baru, sehingga perpanjangan diterima apabila kamar masih tersedia.",
+      "Pengelola tidak bertanggung jawab atas segala kerusakan atau kehilangan barang milik penyewa, dan penyewa wajib menjaga barang miliknya sendiri.",
+      "Penyewa wajib mengganti segala kerusakan dan/atau kehilangan barang milik pengelola, apabila hal tersebut terjadi karena kelalaian penyewa.",
+      "Penyewa wajib membayar deposit sebesar Rp 2.000.000,- (dua juta rupiah), yang akan dikembalikan saat check-out dengan syarat penghuni tidak memiliki kewajiban pembayaran atau tunggakan kepada pengelola maupun pihak mana pun yang terkait dengan Puri Liang.",
+      "Sesuai peraturan pemerintah, pengelola wajib melaporkan keberadaan penghuni kepada petugas setempat dengan menyerahkan fotokopi kartu identitas penghuni.",
+      "Seluruh penghuni wajib menjaga ketertiban dan privasi seluruh penghuni lainnya.",
+      "Seluruh penghuni dilarang melakukan perbuatan melawan hukum di area Puri Liang Residence."
+    ]
   }
 }

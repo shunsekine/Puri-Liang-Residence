@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // 2026-05 V2 update:
     //   - locales: added 'id' (Bahasa Indonesia)
     //   - routes: added '/faq' (new page in V2 — JP/EN/ID grouped Q&A)
+    // 2026-07 update: /terms is merged into /faq#terms (2026-07)
     const locales = ['ja', 'en', 'id'];
     const routes = ['', '/features', '/rooms', '/location', '/faq', '/reserve'];
 

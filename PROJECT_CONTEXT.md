@@ -68,14 +68,24 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 ## 現在のブランチ・最終コミット
 
 - **canonical ブランチ**: `main`（本番）
-- **main 最新**: `a5ea213 Merge feat/page-transition-loader: 全ページ遷移ローディングアニメーション`（**本番デプロイ success 確認済み**）
-- **未マージの作業ブランチ**: ⚠️ **`feat/features-location-update`**（最新 `7f392a1` / プレビュー確認済み・**main 未マージ**）。Feature/Location 改善一式を含む。**ユーザーの「本番反映」指示でマージ予定**。
-- **直近マージ済みブランチ**: `feat/page-transition-loader`（main へマージ済み / 削除可。念のため残置）
+- **main 最新**: `e352b68`（`feat/features-location-update` は `5c0c451` で**マージ済み・本番反映済み**）
+- **未マージの作業ブランチ**: ⚠️ **`feat/terms-page`**（2026-07-02 / Claude）。利用規約（Terms & Conditions）統合一式。**ユーザーの「本番反映」指示でマージ予定**。
+- **直近マージ済みブランチ**: `feat/features-location-update` / `feat/page-transition-loader`（削除可。念のため残置）
 - **PR**: #1「V2 Bohemian Natural リデザイン」 **マージ済み（クローズ）**
-- **feat/v2-bohemian-natural**: 役割完了（feat は整理/削除可）
 - **今後の変更は main から新ブランチを切る**こと
 
-## 完了済みタスク（直近 / 2026-06-10・`feat/features-location-update` / main 未マージ）
+## 完了済みタスク（直近 / 2026-07-02・`feat/terms-page` / main 未マージ）
+
+- **利用規約（Terms & Conditions）のサイト統合**（オーナー提供の13条項を監査→統合。条項1(メール/WA限定)・4(12歳未満不可)はオーナー指示で除外、2は「チェックイン時に身分証提出」、3は「初回=1ヶ月分を3日前まで・残額はチェックイン時」、5は「事前許可のない来客禁止」に修正）
+  - 支払い表記の整合: FAQ支払い・見積もりサマリー（`Reserve.summary.depositTitle/depositSuffix/balanceNote`）
+  - 来客「事前申請制」→「事前許可制」（`HouseRules.items[4]` / FAQ来客）、FAQ 3件追加（延長・デポジット返金・責任）
+  - Step2 に身分証提出の注記（`Reserve.fields.idNote`）
+- **UX見直し（ユーザー指摘: 予約フォームのチェック3つは心理的障壁が高い／FAQとT&Cは別ページにすると心理的障壁が高い）を受けて再設計**
+  - `/[locale]/terms` 単独ページは**廃止**。利用規約の正文（全12条）は `/[locale]/faq` ページ最下部に `id="terms"` セクションとして統合（`Terms.section.*` / `Terms.items` / サイドナビに項目追加）。導線は「疑問もルールも1ページ」に一本化。フッターの規約リンクも `/faq#terms` へ変更。sitemap から `/terms` を削除。
+  - キャンセル条項を第3条として新設: **「チェックインの3日前以降のキャンセルはできません」のみ**（3日前まで支払い自体が発生しないため無料キャンセルは自明。3日前以降は現地判断とし、返金率などはサイトに明記しない方針）。旧キャンセルポリシー（2週間前50%/1週間前25%）は全箇所から削除。
+  - 予約フォームの同意チェックを**3つ→1つに集約**（`agree` state 1本）。「ハウスルール（モーダル）と利用規約（キャンセルポリシー含む・`/faq#terms` を新タブ）を確認のうえ、同意します」の1チェックのみで送信可（`Reserve.terms.*` / `errors.agreeRequired`）。証跡としての明示同意は残しつつ、契約書面の取り交わし前段（問い合わせ段階）の摩擦を最小化。
+
+## 完了済みタスク（2026-06-10・`feat/features-location-update`→ `5c0c451` で main マージ済み）
 
 - **Feature ページ**（`app/[locale]/features/page.tsx`）
   - 写真の「01 / 4」番号表示（`v2-feat-tag`）を削除
@@ -118,7 +128,7 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ## 次にやること（公開後 / 優先順）
 
-1. **`feat/features-location-update` の本番反映**（ユーザー確認後に main へマージ）。Feature/Location 改善一式を含む（未マージ）。
+1. **`feat/terms-page` の本番反映**（ユーザー確認後に main へマージ）。利用規約統合一式を含む（未マージ）。
 2. **文言（コピー）の加筆・修正フェーズ**（進行中）。messages/{ja,en,id}.json を3言語同期で修正。住所/価格/連絡先非掲載/ブランド表記の制約を厳守。**今後の新規実装は Claude が指示書を作成し Antigravity が実装**（クオータ節約）。
 3. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
 4. en/id 翻訳のネイティブレビュー（特に id）
@@ -146,5 +156,5 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ---
 
-- **最終更新日時**: 2026-06-10（Feature/Location 改善実装後・`feat/features-location-update` は main 未マージ）
+- **最終更新日時**: 2026-07-02（利用規約統合実装後・`feat/terms-page` は main 未マージ）
 - **更新したエージェント名**: Claude

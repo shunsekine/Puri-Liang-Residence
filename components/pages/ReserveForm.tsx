@@ -8,7 +8,8 @@
 //   - honeypot field to filter bots
 //   - house-rules modal: click the underlined link in step 3 to open;
 //     Esc / × / "got it" button closes; form state is preserved
-//   - localized via messages.Reserve.* / messages.HouseRules.items
+//   - single consent checkbox; house-rules modal + /faq#terms link (new tab)
+//   - localized via messages.Reserve.* / messages.HouseRules.items / messages.Terms
 //   - live price summary (sticky on desktop, top-floating on mobile)
 //
 // Web3Forms setup:
@@ -19,6 +20,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { Link } from '@/navigation';
 import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, electricityAmount } from '@/lib/data';
 
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
@@ -62,8 +64,7 @@ export default function ReserveForm() {
     const [notes, setNotes] = useState('');
 
     // --- Terms (Step 3) ---
-    const [agreeRules, setAgreeRules] = useState(false);
-    const [agreeCancel, setAgreeCancel] = useState(false);
+    const [agree, setAgree] = useState(false);
 
     // --- House rules modal ---
     const [rulesOpen, setRulesOpen] = useState(false);
@@ -107,12 +108,11 @@ export default function ReserveForm() {
         if (!name.trim()) return t('errors.nameRequired');
         if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return t('errors.emailInvalid');
         if (!phone.trim()) return t('errors.phoneRequired');
-        if (!agreeRules) return t('errors.rulesRequired');
-        if (!agreeCancel) return t('errors.cancelRequired');
+        if (!agree) return t('errors.agreeRequired');
         return null;
     };
 
-    const canSubmit = agreeRules && agreeCancel && status !== 'sending';
+    const canSubmit = agree && status !== 'sending';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -363,6 +363,9 @@ export default function ReserveForm() {
                                     <label>{t('fields.otherRequests')}</label>
                                     <textarea rows={3} placeholder={t('fields.otherRequestsPlaceholder')} value={notes} onChange={e => setNotes(e.target.value)} />
                                 </div>
+                                <div className="v2-res-hint">
+                                    {t('fields.idNote')}
+                                </div>
                             </div>
                         </div>
 
@@ -377,7 +380,7 @@ export default function ReserveForm() {
                             </div>
                             <div className="v2-res-step-body">
                                 <label className="v2-res-check">
-                                    <input type="checkbox" checked={agreeRules} onChange={e => setAgreeRules(e.target.checked)} />
+                                    <input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} />
                                     <div>
                                         <div className="t">
                                             <button
@@ -387,16 +390,18 @@ export default function ReserveForm() {
                                             >
                                                 {t('terms.rulesLinkText')}
                                             </button>
-                                            {t('terms.rulesLabel')} <span className="req">{t('fields.required')}</span>
+                                            {t('terms.joiner')}
+                                            <Link
+                                                href="/faq#terms"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="v2-res-rules-link"
+                                            >
+                                                {t('terms.termsLinkText')}
+                                            </Link>
+                                            {t('terms.agreeSuffix')} <span className="req">{t('fields.required')}</span>
                                         </div>
-                                        <div className="s">{t('terms.rulesDescription')}</div>
-                                    </div>
-                                </label>
-                                <label className="v2-res-check">
-                                    <input type="checkbox" checked={agreeCancel} onChange={e => setAgreeCancel(e.target.checked)} />
-                                    <div>
-                                        <div className="t">{t('terms.cancelLabel')} <span className="req">{t('fields.required')}</span></div>
-                                        <div className="s">{t('terms.cancelDescription')}</div>
+                                        <div className="s">{t('terms.agreeDescription')}</div>
                                     </div>
                                 </label>
                             </div>
@@ -495,8 +500,8 @@ export default function ReserveForm() {
                             <div className="v2-res-summary-deposit">
                                 <div className="k">{t('summary.depositTitle')}</div>
                                 <div className="v">
-                                    {tCommon('approx')} {formatPrice(code, unitPrice)} + Rp 2,000,000{' '}
-                                    <small>{t('summary.depositSuffix')} <span>{t('summary.depositNote')}</span></small>
+                                    {tCommon('approx')} {formatPrice(code, unitPrice)}{' '}
+                                    <small>{t('summary.depositSuffix')}</small>
                                 </div>
                                 <div className="note">{t('summary.balanceNote')}</div>
                             </div>

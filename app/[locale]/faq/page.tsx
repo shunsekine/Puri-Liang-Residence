@@ -26,7 +26,9 @@ interface FAQItem { category: FAQCategory; q: string; a: string; }
 
 export default function FAQPage() {
     const t = useTranslations('FAQ');
+    const tTerms = useTranslations('Terms');
     const items = t.raw('items') as FAQItem[];
+    const termsItems = tTerms.raw('items') as string[];
 
     const byCategory = new Map<FAQCategory, FAQItem[]>();
     for (const cat of FAQ_CATEGORIES) byCategory.set(cat.id, []);
@@ -58,6 +60,12 @@ export default function FAQPage() {
                                 </a>
                             );
                         })}
+                        <a href="#terms" className="v2-faqp-nav-item">
+                            <span className="ic">§</span>
+                            <span className="l">{tTerms('section.navLabel')}</span>
+                            <span className="c">{termsItems.length}</span>
+                        </a>
+
                         <div className="v2-faqp-nav-cta">
                             <div className="t">{t('sideNav.ctaTitle')}</div>
                             <div className="e">{t('sideNav.ctaTarget')}</div>
@@ -91,6 +99,24 @@ export default function FAQPage() {
                             );
                         })}
                     </div>
+                </div>
+            </section>
+
+            <section id="terms" className="v2-section" style={{ background: 'var(--v2-sand-light)' }}>
+                <div className="v2-secthead">
+                    <div className="eyebrow">{tTerms('section.eyebrow')}</div>
+                    <h2>{tTerms('section.title')}</h2>
+                    <p>{tTerms('section.lead')}</p>
+                </div>
+                <div className="v2-terms">
+                    <ol className="v2-terms-list">
+                        {termsItems.map((item, i) => (
+                            <li key={i}>
+                                <span className="num">{String(i + 1).padStart(2, '0')}</span>
+                                <span className="body">{item}</span>
+                            </li>
+                        ))}
+                    </ol>
                 </div>
             </section>
         </main>
