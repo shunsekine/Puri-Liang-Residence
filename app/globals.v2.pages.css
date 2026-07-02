@@ -361,7 +361,6 @@
 .v2-faqp-group-head { display: flex; align-items: center; gap: 16px; padding: 24px 28px; background: var(--v2-sand-light); border-bottom: 1px solid var(--v2-rule); }
 .v2-faqp-group-head .ic { width: 40px; height: 40px; border-radius: 50%; background: var(--v2-mocha); color: var(--v2-cream); display: flex; align-items: center; justify-content: center; font-family: var(--v2-display); font-size: 18px; }
 .v2-faqp-group-head .t { font-family: var(--v2-display); font-size: 24px; color: var(--v2-mocha); line-height: 1; }
-.v2-faqp-group-head .c { font-size: 12px; color: var(--v2-muted); margin-top: 4px; }
 
 .v2-faqp-items { padding: 8px; }
 .v2-faqp-item { border-radius: 14px; transition: background 0.15s; }
@@ -558,8 +557,9 @@
   pointer-events: none;
 }
 
-/* ── /terms ────────────────────────────────────────────────────────────── */
-.v2-terms { max-width: 760px; margin: 0 auto; }
+/* ── /faq — terms & conditions block (inside the sticky-nav column) ─────── */
+.v2-faqp-terms-body { padding: 20px 28px 28px; }
+.v2-faqp-terms-lead { font-size: 13.5px; color: var(--v2-mocha-soft); line-height: 1.85; margin: 0 0 18px; }
 .v2-terms-list { list-style: none; padding: 0; margin: 0; }
 .v2-terms-list li {
   display: flex;
@@ -578,11 +578,3 @@
   color: var(--v2-terracotta-dark);
   padding-top: 2px;
 }
-.v2-terms-foot {
-  margin-top: 36px;
-  padding: 24px;
-  background: var(--v2-sand-light);
-  border-radius: 14px;
-  text-align: center;
-}
-.v2-terms-foot p { font-size: 13px; color: var(--v2-mocha-soft); margin: 0 0 16px; line-height: 1.8; }
