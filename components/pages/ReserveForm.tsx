@@ -8,7 +8,8 @@
 //   - honeypot field to filter bots
 //   - house-rules modal: click the underlined link in step 3 to open;
 //     Esc / × / "got it" button closes; form state is preserved
-//   - localized via messages.Reserve.* / messages.HouseRules.items
+//   - terms & conditions checkbox links to /terms (new tab, form state kept)
+//   - localized via messages.Reserve.* / messages.HouseRules.items / messages.Terms
 //   - live price summary (sticky on desktop, top-floating on mobile)
 //
 // Web3Forms setup:
@@ -19,6 +20,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { Link } from '@/navigation';
 import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, electricityAmount } from '@/lib/data';
 
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
@@ -64,6 +66,7 @@ export default function ReserveForm() {
     // --- Terms (Step 3) ---
     const [agreeRules, setAgreeRules] = useState(false);
     const [agreeCancel, setAgreeCancel] = useState(false);
+    const [agreeTerms, setAgreeTerms] = useState(false);
 
     // --- House rules modal ---
     const [rulesOpen, setRulesOpen] = useState(false);
@@ -109,10 +112,11 @@ export default function ReserveForm() {
         if (!phone.trim()) return t('errors.phoneRequired');
         if (!agreeRules) return t('errors.rulesRequired');
         if (!agreeCancel) return t('errors.cancelRequired');
+        if (!agreeTerms) return t('errors.termsRequired');
         return null;
     };
 
-    const canSubmit = agreeRules && agreeCancel && status !== 'sending';
+    const canSubmit = agreeRules && agreeCancel && agreeTerms && status !== 'sending';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -363,6 +367,9 @@ export default function ReserveForm() {
                                     <label>{t('fields.otherRequests')}</label>
                                     <textarea rows={3} placeholder={t('fields.otherRequestsPlaceholder')} value={notes} onChange={e => setNotes(e.target.value)} />
                                 </div>
+                                <div className="v2-res-hint">
+                                    {t('fields.idNote')}
+                                </div>
                             </div>
                         </div>
 
@@ -397,6 +404,23 @@ export default function ReserveForm() {
                                     <div>
                                         <div className="t">{t('terms.cancelLabel')} <span className="req">{t('fields.required')}</span></div>
                                         <div className="s">{t('terms.cancelDescription')}</div>
+                                    </div>
+                                </label>
+                                <label className="v2-res-check">
+                                    <input type="checkbox" checked={agreeTerms} onChange={e => setAgreeTerms(e.target.checked)} />
+                                    <div>
+                                        <div className="t">
+                                            <Link
+                                                href="/terms"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="v2-res-rules-link"
+                                            >
+                                                {t('terms.termsLinkText')}
+                                            </Link>
+                                            {t('terms.termsLabel')} <span className="req">{t('fields.required')}</span>
+                                        </div>
+                                        <div className="s">{t('terms.termsDescription')}</div>
                                     </div>
                                 </label>
                             </div>
@@ -495,8 +519,8 @@ export default function ReserveForm() {
                             <div className="v2-res-summary-deposit">
                                 <div className="k">{t('summary.depositTitle')}</div>
                                 <div className="v">
-                                    {tCommon('approx')} {formatPrice(code, unitPrice)} + Rp 2,000,000{' '}
-                                    <small>{t('summary.depositSuffix')} <span>{t('summary.depositNote')}</span></small>
+                                    {tCommon('approx')} {formatPrice(code, unitPrice)}{' '}
+                                    <small>{t('summary.depositSuffix')}</small>
                                 </div>
                                 <div className="note">{t('summary.balanceNote')}</div>
                             </div>

@@ -6,8 +6,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // 2026-05 V2 update:
     //   - locales: added 'id' (Bahasa Indonesia)
     //   - routes: added '/faq' (new page in V2 — JP/EN/ID grouped Q&A)
+    // 2026-07 update: added '/terms' (Terms & Conditions page)
     const locales = ['ja', 'en', 'id'];
-    const routes = ['', '/features', '/rooms', '/location', '/faq', '/reserve'];
+    const routes = ['', '/features', '/rooms', '/location', '/faq', '/reserve', '/terms'];
 
     const sitemapEntries = routes.flatMap((route) => {
         return locales.map((locale) => ({
