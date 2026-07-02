@@ -85,10 +85,7 @@ export default function FAQPage() {
                                 <section key={g.id} id={`faq-${g.id}`} className="v2-faqp-group">
                                     <div className="v2-faqp-group-head">
                                         <span className="ic">{g.icon}</span>
-                                        <div>
-                                            <div className="t">{t(`categories.${g.id}`)}</div>
-                                            <div className="c">{groupItems.length}</div>
-                                        </div>
+                                        <div className="t">{t(`categories.${g.id}`)}</div>
                                     </div>
                                     <div className="v2-faqp-items">
                                         {groupItems.map((it, i) => (
@@ -98,25 +95,26 @@ export default function FAQPage() {
                                 </section>
                             );
                         })}
-                    </div>
-                </div>
-            </section>
 
-            <section id="terms" className="v2-section" style={{ background: 'var(--v2-sand-light)' }}>
-                <div className="v2-secthead">
-                    <div className="eyebrow">{tTerms('section.eyebrow')}</div>
-                    <h2>{tTerms('section.title')}</h2>
-                    <p>{tTerms('section.lead')}</p>
-                </div>
-                <div className="v2-terms">
-                    <ol className="v2-terms-list">
-                        {termsItems.map((item, i) => (
-                            <li key={i}>
-                                <span className="num">{String(i + 1).padStart(2, '0')}</span>
-                                <span className="body">{item}</span>
-                            </li>
-                        ))}
-                    </ol>
+                        {/* Terms & Conditions — kept inside the same sticky-nav column as the FAQ groups */}
+                        <section id="terms" className="v2-faqp-group">
+                            <div className="v2-faqp-group-head">
+                                <span className="ic">§</span>
+                                <div className="t">{tTerms('section.title')}</div>
+                            </div>
+                            <div className="v2-faqp-terms-body">
+                                <p className="v2-faqp-terms-lead">{tTerms('section.lead')}</p>
+                                <ol className="v2-terms-list">
+                                    {termsItems.map((item, i) => (
+                                        <li key={i}>
+                                            <span className="num">{String(i + 1).padStart(2, '0')}</span>
+                                            <span className="body">{item}</span>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </section>
         </main>

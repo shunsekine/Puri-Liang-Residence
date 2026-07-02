@@ -158,11 +158,11 @@ export const CANCELLATION = {
 export type FAQCategory = 'booking' | 'pricing' | 'facilities' | 'location' | 'rules';
 
 export const FAQ_CATEGORIES: { id: FAQCategory; icon: string }[] = [
-  { id: 'booking', icon: '①' },
-  { id: 'pricing', icon: '②' },
-  { id: 'facilities', icon: '③' },
-  { id: 'location', icon: '④' },
-  { id: 'rules', icon: '⑤' },
+  { id: 'booking', icon: '1' },
+  { id: 'pricing', icon: '2' },
+  { id: 'facilities', icon: '3' },
+  { id: 'location', icon: '4' },
+  { id: 'rules', icon: '5' },
 ];
 
 // 通貨表示（基準は IDR。表示のみ locale で切替。支払いは常に IDR）
