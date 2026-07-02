@@ -8,7 +8,7 @@
 
 - **目的**: バリ島 デンパサール南部シダカルヤ（Sidakarya, Denpasar Selatan）の長期滞在・リモートワーク向けレジデンス「Puri Liang Residence」公式ウェブサイト
 - **方向性**: V2 Bohemian Natural リデザイン（Forest 緑系パレット / Docked nav / 3言語 / FAQ / Web3Forms 実送信 / IDRベース価格）
-- **現状**: 🟢 **本番公開済み・運用中**（2026-06-06 公開 / PR #1）。本番URL `https://puri-liang-residence.vercel.app` で新サイト稼働中。Web3Forms 実送信・本番フォームE2Eテスト確認済。2026-06-08 に**全ページ遷移ローディングアニメーション**を本番反映（`a5ea213`）。2026-06-10 に **Feature/Location の改善**を作業ブランチ `feat/features-location-update` で実装（プレビュー確認済み・**main 未マージ**）。現在は文言（コピー）加筆修正フェーズ。
+- **現状**: 🟢 **本番公開済み・運用中**（2026-06-06 公開 / PR #1）。本番URL `https://puri-liang-residence.vercel.app` で新サイト稼働中。Web3Forms 実送信・本番フォームE2Eテスト確認済。2026-06-08 に**全ページ遷移ローディングアニメーション**、2026-06-10 に **Feature/Location の改善**、2026-07-02 に **利用規約(T&C)統合＋予約フォーム同意チェック1本化**を順次本番反映済み（最新 main `09acd96`）。現在は文言（コピー）加筆修正フェーズ。
 
 ## 技術スタック
 
@@ -68,13 +68,13 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 ## 現在のブランチ・最終コミット
 
 - **canonical ブランチ**: `main`（本番）
-- **main 最新**: `e352b68`（`feat/features-location-update` は `5c0c451` で**マージ済み・本番反映済み**）
-- **未マージの作業ブランチ**: ⚠️ **`feat/terms-page`**（2026-07-02 / Claude）。利用規約（Terms & Conditions）統合一式。**ユーザーの「本番反映」指示でマージ予定**。
-- **直近マージ済みブランチ**: `feat/features-location-update` / `feat/page-transition-loader`（削除可。念のため残置）
+- **main 最新**: `09acd96`（`feat/terms-page` は `09acd96` で**マージ済み・本番反映済み**。Vercel デプロイ success 確認済み・本番URLで実地確認済み）
+- **未マージの作業ブランチ**: なし
+- **直近マージ済みブランチ**: `feat/terms-page` / `feat/features-location-update` / `feat/page-transition-loader`（削除可。念のため残置）
 - **PR**: #1「V2 Bohemian Natural リデザイン」 **マージ済み（クローズ）**
 - **今後の変更は main から新ブランチを切る**こと
 
-## 完了済みタスク（直近 / 2026-07-02・`feat/terms-page` / main 未マージ）
+## 完了済みタスク（直近 / 2026-07-02・`feat/terms-page` → `09acd96` で main マージ済み・本番反映済み）
 
 - **利用規約（Terms & Conditions）のサイト統合**（オーナー提供の13条項を監査→統合。条項1(メール/WA限定)・4(12歳未満不可)はオーナー指示で除外、2は「チェックイン時に身分証提出」、3は「初回=1ヶ月分を3日前まで・残額はチェックイン時」、5は「事前許可のない来客禁止」に修正）
   - 支払い表記の整合: FAQ支払い・見積もりサマリー（`Reserve.summary.depositTitle/depositSuffix/balanceNote`）
@@ -128,15 +128,14 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 
 ## 次にやること（公開後 / 優先順）
 
-1. **`feat/terms-page` の本番反映**（ユーザー確認後に main へマージ）。利用規約統合一式を含む（未マージ）。
-2. **文言（コピー）の加筆・修正フェーズ**（進行中）。messages/{ja,en,id}.json を3言語同期で修正。住所/価格/連絡先非掲載/ブランド表記の制約を厳守。**今後の新規実装は Claude が指示書を作成し Antigravity が実装**（クオータ節約）。
-3. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
-4. en/id 翻訳のネイティブレビュー（特に id）
-5. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
-6. （任意）専用 OG 画像 1200×630 を作成し差し替え
-7. 旧スキーマキー削除（V2 安定後、別PR）
-8. （任意）独自ドメイン取得（`.vercel.app` 脱却 / Google の「Vercel」サイト名表示の根本解消）
-9. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）
+1. **文言（コピー）の加筆・修正フェーズ**（進行中）。messages/{ja,en,id}.json を3言語同期で修正。住所/価格/連絡先非掲載/ブランド表記の制約を厳守。**今後の新規実装は Claude が指示書を作成し Antigravity が実装**（クオータ節約）。
+2. **Google Search Console で再インデックス申請**（sitemap.xml 送信＋主要URLのインデックス登録リクエスト）。タイトル/説明/サイト名/住所の検索反映を促進（反映まで数日〜）。
+3. en/id 翻訳のネイティブレビュー（特に id）
+4. King Studio 写真差し込み（2026年6月撮影予定 / 現在は `photos: []` でプレースホルダ）
+5. （任意）専用 OG 画像 1200×630 を作成し差し替え
+6. 旧スキーマキー削除（V2 安定後、別PR）
+7. （任意）独自ドメイン取得（`.vercel.app` 脱却 / Google の「Vercel」サイト名表示の根本解消）
+8. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）
 
 ## 既知の問題・触ってはいけない箇所
 
@@ -149,12 +148,12 @@ public/images/   # 客室画像 + powered-by.png（会社ロゴ）+ loader-logo.
 ## デプロイ / 環境
 
 - Vercel: shun-projects-workspace / Hobby / リポ **Public**
-- 本番URL: `https://puri-liang-residence.vercel.app`（🟢 **新サイト稼働中** / main `e6e2f97`）
+- 本番URL: `https://puri-liang-residence.vercel.app`（🟢 **新サイト稼働中** / main 最新は上記「現在のブランチ・最終コミット」参照）
 - プレビュー: ブランチ自動デプロイ（**Deployment Protection 有効＝閲覧にVercelログイン必要**）
 - 環境変数: `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`（設定済）/ `NEXT_PUBLIC_BASE_URL`（任意・既定 `https://puri-liang-residence.vercel.app`）
 - Google site verification token: `layout.tsx` に設定済（Search Console 連携可）
 
 ---
 
-- **最終更新日時**: 2026-07-02（利用規約統合実装後・`feat/terms-page` は main 未マージ）
+- **最終更新日時**: 2026-07-02（`feat/terms-page` を main へマージし本番反映済み・`09acd96`）
 - **更新したエージェント名**: Claude
