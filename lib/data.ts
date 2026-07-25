@@ -25,7 +25,7 @@ export const BRAND = {
   fullName: 'Puri Liang Residence',
   address: 'Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali',
   addressShort: 'Sidakarya, Denpasar Selatan, Bali',
-  email: 'stay@puriliang.com',
+  email: 'puriliangresidence.bali@gmail.com', // 公開せず、システム送信用途のみで使用
   whatsapp: '+62 813-xxxx-xxxx',
 } as const;
 
@@ -141,12 +141,12 @@ export const SIMULATOR_DEFAULTS = {
 // -----------------------------------------------------------------------------
 
 export const CANCELLATION = {
-  // 2 weeks before check-in: 50% refund
-  // 1 week before check-in: 25% refund
-  // Less than 1 week: non-refundable
+  // 1 week before check-in: 100% refund
+  // 3 days before check-in: 50% refund
+  // Less than 3 days: non-refundable
   tiers: [
-    { daysBefore: 14, refundPct: 50 },
-    { daysBefore: 7, refundPct: 25 },
+    { daysBefore: 7, refundPct: 100 },
+    { daysBefore: 3, refundPct: 50 },
     { daysBefore: 0, refundPct: 0 },
   ],
 } as const;

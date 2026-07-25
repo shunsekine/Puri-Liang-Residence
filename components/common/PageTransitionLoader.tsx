@@ -43,9 +43,10 @@ export default function PageTransitionLoader() {
   }, []);
 
   // pathname 変化（初回マウント含む）で非表示処理。
-  // = 初回ロード後、および各ページ遷移完了後にフェードアウトする。
+  // = 初回ロード後、および各ページ遷移完了後にフェードアウトしつつスクロールを戻す。
   useEffect(() => {
     hideWithMinDuration();
+    window.scrollTo(0, 0); // ページ遷移時に上部にスクロール
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     };

@@ -1,5 +1,5 @@
 'use client';
-// V2 Reserve form — Web3Forms submission + house-rules modal + i18n.
+// V2 Reserve form — GAS Webhook backend + house-rules modal + i18n.
 // Direct port of the prototype's src/v2-reserve.jsx into next-intl + TS.
 //
 // Key behaviors:
@@ -12,18 +12,15 @@
 //   - localized via messages.Reserve.* / messages.HouseRules.items / messages.Terms
 //   - live price summary (sticky on desktop, top-floating on mobile)
 //
-// Web3Forms setup:
-//   1. Visit https://web3forms.com/#start and generate a free access key.
-//   2. Set the env var NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=<your-key> in Vercel.
-//   3. If unset, this form falls back to a mock success response so design
-//      review keeps working without a backend.
+// Setup:
+//   1. Deploy the GAS backend in gas-booking-automation/
+//   2. Set the env var GAS_WEBHOOK_URL=<your-url> in Vercel.
+//   3. If unset, this form falls back to a mock success response.
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/navigation';
 import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, electricityAmount } from '@/lib/data';
-
-const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
@@ -134,11 +131,9 @@ export default function ReserveForm() {
         setStatus('sending');
         setErrorMsg('');
 
-        const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
         const localizedRoom = tRoom(`${r.id}.name`);
 
         const payload = {
-            access_key: accessKey,
             subject: `【予約問い合わせ】${name} 様 / ${localizedRoom} / ${months}ヶ月`,
             from_name: 'Puri Liang Residence — Reservation Form',
             name,
@@ -153,6 +148,7 @@ export default function ReserveForm() {
             guests,
             stay_purposes: purposes.length ? purposes.join(', ') : '(none)',
             notes: notes || '(none)',
+            language: locale,
             currency: code,
             rent_amount: rent,
             discount_pct: discount * 100,
@@ -167,16 +163,8 @@ export default function ReserveForm() {
             page: typeof location !== 'undefined' ? location.href : '',
         };
 
-        // Dev fallback when access key isn't configured
-        if (!accessKey) {
-            console.info('[Reserve] NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY not set — returning mock success.', payload);
-            await new Promise(res => setTimeout(res, 700));
-            setStatus('success');
-            return;
-        }
-
         try {
-            const res = await fetch(WEB3FORMS_ENDPOINT, {
+            const res = await fetch('/api/reserve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 body: JSON.stringify(payload),
