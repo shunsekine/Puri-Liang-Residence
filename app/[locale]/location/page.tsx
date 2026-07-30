@@ -3,7 +3,7 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import { LOCATION } from '@/lib/data';
+import { LOCATION, IMG } from '@/lib/data';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -80,22 +80,32 @@ export default function LocationPage() {
                         <figcaption className="v2-cdial-cap">{t('crossroads.mapCaption')}</figcaption>
                     </figure>
                     <div className="v2-compass-grid">
-                        {directions.map(d => (
-                            <article key={d.dir} className={`v2-compass-card dir-${d.dir.toLowerCase()}`}>
-                                <div className="v2-compass-card-head">
-                                    <span className="v2-compass-card-dir">{d.dir}</span>
-                                    <div>
-                                        <div className="bearing">{d.bearing}</div>
-                                        <div className="en">{d.en}</div>
+                        {directions.map(d => {
+                            const DIR_IMGS: Record<string, string> = {
+                                'N': IMG.ubud,
+                                'E': IMG.sanur,
+                                'S': IMG.uluwatu,
+                                'W': IMG.canggu,
+                            };
+                            return (
+                                <article key={d.dir} className={`v2-compass-card dir-${d.dir.toLowerCase()}`} style={{ backgroundImage: `url(${DIR_IMGS[d.dir]})` }}>
+                                    <div className="v2-compass-card-glass">
+                                        <div className="v2-compass-card-head">
+                                            <span className="v2-compass-card-dir">{d.dir}</span>
+                                            <div>
+                                                <div className="bearing">{d.bearing}</div>
+                                                <div className="en">{d.en}</div>
+                                            </div>
+                                        </div>
+                                        <h3>{d.title}</h3>
+                                        <p>{d.body}</p>
+                                        <ul>
+                                            {d.bullets.map((b, j) => <li key={j}>{b}</li>)}
+                                        </ul>
                                     </div>
-                                </div>
-                                <h3>{d.title}</h3>
-                                <p>{d.body}</p>
-                                <ul>
-                                    {d.bullets.map((b, j) => <li key={j}>{b}</li>)}
-                                </ul>
-                            </article>
-                        ))}
+                                </article>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

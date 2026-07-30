@@ -202,7 +202,7 @@
 }
 
 /* ── /location 方位ダイヤル(コンパス改良版) ──────────────────────────── */
-.v2-balimap-layout { display: flex; flex-direction: column; gap: 28px; max-width: 1180px; margin: 0 auto; }
+.v2-balimap-layout { display: flex; flex-direction: column; gap: 28px; max-width: 100%; margin: 0 auto; }
 .v2-cdial-fig { margin: 0; }
 .v2-cdial {
   display: grid;
@@ -256,13 +256,37 @@
 }
 
 /* ── /location 方位詳細カード(4方向) ──────────────────────────────────── */
-.v2-compass-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.v2-compass-card { background: var(--v2-cream); border: 1px solid var(--v2-rule); border-radius: 18px; padding: 20px 22px; position: relative; display: flex; flex-direction: column; gap: 8px; }
+.v2-compass-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.v2-compass-card {
+  background-color: var(--v2-cream);
+  background-size: cover;
+  background-position: center;
+  border-radius: 18px;
+  padding: 16px; /* Reduced padding to make inner glass box wider */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 360px; /* Slightly taller to accommodate content nicely */
+  justify-content: flex-end;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+.v2-compass-card-glass {
+  background: rgba(253, 252, 248, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 /* 方角による色分けはせず、単一アクセント(テラコッタ)で統一 */
 .v2-compass-card.dir-n,
 .v2-compass-card.dir-e,
 .v2-compass-card.dir-s,
-.v2-compass-card.dir-w { border-top: 3px solid var(--v2-terracotta); }
+.v2-compass-card.dir-w { border-top: none; }
 .v2-compass-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
 .v2-compass-card-dir {
   width: 38px;

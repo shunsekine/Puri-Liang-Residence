@@ -94,7 +94,6 @@ function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; re
             </div>
             <div>
                 <div className="v2-rd-meta">
-                    <span className="chip">№ {String(index + 1).padStart(2, '0')}</span>
                     <span className="chip">{room.size}{tCommon('metersSq')}</span>
                     <span className="chip">{room.capacity}{tCommon('guestsUnit')}</span>
                 </div>

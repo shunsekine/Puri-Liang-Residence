@@ -38,8 +38,20 @@ export const IMG = {
   villa1: '/images/Room_Villa_1.jpg',
   villa2: '/images/Room_Villa_2.jpg',
   villa3: '/images/Room_Villa_3.jpg',
+  king1: '/images/Room_King_Studio_1.jpeg',
+  king2: '/images/Room_King_Studio_2.jpeg',
+  king3: '/images/Room_King_Studio_3.jpeg',
   twin1: '/images/Room_Twin_Studio_1.webp',
   twin2: '/images/Room_Twin_Studio_2.webp',
+  twin3: '/images/Room_Twin_Studio_3.jpeg',
+  workspace: '/images/Workspace.jpg',
+  housekeeping: '/images/Housekeeping.jpg',
+  laundry: '/images/Laundry.webp',
+  sanur: '/images/Sanur.jpg',
+  canggu: '/images/Canggu.jpg',
+  ubud: '/images/Ubud.jpg',
+  uluwatu: '/images/Uluwatu.jpg',
+  hospital: '/images/Inmedika_Hospital_Denpasar.webp',
   logo: '/logo.png',
 } as const;
 
@@ -82,7 +94,7 @@ export const ROOMS: Room[] = [
   },
   {
     id: 'king',
-    size: 30,
+    size: 35,
     capacity: 2,
     bedrooms: 1,
     bathrooms: 1,
@@ -90,7 +102,7 @@ export const ROOMS: Room[] = [
     priceJPY: 59000,
     priceUSD: 360,
     priceIDR: 6500000,
-    photos: [],
+    photos: ['king2', 'king1', 'king3'],
   },
   {
     id: 'twin',
@@ -102,7 +114,7 @@ export const ROOMS: Room[] = [
     priceJPY: 50000,
     priceUSD: 310,
     priceIDR: 5500000,
-    photos: ['twin1', 'twin2'],
+    photos: ['twin1', 'twin2', 'twin3'],
   },
 ];
 

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props) {
 
 // 2026-05 V2 update — Connectivity and Community groups replaced with
 // Workspace / Living / Laundry / Neighborhood. See messages.Features.groups.
-const GROUP_IMG_KEYS = ['villa3', 'villa1', 'twin1', 'villa2'] as const;
+const GROUP_IMG_KEYS = ['workspace', 'housekeeping', 'laundry', 'hospital'] as const;
 
 export default function FeaturesPage() {
     const t = useTranslations('Features');
@@ -43,9 +43,7 @@ export default function FeaturesPage() {
                     const imgKey = GROUP_IMG_KEYS[i] ?? GROUP_IMG_KEYS[0];
                     return (
                         <article key={i} className={`v2-feat-row${i % 2 === 1 ? ' rev' : ''}`}>
-                            <div className="v2-feat-img" style={{ backgroundImage: `url(${IMG[imgKey]})` }}>
-                                <div className="v2-photo-tbu">{tCommon('photoPlaceholder')}</div>
-                            </div>
+                            <div className="v2-feat-img" style={{ backgroundImage: `url(${IMG[imgKey]})` }} />
                             <div className="v2-feat-body">
                                 <div className="eyebrow">{g.eyebrow}</div>
                                 <h2>{g.title}</h2>
