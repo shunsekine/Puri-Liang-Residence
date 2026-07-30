@@ -53,7 +53,7 @@ export default function RoomSimulator() {
                                 >
                                     <div className="n">{tRoom(`${rr.id}.name`)}</div>
                                     <div className="s">{rr.size}{tCommon('metersSq')} · {rr.capacity}{tCommon('guestsUnit')}</div>
-                                    <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span> / {tCommon('monthsUnit')}</span></div>
+                                    <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span>{tCommon('perMonth')}</span></div>
                                 </button>
                             ))}
                         </div>

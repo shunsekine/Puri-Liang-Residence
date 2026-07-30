@@ -295,7 +295,7 @@
   },
   "Common": {
     "from": "Mulai dari",
-    "perMonth": "/ bulan",
+    "perMonth": " / 1 bulan",
     "perMonthLong": "/ bulan · minimal 2 minggu",
     "approx": "sekitar",
     "currencyNote": "Harga berbasis IDR. Konversi mata uang lain hanya perkiraan.",

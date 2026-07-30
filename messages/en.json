@@ -295,7 +295,7 @@
   },
   "Common": {
     "from": "From",
-    "perMonth": "/ month",
+    "perMonth": " / 1 month",
     "perMonthLong": "/ month · 2-week minimum",
     "approx": "approx.",
     "currencyNote": "Prices are based on IDR. USD shown is an approximation.",

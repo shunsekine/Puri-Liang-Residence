@@ -295,7 +295,7 @@
   },
   "Common": {
     "from": "From",
-    "perMonth": "/ 月",
+    "perMonth": " / 1ヶ月",
     "perMonthLong": "/ month · 最低2週間から",
     "approx": "約",
     "currencyNote": "料金は IDR 建てが基準。表示は JPY 換算",

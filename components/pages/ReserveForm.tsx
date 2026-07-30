@@ -20,7 +20,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/navigation';
-import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, electricityAmount } from '@/lib/data';
+import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, roomPrice2WeeksAmount, electricityAmount } from '@/lib/data';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
@@ -34,7 +34,11 @@ function getDiscount(months: number): number {
 function addMonths(dateStr: string, months: number): string {
     const d = new Date(dateStr);
     if (Number.isNaN(d.getTime())) return dateStr;
-    d.setMonth(d.getMonth() + months);
+    if (months === 0.5) {
+        d.setDate(d.getDate() + 14);
+    } else {
+        d.setMonth(d.getMonth() + months);
+    }
     return d.toISOString().slice(0, 10);
 }
 
@@ -84,7 +88,7 @@ export default function ReserveForm() {
 
     const r = ROOMS.find(x => x.id === room)!;
     const unitPrice = roomPriceAmount(r, code);
-    const rent = unitPrice * months;
+    const rent = months === 0.5 ? roomPrice2WeeksAmount(r, code) : unitPrice * months;
     const elec = electricityAmount(code) * months;
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
@@ -92,7 +96,7 @@ export default function ReserveForm() {
     const checkout = addMonths(checkin, months);
 
     // IDR calculations for the payload (actual billing is always in IDR)
-    const rentIDR = r.priceIDR * months;
+    const rentIDR = months === 0.5 ? r.price2WeeksIDR! : r.priceIDR * months;
     const elecIDR = SIMULATOR_DEFAULTS.electricityIDR * months;
     const discIDR = Math.round(rentIDR * discount);
     const totalIDR = rentIDR - discIDR + elecIDR;
@@ -134,7 +138,7 @@ export default function ReserveForm() {
         const localizedRoom = tRoom(`${r.id}.name`);
 
         const payload = {
-            subject: `【予約問い合わせ】${name} 様 / ${localizedRoom} / ${months}ヶ月`,
+            subject: `【予約問い合わせ】${name} 様 / ${localizedRoom} / ${months === 0.5 ? '2週間' : months + 'ヶ月'}`,
             from_name: 'Puri Liang Residence — Reservation Form',
             name,
             nationality,
@@ -199,7 +203,7 @@ export default function ReserveForm() {
 
                         <div className="v2-res-success-grid">
                             <div><span className="k">{t('success.grid.room')}</span><span className="v">{tRoom(`${r.id}.name`)}</span></div>
-                            <div><span className="k">{t('success.grid.period')}</span><span className="v">{months} {tCommon('monthsUnit')}</span></div>
+                            <div><span className="k">{t('success.grid.period')}</span><span className="v">{months === 0.5 ? '2 ' + tCommon('weeksUnit') : months + ' ' + tCommon('monthsUnit')}</span></div>
                             <div><span className="k">{t('success.grid.checkin')}</span><span className="v">{checkin}</span></div>
                             <div><span className="k">{t('success.grid.checkout')}</span><span className="v">{checkout}</span></div>
                             <div><span className="k">{t('success.grid.guests')}</span><span className="v">{guests} {tCommon('guestsUnit')}</span></div>
@@ -265,7 +269,7 @@ export default function ReserveForm() {
                                             >
                                                 <div className="n">{tRoom(`${rr.id}.name`)}</div>
                                                 <div className="s">{rr.size}{tCommon('metersSq')} · {rr.capacity}{tCommon('guestsUnit')} · {rr.floor}</div>
-                                                <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span>/{tCommon('monthsUnit').slice(0, 1)}</span></div>
+                                                <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span>{tCommon('perMonth')}</span></div>
                                             </button>
                                         ))}
                                     </div>
@@ -278,9 +282,9 @@ export default function ReserveForm() {
                                     <div className="v2-res-field">
                                         <label>{t('fields.stayMonths')}</label>
                                         <div className="v2-res-stepper">
-                                            <button type="button" onClick={() => setMonths(Math.max(1, months - 1))} aria-label="−">−</button>
-                                            <span className="n">{months}<small>{tCommon('monthsUnit')}</small></span>
-                                            <button type="button" onClick={() => setMonths(Math.min(12, months + 1))} aria-label="+">＋</button>
+                                            <button type="button" onClick={() => setMonths(months === 1 ? 0.5 : Math.max(0.5, months - 1))} aria-label="−">−</button>
+                                            <span className="n">{months === 0.5 ? '2' : months}<small>{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit')}</small></span>
+                                            <button type="button" onClick={() => setMonths(months === 0.5 ? 1 : Math.min(12, months + 1))} aria-label="+">＋</button>
                                         </div>
                                     </div>
                                     <div className="v2-res-field">
@@ -452,12 +456,12 @@ export default function ReserveForm() {
                             <div className="v2-res-summary-stay">
                                 <div><span className="k">{t('summary.stayKeys.in')}</span><span className="v">{checkin}</span></div>
                                 <div><span className="k">{t('summary.stayKeys.out')}</span><span className="v">{checkout}</span></div>
-                                <div><span className="k">{t('summary.stayKeys.period')}</span><span className="v">{months}{tCommon('monthsUnit')}</span></div>
+                                <div><span className="k">{t('summary.stayKeys.period')}</span><span className="v">{months === 0.5 ? '2' + tCommon('weeksUnit') : months + tCommon('monthsUnit')}</span></div>
                                 <div><span className="k">{t('summary.stayKeys.guests')}</span><span className="v">{guests}{tCommon('guestsUnit')}</span></div>
                             </div>
                             <div className="v2-res-summary-pricing">
                                 <div className="line">
-                                    <span className="l">{t('summary.rentLine')} {tCommon('approx')} {formatPrice(code, unitPrice)} × {months}</span>
+                                    <span className="l">{t('summary.rentLine')} {months === 0.5 ? '' : `${tCommon('approx')} ${formatPrice(code, unitPrice)} × ${months}`}</span>
                                     <span className="r">{tCommon('approx')} {formatPrice(code, rent)}</span>
                                 </div>
                                 {disc > 0 && (
@@ -488,7 +492,7 @@ export default function ReserveForm() {
                             <div className="v2-res-summary-deposit">
                                 <div className="k">{t('summary.depositTitle')}</div>
                                 <div className="v">
-                                    {tCommon('approx')} {formatPrice(code, unitPrice)}{' '}
+                                    {tCommon('approx')} {formatPrice(code, total)}{' '}
                                     <small>{t('summary.depositSuffix')}</small>
                                 </div>
                                 <div className="note">{t('summary.balanceNote')}</div>
