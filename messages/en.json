@@ -51,7 +51,7 @@
       "title2": "living in",
       "title3": "Bali.",
       "lead": "Set in a peaceful residential neighborhood away from the tourist crowds, our monthly apartments offer a perfect balance of authentic Bali living and modern connectivity.",
-      "priceUnit": "/ month · 1-month minimum",
+      "priceUnit": "/ month · 2-week minimum",
       "ctaSecondary": "About the rooms"
     },
     "manifesto": {
@@ -91,8 +91,8 @@
     },
     "cta": {
       "eyebrow": "Reserve",
-      "title1": "Why not start with",
-      "emphasis": "one month",
+      "title1": "Why not try a",
+      "emphasis": "two-week stay",
       "lead": "Check availability and request a quote here. We reply within two business days, in EN or ID.",
       "ctaPrimary": "Reservation form →",
       "ctaSecondary": "View FAQ"
@@ -242,7 +242,7 @@
       "floor": "Floor",
       "bath": "Bath"
     },
-    "priceNote": "JPY / month · 1-month minimum",
+    "priceNote": "JPY / month · 2-week minimum",
     "reserveCta": "Reserve →",
     "amenitiesHeader": {
       "eyebrow": "Amenities",
@@ -296,12 +296,13 @@
   "Common": {
     "from": "From",
     "perMonth": "/ month",
-    "perMonthLong": "/ month · 1-month minimum",
+    "perMonthLong": "/ month · 2-week minimum",
     "approx": "approx.",
     "currencyNote": "Prices are based on IDR. USD shown is an approximation.",
     "priceRefNote": "Reference price · billed in IDR",
     "yen": "yen",
     "monthsUnit": "months",
+    "weeksUnit": "weeks",
     "guestsUnit": "guests",
     "metersSq": "m²",
     "kmUnit": "km",
@@ -356,11 +357,11 @@
     "villa": {
       "name": "Villa",
       "nameLocal": "Villa",
-      "description": "For families or couples on a longer stay. A standalone unit overlooking the poolside.",
+      "description": "For families or couples on a longer stay. A standalone unit overlooking the poolside. (*Free stove & kitchenware rental for stays of 1+ month)",
       "bullets": [
         "King-size bed + sofa bed",
         "Pool view",
-        "Kitchen (fridge & stove)",
+        "Kitchenette (fridge)",
         "Living & dining",
         "One dedicated work desk"
       ],
@@ -369,11 +370,11 @@
     "king": {
       "name": "King Studio",
       "nameLocal": "King Studio",
-      "description": "For remote workers who want a private, focused space. Everything you need to live is in one room.",
+      "description": "For remote workers who want a private, focused space. Everything you need to live is in one room. (*Free stove & kitchenware rental for stays of 1+ month)",
       "bullets": [
         "1 × king-size bed",
         "Work desk",
-        "Kitchen (fridge & stove)",
+        "Kitchenette (fridge)",
         "Balcony"
       ],
       "available": "Photoshoot scheduled (June 2026)"
@@ -381,11 +382,11 @@
     "twin": {
       "name": "Twin Studio",
       "nameLocal": "Twin Studio",
-      "description": "Two friends or colleagues sharing a stay. Lower cost per person.",
+      "description": "Two friends or colleagues sharing a stay. Lower cost per person. (*Stove & kitchenware available for rent)",
       "bullets": [
         "2 × semi-double beds",
         "Work desk",
-        "Kitchen (fridge & stove)",
+        "Kitchenette (fridge)",
         "Air conditioning"
       ],
       "available": "Photographed"
@@ -459,6 +460,7 @@
     "included": "✓ Included",
     "total": "Total",
     "totalMonths": "Total ({months} months)",
+    "total2Weeks": "Total (2 weeks)",
     "monthlyAvg": "Avg. per month",
     "note": "* Prices are based on IDR. Varies with exchange rate and electricity usage · Rp 2,000,000 deposit separate · USD shown is an approximation"
   },
@@ -713,17 +715,22 @@
       {
         "category": "booking",
         "q": "What's the minimum stay?",
-        "a": "We accept stays from 1 month. Continuous stays of 3+ months are 10% off, 6+ months are 15% off."
+        "a": "We require a minimum stay of 2 weeks. Continuous stays of 3+ months are 10% off, 6+ months are 15% off."
       },
       {
         "category": "pricing",
         "q": "How can I pay?",
-        "a": "Bank transfer (Wise accepted). The initial payment of 1 month's rent is required in advance to confirm your booking; the balance (including the Rp 2,000,000 deposit) is payable at check-in."
+        "a": "Bank transfer (Wise accepted). Full payment for your entire stay is required upfront to confirm your booking. The separate deposit (Rp 2,000,000) is due upon check-in."
       },
       {
         "category": "booking",
         "q": "What's the cancellation policy?",
-        "a": "Cancellation is free (full refund) until 3 days before check-in. From 3 days before check-in, cancellations are not accepted."
+        "a": "Cancellations made up to 7 days before check-in are fully refundable, minus the actual bank transfer fees (approx. 1%). Cancellations made within 7 days of check-in are non-refundable."
+      },
+      {
+        "category": "booking",
+        "q": "When is the booking confirmed?",
+        "a": "Your booking is confirmed once the upfront payment has been completed."
       },
       {
         "category": "rules",
@@ -748,7 +755,7 @@
       {
         "category": "facilities",
         "q": "What's in the kitchen?",
-        "a": "All rooms are equipped with a kitchen (fridge & stove)."
+        "a": "All rooms are equipped with a kitchenette (fridge). Stoves and basic kitchenware are available for free rental exclusively for stays of 1 month or longer in King Studio and Villa. For other stays (under 1 month or in Twin Studio), they are available for an additional fee."
       },
       {
         "category": "facilities",
@@ -890,7 +897,7 @@
       "total": "Total",
       "monthlyAvg": "Avg. / month",
       "depositTitle": "Initial payment",
-      "depositSuffix": "(1 month's rent · bank transfer)",
+      "depositSuffix": "(Full payment upfront · Bank transfer)",
       "balanceNote": "Balance (incl. Rp 2,000,000 deposit) payable at check-in"
     },
     "success": {
@@ -935,7 +942,7 @@
     },
     "items": [
       "A photocopy of a valid ID (passport, etc.) of every occupant must be submitted at check-in. Only registered persons are entitled to occupy the room.",
-      "The initial payment of one (1) month's rent must be made in advance to confirm your booking. The remaining balance, including the deposit, is payable at check-in.",
+      "Full payment for the entire reservation period must be made in advance to confirm your booking. The deposit is payable separately upon check-in.",
       "Cancellations are not accepted from 3 (three) days before check-in.",
       "Receiving guests in the room without prior permission from management is not permitted.",
       "No pets are permitted.",

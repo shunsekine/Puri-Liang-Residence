@@ -7,7 +7,7 @@
 // 2026-05 update reflects all V2 Bohemian Natural content decisions:
 //   - 9 inclusions (down from 15)
 //   - "同じ敷地" wording (not "同じ建物")
-//   - 1ヶ月から (not 28泊から)
+//   - 2週間から (not 1ヶ月から)
 //   - JPY/USD displays are approximations (約 / approx.)
 //   - King Studio: 3F, king-size bed only
 //   - Twin Studio: 2F, 2 × semi-double beds
@@ -74,6 +74,9 @@ export interface Room {
   priceJPY: number;
   priceUSD: number;
   priceIDR: number;
+  price2WeeksJPY: number;
+  price2WeeksUSD: number;
+  price2WeeksIDR: number;
   photos: ImageKey[];
   // Available flag — "Photographed" or "Photoshoot scheduled (YYYY-MM)"
   // The pages render the localized form via messages RoomData.{id}.available.
@@ -87,9 +90,12 @@ export const ROOMS: Room[] = [
     bedrooms: 1,
     bathrooms: 1,
     floor: '1F & 2F',
-    priceJPY: 77000,
-    priceUSD: 470,
-    priceIDR: 8500000,
+    priceJPY: 82000,
+    priceUSD: 510,
+    priceIDR: 9000000,
+    price2WeeksJPY: 45000,
+    price2WeeksUSD: 280,
+    price2WeeksIDR: 5000000,
     photos: ['villa1', 'villa2', 'villa3'],
   },
   {
@@ -99,9 +105,12 @@ export const ROOMS: Room[] = [
     bedrooms: 1,
     bathrooms: 1,
     floor: '3F',
-    priceJPY: 59000,
-    priceUSD: 360,
-    priceIDR: 6500000,
+    priceJPY: 64000,
+    priceUSD: 400,
+    priceIDR: 7000000,
+    price2WeeksJPY: 36000,
+    price2WeeksUSD: 230,
+    price2WeeksIDR: 4000000,
     photos: ['king2', 'king1', 'king3'],
   },
   {
@@ -111,9 +120,12 @@ export const ROOMS: Room[] = [
     bedrooms: 1,
     bathrooms: 1,
     floor: '2F',
-    priceJPY: 50000,
-    priceUSD: 310,
-    priceIDR: 5500000,
+    priceJPY: 55000,
+    priceUSD: 340,
+    priceIDR: 6000000,
+    price2WeeksJPY: 32000,
+    price2WeeksUSD: 200,
+    price2WeeksIDR: 3500000,
     photos: ['twin1', 'twin2', 'twin3'],
   },
 ];
@@ -139,9 +151,9 @@ export const LOCATION = {
 // -----------------------------------------------------------------------------
 
 export const SIMULATOR_DEFAULTS = {
-  electricityIDR: 500000,
-  electricityJPY: 4500,   // 旧 electricityJPYPerMonth(9000) を改名・更新
-  electricityUSD: 30,     // 追加
+  electricityIDR: 300000,
+  electricityJPY: 2700,   // 旧 electricityJPYPerMonth(9000) を改名・更新
+  electricityUSD: 18,     // 追加
   discounts: [
     { months: 6, rate: 0.15 },
     { months: 3, rate: 0.10 },
@@ -194,6 +206,10 @@ export function formatPrice(code: CurrencyCode, amount: number): string {
 
 export function roomPriceAmount(room: Room, code: CurrencyCode): number {
   return code === 'JPY' ? room.priceJPY : code === 'USD' ? room.priceUSD : room.priceIDR;
+}
+
+export function roomPrice2WeeksAmount(room: Room, code: CurrencyCode): number {
+  return code === 'JPY' ? room.price2WeeksJPY : code === 'USD' ? room.price2WeeksUSD : room.price2WeeksIDR;
 }
 
 export function electricityAmount(code: CurrencyCode): number {

@@ -51,7 +51,7 @@
       "title2": "tinggal di",
       "title3": "Bali.",
       "lead": "Hunian bulanan di kawasan perumahan yang tenang, jauh dari hiruk-pikuk turis. Nikmati pagi dengan kicau burung, malam yang damai, serta fasilitas Wi-Fi yang bisa diandalkan.",
-      "priceUnit": "/ bulan · mulai 1 bulan",
+      "priceUnit": "/ bulan · minimal 2 minggu",
       "ctaSecondary": "Tentang kamar"
     },
     "manifesto": {
@@ -91,8 +91,8 @@
     },
     "cta": {
       "eyebrow": "Reservasi",
-      "title1": "Mulailah dengan",
-      "emphasis": "satu bulan",
+      "title1": "Cobalah menginap selama",
+      "emphasis": "dua minggu",
       "lead": "Cek ketersediaan dan minta perkiraan harga di sini. Balasan dalam 2 hari kerja, dalam EN atau ID.",
       "ctaPrimary": "Form reservasi →",
       "ctaSecondary": "Lihat FAQ"
@@ -242,7 +242,7 @@
       "floor": "Lantai",
       "bath": "Kamar mandi"
     },
-    "priceNote": "JPY / bulan · minimal 1 bulan",
+    "priceNote": "JPY / bulan · minimal 2 minggu",
     "reserveCta": "Reservasi →",
     "amenitiesHeader": {
       "eyebrow": "Fasilitas",
@@ -296,12 +296,13 @@
   "Common": {
     "from": "Mulai dari",
     "perMonth": "/ bulan",
-    "perMonthLong": "/ bulan · minimal 1 bulan",
+    "perMonthLong": "/ bulan · minimal 2 minggu",
     "approx": "sekitar",
     "currencyNote": "Harga berbasis IDR. Konversi mata uang lain hanya perkiraan.",
     "priceRefNote": "Harga referensi · dibayar dalam IDR",
     "yen": "yen",
     "monthsUnit": "bulan",
+    "weeksUnit": "minggu",
     "guestsUnit": "orang",
     "metersSq": "m²",
     "kmUnit": "km",
@@ -356,11 +357,11 @@
     "villa": {
       "name": "Villa",
       "nameLocal": "Villa",
-      "description": "Untuk keluarga atau pasangan yang tinggal lebih lama. Unit mandiri dengan pemandangan ke kolam renang.",
+      "description": "Untuk keluarga atau pasangan yang tinggal lebih lama. Unit mandiri yang menghadap ke tepi kolam renang. (*Sewa kompor & peralatan masak gratis untuk masa inap 1+ bulan)",
       "bullets": [
-        "Tempat tidur king-size + sofa bed",
+        "Tempat tidur King-size + sofa bed",
         "Pemandangan kolam",
-        "Dapur (kulkas & kompor)",
+        "Dapur kecil (kulkas)",
         "Ruang tamu & ruang makan",
         "1 meja kerja khusus"
       ],
@@ -369,11 +370,11 @@
     "king": {
       "name": "King Studio",
       "nameLocal": "King Studio",
-      "description": "Untuk pekerja remote yang menginginkan ruang pribadi dan fokus. Semua kebutuhan hidup ada di satu ruangan.",
+      "description": "Untuk pekerja jarak jauh yang menginginkan ruang privat dan fokus. Segala yang Anda butuhkan ada di satu ruangan. (*Sewa kompor & peralatan masak gratis untuk masa inap 1+ bulan)",
       "bullets": [
-        "1 × tempat tidur king-size",
+        "1 × tempat tidur King-size",
         "Meja kerja",
-        "Dapur (kulkas & kompor)",
+        "Dapur kecil (kulkas)",
         "Balkon"
       ],
       "available": "Akan difoto (Juni 2026)"
@@ -381,11 +382,11 @@
     "twin": {
       "name": "Twin Studio",
       "nameLocal": "Twin Studio",
-      "description": "Untuk dua teman atau rekan kerja yang berbagi tempat. Hemat biaya per orang.",
+      "description": "Dua teman atau kolega yang berbagi tempat. Biaya lebih rendah per orang. (*Kompor & peralatan masak tersedia untuk disewa)",
       "bullets": [
         "2 × tempat tidur semi-double",
         "Meja kerja",
-        "Dapur (kulkas & kompor)",
+        "Dapur kecil (kulkas)",
         "AC"
       ],
       "available": "Sudah difoto"
@@ -459,6 +460,7 @@
     "included": "✓ Termasuk",
     "total": "Total",
     "totalMonths": "Total ({months} bulan)",
+    "total2Weeks": "Total (2 minggu)",
     "monthlyAvg": "Rata-rata / bulan",
     "note": "* Harga berbasis IDR. Bisa berubah karena kurs dan pemakaian listrik · Deposit Rp 2.000.000 terpisah · Tampilan mata uang lain hanya perkiraan"
   },
@@ -713,17 +715,22 @@
       {
         "category": "booking",
         "q": "Berapa minimum tinggalnya?",
-        "a": "Kami menerima mulai dari 1 bulan. Tinggal berturut-turut 3+ bulan dapat diskon 10%, 6+ bulan dapat 15%."
+        "a": "Kami mensyaratkan minimum masa inap 2 minggu. Tinggal berturut-turut 3+ bulan dapat diskon 10%, 6+ bulan dapat 15%."
       },
       {
         "category": "pricing",
         "q": "Bagaimana cara pembayarannya?",
-        "a": "Transfer bank (Wise diterima). Pembayaran awal 1 bulan sewa diwajibkan di awal untuk mengkonfirmasi reservasi Anda; sisanya (termasuk deposit Rp 2.000.000) dibayar saat check-in."
+        "a": "Transfer bank (Wise diterima). Pembayaran penuh di muka untuk seluruh masa inap diwajibkan untuk mengonfirmasi pesanan Anda. Deposit terpisah (Rp 2.000.000) dibayarkan saat check-in."
       },
       {
         "category": "booking",
         "q": "Bagaimana kebijakan pembatalan?",
-        "a": "Pembatalan gratis (pengembalian dana penuh) hingga 3 hari sebelum check-in. Mulai 3 hari sebelum check-in, pembatalan tidak dapat dilakukan."
+        "a": "Pembatalan hingga 7 hari sebelum check-in dapat dikembalikan penuh (full refund), dipotong biaya transfer bank aktual (sekitar 1%). Pembatalan yang dilakukan kurang dari 7 hari sebelum check-in tidak dapat di-refund."
+      },
+      {
+        "category": "booking",
+        "q": "Kapan pemesanan dikonfirmasi?",
+        "a": "Pesanan Anda terkonfirmasi setelah pembayaran di muka diselesaikan."
       },
       {
         "category": "rules",
@@ -748,7 +755,7 @@
       {
         "category": "facilities",
         "q": "Apa saja di dapur?",
-        "a": "Semua kamar dilengkapi dengan dapur (kulkas & kompor)."
+        "a": "Semua kamar dilengkapi dengan dapur kecil (kulkas). Kompor dan peralatan masak dasar tersedia untuk disewa gratis khusus untuk masa inap 1 bulan atau lebih di King Studio dan Villa. Untuk masa inap lainnya (di bawah 1 bulan atau di Twin Studio), peralatan tersebut tersedia untuk disewa dengan biaya tambahan."
       },
       {
         "category": "facilities",
@@ -890,7 +897,7 @@
       "total": "Total",
       "monthlyAvg": "Rata-rata / bulan",
       "depositTitle": "Pembayaran awal",
-      "depositSuffix": "(sewa 1 bulan · transfer bank)",
+      "depositSuffix": "(pembayaran penuh di muka · transfer bank)",
       "balanceNote": "Sisa pembayaran (termasuk deposit Rp 2.000.000) saat check-in"
     },
     "success": {
@@ -935,7 +942,7 @@
     },
     "items": [
       "Fotokopi identitas yang berlaku (paspor, dll.) dari seluruh penghuni wajib diserahkan saat check-in. Hanya orang yang terdaftar yang berhak menghuni kamar.",
-      "Pembayaran awal sebesar 1 (satu) bulan sewa wajib dibayar di muka untuk mengkonfirmasi reservasi Anda. Sisa pembayaran, termasuk deposit, dibayarkan saat check-in.",
+      "Pembayaran penuh di muka untuk seluruh masa inap wajib diselesaikan untuk mengonfirmasi pesanan Anda. Deposit terpisah dibayarkan saat check-in.",
       "Pembatalan tidak dapat dilakukan mulai 3 (tiga) hari sebelum check-in.",
       "Tidak diperkenankan menerima tamu di dalam kamar tanpa izin terlebih dahulu dari pengelola.",
       "Tidak diperkenankan membawa hewan peliharaan.",

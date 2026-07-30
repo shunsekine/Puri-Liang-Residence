@@ -106,7 +106,6 @@ function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; re
                     <div><div className="k">{tRooms('specLabels.size')}</div><div className="v">{room.size}{tCommon('metersSq')}</div></div>
                     <div><div className="k">{tRooms('specLabels.sleeps')}</div><div className="v">{room.capacity}</div></div>
                     <div><div className="k">{tRooms('specLabels.floor')}</div><div className="v">{room.floor}</div></div>
-                    <div><div className="k">{tRooms('specLabels.bath')}</div><div className="v">{room.bathrooms}</div></div>
                 </div>
                 <ul className="v2-rd-bullets">
                     {bullets.map((b, i) => <li key={i}>{b}</li>)}

@@ -3,7 +3,7 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { ROOMS, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, electricityAmount } from '@/lib/data';
+import { ROOMS, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, roomPrice2WeeksAmount, electricityAmount } from '@/lib/data';
 
 function getDiscount(months: number) {
     for (const tier of SIMULATOR_DEFAULTS.discounts) {
@@ -23,7 +23,7 @@ export default function RoomSimulator() {
     const [roomId, setRoomId] = useState<RoomId>('villa');
 
     const r = ROOMS.find(x => x.id === roomId)!;
-    const rent = roomPriceAmount(r, code) * months;
+    const rent = months === 0.5 ? roomPrice2WeeksAmount(r, code) : roomPriceAmount(r, code) * months;
     const elec = electricityAmount(code) * months;
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
@@ -62,12 +62,12 @@ export default function RoomSimulator() {
                     <div className="v2-simx-field">
                         <span className="v2-simx-lbl">{t('monthsLabel')}</span>
                         <div className="v2-simx-stepper">
-                            <button type="button" onClick={() => setMonths(Math.max(1, months - 1))} aria-label="−">−</button>
+                            <button type="button" onClick={() => setMonths(months === 1 ? 0.5 : Math.max(0.5, months - 1))} aria-label="−">−</button>
                             <div className="num">
-                                <span className="big">{months}</span>
-                                <span className="unit">{tCommon('monthsUnit')}</span>
+                                <span className="big">{months === 0.5 ? '2' : months}</span>
+                                <span className="unit">{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit')}</span>
                             </div>
-                            <button type="button" onClick={() => setMonths(Math.min(12, months + 1))} aria-label="+">＋</button>
+                            <button type="button" onClick={() => setMonths(months === 0.5 ? 1 : Math.min(12, months + 1))} aria-label="+">＋</button>
                         </div>
                         <div className="v2-simx-disc">
                             <span className={`tag${discount >= 0.1 ? ' on' : ''}`}>{t('discount3m')}</span>
@@ -79,7 +79,7 @@ export default function RoomSimulator() {
                 <div className="v2-simx-right">
                     <div className="v2-simx-head">
                         <div className="t">{t('estimateTitle')}</div>
-                        <div className="s">{tRoom(`${r.id}.name`)} × {months}{tCommon('monthsUnit')}</div>
+                        <div className="s">{tRoom(`${r.id}.name`)} × {months === 0.5 ? '2' + tCommon('weeksUnit') : months + tCommon('monthsUnit')}</div>
                     </div>
                     <div className="v2-simx-line">
                         <span className="l">{t('rent')}</span>
