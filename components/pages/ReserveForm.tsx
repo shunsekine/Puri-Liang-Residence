@@ -483,7 +483,7 @@ export default function ReserveForm() {
                                     <span className="r">{tCommon('approx')} {formatPrice(code, total)}</span>
                                 </div>
                                 <div className="avg">
-                                    {t('summary.monthlyAvg')} {tCommon('approx')} {formatPrice(code, Math.round(total / months))} · {t('summary.currencyNote')}
+                                    {t('summary.monthlyAvg')} {tCommon('approx')} {formatPrice(code, Math.round(total / months))} · {tCommon('currencyNote')}
                                 </div>
                                 <div style={{ fontSize: 10, opacity: 0.8, color: 'var(--v2-muted)', marginTop: 8, textAlign: 'right' }}>
                                     {tCommon('priceRefNote')}
