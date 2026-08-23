@@ -1,5 +1,7 @@
 # PROJECT_CONTEXT — Puri Liang Residence Website
 
+コンテキスト予算: soft=9000 hard=12000 history=2000
+
 > グローバルルールに基づくプロジェクトコンテキスト。VM共用（Gemini / Antigravity / Claude）のため、作業前に本ファイルを確認すること。
 
 ---
