@@ -874,6 +874,7 @@
       "disclaimer2Suffix": " に同意したものとみなします。"
     },
     "errors": {
+      "checkinPast": "チェックイン日は本日以降の日付を選択してください。",
       "nameRequired": "お名前を入力してください。",
       "emailInvalid": "有効なメールアドレスを入力してください。",
       "phoneRequired": "WhatsApp または電話番号を入力してください。",

@@ -59,6 +59,40 @@ export class EmailService {
       GmailApp.sendEmail(inquiry.email, subject, body);
       SpreadsheetService.updateStatus(rowNum, '1次送信済');
     }
+
+    this.notifyOwnerOfReply(inquiry);
+  }
+
+  /**
+   * 一次返信の送信（またはイレギュラー時の下書き作成）を担当者へ通知
+   */
+  private static notifyOwnerOfReply(inquiry: InquiryData): void {
+    const settings = SpreadsheetService.getSettings();
+    const notifyEmail = settings['NOTIFICATION_EMAIL'];
+    if (!notifyEmail) return;
+
+    const hasFlag = !!inquiry.irregularFlag && inquiry.irregularFlag !== 'なし';
+    const subject = hasFlag
+      ? `【要確認】新規問い合わせ: ${inquiry.id} (${inquiry.name}様)`
+      : `【一次返信送信済】新規問い合わせ: ${inquiry.id} (${inquiry.name}様)`;
+
+    const lines = [
+      '新しい問い合わせに一次対応しました。',
+      '',
+      `ID: ${inquiry.id}`,
+      `Name: ${inquiry.name}`,
+      `Email: ${inquiry.email}`,
+      `Check-in: ${inquiry.checkIn.toLocaleDateString()}`,
+      `Check-out: ${inquiry.checkOut.toLocaleDateString()}`,
+      `Room: ${inquiry.roomType}`,
+      `Guests: ${inquiry.guests}`,
+      '',
+      hasFlag
+        ? `※イレギュラー検知: ${inquiry.irregularFlag}\nGmailの下書きを確認のうえ送信してください。`
+        : '定型の一次返信を自動送信済みです。空室状況が分かり次第、スプレッドシートのステータスを更新してください。',
+    ];
+
+    GmailApp.sendEmail(notifyEmail, subject, lines.join('\n'));
   }
 
   /**

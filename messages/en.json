@@ -874,6 +874,7 @@
       "disclaimer2Suffix": "."
     },
     "errors": {
+      "checkinPast": "Please select a check-in date of today or later.",
       "nameRequired": "Please enter your name.",
       "emailInvalid": "Please enter a valid email address.",
       "phoneRequired": "Please enter a WhatsApp number or phone.",

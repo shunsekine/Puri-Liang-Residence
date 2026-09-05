@@ -64,6 +64,15 @@ export class WebhookParser {
       }
     }
 
+    // 3. 過去日付チェック（チェックインが本日より前）
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const checkInDay = new Date(inquiry.checkIn);
+    checkInDay.setHours(0, 0, 0, 0);
+    if (checkInDay.getTime() < today.getTime()) {
+      flags.push(`過去日付検知(チェックイン: ${inquiry.checkIn.toLocaleDateString()})`);
+    }
+
     return flags.length > 0 ? flags.join(' / ') : 'なし';
   }
 }

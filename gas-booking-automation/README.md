@@ -7,7 +7,7 @@ Webサイトからの予約問い合わせをプロキシ経由で受信し、�
 1. **予約フォーム** (`ReserveForm.tsx`) ➔ Next.js API Route (`app/api/reserve/route.ts`)
 2. **API Route** ➔ GAS Webhook (`doPost`) （※安全なサーバー間通信でCORS回避＆URL保護）
 3. **GAS (`doPost`)** ➔ スプレッドシート (`Inquiries`) へ記録
-4. **GAS 定期トリガー (10〜15分おき)** ➔ 受信から15分経過した正常な問い合わせへ一次自動送信（フラグありの場合は下書き作成）
+4. **GAS 定期トリガー (10〜15分おき)** ➔ 受信から15分経過した正常な問い合わせへ一次自動送信(フラグありの場合は下書き作成)。いずれの場合も `Settings.NOTIFICATION_EMAIL` へ担当者通知メールを送信
 5. **担当者ステータス変更 (onEdit)** ➔ 「空室」「満室」「キャンセル待ち」の最終回答メールを「新規下書き」作成
 6. **日次トリガー** ➔ 宿泊30前になったキャンセル待ち顧客を担当者へメールリマインド通知
 
@@ -59,7 +59,7 @@ GAS_WEBHOOK_URL=https://script.google.com/macros/s/<YOUR_SCRIPT_ID>/exec
 * I列: `Guests` (人数)
 * J列: `Remarks` (備考)
 * K列: `PeriodCategory` (`1ヶ月以内` / `1ヶ月以上先`)
-* L列: `IrregularFlag` (`なし` / `定員超過...` / `規約外キーワード...`)
+* L列: `IrregularFlag` (`なし` / `定員超過...` / `規約外キーワード...` / `過去日付検知...`)
 * M列: `Status` (`1次送信待ち`, `1次送信済`, `空室`, `満室`, `キャンセル待ち`, `最終送信待ち`)
 * N列: `WhatsAppText` (自動生成されるオーナー向け英語テキスト)
 * O列: `MessageId` (リクエスト追跡ID)

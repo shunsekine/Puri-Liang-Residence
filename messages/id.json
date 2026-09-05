@@ -874,6 +874,7 @@
       "disclaimer2Suffix": " kami."
     },
     "errors": {
+      "checkinPast": "Mohon pilih tanggal check-in mulai hari ini atau setelahnya.",
       "nameRequired": "Mohon isi nama Anda.",
       "emailInvalid": "Mohon isi alamat email yang valid.",
       "phoneRequired": "Mohon isi nomor WhatsApp atau telepon.",

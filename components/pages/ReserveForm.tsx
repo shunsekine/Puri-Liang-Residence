@@ -51,9 +51,10 @@ export default function ReserveForm() {
     const tCommon = useTranslations('Common');
 
     // --- Stay (Step 1) ---
+    const today = new Date().toISOString().slice(0, 10);
     const [room, setRoom] = useState<RoomId>('villa');
     const [months, setMonths] = useState(3);
-    const [checkin, setCheckin] = useState('2026-06-15');
+    const [checkin, setCheckin] = useState(today);
     const [guests, setGuests] = useState(2);
 
     // --- Contact (Step 2) ---
@@ -106,6 +107,7 @@ export default function ReserveForm() {
     };
 
     const validate = (): string | null => {
+        if (checkin < today) return t('errors.checkinPast');
         if (!name.trim()) return t('errors.nameRequired');
         if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return t('errors.emailInvalid');
         if (!phone.trim()) return t('errors.phoneRequired');
@@ -277,7 +279,7 @@ export default function ReserveForm() {
                                 <div className="v2-res-row">
                                     <div className="v2-res-field">
                                         <label>{t('fields.checkin')}</label>
-                                        <input type="date" value={checkin} onChange={e => setCheckin(e.target.value)} />
+                                        <input type="date" min={today} value={checkin} onChange={e => setCheckin(e.target.value)} />
                                     </div>
                                     <div className="v2-res-field">
                                         <label>{t('fields.stayMonths')}</label>
