@@ -13,6 +13,8 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     ".incoming/**",
+    // GAS の検証ハーネス（Node CommonJS・Next.js のルール対象外）
+    "gas-booking-automation/test/**",
   ]),
 ]);
 

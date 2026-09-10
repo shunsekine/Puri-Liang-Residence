@@ -29,6 +29,17 @@
 | フォーム送信・バックエンド | **Next.js API Route (`/api/reserve`) ➔ GAS Webhook ➔ Google Spreadsheet**。環境変数 `GAS_WEBHOOK_URL` を使用（旧Web3Formsキーは廃止）。 |
 | デプロイ | Vercel（チーム: shun-projects-workspace / owner: puriliangresidence.bali@gmail.com / Hobby・無料 / リポ Public） |
 
+## 検証手段
+
+| 対象 | コマンド（プロジェクトルート） | 期待 exit code |
+|---|---|---|
+| Next.js 型チェック | `npx tsc --noEmit` | 0 |
+| Next.js ビルド | `npm run build` | 0 |
+| Lint | `npm run lint` | 現状 **1**（GAS ソースの `any` 等、既存4件。新規エラーを増やさないことを基準にする） |
+| GAS（`gas-booking-automation/`） | `npm run gas:check`（型チェック＋スタブ付き合成テスト） | 0 |
+
+GAS の**実機**への反映は検証手段が無い（`clasp` 未セットアップ、手動 push・再デプロイ）。反映後は Apps Script エディタで `processAutoReplies` を手動実行し実行ログで確認する。
+
 ## 予約自動化アーキテクチャ・設計思想（2026-07-25導入）
 
 - **目的と意義**: 予約頻度（月1回程度）に対し、Gmailを5分おきに監視するPull型設計はリソースの無駄であり不毛であった。これを解消するため、サイトから予約送信した時点で即座にバックエンドをキックする **Push型（Webhook）アーキテクチャ** に転換した。
@@ -71,7 +82,13 @@ messages/{ja,en,id}.json
 - **連絡先非掲載ポリシー**: Email/WhatsApp 等の直接連絡先はサイトに一切載せない。送信システム用の隠しアドレスは `puriliangresidence.bali@gmail.com` で統一。
 - **多言語**: `app/[locale]/...` / matcher `/(ja|en|id)/:path*`
 
-## 完了済みタスク（直近 / 2026-09-05・予約データ整合性と通知ギャップの是正）
+## 完了済みタスク（直近 / 2026-09-10・GAS の一過性エラー対策）
+
+- **発端**: 09-09 10:07 JST に `processAutoReplies` が `Service Spreadsheets failed while accessing document with id …` で1回失敗（Apps Script の日次失敗ダイジェストで検知）。単発・以後の実行は成功しており Google 側の一過性エラーと判定、実害なし。
+- **対策**: `src/Retry.ts`（スプレッドシート操作の指数バックオフ・最大4回）／`sendAutoReplies` の行単位隔離（失敗行は `エラー` に退避し担当者へ1通で通知）／`npm run gas:check`（型チェック＋合成テスト）を新設。詳細と失敗通知の読み方は `gas-booking-automation/README.md`「障害時の挙動」。
+- **GAS 実機は未反映**（09-05 の変更と合わせて `clasp push` 待ち。次にやること 1）。
+
+## 完了済みタスク（2026-09-05・予約データ整合性と通知ギャップの是正）
 
 - **過去日付での予約送信を防止**: ReserveFormのチェックイン初期値が固定文字列（`'2026-06-15'`）でメンテされておらず、日付欄を一度も触らず送信すると常に過去日付になる欠陥を修正（本日基準の動的初期値＋`min`属性＋`validate()`でのJSチェック。`<form noValidate>`のためJS側チェックが実質の防御）。GAS側（`WebhookParser.detectIrregularities`）にも同種の検知を追加し、フォームを経由しない直接POSTにも対応。3言語に`Reserve.errors.checkinPast`を追加。
   - 発端: INQ-005で「送信日時7/30・チェックイン/アウトが過去日付」という不自然なレコードを検知。オーナー側関係者（ユニ氏の息子）によるテスト操作と推定、当該レコードへの特別対応は不要と判断。
@@ -88,7 +105,7 @@ messages/{ja,en,id}.json
 
 ## 次にやること（公開後 / 優先順）
 
-1. **【要対応】GAS側の再デプロイ**: `gas-booking-automation/src/WebhookParser.ts`・`EmailService.ts`の変更（過去日付検知・担当者通知メール）を`clasp push`し、Apps Scriptエディタで再デプロイする。リポジトリのソースは更新済みだが、実際のスプレッドシート/メール挙動には未反映（本VMにclasp未セットアップのためエージェント側からは代行不可）。
+1. **【要対応】GAS側の再デプロイ**: 09-05（過去日付検知・担当者通知）と 09-10（`Retry.ts` 新規・行単位隔離）の変更を `clasp push` し、Apps Script エディタで再デプロイする。**新規ファイル `src/Retry.ts` を含めること。** リポジトリのソースは更新済みだが実機には未反映（本VMにclasp未セットアップのためエージェント側からは代行不可）。
 2. **Vercel本番環境への環境変数登録と再デプロイ**: お客様にて `GAS_WEBHOOK_URL` を本番環境へ設定し、ビルドを通す（これをもって自動化の本番稼働が開始）。
 3. **Google Search Console で再インデックス申請**。
 4. King Studio 写真差し込み。
@@ -100,6 +117,7 @@ messages/{ja,en,id}.json
 - **フォーム**: 環境変数 `GAS_WEBHOOK_URL` 未設定時はモック成功レスポンスを返す安全設計。Vercel設定忘れに注意。
 - **VM共用**: 他エージェント（Gemini/Antigravity/Claude）のプロセス・作業を予告なく停止/上書きしない。
 - **GASコードの管理**: GAS上のコードを変更する場合は、リポジトリ内の `gas-booking-automation/src` も合わせて同期・更新すること。
+- **GAS 失敗通知（`Summary of failures for Google Apps Script: 無題のプロジェクト`）の判定**: 本文の表（Function / Error Message / 行数）で判定する。`Service Spreadsheets failed while accessing document` が**単発**なら一過性で対応不要、**連続**なら共有・削除・認可失効を疑う。判定表は `gas-booking-automation/README.md`「失敗通知メールの読み方」。件名だけで「要対応」と判定しない。
 
 ## デプロイ / 環境
 
@@ -110,5 +128,5 @@ messages/{ja,en,id}.json
 
 ---
 
-- **最終更新日時**: 2026-09-05（過去日付予約の防止・問い合わせ担当者通知の追加）
-- **更新したエージェント名**: Claude (claude-sonnet-5)
+- **最終更新日時**: 2026-09-10（GAS 一過性エラー対策・検証手段スロット追加）
+- **更新したエージェント名**: Claude (claude-opus-5)

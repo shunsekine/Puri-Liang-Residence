@@ -1,34 +1,83 @@
 import { SpreadsheetService } from './SpreadsheetService';
 import { InquiryData } from './Types';
-import { CONFIG } from './Config';
+import { CONFIG, COLUMNS } from './Config';
+import { errorMessage } from './Retry';
 
 export class EmailService {
   /**
    * 定期トリガーから呼ばれる一次対応送信処理（受領から15分以上経過したものを送信）
    */
   static sendAutoReplies(): void {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAMES.INQUIRIES);
-    if (!sheet) return;
-    
-    const data = sheet.getDataRange().getValues();
+    // シート読み取りはリトライ付き。ここで失敗した場合は今回の実行を諦め、次回トリガーに任せる
+    // （まだ何も送信していないので、失敗させても副作用は無い）
+    const data = SpreadsheetService.getAllValues(CONFIG.SHEET_NAMES.INQUIRIES);
+    if (!data) return;
+
     const now = new Date();
-    
+    const failures: { rowNum: number; id: string; error: string }[] = [];
+
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
-      const status = row[12]; // M列 Status
-      const timestamp = new Date(row[1]); // B列 Timestamp
-      
-      if (status === '1次送信待ち') {
-        const diffMin = (now.getTime() - timestamp.getTime()) / (1000 * 60);
-        
-        // 受信から15分以上経過しているかチェック
-        if (diffMin >= CONFIG.DELAY_FOR_AUTO_REPLY_MINUTES) {
-          const inquiry = SpreadsheetService.getInquiryByRow(i + 1);
-          if (inquiry) {
-            this.sendInitialReply(inquiry, i + 1);
-          }
+      const status = row[COLUMNS.INQUIRIES.STATUS - 1];
+      const timestamp = new Date(row[COLUMNS.INQUIRIES.TIMESTAMP - 1]);
+      if (status !== '1次送信待ち') continue;
+
+      // 受信から15分以上経過しているかチェック
+      const diffMin = (now.getTime() - timestamp.getTime()) / (1000 * 60);
+      if (diffMin < CONFIG.DELAY_FOR_AUTO_REPLY_MINUTES) continue;
+
+      const rowNum = i + 1;
+      // 行単位で隔離: 1行の失敗で後続の問い合わせが止まらないようにする
+      try {
+        const inquiry = SpreadsheetService.getInquiryByRow(rowNum);
+        if (inquiry) {
+          this.sendInitialReply(inquiry, rowNum);
+        }
+      } catch (error) {
+        const message = errorMessage(error);
+        const id = String(row[COLUMNS.INQUIRIES.ID - 1]);
+        console.error(`[sendAutoReplies] row ${rowNum} (${id}) failed: ${message}`);
+        failures.push({ rowNum, id, error: message });
+
+        // 同じ行で毎回失敗し続ける（10〜15分ごとに通知が飛ぶ）のを防ぐため 'エラー' に退避。
+        // 担当者が原因を直して '1次送信待ち' に戻せば再処理される。
+        // ここも失敗した場合は '1次送信待ち' のまま残り、次回実行で再試行される
+        // （sendEmail 成功後に updateStatus が失敗したケースでは二重送信になりうる。残存リスクとして許容）。
+        try {
+          SpreadsheetService.updateStatus(rowNum, 'エラー');
+        } catch (e) {
+          console.error(`[sendAutoReplies] failed to mark row ${rowNum} as error: ${errorMessage(e)}`);
         }
       }
+    }
+
+    if (failures.length > 0) {
+      this.notifyOwnerOfFailures(failures);
+    }
+  }
+
+  /**
+   * 一次返信処理で失敗した行を担当者へまとめて通知（1実行につき1通）
+   */
+  private static notifyOwnerOfFailures(failures: { rowNum: number; id: string; error: string }[]): void {
+    try {
+      const settings = SpreadsheetService.getSettings();
+      const notifyEmail = settings['NOTIFICATION_EMAIL'];
+      if (!notifyEmail) return;
+
+      const subject = `【GASエラー】一次返信処理で ${failures.length} 件失敗しました`;
+      const lines = [
+        '一次返信の自動処理で失敗した問い合わせがあります。',
+        '該当行のステータスは「エラー」に変更済みです。原因を修正のうえ「1次送信待ち」に戻すと再処理されます。',
+        '',
+        ...failures.map(f => `- 行 ${f.rowNum} / ${f.id}: ${f.error}`),
+        '',
+        '※ "Service Spreadsheets failed while accessing document" はGoogle側の一過性エラーです。リトライ後も失敗した場合のみここに載ります。',
+      ];
+      GmailApp.sendEmail(notifyEmail, subject, lines.join('\n'));
+    } catch (error) {
+      // 通知自体の失敗で本処理を落とさない（実行ログには残す）
+      console.error(`[notifyOwnerOfFailures] ${errorMessage(error)}`);
     }
   }
 

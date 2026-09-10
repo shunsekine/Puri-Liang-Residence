@@ -1,15 +1,36 @@
 import { CONFIG, COLUMNS } from './Config';
 import { InquiryData, InquiryStatus } from './Types';
+import { withRetry } from './Retry';
+
+type SheetValues = ReturnType<GoogleAppsScript.Spreadsheet.Range['getValues']>;
 
 export class SpreadsheetService {
+  /**
+   * シートを名前で取得（一過性エラーはリトライ）
+   */
+  static getSheet(name: string): GoogleAppsScript.Spreadsheet.Sheet | null {
+    return withRetry(`getSheet(${name})`, () =>
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name)
+    );
+  }
+
+  /**
+   * シートの全データを取得（一過性エラーはリトライ）。シートが無ければ null
+   */
+  static getAllValues(name: string): SheetValues | null {
+    return withRetry(`getAllValues(${name})`, () => {
+      const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name);
+      return sheet ? sheet.getDataRange().getValues() : null;
+    });
+  }
+
   /**
    * Settings シートから設定をキー・バリュー形式で取得
    */
   static getSettings(): Record<string, string> {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAMES.SETTINGS);
-    if (!sheet) return {};
-    
-    const data = sheet.getDataRange().getValues();
+    const data = this.getAllValues(CONFIG.SHEET_NAMES.SETTINGS);
+    if (!data) return {};
+
     const settings: Record<string, string> = {};
     for (let i = 1; i < data.length; i++) {
       const key = String(data[i][0]).trim();
@@ -25,10 +46,9 @@ export class SpreadsheetService {
    * Templates シートからテンプレートを ID ベースで取得
    */
   static getTemplate(templateId: string): { subject: string, body: string } | null {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAMES.TEMPLATES);
-    if (!sheet) return null;
+    const data = this.getAllValues(CONFIG.SHEET_NAMES.TEMPLATES);
+    if (!data) return null;
 
-    const data = sheet.getDataRange().getValues();
     for (let i = 1; i < data.length; i++) {
       if (String(data[i][0]).trim() === templateId) {
         return {
@@ -44,17 +64,17 @@ export class SpreadsheetService {
    * 新しい問い合わせを Inquiries シートに追加し、追加された行番号を返す
    */
   static appendInquiry(inquiry: InquiryData): number {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAMES.INQUIRIES);
+    const sheet = this.getSheet(CONFIG.SHEET_NAMES.INQUIRIES);
     if (!sheet) return -1;
 
-    const lastRow = sheet.getLastRow();
+    const lastRow = withRetry('getLastRow', () => sheet.getLastRow());
     const newId = `INQ-${String(lastRow).padStart(3, '0')}`;
     inquiry.id = newId;
 
     // WhatsApp用テキスト生成
     const whatsAppText = this.generateWhatsAppText(inquiry);
     
-    const row = [];
+    const row: unknown[] = [];
     row[COLUMNS.INQUIRIES.ID - 1] = newId;
     row[COLUMNS.INQUIRIES.TIMESTAMP - 1] = inquiry.timestamp;
     row[COLUMNS.INQUIRIES.NAME - 1] = inquiry.name;
@@ -74,27 +94,35 @@ export class SpreadsheetService {
     row[COLUMNS.INQUIRIES.WHATSAPP_TEXT - 1] = whatsAppText;
     row[COLUMNS.INQUIRIES.MESSAGE_ID - 1] = inquiry.messageId;
 
-    sheet.appendRow(row);
-    return sheet.getLastRow();
+    // 記帳失敗＝問い合わせの消失なので、まれな二重行のリスクより優先してリトライする
+    // （二重行は O列 MessageId で判別可能）
+    return withRetry('appendRow', () => {
+      sheet.appendRow(row);
+      return sheet.getLastRow();
+    });
   }
 
   /**
    * ステータスを更新
    */
   static updateStatus(rowNum: number, status: InquiryStatus): void {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAMES.INQUIRIES);
+    const sheet = this.getSheet(CONFIG.SHEET_NAMES.INQUIRIES);
     if (!sheet) return;
-    sheet.getRange(rowNum, COLUMNS.INQUIRIES.STATUS).setValue(status);
+    withRetry(`updateStatus(row ${rowNum})`, () =>
+      sheet.getRange(rowNum, COLUMNS.INQUIRIES.STATUS).setValue(status)
+    );
   }
 
   /**
    * 行のデータをオブジェクトとして取得
    */
   static getInquiryByRow(rowNum: number): InquiryData | null {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAMES.INQUIRIES);
+    const sheet = this.getSheet(CONFIG.SHEET_NAMES.INQUIRIES);
     if (!sheet) return null;
 
-    const row = sheet.getRange(rowNum, 1, 1, sheet.getLastColumn()).getValues()[0];
+    const row = withRetry(`getInquiryByRow(${rowNum})`, () =>
+      sheet.getRange(rowNum, 1, 1, sheet.getLastColumn()).getValues()[0]
+    );
     return {
       id: row[COLUMNS.INQUIRIES.ID - 1],
       timestamp: new Date(row[COLUMNS.INQUIRIES.TIMESTAMP - 1]),

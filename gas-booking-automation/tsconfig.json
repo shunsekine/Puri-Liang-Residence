@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["es2019"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "types": ["google-apps-script"],
+    "typeRoots": ["../node_modules/@types"]
+  },
+  "include": ["src/*.ts"]
+}

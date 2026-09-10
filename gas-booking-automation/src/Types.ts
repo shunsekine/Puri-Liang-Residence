@@ -8,7 +8,8 @@ export type InquiryStatus =
   | 'キャンセル待ち'
   | '最終送信待ち'
   | '最終送信済'
-  | 'クローズ';
+  | 'クローズ'
+  | 'エラー'; // 自動処理が失敗した行。担当者が原因を直して '1次送信待ち' に戻すと再処理される
 
 export interface InquiryData {
   id?: string;

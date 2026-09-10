@@ -66,14 +66,12 @@ export function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
  * 毎日1回実行されるリマインダー処理（宿泊1ヶ月前）
  */
 export function sendReminders(): void {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAMES.INQUIRIES);
-  if (!sheet) return;
-  
   const settings = SpreadsheetService.getSettings();
   const notifyEmail = settings['NOTIFICATION_EMAIL'];
   if (!notifyEmail) return;
 
-  const data = sheet.getDataRange().getValues();
+  const data = SpreadsheetService.getAllValues(CONFIG.SHEET_NAMES.INQUIRIES);
+  if (!data) return;
   const today = new Date();
 
   for (let i = 1; i < data.length; i++) {
