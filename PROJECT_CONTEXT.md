@@ -37,8 +37,13 @@
 | Next.js ビルド | `npm run build` | 0 |
 | Lint | `npm run lint` | 現状 **1**（GAS ソースの `any` 等、既存4件。新規エラーを増やさないことを基準にする） |
 | GAS（`gas-booking-automation/`） | `npm run gas:check`（型チェック＋スタブ付き合成テスト） | 0 |
+| モデル層監査（不変条件スロット） | `python3 /home/ubuntu/agent-global-rules/audit_model_layer.py . --gate` | 0 |
 
 GAS の**実機**への反映は検証手段が無い（`clasp` 未セットアップ、手動 push・再デプロイ）。反映後は Apps Script エディタで `processAutoReplies` を手動実行し実行ログで確認する。
+
+## 不変条件と担保場所
+
+無い（データは Google Sheets が保持。書込は GAS `gas-booking-automation/src/SpreadsheetService.ts` の `appendRow`/`setValue` の 1 モジュール + 人手のステータス変更。Next 側 `app/api/reserve/route.ts` は 32 行の proxy で値を持たない）
 
 ## 予約自動化アーキテクチャ・設計思想（2026-07-25導入）
 
@@ -128,5 +133,5 @@ messages/{ja,en,id}.json
 
 ---
 
-- **最終更新日時**: 2026-09-10（GAS 一過性エラー対策・検証手段スロット追加）
-- **更新したエージェント名**: Claude (claude-opus-5)
+- **最終更新日時**: 2026-09-14（WO-ML-4: 「不変条件と担保場所」スロット追加）
+- **更新したエージェント名**: Claude (claude-sonnet-5)
