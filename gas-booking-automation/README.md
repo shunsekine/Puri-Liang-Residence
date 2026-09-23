@@ -19,7 +19,17 @@ Webサイトからの予約問い合わせをプロキシ経由で受信し、�
 
 ```env
 GAS_WEBHOOK_URL=https://script.google.com/macros/s/<YOUR_SCRIPT_ID>/exec
+GAS_WEBHOOK_SECRET=<openssl rand -hex 32 の出力。GAS のスクリプト プロパティ WEBHOOK_SECRET と同じ値>
 ```
+
+### Webhook の共有秘密（2026-09-23 追加・WO-PB-3）
+
+Web アプリは「全員（匿名）」に公開されるため、URL を知っているだけで誰でも `Inquiries` に記帳でき、15 分後にはその宛先へ一次返信メールが自動送信されてしまう。これを塞ぐため、プロキシ（`app/api/reserve/route.ts`）が本文に `webhook_secret` を付け、`doPost` がスクリプト プロパティ `WEBHOOK_SECRET` と比較してから記帳する（`doPost` は HTTP ヘッダーを読めないため本文で渡す）。
+
+- **fail-closed**: GAS はプロパティが未設定・32 文字未満なら全件拒否（`{"success":false,"error":"unauthorized"}`）。Next は URL 設定済みで秘密が未設定なら 503 で転送しない。
+- 秘密はシート（`Settings`）に置かない（オーナー側に見えるため）。スクリプト プロパティは「プロジェクトの設定 → スクリプト プロパティ」。
+- **反映順**（逆にすると本番フォームが止まる）: Vercel に `GAS_WEBHOOK_SECRET` → Next をデプロイ → GAS にプロパティ → GAS を再デプロイ（「デプロイを管理 → 編集 → 新バージョン」で URL を変えない）→ 本番フォームから 1 件送って記帳を確認。
+- 秘密を替えるときも同じ順（両側に同値を入れてから GAS を再デプロイ）。検証は `npm run gas:check`（`test/doPost.test.js`）と `npm run check:public`（`tests/reserve-route.test.mjs`）。
 
 ---
 
@@ -39,6 +49,7 @@ GAS_WEBHOOK_URL=https://script.google.com/macros/s/<YOUR_SCRIPT_ID>/exec
    * **次のユーザーとして実行**: 自分 (Me)
    * **アクセスできるユーザー**: 全員 (Anyone)
 6. 発行された Web アプリ URL を Next.js の環境変数 `GAS_WEBHOOK_URL` に設定します。
+   併せて「Webhook の共有秘密」の手順でスクリプト プロパティ `WEBHOOK_SECRET` と `GAS_WEBHOOK_SECRET` を設定します（未設定だと全件拒否）。
 7. GASエディタで以下の2つのトリガーを設置します。
    * **`processAutoReplies`**: 時間主導型 / 分単位のタイマー / 10分〜15分おき
    * **`sendReminders`**: 時間主導型 / 日付ベースのタイマー / 毎日午前8時〜9時など

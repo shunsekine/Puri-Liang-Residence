@@ -37,13 +37,15 @@
 | Next.js ビルド | `npm run build` | 0 |
 | Lint | `npm run lint` | 現状 **1**（GAS ソースの `any` 等、既存4件。新規エラーを増やさないことを基準にする） |
 | GAS（`gas-booking-automation/`） | `npm run gas:check`（型チェック＋スタブ付き合成テスト） | 0 |
+| 公開物の最低ライン（§11 ③⑤・WO-PB-3） | `npm run check:public`（検出力の自己テスト→追跡ファイルの秘密・ブラウザへ届く env allowlist・ログの PII→プロキシの共有秘密テスト）。成果物検査は `npm run build` の postbuild で自動 | 0 |
 | モデル層監査（不変条件スロット） | `python3 /home/ubuntu/agent-global-rules/audit_model_layer.py . --gate` | 0 |
 
 GAS の**実機**への反映は検証手段が無い（`clasp` 未セットアップ、手動 push・再デプロイ）。反映後は Apps Script エディタで `processAutoReplies` を手動実行し実行ログで確認する。
 
 ## 不変条件と担保場所
 
-無い（データは Google Sheets が保持。書込は GAS `gas-booking-automation/src/SpreadsheetService.ts` の `appendRow`/`setValue` の 1 モジュール + 人手のステータス変更。Next 側 `app/api/reserve/route.ts` は 32 行の proxy で値を持たない）
+無い（データは Google Sheets が保持。書込は GAS `gas-booking-automation/src/SpreadsheetService.ts` の `appendRow`/`setValue` の 1 モジュール + 人手のステータス変更。Next 側 `app/api/reserve/route.ts` は proxy で値を持たない）
+- §11 ①②（別主体・行ルール）: **該当なし**（ログイン・会員データ・ブラウザから読める DB が無い。Sheets への唯一の外部書込口 `doPost` は共有秘密 `WEBHOOK_SECRET` で fail-closed。担保＝`npm run gas:check` の `doPost.test.js`）。ログインや読み出し API を足した時点で実テストが要る
 
 ## 予約自動化アーキテクチャ・設計思想（2026-07-25導入）
 
@@ -108,8 +110,14 @@ messages/{ja,en,id}.json
 - **2026-06-10**: Featureページの改良、Location方位ダイヤルへの改良。
 - **2026-06-08**: 全ページ遷移ローディングアニメーションの追加。
 
+## in_flight
+
+- （なし）
+
 ## 次にやること（公開後 / 優先順）
 
+0. **【要対応・この順で】WO-PB-3 の共有秘密の本番反映**（ブランチ `wo-pb-3-public-baseline`。順序を崩すとフォームが 503 になる）: ① `openssl rand -hex 32` で秘密を作る ② Vercel の Production/Preview に `GAS_WEBHOOK_SECRET` を登録 ③ ブランチを main へマージ（＝本番デプロイ。旧 GAS は余分なフィールドを無視するので送信は継続） ④ Apps Script の「プロジェクトの設定 → スクリプト プロパティ」に `WEBHOOK_SECRET` を同値で追加 ⑤ 下記 1 の再デプロイ ⑥ 本番フォームから 1 件送信して記帳を確認。手順の詳細は `gas-booking-automation/README.md`「Webhook の共有秘密」。
+0-b. **【高】WO-PB-3 レビューの F1・F2**（`/api/reserve` 経由で任意宛先へ自動返信を送らせる・受信時刻の偽装）: route でフィールド allowlist・スキーマ検証・レート制限、GAS 側で件数上限と数式の `'` 前置。詳細は上記レビュー文書。
 1. **【要対応】GAS側の再デプロイ**: 09-05（過去日付検知・担当者通知）と 09-10（`Retry.ts` 新規・行単位隔離）の変更を `clasp push` し、Apps Script エディタで再デプロイする。**新規ファイル `src/Retry.ts` を含めること。** リポジトリのソースは更新済みだが実機には未反映（本VMにclasp未セットアップのためエージェント側からは代行不可）。
 2. **Vercel本番環境への環境変数登録と再デプロイ**: お客様にて `GAS_WEBHOOK_URL` を本番環境へ設定し、ビルドを通す（これをもって自動化の本番稼働が開始）。
 3. **Google Search Console で再インデックス申請**。
@@ -119,7 +127,9 @@ messages/{ja,en,id}.json
 
 ## 既知の問題・触ってはいけない箇所
 
-- **フォーム**: 環境変数 `GAS_WEBHOOK_URL` 未設定時はモック成功レスポンスを返す安全設計。Vercel設定忘れに注意。
+- **フォーム**: 環境変数 `GAS_WEBHOOK_URL` 未設定時はモック成功レスポンスを返す安全設計。Vercel設定忘れに注意。URL 設定済みで `GAS_WEBHOOK_SECRET` 未設定なら 503（転送しない）。
+- **§11 ④ 攻撃者役レビュー**: 2026-09-23 Fable 5.1（実装は Opus 5.5）。所見 8 件（高 2・中 3・低 3）、**F1 スパム踏み台・F2 記帳偽造（高）は未対応**。詳細と状態は `docs/2026-09-23-WO-PB-3-attacker-review.md`。
+- **§11 ⑤ ログ**: Next の route と GAS は本文・個人情報をログに書かない（検査 C）。記録は Sheets の `Inquiries`（ID・受信日時）が担う。閲覧者の記録は無い（ログインが無いため）。
 - **VM共用**: 他エージェント（Gemini/Antigravity/Claude）のプロセス・作業を予告なく停止/上書きしない。
 - **GASコードの管理**: GAS上のコードを変更する場合は、リポジトリ内の `gas-booking-automation/src` も合わせて同期・更新すること。
 - **GAS 失敗通知（`Summary of failures for Google Apps Script: 無題のプロジェクト`）の判定**: 本文の表（Function / Error Message / 行数）で判定する。`Service Spreadsheets failed while accessing document` が**単発**なら一過性で対応不要、**連続**なら共有・削除・認可失効を疑う。判定表は `gas-booking-automation/README.md`「失敗通知メールの読み方」。件名だけで「要対応」と判定しない。
@@ -129,9 +139,9 @@ messages/{ja,en,id}.json
 - Vercel: shun-projects-workspace / Hobby / リポ **Public**
 - 本番URL: `https://puri-liang-residence.vercel.app`
 - プレビュー: ブランチ自動デプロイ（Deployment Protection 有効）
-- 環境変数: `GAS_WEBHOOK_URL`（新規必須） / `NEXT_PUBLIC_BASE_URL`
+- 環境変数: `GAS_WEBHOOK_URL`（新規必須） / `GAS_WEBHOOK_SECRET`（必須・GAS のスクリプト プロパティ `WEBHOOK_SECRET` と同値・32 文字以上） / `NEXT_PUBLIC_BASE_URL`。ブラウザへ配る変数は `scripts/check-public-baseline.mjs` の allowlist で宣言
 
 ---
 
-- **最終更新日時**: 2026-09-14（WO-ML-4: 「不変条件と担保場所」スロット追加）
-- **更新したエージェント名**: Claude (claude-sonnet-5)
+- **最終更新日時**: 2026-09-23（WO-PB-3: §11 公開物の最低ライン ③④⑤）
+- **更新したエージェント名**: Claude (claude-opus-5-5)

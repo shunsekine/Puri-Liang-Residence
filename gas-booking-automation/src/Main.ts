@@ -1,4 +1,4 @@
-import { WebhookParser } from './WebhookParser';
+import { WebhookParser, WEBHOOK_SECRET_FIELD, WEBHOOK_SECRET_PROPERTY } from './WebhookParser';
 import { EmailService } from './EmailService';
 import { SpreadsheetService } from './SpreadsheetService';
 import { CONFIG, COLUMNS } from './Config';
@@ -10,6 +10,16 @@ import { CONFIG, COLUMNS } from './Config';
 export function doPost(e: GoogleAppsScript.Events.DoPost) {
   try {
     const payload = JSON.parse(e.postData.contents);
+
+    // 0. 共有秘密の検証（シートに触れる前に行う。拒否理由は返さない）
+    const expected = PropertiesService.getScriptProperties().getProperty(WEBHOOK_SECRET_PROPERTY);
+    if (!WebhookParser.isAuthorized(payload, expected)) {
+      console.warn('[doPost] rejected: webhook secret missing or invalid');
+      return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'unauthorized' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    delete payload[WEBHOOK_SECRET_FIELD];
+
     const settings = SpreadsheetService.getSettings();
 
     // 1. データパース

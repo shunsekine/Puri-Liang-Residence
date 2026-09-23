@@ -1,6 +1,27 @@
 import { InquiryData } from './Types';
 
+/** プロキシ（app/api/reserve/route.ts）が本文に付ける共有秘密のフィールド名。doPost は HTTP ヘッダーを読めないため本文で渡す。 */
+export const WEBHOOK_SECRET_FIELD = 'webhook_secret';
+/** スクリプト プロパティのキー。値は Vercel の GAS_WEBHOOK_SECRET と同じ。シートに置かない（オーナー側に見えるため）。 */
+export const WEBHOOK_SECRET_PROPERTY = 'WEBHOOK_SECRET';
+/** これより短い秘密は未設定と同じ扱い（推測・総当たりに耐えない値で「設定済み」にしない）。 */
+export const WEBHOOK_SECRET_MIN_LENGTH = 32;
+
 export class WebhookParser {
+  /**
+   * 共有秘密の検証。Web アプリ URL は「全員（匿名）」に公開されているため、URL を知っているだけでは記帳できないようにする。
+   * 期待値が未設定・短すぎる場合は拒否する（fail-closed。未設定を「検証しない」にしない）。
+   */
+  static isAuthorized(payload: unknown, expected: string | null | undefined): boolean {
+    if (typeof expected !== 'string' || expected.length < WEBHOOK_SECRET_MIN_LENGTH) return false;
+    if (typeof payload !== 'object' || payload === null) return false;
+    const given = (payload as Record<string, unknown>)[WEBHOOK_SECRET_FIELD];
+    if (typeof given !== 'string' || given.length !== expected.length) return false;
+    let diff = 0;
+    for (let i = 0; i < expected.length; i++) diff |= given.charCodeAt(i) ^ expected.charCodeAt(i);
+    return diff === 0;
+  }
+
   /**
    * ウェブサイトからPOSTされたJSONペイロードをパースする
    */
