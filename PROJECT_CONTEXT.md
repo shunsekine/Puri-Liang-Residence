@@ -40,7 +40,7 @@
 | 公開物の最低ライン（§11 ③⑤・WO-PB-3） | `npm run check:public`（検出力の自己テスト→追跡ファイルの秘密・ブラウザへ届く env allowlist・ログの PII→プロキシの共有秘密テスト）。成果物検査は `npm run build` の postbuild で自動 | 0 |
 | モデル層監査（不変条件スロット） | `python3 /home/ubuntu/agent-global-rules/audit_model_layer.py . --gate` | 0 |
 
-GAS の**実機**への反映は検証手段が無い（`clasp` 未セットアップ、手動 push・再デプロイ）。反映後は Apps Script エディタで `processAutoReplies` を手動実行し実行ログで確認する。
+GAS の**実機**への反映は検証手段が無い。`src/*.ts` は `import`/`export` を含むためそのままでは貼れず、`clasp push` も未検証。2026-09-24 は import 行と `export` を外して `tsc --target ES2019 --module none` で変換し、エディタに貼った（変換後も `gas:check` の 2 テストが全ファイル 1 スコープで通ることを確認）。反映後は本番フォームから 1 件送り、応答 `success:true` と記帳を確認する（匿名実行の `doPost` はエディタの「実行数」でログを開けない）。
 
 ## 不変条件と担保場所
 
@@ -93,14 +93,14 @@ messages/{ja,en,id}.json
 
 - **発端**: 09-09 10:07 JST に `processAutoReplies` が `Service Spreadsheets failed while accessing document with id …` で1回失敗（Apps Script の日次失敗ダイジェストで検知）。単発・以後の実行は成功しており Google 側の一過性エラーと判定、実害なし。
 - **対策**: `src/Retry.ts`（スプレッドシート操作の指数バックオフ・最大4回）／`sendAutoReplies` の行単位隔離（失敗行は `エラー` に退避し担当者へ1通で通知）／`npm run gas:check`（型チェック＋合成テスト）を新設。詳細と失敗通知の読み方は `gas-booking-automation/README.md`「障害時の挙動」。
-- **GAS 実機は未反映**（09-05 の変更と合わせて `clasp push` 待ち。次にやること 1）。
+- **GAS 実機へ反映済み**（2026-09-24、09-05・WO-PB-3 の変更と合わせて。バージョン番号は Apps Script「デプロイを管理」で確認）。
 
 ## 完了済みタスク（2026-09-05・予約データ整合性と通知ギャップの是正）
 
 - **過去日付での予約送信を防止**: ReserveFormのチェックイン初期値が固定文字列（`'2026-06-15'`）でメンテされておらず、日付欄を一度も触らず送信すると常に過去日付になる欠陥を修正（本日基準の動的初期値＋`min`属性＋`validate()`でのJSチェック。`<form noValidate>`のためJS側チェックが実質の防御）。GAS側（`WebhookParser.detectIrregularities`）にも同種の検知を追加し、フォームを経由しない直接POSTにも対応。3言語に`Reserve.errors.checkinPast`を追加。
   - 発端: INQ-005で「送信日時7/30・チェックイン/アウトが過去日付」という不自然なレコードを検知。オーナー側関係者（ユニ氏の息子）によるテスト操作と推定、当該レコードへの特別対応は不要と判断。
 - **問い合わせ発生時の担当者通知を追加**: 一次返信の自動送信/下書き作成時（`EmailService.sendInitialReply`）に、既存の`Settings.NOTIFICATION_EMAIL`へ通知メールを送信するよう変更。従来は問い合わせが来ても担当者（あなた）に通知が飛ばず、スプレッドシートを自分で開かない限り気づけない設計だった。
-- コミット `767b6db`（origin/main push済み）。**GAS側（`WebhookParser.ts`/`EmailService.ts`）はリポジトリのソース更新のみで、Google Apps Scriptへの実デプロイ（`clasp push`+再デプロイ）は別途手動対応が必要**（本VM環境にclaspが未セットアップのため代行不可）。
+- コミット `767b6db`（origin/main push済み）。GAS 実機へは 2026-09-24 に反映済み。
 
 ## 完了済みタスク（以前）
 
@@ -116,14 +116,12 @@ messages/{ja,en,id}.json
 
 ## 次にやること（公開後 / 優先順）
 
-0. **【要対応・この順で】WO-PB-3 の共有秘密の本番反映**（ブランチ `wo-pb-3-public-baseline`。順序を崩すとフォームが 503 になる）: ① `openssl rand -hex 32` で秘密を作る ② Vercel の Production/Preview に `GAS_WEBHOOK_SECRET` を登録 ③ ブランチを main へマージ（＝本番デプロイ。旧 GAS は余分なフィールドを無視するので送信は継続） ④ Apps Script の「プロジェクトの設定 → スクリプト プロパティ」に `WEBHOOK_SECRET` を同値で追加 ⑤ 下記 1 の再デプロイ ⑥ 本番フォームから 1 件送信して記帳を確認。手順の詳細は `gas-booking-automation/README.md`「Webhook の共有秘密」。
-0-b. **【高】WO-PB-3 レビューの F1・F2**（`/api/reserve` 経由で任意宛先へ自動返信を送らせる・受信時刻の偽装）: route でフィールド allowlist・スキーマ検証・レート制限、GAS 側で件数上限と数式の `'` 前置。詳細は上記レビュー文書。
-1. **【要対応】GAS側の再デプロイ**: 09-05（過去日付検知・担当者通知）と 09-10（`Retry.ts` 新規・行単位隔離）の変更を `clasp push` し、Apps Script エディタで再デプロイする。**新規ファイル `src/Retry.ts` を含めること。** リポジトリのソースは更新済みだが実機には未反映（本VMにclasp未セットアップのためエージェント側からは代行不可）。
-2. **Vercel本番環境への環境変数登録と再デプロイ**: お客様にて `GAS_WEBHOOK_URL` を本番環境へ設定し、ビルドを通す（これをもって自動化の本番稼働が開始）。
-3. **Google Search Console で再インデックス申請**。
-4. King Studio 写真差し込み。
-5. 旧スキーマキー削除（V2 安定後、別PR）。
-6. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）。
+0. **【高】WO-PB-3 レビューの F1・F2**（`/api/reserve` 経由で任意宛先へ自動返信を送らせる・受信時刻の偽装）: route でフィールド allowlist・スキーマ検証・レート制限、GAS 側で件数上限と数式の `'` 前置。詳細は下記「§11 ④」のレビュー文書。
+1. **GAS の変換を再現可能にする**: 09-24 に手で行った TS→GAS 変換をビルドスクリプトにし、`gas-booking-automation/README.md` の `clasp push` 手順を実態に合わせる。あわせて共有秘密の照合前に前後の空白を除く（09-24 に値の貼り間違いを疑って切り分けに時間を使った。実際の原因は main 未マージ）。
+2. **Google Search Console で再インデックス申請**。
+3. King Studio 写真差し込み。
+4. 旧スキーマキー削除（V2 安定後、別PR）。
+5. Next.js 16 `middleware.ts` → `proxy.ts` 移行（廃止予定警告）。
 
 ## 既知の問題・触ってはいけない箇所
 
@@ -131,6 +129,7 @@ messages/{ja,en,id}.json
 - **§11 ④ 攻撃者役レビュー**: 2026-09-23 Fable 5.1（実装は Opus 5.5）。所見 8 件（高 2・中 3・低 3）、**F1 スパム踏み台・F2 記帳偽造（高）は未対応**。詳細と状態は `docs/2026-09-23-WO-PB-3-attacker-review.md`。
 - **§11 ⑤ ログ**: Next の route と GAS は本文・個人情報をログに書かない（検査 C）。記録は Sheets の `Inquiries`（ID・受信日時）が担う。閲覧者の記録は無い（ログインが無いため）。
 - **VM共用**: 他エージェント（Gemini/Antigravity/Claude）のプロセス・作業を予告なく停止/上書きしない。
+- **GAS のデプロイは `puriliangresidence.bali@gmail.com` で行う**: スプレッドシートとスクリプトの所有者は個人アカウントだが、トリガー（`processAutoReplies` 等）は puriliang が作成しており、顧客への返信はそこから送られる。個人アカウントで認可・手動実行すると個人の Gmail から顧客へ送られうる。Web アプリのデプロイは「デプロイを管理 → 鉛筆 → 新バージョン」（「新しいデプロイ」は別 URL を作る）。
 - **GASコードの管理**: GAS上のコードを変更する場合は、リポジトリ内の `gas-booking-automation/src` も合わせて同期・更新すること。
 - **GAS 失敗通知（`Summary of failures for Google Apps Script: 無題のプロジェクト`）の判定**: 本文の表（Function / Error Message / 行数）で判定する。`Service Spreadsheets failed while accessing document` が**単発**なら一過性で対応不要、**連続**なら共有・削除・認可失効を疑う。判定表は `gas-booking-automation/README.md`「失敗通知メールの読み方」。件名だけで「要対応」と判定しない。
 
@@ -143,5 +142,5 @@ messages/{ja,en,id}.json
 
 ---
 
-- **最終更新日時**: 2026-09-23（WO-PB-3: §11 公開物の最低ライン ③④⑤）
+- **最終更新日時**: 2026-09-24（WO-PB-3 の本番反映・GAS 反映方法）
 - **更新したエージェント名**: Claude (claude-opus-5-5)
