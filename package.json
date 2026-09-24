@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/check-public-baseline.mjs --bundle .next/static",
     "start": "next start",
     "lint": "eslint",
-    "gas:check": "bash gas-booking-automation/test/run.sh"
+    "gas:check": "bash gas-booking-automation/test/run.sh",
+    "check:public": "node scripts/check-public-baseline.mjs --self-test && node scripts/check-public-baseline.mjs && node tests/reserve-route.test.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.1.6",
