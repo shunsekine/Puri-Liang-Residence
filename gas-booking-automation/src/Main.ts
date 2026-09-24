@@ -51,9 +51,12 @@ export function processAutoReplies() {
 }
 
 /**
- * スプレッドシートの編集時（onEdit）に実行される処理
+ * スプレッドシートの編集時に実行される処理（担当者が M 列のステータスを変えたら最終回答の下書きを作る）。
+ * インストール型トリガー（スプレッドシートから・編集時）で puriliangresidence.bali@gmail.com が登録する。
+ * 名前を onEdit にしない: onEdit はシンプルトリガーとして自動で動き、Gmail を呼べずに失敗する（2026-09-24 に本番で
+ * 下書きが作られていなかった原因）。インストール型も足すと二重に動く
  */
-export function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
+export function onStatusEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
   const sheet = e.range.getSheet();
   if (sheet.getName() !== CONFIG.SHEET_NAMES.INQUIRIES) return;
 
@@ -76,17 +79,17 @@ export function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
           try {
             SpreadsheetService.addStatusNote(rowNum, `【エラー】最終回答の下書きを作成できませんでした: ${errorMessage(error)}。Templates シートに行を追加してから、ステータスを選び直してください。`);
           } catch (e) {
-            console.error(`[onEdit] failed to add the note on row ${rowNum}: ${errorMessage(e)}`);
+            console.error(`[onStatusEdit] failed to add the note on row ${rowNum}: ${errorMessage(e)}`);
           }
           throw error;
         }
         SpreadsheetService.updateStatus(rowNum, '最終送信待ち');
-        // 英語で代用したときだけ、ステータスのセルに注記（下書きは作れているので、メモの失敗で onEdit を落とさない）
+        // 英語で代用したときだけ、ステータスのセルに注記（下書きは作れているので、メモの失敗で onStatusEdit を落とさない）
         if (result?.note) {
           try {
             SpreadsheetService.addStatusNote(rowNum, result.note);
           } catch (e) {
-            console.error(`[onEdit] failed to add the note on row ${rowNum}: ${errorMessage(e)}`);
+            console.error(`[onStatusEdit] failed to add the note on row ${rowNum}: ${errorMessage(e)}`);
           }
         }
       }

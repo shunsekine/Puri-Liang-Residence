@@ -10,6 +10,9 @@
 //   ― 英語で代用 4 件（一次返信の送信・旗付きの下書き・未知の言語・最終回答の下書き。何も送られない）、代用の通知 2 件
 //   （担当者への通知・セルのメモ）、どちらも無いときの「エラー」＋失敗通知 1 件（'1次送信待ち' のまま）、最終回答の例外 1 件
 //   （例外が出ない）。変更前も通る 2 件: _id・_ja があればそれを使う（正常系の回帰検査）。
+// 追加（2026-09-24・本番の実行ログで見つかった 2 件）: ① Templates に見出し行が無いと 1 行目（1MonthLater_ja）を読み飛ばし、
+//   日本語の一次返信が「Template not found」で止まっていた ② ハンドラ名が onEdit だとシンプルトリガーとして動き Gmail を
+//   呼べない（最終回答の下書きが作られていなかった）。検出力: 変更前（07b66e9）で 2 件とも FAIL を確認してから直した。
 const assert = require('assert');
 
 const TZ = 'Asia/Tokyo';
@@ -23,9 +26,9 @@ let inquiries, templates, calls, notes;
 const now = Date.now();
 const row = (id, language, { flag = 'なし', status = '1次送信待ち', period = '1ヶ月以上先' } = {}) =>
   [id, new Date(now - 20 * 60e3), 'Guest ' + id, id.toLowerCase() + '@example.com', language, new Date(now + 40 * DAY), new Date(now + 70 * DAY), 'Villa', 2, '', period, flag, status, '', 'WEB-' + id, '', '', '', ''];
-function reset(rows, templateIds) {
+function reset(rows, templateIds, { templateHeader = true } = {}) {
   inquiries = [HEADER.slice(), ...rows];
-  templates = [['ID', 'Subject', 'Body'], ...templateIds.map((id) => [id, `[${id}] Hi {Name}`, `Body ${id} {ID}`])];
+  templates = [...(templateHeader ? [['ID', 'Subject', 'Body']] : []), ...templateIds.map((id) => [id, `[${id}] Hi {Name}`, `Body ${id} {ID}`])];
   calls = { sent: [], drafts: [] };
   notes = {};
 }
@@ -59,7 +62,8 @@ global.Utilities = {
 global.Session = { getScriptTimeZone: () => TZ };
 console.warn = () => {}; console.error = () => {};
 
-const { onEdit } = require(process.env.GAS_BUILD_DIR + '/Main');
+const Main = require(process.env.GAS_BUILD_DIR + '/Main');
+const { onStatusEdit } = Main;
 const { EmailService } = require(process.env.GAS_BUILD_DIR + '/EmailService');
 
 const failures = [];
@@ -76,11 +80,11 @@ function t(label, fn) {
 const customerMails = () => calls.sent.filter((s) => s.to !== OWNER);
 const ownerMails = () => calls.sent.filter((s) => s.to === OWNER);
 const status = (id) => inquiries.find((r) => r[0] === id)[COL.STATUS];
-/** 担当者が M 列（Status）を value に変えたときの onEdit */
+/** 担当者が M 列（Status）を value に変えたときの onStatusEdit（インストール型の編集時トリガー） */
 function editStatus(id, value) {
   const rowNum = inquiries.findIndex((r) => r[0] === id) + 1;
   inquiries[rowNum - 1][COL.STATUS] = value;
-  return onEdit({ range: { getSheet: () => ({ getName: () => 'Inquiries' }), getRow: () => rowNum, getColumn: () => STATUS_COLUMN }, value });
+  return onStatusEdit({ range: { getSheet: () => ({ getName: () => 'Inquiries' }), getRow: () => rowNum, getColumn: () => STATUS_COLUMN }, value });
 }
 const noteOf = (id) => notes[`${inquiries.findIndex((r) => r[0] === id) + 1},${STATUS_COLUMN}`];
 
@@ -159,6 +163,18 @@ t('最終回答: どちらも無い → 分かる文言で例外・下書きな�
   assert.strictEqual(calls.drafts.length, 0);
   assert.strictEqual(status('INQ-001'), '空室', '最終送信待ちにしてはいけない（下書きが無い）');
   assert.match(String(noteOf('INQ-001')), /Available_en/);
+});
+
+// ---------------------------------------------------------------- 本番で見つかった 2 件（2026-09-24）
+t('見出し行の無い Templates でも 1 行目のテンプレートを使う（本番の Templates シートは 1 行目が 1MonthLater_ja だった）', () => {
+  reset([row('INQ-001', 'ja')], JA_EN, { templateHeader: false });
+  EmailService.sendAutoReplies();
+  assert.deepStrictEqual(customerMails().map((m) => m.subject), ['[1MonthLater_ja] Hi Guest INQ-001']);
+  assert.strictEqual(status('INQ-001'), '1次送信済');
+});
+t('Main は onEdit という名前の関数を公開しない（シンプルトリガーとして動くと Gmail を呼べず、インストール型と二重にも動く）', () => {
+  assert.strictEqual(typeof Main.onEdit, 'undefined');
+  assert.strictEqual(typeof Main.onStatusEdit, 'function');
 });
 
 console.log(`templates: ${total - failures.length}/${total} passed`);

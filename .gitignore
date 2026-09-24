@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Claude作成の作業メモ（未追跡運用）
 修正指示_*.md
+
+# GAS: build-gs.sh の出力（貼り付け用。src/*.ts から生成）
+/gas-booking-automation/dist/

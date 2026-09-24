@@ -213,7 +213,7 @@ export class EmailService {
 
   /**
    * テンプレートを `${kind}_${言語}` → `${kind}_en` の順に探す。どちらも無ければ例外（黙って送らないままにしない。
-   * 一次返信は sendAutoReplies の行単位の隔離で「エラー」＋担当者への失敗通知になり、最終回答は onEdit がセルにメモを残す）
+   * 一次返信は sendAutoReplies の行単位の隔離で「エラー」＋担当者への失敗通知になり、最終回答は onStatusEdit がセルにメモを残す）
    */
   private static resolveTemplate(kind: string, language: string): ResolvedTemplate {
     const lang = String(language ?? '').trim() || CONFIG.TEMPLATE_FALLBACK_LANGUAGE;
@@ -318,7 +318,7 @@ export class EmailService {
 
   /**
    * 最終回答の新規下書き作成（新規メール下書きとして生成）。
-   * 英語で代用したときはその注記を返す（onEdit がステータスのセルにメモする）。テンプレートが無ければ例外
+   * 英語で代用したときはその注記を返す（onStatusEdit がステータスのセルにメモする）。テンプレートが無ければ例外
    */
   static createDraftForFinalAnswer(inquiry: InquiryData, status: string): { note: string | null } | null {
     // 自分のキーだけを見る（添字だと constructor 等のプロトタイプのキーが通る）

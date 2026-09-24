@@ -29,7 +29,7 @@
 
 ### 段階 A: GAS の変換をスクリプトにする（前提作業）
 
-- `gas-booking-automation/build-gs.sh`: import 行と `export` を外し、`tsc --target ES2019 --module none` で `gas-booking-automation/dist/*.js` を作る（2026-09-24 に手で行った手順）。`dist/` は `.gitignore`。
+- `gas-booking-automation/build-gs.sh`: import 行と `export` を外し、`tsc --target ES2019 --module none` で `gas-booking-automation/dist/*.js` を作る（2026-09-24 に手で行った手順）。`dist/` は `.gitignore`。（2026-09-24 済み。`test/run.sh` の 1 スコープ検査も済み）
 - `test/run.sh` に「dist を 1 つのグローバル空間に読み込んで、既存テストを通す」を追加する（2026-09-24 に手で確認した方法）。今の CommonJS ビルドでのテストは残す。
 - README の「`clasp push`」の手順を、実態（変換→貼り付け→「デプロイを管理 → 鉛筆 → 新バージョン」→フォームから 1 件）に直す。（2026-09-24 済み: GAS README「反映手順」）
 - 共有秘密の照合前に、前後の空白を取り除く（route と `WebhookParser.isAuthorized` の両方）。テストを 1 ケース足す。

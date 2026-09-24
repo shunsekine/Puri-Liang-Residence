@@ -95,8 +95,8 @@
 ### 次にやること（優先順）
 
 0. **【高】本番反映（ユーザー作業）**: `site-update-2026-09` を main へ → GAS の反映（Config・EmailService・Main・SpreadsheetService・WebhookParser と新規 Retention）・`Inquiries` の P〜S 列見出し・Templates の差し替えと `_id` 追加・`anonymizeExpiredInquiries` の月次トリガー（手順は `gas-booking-automation/README.md`）。
-1. **【中】`onEdit` の登録状況の確認**: 関数名が `onEdit` のため、シンプルトリガーとしても動く。インストール型も登録していると 2 回動く（最終回答の下書きが二重になりうる）。本番の登録状況は未確認。
-2. **WO-PB-3F の残り**: F3・F5・F6・段階 A（変換のスクリプト化・秘密の空白除去。README の手順修正は済み）（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md`）。
+1. **【高】最終回答の下書きが作られていなかった**（2026-09-24 に実行ログで確認: 本番は `onEdit` がシンプルトリガーとしてだけ動き、Gmail を呼べない）。コードは `onStatusEdit` に改名済み。GAS 反映時に `onStatusEdit` のインストール型トリガー（スプレッドシートから・編集時）を puriliang で作る。
+2. **WO-PB-3F の残り**: F3・F5・F6・段階 A の秘密の空白除去（変換のスクリプト化 `build-gs.sh`・1 スコープ検査・README の手順は済み）（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md`）。
 3. **Clarity の入力マスキング確認**: 予約フォームの入力が録画に残らない設定か（プライバシーポリシーの記述と揃える）。
 4. **Templates の文面をリポジトリで管理するか検討**（今はシートにしかなく、2026-09 に事業ルールとずれていた）。
 5. Google Search Console で再インデックス申請（`/privacy` 追加を含む）。
