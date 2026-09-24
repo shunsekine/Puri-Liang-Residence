@@ -317,7 +317,7 @@ export default function ReserveForm() {
                                 <div className="v2-res-row cols2">
                                     <div className="v2-res-field">
                                         <label>{t('fields.name')} <span className="req">{t('fields.required')}</span></label>
-                                        <input type="text" placeholder={t('fields.namePlaceholder')} value={name} onChange={e => setName(e.target.value)} required />
+                                        <input type="text" maxLength={100} placeholder={t('fields.namePlaceholder')} value={name} onChange={e => setName(e.target.value)} required />
                                     </div>
                                     <div className="v2-res-field">
                                         <label>{t('fields.nationality')}</label>
@@ -355,7 +355,7 @@ export default function ReserveForm() {
                                 </div>
                                 <div className="v2-res-field">
                                     <label>{t('fields.otherRequests')}</label>
-                                    <textarea rows={3} placeholder={t('fields.otherRequestsPlaceholder')} value={notes} onChange={e => setNotes(e.target.value)} />
+                                    <textarea rows={3} maxLength={2000} placeholder={t('fields.otherRequestsPlaceholder')} value={notes} onChange={e => setNotes(e.target.value)} />
                                 </div>
                                 <div className="v2-res-hint">
                                     {t('fields.idNote')}
