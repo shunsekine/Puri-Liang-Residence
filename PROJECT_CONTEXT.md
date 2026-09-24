@@ -9,7 +9,7 @@
 
 ## ① 安定情報（更新＝ユーザーの明確な指示時のみ）
 
-最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `c81039b`（main）
+最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `96f449d`（main）
 
 ### 概要とオーナーとのスタンス
 
@@ -21,7 +21,7 @@
 
 ### 事業ルール（オーナー確認 2026-09-24）
 
-サイトの文言（`messages/*.json` の FAQ・Terms・Reserve・Privacy）、`lib/data.ts`、GAS の Templates シート（リポジトリ外）の 3 か所がこれに従う。**どれかを変えるときは 3 か所を揃える**（2026-09 に 3 か所の食い違い＝キャンセル 3 通り・電気代 2 通りが見つかった）。
+サイトの文言（`messages/*.json` の FAQ・Terms・Reserve・Privacy）、`lib/data.ts`、メールの文面 `gas-booking-automation/src/Templates.ts` の 3 か所がこれに従う。**どれかを変えるときは 3 か所を揃える**（2026-09 に 3 か所の食い違い＝キャンセル 3 通り・電気代 2 通りが見つかった。デポジット・電気の目安・全額返金の日数は `lib/data.ts` を正本に `test/templates.test.js` が照合）。
 
 - **部屋**: 3 タイプ。Villa は 1F に 2 室・2F に 2 室の計 4 室（借りるのはその 1 室）。King・Twin の階と仕様は `lib/data.ts`／`RoomData`。
 - **料金**: IDR が基準。JPY/USD は `lib/data.ts` に手で入れた概算（為替連動ではない）。
@@ -71,7 +71,7 @@
 - **§11 ④ 攻撃者役レビュー**: 状態は `docs/2026-09-23-WO-PB-3-attacker-review.md` の表が正本。
 - **§11 ⑤ ログ**: route と GAS は本文・個人情報をログに書かない（検査 C）。
 - **GAS のトリガーとデプロイは `puriliangresidence.bali@gmail.com` で行う**: スクリプトとシートの所有者は個人アカウントだが、顧客への送信はトリガーを作ったアカウントから出る。個人アカウントで認可・手動実行すると個人の Gmail から顧客へ送られうる。
-- **GAS のコードはリポジトリが正本**: エディタで直接直したら `gas-booking-automation/src` にも反映する。Templates シートの文面はリポジトリ外（上の事業ルールと揃える）。
+- **GAS のコードとメールの文面はリポジトリが正本**: エディタで直接直したら `gas-booking-automation/src` にも反映する。文面は 2026-09-24 に Templates シートから `src/Templates.ts` へ移した（シートは読まない）。
 - **GAS 失敗通知**は件名でなく本文の表で判定する（`gas-booking-automation/README.md`「失敗通知メールの読み方」）。
 - **本番の GAS プロジェクト**は `1dEFqku0rLFM34SWz-8Sn7cjCX_aYCQf6gbKTmI79YTrL1349CXIi1lFn`（予約管理表_v1.0 に紐づく「無題のプロジェクト」）。同じシートに紐づく 2026-07-25 作成の同名プロジェクトは未使用（トリガー・実行なし）。触らない。
 - **`Inquiries` の空行は意図したもの**: テスト行は行を消さず中身だけ消す（ID が `getLastRow` 採番のため、行を消すと ID が再利用される。最終行を消すときは A 列の ID だけ残す）。2026-09-24 に `INQ-001`〜`004`（7/25 のテスト）と、本番確認用の `INQ-006`（一次返信）・`INQ-007`（`onStatusEdit` の最終回答の下書き）をこの方法で片付けた。
@@ -88,7 +88,7 @@
 
 ## ③ 引継ぎ・作業状態（随時更新）
 
-最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `c81039b`
+最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `96f449d`
 
 ### in_flight
 
@@ -96,9 +96,8 @@
 
 ### 次にやること（優先順）
 
-1. **WO-PB-3F の残り（F3・F5・F6・秘密の空白除去）の本番反映**: コードは済み。main へのマージ・GAS の貼り付け・「デプロイを管理 → 鉛筆 → 新バージョン」（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md` §3）。
-2. **Templates の文面をリポジトリで管理するか検討**（今はシートにしかなく、2026-09 に事業ルールとずれていた）。
-3. Google Search Console で再インデックス申請（`/privacy` 追加を含む）。
+1. **GAS の本番反映**: WO-PB-3F の残り（F3・F6・秘密の空白除去）と文面のコード化（`Templates.ts` はエディタに新しいファイルとして足す）。貼り付け→「デプロイを管理 → 鉛筆 → 新バージョン」（GAS README「反映手順」）。
+2. Google Search Console で再インデックス申請（`/privacy` 追加を含む。手順は 2026-09-24 にユーザーへ渡した）。
 
 ### 経緯の所在
 

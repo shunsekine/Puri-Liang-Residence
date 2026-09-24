@@ -48,27 +48,6 @@ export class SpreadsheetService {
   }
 
   /**
-   * Templates シートから、ids の先頭から順に最初に見つかったテンプレートを返す（シートは 1 回だけ読む）。
-   * 件名か本文が空の行は無いものとして扱う（貼り付け前の行で空のメールを送らない）。どれも無ければ null。
-   * 1 行目から探す（見出し行の有無に依存しない。本番の Templates シートは見出しが無く、1 行目の 1MonthLater_ja が
-   * 読み飛ばされて日本語の一次返信が黙って止まっていた。見出しの文字列がテンプレート ID と一致することは無い）
-   */
-  static findTemplate(ids: string[]): { id: string, subject: string, body: string } | null {
-    const data = this.getAllValues(CONFIG.SHEET_NAMES.TEMPLATES);
-    if (!data) return null;
-
-    for (const id of ids) {
-      for (let i = 0; i < data.length; i++) {
-        if (String(data[i][0]).trim() !== id) continue;
-        const subject = String(data[i][1] ?? '');
-        const body = String(data[i][2] ?? '');
-        if (subject.trim() && body.trim()) return { id, subject, body };
-      }
-    }
-    return null;
-  }
-
-  /**
    * 新しい問い合わせを Inquiries シートに追加し、追加された行番号を返す
    */
   static appendInquiry(inquiry: InquiryData): number {

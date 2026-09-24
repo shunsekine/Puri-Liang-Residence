@@ -75,10 +75,10 @@ export function onStatusEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
         try {
           result = EmailService.createDraftForFinalAnswer(inquiry, newStatus);
         } catch (error) {
-          // 下書きを作れなかった（テンプレートが無い等）。ステータスは担当者が選んだ値のまま残し、理由をセルに書いてから投げ直す
+          // 下書きを作れなかった（Gmail の失敗等）。ステータスは担当者が選んだ値のまま残し、理由をセルに書いてから投げ直す
           // （トリガーの失敗として実行ログと Apps Script の失敗通知にも残る）
           try {
-            SpreadsheetService.addStatusNote(rowNum, `【エラー】最終回答の下書きを作成できませんでした: ${errorMessage(error)}。Templates シートに行を追加してから、ステータスを選び直してください。`);
+            SpreadsheetService.addStatusNote(rowNum, `【エラー】最終回答の下書きを作成できませんでした: ${errorMessage(error)}。時間をおいてから、ステータスを選び直してください。`);
           } catch (e) {
             console.error(`[onStatusEdit] failed to add the note on row ${rowNum}: ${errorMessage(e)}`);
           }

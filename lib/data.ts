@@ -134,6 +134,14 @@ export const SIMULATOR_DEFAULTS = {
 } as const;
 
 // -----------------------------------------------------------------------------
+// Deposit (2026-09 owner-confirmed): the only payment at check-in; returned in full at check-out if nothing is outstanding.
+// The site copy (messages/*.json) and the email texts (gas-booking-automation/src/Templates.ts) state this amount;
+// gas-booking-automation/test/templates.test.js checks that both contain it.
+// -----------------------------------------------------------------------------
+
+export const DEPOSIT_IDR = 2000000;
+
+// -----------------------------------------------------------------------------
 // Cancellation policy (V2 2026-05)
 // -----------------------------------------------------------------------------
 

@@ -1,36 +1,46 @@
-// テンプレートが無いときに黙って止まらない（2026-09-24。サイトは ja・en・id だが Templates シートには _ja・_en しか無い）。
-// test/run.sh から実行される。
+// 顧客へのメールの文面（src/Templates.ts）とその選び方。test/run.sh から実行される。
+// 経緯: 文面は 2026-09-24 まで Templates シートにあり、事業ルールとのずれ（キャンセル 3 日前・電気の実費精算）、_id の行の欠落
+//   （インドネシア語の問い合わせに一次返信が出なかった）、見出し行が無いことによる 1 行目の読み飛ばし（日本語の一次返信が
+//   止まっていた）が起きた。2026-09-24 にコードへ移した（シートの文面をそのまま移し、全 15 件が一致することを確認済み）。
 // 守ること:
-//   - テンプレートは `${種類}_${言語}` → `${種類}_en` の順に探す（件名か本文が空の行は無いものとして扱う）
-//   - 英語で代用したときは担当者に伝える（一次返信: 既存の担当者通知に 1 行足す。最終回答: ステータスのセルのメモに日付付きで
-//     1 行足す。担当者が手で書いたメモは消さない）
-//   - どちらも無い: 一次返信は例外 → 既存の行単位の隔離で「エラー」＋担当者へ失敗通知（従来は '1次送信待ち' のまま毎回
-//     素通りし、送られず、誰にも知らされなかった）。最終回答（onEdit）は分かる文言の例外＋セルにメモ（従来は何もしなかった）
-// 検出力の確認（2026-09-24）: 変更前の src（32706ad）をビルドして GAS_BUILD_DIR で実行し、10 件中 8 件が落ちることを確認した
-//   ― 英語で代用 4 件（一次返信の送信・旗付きの下書き・未知の言語・最終回答の下書き。何も送られない）、代用の通知 2 件
-//   （担当者への通知・セルのメモ）、どちらも無いときの「エラー」＋失敗通知 1 件（'1次送信待ち' のまま）、最終回答の例外 1 件
-//   （例外が出ない）。変更前も通る 2 件: _id・_ja があればそれを使う（正常系の回帰検査）。
-// 追加（2026-09-24・本番の実行ログで見つかった 2 件）: ① Templates に見出し行が無いと 1 行目（1MonthLater_ja）を読み飛ばし、
-//   日本語の一次返信が「Template not found」で止まっていた ② ハンドラ名が onEdit だとシンプルトリガーとして動き Gmail を
-//   呼べない（最終回答の下書きが作られていなかった）。検出力: 変更前（07b66e9）で 2 件とも FAIL を確認してから直した。
+//   ① 全種類（1MonthLater・1MonthWithin・Available・Full・AcceptWaiting）× ja・en・id の件名と本文がある。前後の空白・タブが無い
+//   ② 差し込み文字は {ID} {Name} {CheckIn} {CheckOut} {RoomType} {Guests} だけ（綴りを誤ると顧客に {Nmae} のまま届く）。
+//      差し込んだ後に { } が残らない
+//   ③ 事業ルールの値が lib/data.ts と一致する（空室の案内に、デポジット DEPOSIT_IDR・電気の目安 SIMULATOR_DEFAULTS.electricityIDR・
+//      全額返金の日数 CANCELLATION）。デポジットはサイトの文言（messages/*.json）にも同じ額がある。規約へのリンクは
+//      その言語の /faq#terms で、FAQ ページに id="terms" がある
+//   ④ Templates シートは読まない（正本はコード。シートが残っていても、消えていても動く）
+//   ⑤ 言語の文面を使う。ja・en・id 以外は英語で代用し、担当者へ伝える（一次返信: 担当者への通知に 1 行。最終回答: ステータスの
+//      セルのメモに日付付きで 1 行。担当者が手で書いたメモは消さない）。constructor 等のプロトタイプのキーも英語
+//   ⑥ 最終回答の下書きを作れない（Gmail の失敗）: 分かる文言で例外・ステータスは担当者が選んだまま・セルにメモ
+//   ⑦ Main は onEdit という名前の関数を公開しない（シンプルトリガーとして動くと Gmail を呼べず、インストール型と二重にも動く）
+// 検出力の確認（2026-09-24）: 変更前の src（96f449d。文面はシートから読む）をビルドして GAS_BUILD_DIR で実行し、30 件中 28 件が
+//   落ちることを確認した（Templates モジュールが無い・シートを読む・ステータスのメモの文言）。変更前も通る 2 件: ⑥ の例外とメモ、
+//   ⑦ onEdit を公開しない（どちらも従来の挙動の回帰検査）。③ は DEPOSIT_IDR を 2500000 に・全額返金を 14 日前に変えた lib/data.ts（DATA_TS）で、それぞれ FAIL を確認した。
 const assert = require('assert');
+const { readFileSync } = require('fs');
+const { join } = require('path');
 
+const REPO = join(__dirname, '..', '..');
 const TZ = 'Asia/Tokyo';
 const HEADER = ['ID', 'Timestamp', 'Name', 'Email', 'Language', 'CheckIn', 'CheckOut', 'RoomType', 'Guests', 'Remarks', 'PeriodCategory', 'IrregularFlag', 'Status', 'WhatsAppText', 'MessageId', 'Phone', 'Nationality', 'StayPurposes', 'AnonymizedAt'];
-const COL = { FLAG: 11, STATUS: 12 }; // 0 始まり
+const COL = { STATUS: 12 }; // 0 始まり
 const STATUS_COLUMN = 13; // M（1 始まり）
 const OWNER = 'owner@example.com';
 const DAY = 864e5;
+const KINDS = ['1MonthLater', '1MonthWithin', 'Available', 'Full', 'AcceptWaiting'];
+const LANGS = ['ja', 'en', 'id'];
+const PLACEHOLDERS = ['ID', 'Name', 'CheckIn', 'CheckOut', 'RoomType', 'Guests'];
 
-let inquiries, templates, calls, notes;
+let inquiries, calls, notes, draftError;
 const now = Date.now();
 const row = (id, language, { flag = 'なし', status = '1次送信待ち', period = '1ヶ月以上先' } = {}) =>
   [id, new Date(now - 20 * 60e3), 'Guest ' + id, id.toLowerCase() + '@example.com', language, new Date(now + 40 * DAY), new Date(now + 70 * DAY), 'Villa', 2, '', period, flag, status, '', 'WEB-' + id, '', '', '', ''];
-function reset(rows, templateIds, { templateHeader = true } = {}) {
+function reset(rows) {
   inquiries = [HEADER.slice(), ...rows];
-  templates = [...(templateHeader ? [['ID', 'Subject', 'Body']] : []), ...templateIds.map((id) => [id, `[${id}] Hi {Name}`, `Body ${id} {ID}`])];
   calls = { sent: [], drafts: [] };
   notes = {};
+  draftError = null;
 }
 const inquiriesSheet = {
   getLastRow: () => inquiries.length,
@@ -43,17 +53,27 @@ const inquiriesSheet = {
     setNote: (n) => { notes[`${r},${c}`] = n; },
   }),
 };
+let templatesSheetRead = 0;
 global.SpreadsheetApp = {
   getActiveSpreadsheet: () => ({
-    getSheetByName: (n) => (n === 'Inquiries' ? inquiriesSheet
-      : n === 'Settings' ? { getDataRange: () => ({ getValues: () => [['Key', 'Value'], ['NOTIFICATION_EMAIL', OWNER]] }) }
-        : n === 'Templates' ? { getDataRange: () => ({ getValues: () => templates }) }
-          : null),
+    getSheetByName: (n) => {
+      if (n === 'Templates') {
+        templatesSheetRead++;
+        // 読まれたら、シートの古い文面が使われたと分かる値を返す
+        return { getDataRange: () => ({ getValues: () => KINDS.flatMap((k) => LANGS.map((l) => [`${k}_${l}`, 'SHEET subject', 'SHEET body'])) }) };
+      }
+      return n === 'Inquiries' ? inquiriesSheet
+        : n === 'Settings' ? { getDataRange: () => ({ getValues: () => [['Key', 'Value'], ['NOTIFICATION_EMAIL', OWNER]] }) }
+          : null;
+    },
   }),
 };
 global.GmailApp = {
   sendEmail: (to, subject, body) => calls.sent.push({ to, subject, body }),
-  createDraft: (to, subject, body) => calls.drafts.push({ to, subject, body }),
+  createDraft: (to, subject, body) => {
+    if (draftError) throw new Error(draftError);
+    calls.drafts.push({ to, subject, body });
+  },
 };
 global.Utilities = {
   sleep: () => {},
@@ -65,6 +85,20 @@ console.warn = () => {}; console.error = () => {};
 const Main = require(process.env.GAS_BUILD_DIR + '/Main');
 const { onStatusEdit } = Main;
 const { EmailService } = require(process.env.GAS_BUILD_DIR + '/EmailService');
+let MAIL_TEMPLATES = {};
+try {
+  ({ MAIL_TEMPLATES } = require(process.env.GAS_BUILD_DIR + '/Templates'));
+} catch (e) {
+  console.log(`Templates モジュールを読めない: ${String(e.message).split('\n')[0]}`);
+}
+/** lib/data.ts（事業ルールの値の正本）を TS から読む */
+function loadData() {
+  const ts = require(join(REPO, 'node_modules', 'typescript'));
+  const out = ts.transpileModule(readFileSync(process.env.DATA_TS ?? join(REPO, 'lib', 'data.ts'), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2019 } }).outputText;
+  const lib = { exports: {} };
+  new Function('require', 'module', 'exports', out)(require, lib, lib.exports);
+  return lib.exports;
+}
 
 const failures = [];
 let total = 0;
@@ -77,6 +111,7 @@ function t(label, fn) {
     console.log(`FAIL ${label}: ${String(e.message).split('\n')[0]}`);
   }
 }
+const tpl = (kind, lang) => (MAIL_TEMPLATES[kind] || {})[lang] || {};
 const customerMails = () => calls.sent.filter((s) => s.to !== OWNER);
 const ownerMails = () => calls.sent.filter((s) => s.to === OWNER);
 const status = (id) => inquiries.find((r) => r[0] === id)[COL.STATUS];
@@ -87,92 +122,127 @@ function editStatus(id, value) {
   return onStatusEdit({ range: { getSheet: () => ({ getName: () => 'Inquiries' }), getRow: () => rowNum, getColumn: () => STATUS_COLUMN }, value });
 }
 const noteOf = (id) => notes[`${inquiries.findIndex((r) => r[0] === id) + 1},${STATUS_COLUMN}`];
+/** EmailService と同じ差し込み（row() の値） */
+const filled = (text, id) => text.replace(/{ID}/g, id).replace(/{Name}/g, 'Guest ' + id)
+  .replace(/{CheckIn}/g, new Date(now + 40 * DAY).toLocaleDateString()).replace(/{CheckOut}/g, new Date(now + 70 * DAY).toLocaleDateString())
+  .replace(/{RoomType}/g, 'Villa').replace(/{Guests}/g, '2');
 
-const JA_EN = ['1MonthLater_ja', '1MonthLater_en', '1MonthWithin_ja', '1MonthWithin_en', 'Available_ja', 'Available_en', 'Full_ja', 'Full_en', 'AcceptWaiting_ja', 'AcceptWaiting_en'];
+// ---------------------------------------------------------------- ① ② 文面の形
+for (const kind of KINDS) {
+  for (const lang of LANGS) {
+    t(`① ${kind}_${lang} の件名と本文がある（前後の空白・タブなし）`, () => {
+      const { subject, body } = tpl(kind, lang);
+      for (const [name, v] of [['件名', subject], ['本文', body]]) {
+        assert.ok(typeof v === 'string' && v.length > 0, `${name}が無い`);
+        assert.strictEqual(v, v.trim(), `${name}の前後に空白`);
+        assert.ok(!v.includes('\t'), `${name}にタブ`);
+      }
+      assert.ok(!subject.includes('\n'), '件名に改行');
+    });
+  }
+}
+t('② 差し込み文字は 6 種類だけ・本文は宛名 {Name} で始まる・一次返信は日程と部屋と人数を入れる', () => {
+  const bad = [];
+  for (const kind of KINDS) for (const lang of LANGS) {
+    const { subject = '', body = '' } = tpl(kind, lang);
+    for (const m of `${subject}\n${body}`.matchAll(/{([^{}]*)}/g)) if (!PLACEHOLDERS.includes(m[1])) bad.push(`${kind}_${lang}: {${m[1]}}`);
+    if (!/^(Dear |Halo )?{Name}/.test(body)) bad.push(`${kind}_${lang}: 宛名 {Name} で始まらない`);
+    if (kind.startsWith('1Month')) for (const p of ['CheckIn', 'CheckOut', 'RoomType', 'Guests']) if (!body.includes(`{${p}}`)) bad.push(`${kind}_${lang}: {${p}} が無い`);
+  }
+  assert.deepStrictEqual(bad, []);
+});
 
-// ---------------------------------------------------------------- 一次返信
-t('一次返信: _id が無ければ _en で送る（1次送信済）', () => {
-  reset([row('INQ-001', 'id')], JA_EN);
+// ---------------------------------------------------------------- ③ 事業ルールの値
+t('③ 空室の案内のデポジット・電気の目安・全額返金の日数が lib/data.ts と一致し、デポジットはサイトの文言にもある', () => {
+  const data = loadData();
+  const fullRefund = data.CANCELLATION.tiers.find((x) => x.refundPct === 100);
+  assert.ok(typeof data.DEPOSIT_IDR === 'number', 'lib/data.ts に DEPOSIT_IDR が無い');
+  const rp = (lang, n) => `Rp ${new Intl.NumberFormat(lang === 'id' ? 'id-ID' : 'en-US').format(n)}`;
+  const refund = { ja: `チェックイン${fullRefund.daysBefore}日前まで`, en: `Up to ${fullRefund.daysBefore} days before check-in`, id: `${fullRefund.daysBefore} hari sebelum check-in` };
+  const bad = [];
+  for (const lang of LANGS) {
+    const body = tpl('Available', lang).body || '';
+    for (const want of [rp(lang, data.DEPOSIT_IDR), rp(lang, data.SIMULATOR_DEFAULTS.electricityIDR), refund[lang]]) {
+      if (!body.includes(want)) bad.push(`Available_${lang} に「${want}」が無い`);
+    }
+    const site = readFileSync(join(REPO, 'messages', `${lang}.json`), 'utf8');
+    if (!site.includes(rp(lang, data.DEPOSIT_IDR))) bad.push(`messages/${lang}.json に「${rp(lang, data.DEPOSIT_IDR)}」が無い`);
+  }
+  assert.deepStrictEqual(bad, []);
+});
+t('③ 規約へのリンクはその言語の /faq#terms で、FAQ ページに id="terms" がある', () => {
+  for (const lang of LANGS) {
+    const urls = (tpl('Available', lang).body || '').match(/https?:\/\/\S+/g) || [];
+    assert.deepStrictEqual(urls, [`https://puri-liang-residence.vercel.app/${lang}/faq#terms`], `Available_${lang}`);
+  }
+  assert.match(readFileSync(join(REPO, 'app', '[locale]', 'faq', 'page.tsx'), 'utf8'), /id="terms"/);
+});
+
+// ---------------------------------------------------------------- ④ ⑤ 一次返信
+for (const lang of LANGS) {
+  t(`④⑤ 一次返信（${lang}）: コードの文面で送り、Templates シートを読まない・代用の注記なし`, () => {
+    reset([row('INQ-001', lang)]);
+    templatesSheetRead = 0;
+    EmailService.sendAutoReplies();
+    const want = tpl('1MonthLater', lang);
+    assert.deepStrictEqual(customerMails().map((m) => [m.subject, m.body]), [[want.subject, filled(want.body || '', 'INQ-001')]]);
+    assert.strictEqual(templatesSheetRead, 0, 'Templates シートを読んだ');
+    assert.strictEqual(status('INQ-001'), '1次送信済');
+    assert.ok(!/※/.test(ownerMails()[0].body), '代用していないのに注記');
+  });
+}
+t('④⑤ 一次返信: 旗付き（下書き）は 1 ヶ月以内の文面・その言語', () => {
+  reset([row('INQ-001', 'id', { flag: '定員超過(上限2名に対し3名)', period: '1ヶ月以内' })]);
   EmailService.sendAutoReplies();
-  assert.deepStrictEqual(customerMails().map((m) => m.subject), ['[1MonthLater_en] Hi Guest INQ-001']);
+  assert.deepStrictEqual(calls.drafts.map((d) => d.subject), [`【要確認】${tpl('1MonthWithin', 'id').subject}`]);
+  assert.strictEqual(status('INQ-001'), '最終送信待ち');
+});
+t('⑤ 一次返信: 対応外の言語（fr）は英語で送り、担当者への通知に代用を書く（通知は増やさない）', () => {
+  reset([row('INQ-001', 'fr')]);
+  EmailService.sendAutoReplies();
+  assert.deepStrictEqual(customerMails().map((m) => m.subject), [tpl('1MonthLater', 'en').subject]);
+  assert.strictEqual(ownerMails().length, 1);
+  assert.match(ownerMails()[0].body, /1MonthLater_fr.*1MonthLater_en/);
+});
+t('⑤ 一次返信: 言語がプロトタイプのキー（constructor）でも英語', () => {
+  reset([row('INQ-001', 'constructor')]);
+  EmailService.sendAutoReplies();
+  assert.deepStrictEqual(customerMails().map((m) => m.subject), [tpl('1MonthLater', 'en').subject]);
   assert.strictEqual(status('INQ-001'), '1次送信済');
 });
-t('一次返信: 英語で代用したことを担当者への通知に書く（通知は増やさない）', () => {
-  reset([row('INQ-001', 'id')], JA_EN);
-  EmailService.sendAutoReplies();
-  assert.strictEqual(ownerMails().length, 1, `担当者宛て ${ownerMails().length} 通`);
-  assert.match(ownerMails()[0].body, /1MonthLater_id/);
-  assert.match(ownerMails()[0].body, /1MonthLater_en/);
-});
-t('一次返信: 旗付き（下書き）でも _en で代用する', () => {
-  reset([row('INQ-001', 'id', { flag: '定員超過(上限2名に対し3名)', period: '1ヶ月以内' })], JA_EN);
-  EmailService.sendAutoReplies();
-  assert.deepStrictEqual(calls.drafts.map((d) => d.subject), ['【要確認】[1MonthWithin_en] Hi Guest INQ-001']);
-  assert.strictEqual(status('INQ-001'), '最終送信待ち');
-});
-t('一次返信: 未知の言語（fr）も _en', () => {
-  reset([row('INQ-001', 'fr')], JA_EN);
-  EmailService.sendAutoReplies();
-  assert.deepStrictEqual(customerMails().map((m) => m.subject), ['[1MonthLater_en] Hi Guest INQ-001']);
-});
-t('一次返信: _id があればそれを使い、代用の注記は出さない', () => {
-  reset([row('INQ-001', 'id')], [...JA_EN, '1MonthLater_id']);
-  EmailService.sendAutoReplies();
-  assert.deepStrictEqual(customerMails().map((m) => m.subject), ['[1MonthLater_id] Hi Guest INQ-001']);
-  assert.ok(!/1MonthLater_en/.test(ownerMails()[0].body), '代用していないのに注記');
-});
-t('一次返信: _ja はそのまま _ja', () => {
-  reset([row('INQ-001', 'ja')], JA_EN);
-  EmailService.sendAutoReplies();
-  assert.deepStrictEqual(customerMails().map((m) => m.subject), ['[1MonthLater_ja] Hi Guest INQ-001']);
-});
-t('一次返信: 言語の行も _en も無い（または件名・本文が空）→ 行は「エラー」・失敗通知にテンプレート ID・後続の行は処理する', () => {
-  reset([row('INQ-001', 'id'), row('INQ-002', 'ja')], ['1MonthLater_ja']);
-  templates.push(['1MonthLater_en', '', '']); // 貼り付け前の空行は「無い」と同じ（空のメールを送らない）
-  EmailService.sendAutoReplies();
-  assert.strictEqual(status('INQ-001'), 'エラー');
-  assert.strictEqual(status('INQ-002'), '1次送信済', '後続の行が止まった');
-  assert.deepStrictEqual(customerMails().map((m) => m.to), ['inq-002@example.com'], '空のテンプレートで送った');
-  const failMail = ownerMails().find((m) => m.subject.startsWith('【GASエラー】'));
-  assert.ok(failMail, '失敗通知が無い');
-  assert.match(failMail.body, /INQ-001.*1MonthLater_id.*1MonthLater_en/);
-});
 
-// ---------------------------------------------------------------- 最終回答（onEdit）
-t('最終回答: Available_id が無ければ Available_en で下書き・最終送信待ち・セルに代用のメモ', () => {
-  reset([row('INQ-001', 'id', { status: '1次送信済' })], JA_EN);
+// ---------------------------------------------------------------- ④ ⑤ ⑥ 最終回答（onStatusEdit）
+const FINAL = { '空室': 'Available', '満室': 'Full', 'キャンセル待ち': 'AcceptWaiting' };
+for (const [value, kind] of Object.entries(FINAL)) {
+  t(`④⑤ 最終回答（${value}・id）: コードの文面で下書き・最終送信待ち・メモなし・シートを読まない`, () => {
+    reset([row('INQ-001', 'id', { status: '1次送信済' })]);
+    templatesSheetRead = 0;
+    editStatus('INQ-001', value);
+    const want = tpl(kind, 'id');
+    assert.deepStrictEqual(calls.drafts.map((d) => [d.subject, d.body]), [[`Re: ${want.subject} (INQ-001)`, filled(want.body || '', 'INQ-001')]]);
+    assert.strictEqual(templatesSheetRead, 0, 'Templates シートを読んだ');
+    assert.strictEqual(status('INQ-001'), '最終送信待ち');
+    assert.strictEqual(noteOf('INQ-001'), undefined);
+  });
+}
+t('⑤ 最終回答: 対応外の言語は英語で下書き・セルに代用のメモ・担当者が手で書いたメモは消さない', () => {
+  reset([row('INQ-001', 'fr', { status: '1次送信済' })]);
+  notes[`2,${STATUS_COLUMN}`] = 'owner memo';
   editStatus('INQ-001', '空室');
-  assert.deepStrictEqual(calls.drafts.map((d) => d.subject), ['Re: [Available_en] Hi Guest INQ-001 (INQ-001)']);
-  assert.strictEqual(status('INQ-001'), '最終送信待ち');
-  assert.match(String(noteOf('INQ-001')), /Available_id/);
+  assert.deepStrictEqual(calls.drafts.map((d) => d.subject), [`Re: ${tpl('Available', 'en').subject} (INQ-001)`]);
+  assert.match(String(noteOf('INQ-001')), /^owner memo\n\d{4}-\d{2}-\d{2} .*Available_fr.*Available_en/);
 });
-t('最終回答: 代用していなければメモを書かない・担当者が手で書いたメモは消さない', () => {
-  reset([row('INQ-001', 'ja', { status: '1次送信済' })], JA_EN);
-  notes[`2,${STATUS_COLUMN}`] = 'owner memo';
-  editStatus('INQ-001', '満室');
-  assert.deepStrictEqual(calls.drafts.map((d) => d.subject), ['Re: [Full_ja] Hi Guest INQ-001 (INQ-001)']);
-  assert.strictEqual(noteOf('INQ-001'), 'owner memo');
-  reset([row('INQ-001', 'id', { status: '1次送信済' })], JA_EN);
-  notes[`2,${STATUS_COLUMN}`] = 'owner memo';
-  editStatus('INQ-001', '満室');
-  assert.match(String(noteOf('INQ-001')), /^owner memo\n.*Full_id/);
-});
-t('最終回答: どちらも無い → 分かる文言で例外・下書きなし・ステータスはそのまま・セルにメモ', () => {
-  reset([row('INQ-001', 'id', { status: '1次送信済' })], ['Available_ja']);
-  assert.throws(() => editStatus('INQ-001', '空室'), /Available_id.*Available_en/);
+t('⑥ 最終回答: 下書きを作れない → 例外・ステータスはそのまま・セルに【エラー】のメモ', () => {
+  reset([row('INQ-001', 'ja', { status: '1次送信済' })]);
+  draftError = 'Service invoked too many times: gmail';
+  assert.throws(() => editStatus('INQ-001', '空室'), /too many times/);
   assert.strictEqual(calls.drafts.length, 0);
   assert.strictEqual(status('INQ-001'), '空室', '最終送信待ちにしてはいけない（下書きが無い）');
-  assert.match(String(noteOf('INQ-001')), /Available_en/);
+  assert.match(String(noteOf('INQ-001')), /【エラー】/);
 });
 
-// ---------------------------------------------------------------- 本番で見つかった 2 件（2026-09-24）
-t('見出し行の無い Templates でも 1 行目のテンプレートを使う（本番の Templates シートは 1 行目が 1MonthLater_ja だった）', () => {
-  reset([row('INQ-001', 'ja')], JA_EN, { templateHeader: false });
-  EmailService.sendAutoReplies();
-  assert.deepStrictEqual(customerMails().map((m) => m.subject), ['[1MonthLater_ja] Hi Guest INQ-001']);
-  assert.strictEqual(status('INQ-001'), '1次送信済');
-});
-t('Main は onEdit という名前の関数を公開しない（シンプルトリガーとして動くと Gmail を呼べず、インストール型と二重にも動く）', () => {
+// ---------------------------------------------------------------- ⑦
+t('⑦ Main は onEdit という名前の関数を公開しない', () => {
   assert.strictEqual(typeof Main.onEdit, 'undefined');
   assert.strictEqual(typeof Main.onStatusEdit, 'function');
 });
