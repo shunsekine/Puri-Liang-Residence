@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "gas:check": "bash gas-booking-automation/test/run.sh",
-    "check:public": "node scripts/check-public-baseline.mjs --self-test && node scripts/check-public-baseline.mjs && node tests/reserve-route.test.mjs"
+    "check:public": "node scripts/check-public-baseline.mjs --self-test && node scripts/check-public-baseline.mjs && node tests/reserve-route.test.mjs && node tests/messages.test.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.1.6",
