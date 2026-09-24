@@ -20,6 +20,13 @@ const MESSAGES = { ja: jaMessages, en: enMessages, id: idMessages };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const DAY_MS = 24 * 60 * 60 * 1000;
+/**
+ * 本文の上限（UTF-8 のバイト数。WO-PB-3F F5）。フォームが送る最大（備考 2,000 文字がすべて 3 バイト文字・料金などの項目込み）でも
+ * 約 7 KB なので、余裕を持たせた値。GAS の実行枠と Sheets の行を大きな本文で消費させない
+ */
+const MAX_BODY_BYTES = 16 * 1024;
+/** GAS の失敗応答の error のうち、ログに出してよい形（GAS は 'unauthorized' か 'internal' の固定文言を返す） */
+const GAS_ERROR_CODE_RE = /^[a-z_]{1,32}$/;
 
 type Language = (typeof LANGUAGES)[number];
 type ForwardedInquiry = {
@@ -110,18 +117,29 @@ function parseInquiry(body: Record<string, unknown>): ForwardedInquiry | { inval
   };
 }
 
+// エラーの応答は { success: false } だけ（WO-PB-3F F6）。message を返さない: フォームは message があるとそのまま表示し、
+// 無ければ各言語の errors.submitFailed を出す。例外の文言（GAS の URL・シートの値を含みうる）はログだけに書く
+const fail = (status: number) => NextResponse.json({ success: false }, { status });
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    // 本文の大きさ（F5）。Content-Length が上限を超えていれば読まずに断り、無い・偽りでも読んだ後のバイト数で判定する
+    if (Number(request.headers.get('content-length')) > MAX_BODY_BYTES) return fail(413);
+    const text = await request.text();
+    if (new TextEncoder().encode(text).length > MAX_BODY_BYTES) return fail(413);
 
-    // 形式の違反は 400。message は返さない（フォームは message が無いと各言語の errors.submitFailed を出す）
-    if (typeof body !== 'object' || body === null || Array.isArray(body)) {
-      return NextResponse.json({ success: false }, { status: 400 });
+    // 形式の違反は 400
+    let body: unknown;
+    try {
+      body = JSON.parse(text);
+    } catch {
+      return fail(400);
     }
-    const parsed = parseInquiry(body);
+    if (typeof body !== 'object' || body === null || Array.isArray(body)) return fail(400);
+    const parsed = parseInquiry(body as Record<string, unknown>);
     if ('invalid' in parsed) {
       console.warn(`[API /api/reserve] rejected: invalid ${parsed.invalid}`);
-      return NextResponse.json({ success: false }, { status: 400 });
+      return fail(400);
     }
 
     const gasUrl = process.env.GAS_WEBHOOK_URL;
@@ -133,29 +151,37 @@ export async function POST(request: Request) {
 
     // GAS の Web アプリ URL は匿名公開なので、共有秘密を本文に付けて GAS 側で検証させる（doPost はヘッダーを読めない）。
     // 秘密が未設定なら転送しない（fail-closed。未設定を「秘密なしで送る」にしない）。
-    const secret = process.env.GAS_WEBHOOK_SECRET;
+    // 前後の空白は除く（Vercel に貼るときに入る改行・空白。GAS の WebhookParser.isAuthorized も同じく除いて比べる。WO-PB-3F 段階 A）
+    const secret = process.env.GAS_WEBHOOK_SECRET?.trim();
     if (!secret) {
       console.error('[API /api/reserve] GAS_WEBHOOK_SECRET is not set; refusing to forward.');
-      return NextResponse.json({ success: false, message: 'Service unavailable' }, { status: 503 });
+      return fail(503);
     }
 
-    const gasRes = await fetch(gasUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-      },
-      // 組み立て直した項目だけを送る（クライアントの本文は展開しない。webhook_secret を送ってきても届かない）
-      body: JSON.stringify({ ...parsed, webhook_secret: secret }),
-    });
+    let gasReply: unknown;
+    try {
+      const gasRes = await fetch(gasUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        // 組み立て直した項目だけを送る（クライアントの本文は展開しない。webhook_secret を送ってきても届かない）
+        body: JSON.stringify({ ...parsed, webhook_secret: secret }),
+      });
+      gasReply = await gasRes.json().catch(() => ({ success: true }));
+    } catch (error) {
+      console.error('[API /api/reserve] Error proxying to GAS:', error);
+      return fail(502);
+    }
 
-    const data = await gasRes.json().catch(() => ({ success: true }));
-
-    return NextResponse.json(data);
-  } catch (error: any) {
-    console.error('[API /api/reserve] Error proxying to GAS:', error);
-    return NextResponse.json(
-      { success: false, message: error.message || 'Internal Server Error' },
-      { status: 500 }
-    );
+    // GAS の応答は透過しない（F6。成功時の問い合わせ ID も返さない＝件数を公開しない）
+    const reply = (typeof gasReply === 'object' && gasReply !== null ? gasReply : {}) as { success?: unknown; error?: unknown };
+    if (reply.success === true) return NextResponse.json({ success: true });
+    const gasError = typeof reply.error === 'string' && GAS_ERROR_CODE_RE.test(reply.error) ? reply.error : 'unknown';
+    console.error(`[API /api/reserve] GAS rejected the inquiry: ${gasError}`);
+    return fail(502);
+  } catch (error) {
+    console.error('[API /api/reserve] Unexpected error:', error);
+    return fail(500);
   }
 }

@@ -31,6 +31,7 @@ GAS_WEBHOOK_SECRET=<openssl rand -hex 32 の出力。GAS のスクリプト プ�
 Web アプリは「全員（匿名）」に公開されるため、URL を知っているだけで誰でも `Inquiries` に記帳でき、15 分後にはその宛先へ一次返信メールが自動送信されてしまう。これを塞ぐため、プロキシ（`app/api/reserve/route.ts`）が本文に `webhook_secret` を付け、`doPost` がスクリプト プロパティ `WEBHOOK_SECRET` と比較してから記帳する（`doPost` は HTTP ヘッダーを読めないため本文で渡す）。
 
 - **fail-closed**: GAS はプロパティが未設定・32 文字未満なら全件拒否（`{"success":false,"error":"unauthorized"}`）。Next は URL 設定済みで秘密が未設定なら 503 で転送しない。
+- 前後の空白・改行は両側とも除いてから使う（貼り付けで混ざっても通る。空白だけの値は未設定と同じ）。
 - 秘密はシート（`Settings`）に置かない（オーナー側に見えるため）。スクリプト プロパティは「プロジェクトの設定 → スクリプト プロパティ」。
 - **反映順**（逆にすると本番フォームが止まる）: Vercel に `GAS_WEBHOOK_SECRET` → Next をデプロイ → GAS にプロパティ → GAS を再デプロイ（下記「反映手順」の 3。URL を変えない）→ 本番フォームから 1 件送って記帳を確認。
 - 秘密を替えるときも同じ順（両側に同値を入れてから GAS を再デプロイ）。検証は `npm run gas:check`（`test/doPost.test.js`）と `npm run check:public`（`tests/reserve-route.test.mjs`）。
@@ -155,6 +156,7 @@ npm run gas:check   # 型チェック + スタブ付き合成テスト（test/*.
 | `test/sendAutoReplies.test.js` | リトライ・行単位の隔離 |
 | `test/doPost.test.js` | Webhook の共有秘密 |
 | `test/abuse.test.js` | WO-PB-3F（受信時刻・メール形式・自動返信の上限） |
+| `test/hardening.test.js` | WO-PB-3F の残り（数式の無害化・`doPost` の例外を固定文言に・秘密の前後の空白） |
 | `test/optionalFields.test.js` | 電話・国籍・滞在目的の記帳と再検証（電話の規則が `lib/phone.ts` と同じこと） |
 | `test/templates.test.js` | テンプレートの `_en` 代用と、無いときに止まらずエラーにすること |
 | `test/retention.test.js` | 保存期間の匿名化（境界 730/731 日・触らない行・まとめ書き・ID の照合） |

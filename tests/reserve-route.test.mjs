@@ -20,6 +20,13 @@
 //     ― ⑥ allowlist 1 件と ⑧ 実フォーム形 17 件（phone・nationality・stay_purposes が転送されない）、⑨ 通る 24 件（同上）、
 //     ⑨ 違反 19 件すべて「GAS へ転送された」。⑥ の submitted_at・未知の項目・room の 3 件、⑦ 違反 34 件、⑦ モックの 1 件、
 //     ⑧ name の 2 件は変更前も通る（既存の検査が壊れていないことの回帰検査）。
+// WO-PB-3F の残り（F5・F6・段階 A の秘密の空白除去）:
+//   ⑩ 本文は 16 KB（UTF-8）まで・超えたら 413（Content-Length が超えていれば読まない）。壊れた JSON は 400。エラーの応答は
+//      { success: false } だけ（例外の文言・GAS の応答の中身を返さない。成功時も ID を返さない）。秘密は前後の空白を除いて転送し、
+//      空白だけなら未設定と同じ 503
+//   検出力の確認（2026-09-24）: 変更前の route.ts（c81039b）に対して実行し、新規 11 件中 10 件が落ちることを確認した
+//     ― F5 2 件（転送された・200）、F6 6 件（壊れた本文と空の本文が 500、通信失敗が 500、GAS の失敗応答と ID を透過、503 に英語の
+//     message）、秘密 2 件（空白込みで転送・空白だけで転送）。多バイトの備考 2,000 文字が通ることの 1 件は変更前も通る。
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -51,13 +58,22 @@ const routePath = process.env.ROUTE_UNDER_TEST ?? join(root, 'app/api/reserve/ro
 const { POST } = loadTs(routePath)
 
 const forwarded = []
+/** GAS の応答（⑩ で差し替える）。throw すると fetch 自体の失敗 */
+let gasReply = () => ({ success: true, id: 'INQ-TEST' })
 globalThis.fetch = async (url, init) => {
   forwarded.push({ url, body: JSON.parse(init.body) })
-  return { json: async () => ({ success: true, id: 'INQ-TEST' }) }
+  const reply = gasReply()
+  return { json: async () => reply }
 }
 console.warn = () => {}
 console.error = () => {}
-const req = (body) => ({ json: async () => body })
+/** Request の代わり。json() は変更前の route（request.json() で読む）を検出力の確認で動かすために残している */
+const rawReq = (text, headers = {}) => ({
+  headers: new Headers(headers),
+  text: async () => text,
+  json: async () => JSON.parse(text),
+})
+const req = (body) => rawReq(JSON.stringify(body))
 const SECRET = 's'.repeat(64)
 
 // ---- 実フォームと同じ形の本文（components/pages/ReserveForm.tsx handleSubmit の payload。キー・型・書式を合わせる）
@@ -332,6 +348,98 @@ for (const [label, over] of optionalViolations) {
     assert.ok(!('message' in res.data), 'message を返した')
   })
 }
+
+// ---------------------------------------------------------------- WO-PB-3F の残り（F5・F6・秘密の空白除去）
+// ⑩ F5 本文は 16 KB（UTF-8 のバイト数）まで。超えたら 413・転送しない
+await t('⑩ F5 16 KB を超える本文（未知の項目で水増し）は 413・転送しない', async () => {
+  const n = forwarded.length
+  res = await POST(req(formPayload({ padding: 'x'.repeat(20000) })))
+  assert.equal(forwarded.length, n, 'GAS へ転送された')
+  assert.equal(res.status, 413, `status ${res.status}`)
+  assert.ok(!('message' in res.data), 'message を返した')
+})
+await t('⑩ F5 Content-Length が上限を超えていれば本文を読まずに 413', async () => {
+  let read = false
+  const n = forwarded.length
+  res = await POST({ headers: new Headers({ 'content-length': '1000000' }), text: async () => { read = true; return JSON.stringify(formPayload()) }, json: async () => { read = true; return formPayload() } })
+  assert.equal(res.status, 413, `status ${res.status}`)
+  assert.equal(read, false, '本文を読んだ')
+  assert.equal(forwarded.length, n)
+})
+await t('⑩ F5 上限内なら多バイト文字の備考 2,000 文字（約 6 KB）は通る', async () => {
+  const n = forwarded.length
+  res = await POST(req(formPayload({ notes: '日'.repeat(2000) })))
+  assert.equal(res.status, 200, `status ${res.status}`)
+  assert.equal(forwarded.length, n + 1)
+})
+// ⑩ F6 エラーの応答に詳細を載せない（フォームは message があるとそのまま表示する。無ければ各言語の errors.submitFailed）
+for (const [label, text] of [['JSON として壊れた本文', '{"name":'], ['空の本文', '']]) {
+  await t(`⑩ F6 ${label} は 400・message なし（例外の文言を返さない）`, async () => {
+    const n = forwarded.length
+    res = await POST(rawReq(text))
+    assert.equal(forwarded.length, n)
+    assert.equal(res.status, 400, `status ${res.status}`)
+    assert.deepEqual(res.data, { success: false })
+  })
+}
+await t('⑩ F6 GAS への通信が失敗しても、例外の文言（URL を含みうる）を返さない', async () => {
+  gasReply = () => { throw new Error('fetch failed: https://script.google.com/macros/s/SYNTHETIC/exec') }
+  try {
+    res = await POST(req(formPayload()))
+    assert.equal(res.status, 502, `status ${res.status}`)
+    assert.deepEqual(res.data, { success: false })
+  } finally {
+    gasReply = () => ({ success: true, id: 'INQ-TEST' })
+  }
+})
+await t('⑩ F6 GAS の失敗応答は中身を透過せず { success: false } だけを返す', async () => {
+  gasReply = () => ({ success: false, error: 'internal', message: 'Exception: synthetic detail' })
+  try {
+    res = await POST(req(formPayload()))
+    assert.equal(res.status, 502, `status ${res.status}`)
+    assert.deepEqual(res.data, { success: false })
+  } finally {
+    gasReply = () => ({ success: true, id: 'INQ-TEST' })
+  }
+})
+await t('⑩ F6 GAS の成功応答は { success: true } だけ（問い合わせ ID＝件数を公開しない）', async () => {
+  res = await POST(req(formPayload()))
+  assert.deepEqual(res.data, { success: true })
+})
+await t('⑩ F6 秘密が未設定の 503 も message なし（英語の固定文がフォームにそのまま出ていた）', async () => {
+  const saved = process.env.GAS_WEBHOOK_SECRET
+  delete process.env.GAS_WEBHOOK_SECRET
+  try {
+    res = await POST(req(formPayload()))
+    assert.equal(res.status, 503)
+    assert.deepEqual(res.data, { success: false })
+  } finally {
+    process.env.GAS_WEBHOOK_SECRET = saved
+  }
+})
+// ⑩ 段階 A: 秘密の前後の空白（Vercel に貼るときに入る改行・空白）を除いて転送する。空白だけなら未設定と同じ
+await t('⑩ 秘密の前後の空白・改行は除いて転送する', async () => {
+  const saved = process.env.GAS_WEBHOOK_SECRET
+  process.env.GAS_WEBHOOK_SECRET = ` ${SECRET}\n`
+  try {
+    await POST(req(formPayload()))
+    assert.equal(forwarded.at(-1).body.webhook_secret, SECRET)
+  } finally {
+    process.env.GAS_WEBHOOK_SECRET = saved
+  }
+})
+await t('⑩ 空白だけの秘密は未設定と同じ（503・転送しない）', async () => {
+  const saved = process.env.GAS_WEBHOOK_SECRET
+  process.env.GAS_WEBHOOK_SECRET = '  \n'
+  try {
+    const n = forwarded.length
+    res = await POST(req(formPayload()))
+    assert.equal(forwarded.length, n, 'GAS へ転送された')
+    assert.equal(res.status, 503)
+  } finally {
+    process.env.GAS_WEBHOOK_SECRET = saved
+  }
+})
 
 // 5) URL なし → モック成功・転送しない（形式の検証はモックより先。Preview でも本番と同じ判定になる）
 delete process.env.GAS_WEBHOOK_URL
