@@ -282,6 +282,10 @@
     "FAQ": {
       "title": "FAQ | Puri Liang",
       "description": "Two years of frequently asked questions about pricing, payment, cancellation, and minimum stay — grouped by category. For anything else, please use the reservation form."
+    },
+    "Privacy": {
+      "title": "Privacy Policy | Puri Liang",
+      "description": "What information Puri Liang Residence collects through its reservation form and website, why, how long it is kept, and how to request access or deletion."
     }
   },
   "Brand": {
@@ -344,7 +348,8 @@
       "Instagram"
     ],
     "copyright": "© 2026 Puri Liang Residence",
-    "termsLink": "Terms & Conditions"
+    "termsLink": "Terms & Conditions",
+    "privacyLink": "Privacy Policy"
   },
   "Band": {
     "items": [
@@ -873,9 +878,7 @@
       "idle": "Check availability →",
       "sending": "Sending…",
       "disclaimer1": "Submitting does not confirm your booking. We reply within two business days.",
-      "disclaimer2Prefix": "By submitting, you agree to our ",
-      "disclaimer2Link": "privacy policy",
-      "disclaimer2Suffix": "."
+      "privacyNotice": "To learn how we handle your personal information, see our <privacy>privacy policy</privacy>."
     },
     "errors": {
       "checkinPast": "Please select a check-in date of today or later.",
@@ -958,6 +961,78 @@
       "In accordance with government regulations, management is required to report tenants' stays to the local authorities by submitting a copy of each tenant's identity document.",
       "All tenants must help maintain order and respect the privacy of other tenants.",
       "Unlawful acts of any kind are strictly prohibited on the Puri Liang Residence premises."
+    ]
+  },
+  "Privacy": {
+    "hero": {
+      "eyebrow": "Privacy",
+      "title1": "What we collect,",
+      "emphasis": "and how we use it",
+      "title2": ".",
+      "lead": "How Puri Liang Residence (\"we\") handles the information you share through the reservation form and this website."
+    },
+    "updated": "Last updated: September 24, 2026",
+    "sections": [
+      {
+        "title": "Information we collect",
+        "items": [
+          "What you enter in the reservation form: your name, email address, preferred room, dates and number of guests, other requests, and display language. Optionally, your WhatsApp/phone number, nationality, and purpose of stay.",
+          "A copy of the ID (passport, etc.) of every guest, submitted at check-in.",
+          "Information about how you use the site: pages viewed, actions such as clicks and scrolling, device and browser type, approximate location, and similar data (collected using cookies and similar technologies)."
+        ]
+      },
+      {
+        "title": "How we use it",
+        "items": [
+          "To check availability, send quotes, handle your booking, and contact you about your stay.",
+          "Your nationality and purpose of stay help us prepare for your stay and give you relevant information.",
+          "ID copies are used to register guests with the local authorities, as required by law.",
+          "Site usage information helps us make the site easier to use.",
+          "We do not use your information for any other purpose."
+        ]
+      },
+      {
+        "title": "Services we use",
+        "items": [
+          "Inquiries and bookings are managed with Google services (Gmail, Google Sheets, and Google Apps Script).",
+          "The site is hosted on Vercel. Technical records of access, such as IP addresses, may be kept by Vercel.",
+          "Site usage information is measured and analyzed with Google Analytics (Google) and Microsoft Clarity (Microsoft).",
+          "The servers of these services may be located outside your country (for example, in the United States)."
+        ]
+      },
+      {
+        "title": "Sharing",
+        "items": [
+          "We share your information with the property's management and staff only as needed to arrange your booking and stay, sometimes via messaging apps such as WhatsApp.",
+          "We do not share your information with any other third party without your consent, except where required by law."
+        ]
+      },
+      {
+        "title": "How long we keep it",
+        "items": [
+          "Two years after your inquiry or check-out, whichever is later, we erase personal details such as your name, contact information, and requests from our booking records.",
+          "We also delete related email correspondence after about the same period."
+        ]
+      },
+      {
+        "title": "Cookies and analytics",
+        "items": [
+          "Google Analytics and Microsoft Clarity use cookies and similar technologies to understand how the site is used.",
+          "You can disable cookies in your browser settings. You can also stop Google Analytics with the opt-out browser add-on provided by Google."
+        ]
+      },
+      {
+        "title": "Your requests",
+        "items": [
+          "To access, correct, delete, or stop the use of your information, reply to any email we have sent you, or let us know in the \"Other requests\" field of the reservation form. We will act on your request after confirming your identity."
+        ]
+      },
+      {
+        "title": "Changes to this policy",
+        "items": [
+          "We may update this policy as needed and will post any changes on this page."
+        ]
+      }
     ]
   }
 }

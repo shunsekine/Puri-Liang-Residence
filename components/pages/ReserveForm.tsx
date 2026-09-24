@@ -431,11 +431,14 @@ export default function ReserveForm() {
                             </button>
                             <div style={{ fontSize: 11.5, color: 'var(--v2-muted)', marginTop: 10, textAlign: 'center' }}>
                                 {t('submit.disclaimer1')}<br />
-                                {t('submit.disclaimer2Prefix')}
-                                <a href="#" style={{ color: 'var(--v2-mocha)', textDecoration: 'underline' }}>
-                                    {t('submit.disclaimer2Link')}
-                                </a>
-                                {t('submit.disclaimer2Suffix')}
+                                {/* 同意の擬制ではなく告知（問い合わせへの対応は本人の依頼に基づく処理）。新しいタブで開き、入力内容を失わせない */}
+                                {t.rich('submit.privacyNotice', {
+                                    privacy: (chunks) => (
+                                        <Link href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--v2-mocha)', textDecoration: 'underline' }}>
+                                            {chunks}
+                                        </Link>
+                                    ),
+                                })}
                             </div>
                         </div>
                     </form>

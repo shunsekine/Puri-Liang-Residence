@@ -282,6 +282,10 @@
     "FAQ": {
       "title": "Pertanyaan Umum (FAQ) | Puri Liang",
       "description": "Pertanyaan yang paling sering kami terima selama 2 tahun terakhir seputar harga, pembayaran, pembatalan, dan masa inap minimum, dikelompokkan per kategori. Untuk pertanyaan lain, silakan hubungi kami melalui formulir reservasi."
+    },
+    "Privacy": {
+      "title": "Kebijakan Privasi | Puri Liang",
+      "description": "Data apa saja yang dikumpulkan Puri Liang Residence melalui formulir reservasi dan situs ini, tujuan penggunaannya, masa penyimpanannya, dan cara mengajukan permintaan akses atau penghapusan."
     }
   },
   "Brand": {
@@ -344,7 +348,8 @@
       "Instagram"
     ],
     "copyright": "© 2026 Puri Liang Residence",
-    "termsLink": "Syarat & Ketentuan"
+    "termsLink": "Syarat & Ketentuan",
+    "privacyLink": "Kebijakan Privasi"
   },
   "Band": {
     "items": [
@@ -873,9 +878,7 @@
       "idle": "Cek ketersediaan →",
       "sending": "Mengirim…",
       "disclaimer1": "Reservasi belum terkonfirmasi saat formulir dikirim. Kami akan membalas dalam 2 hari kerja.",
-      "disclaimer2Prefix": "Dengan mengirim formulir ini, Anda menyetujui ",
-      "disclaimer2Link": "kebijakan privasi",
-      "disclaimer2Suffix": " kami."
+      "privacyNotice": "Untuk mengetahui cara kami mengelola data pribadi Anda, lihat <privacy>kebijakan privasi</privacy> kami."
     },
     "errors": {
       "checkinPast": "Mohon pilih tanggal check-in hari ini atau sesudahnya.",
@@ -958,6 +961,78 @@
       "Sesuai peraturan pemerintah, pengelola wajib melaporkan keberadaan penghuni kepada pihak berwenang setempat dengan menyerahkan fotokopi kartu identitas penghuni.",
       "Seluruh penghuni wajib menjaga ketertiban dan menghormati privasi penghuni lainnya.",
       "Seluruh penghuni dilarang melakukan perbuatan melawan hukum di area Puri Liang Residence."
+    ]
+  },
+  "Privacy": {
+    "hero": {
+      "eyebrow": "Privasi",
+      "title1": "Data yang kami terima,",
+      "emphasis": "dan cara kami menggunakannya",
+      "title2": ".",
+      "lead": "Kebijakan ini menjelaskan cara Puri Liang Residence (\"kami\") mengelola data yang Anda berikan melalui formulir reservasi dan situs ini."
+    },
+    "updated": "Terakhir diperbarui: 24 September 2026",
+    "sections": [
+      {
+        "title": "Data yang kami kumpulkan",
+        "items": [
+          "Data yang Anda isi di formulir reservasi: nama, alamat email, pilihan kamar, tanggal menginap dan jumlah tamu, permintaan lain, serta bahasa tampilan. Secara opsional: nomor WhatsApp/telepon, kewarganegaraan, dan tujuan menginap.",
+          "Fotokopi kartu identitas (paspor, dll.) seluruh penghuni yang diserahkan saat check-in.",
+          "Data penggunaan situs: halaman yang dilihat, tindakan seperti klik dan gulir, jenis perangkat dan peramban, perkiraan lokasi, dan sejenisnya (dikumpulkan dengan cookie dan teknologi serupa)."
+        ]
+      },
+      {
+        "title": "Tujuan penggunaan",
+        "items": [
+          "Untuk mengecek ketersediaan kamar, mengirim penawaran harga, memproses reservasi, dan menghubungi Anda terkait masa inap.",
+          "Kewarganegaraan dan tujuan menginap membantu kami mempersiapkan masa inap Anda dan memberikan informasi yang sesuai.",
+          "Fotokopi kartu identitas digunakan untuk melaporkan penghuni kepada pihak berwenang setempat sesuai peraturan.",
+          "Data penggunaan situs membantu kami membuat situs lebih mudah digunakan.",
+          "Kami tidak menggunakan data Anda untuk tujuan lain."
+        ]
+      },
+      {
+        "title": "Layanan yang kami gunakan",
+        "items": [
+          "Pertanyaan dan reservasi dikelola dengan layanan Google (Gmail, Google Sheets, dan Google Apps Script).",
+          "Situs ini di-hosting di Vercel. Catatan teknis akses, seperti alamat IP, dapat tersimpan di Vercel.",
+          "Data penggunaan situs diukur dan dianalisis dengan Google Analytics (Google) dan Microsoft Clarity (Microsoft).",
+          "Server layanan-layanan ini dapat berada di luar negara Anda (misalnya di Amerika Serikat)."
+        ]
+      },
+      {
+        "title": "Pembagian data",
+        "items": [
+          "Kami membagikan data Anda kepada pengelola dan staf properti hanya sejauh diperlukan untuk mengatur reservasi dan masa inap Anda, terkadang melalui aplikasi pesan seperti WhatsApp.",
+          "Kecuali diwajibkan oleh peraturan, kami tidak memberikan data Anda kepada pihak ketiga lain tanpa persetujuan Anda."
+        ]
+      },
+      {
+        "title": "Masa penyimpanan",
+        "items": [
+          "Dua tahun setelah tanggal pertanyaan atau check-out Anda (mana yang lebih akhir), kami menghapus data pribadi seperti nama, kontak, dan permintaan Anda dari catatan reservasi kami.",
+          "Korespondensi email terkait juga kami hapus setelah kurang lebih jangka waktu yang sama."
+        ]
+      },
+      {
+        "title": "Cookie dan analitik",
+        "items": [
+          "Google Analytics dan Microsoft Clarity menggunakan cookie dan teknologi serupa untuk memahami cara situs ini digunakan.",
+          "Anda dapat menonaktifkan cookie melalui pengaturan peramban. Google Analytics juga dapat dihentikan dengan add-on peramban untuk opt-out yang disediakan Google."
+        ]
+      },
+      {
+        "title": "Permintaan Anda",
+        "items": [
+          "Untuk melihat, memperbaiki, menghapus, atau menghentikan penggunaan data Anda, balas email yang pernah kami kirimkan, atau tuliskan permintaan Anda di kolom \"Permintaan lain\" pada formulir reservasi. Kami akan menindaklanjutinya setelah memastikan identitas Anda."
+        ]
+      },
+      {
+        "title": "Perubahan kebijakan",
+        "items": [
+          "Kebijakan ini dapat kami perbarui bila diperlukan, dan setiap perubahan akan kami umumkan di halaman ini."
+        ]
+      }
     ]
   }
 }
