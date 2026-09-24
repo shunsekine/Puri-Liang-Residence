@@ -152,7 +152,7 @@
           },
           {
             "k": "Dapur",
-            "v": "Kulkas & kompor"
+            "v": "Kulkas · kompor dipinjamkan gratis (dengan syarat)"
           },
           {
             "k": "Air panas",
@@ -210,7 +210,7 @@
     "included": {
       "eyebrow": "Termasuk · dalam biaya bulanan",
       "title": "Kesembilan fasilitas ini sudah termasuk dalam biaya bulanan.",
-      "lead": "Tagihan tambahan hanya listrik, sesuai pemakaian. Biaya lainnya tetap."
+      "lead": "Di luar biaya bulanan, Anda hanya perlu membayar listrik kamar (prabayar). Biaya lainnya tetap."
     },
     "voices": {
       "eyebrow": "Ulasan penghuni",
@@ -234,7 +234,7 @@
       "title1": "Tiga tipe kamar, tiga",
       "emphasis": "cara tinggal",
       "title2": ".",
-      "lead": "Empat kamar terpisah yang bisa Anda pilih sesuai jumlah orang dan kebutuhan: unit Villa yang lapang untuk keluarga, serta studio yang ideal untuk Anda yang ingin fokus bekerja di ruang pribadi."
+      "lead": "Tiga tipe kamar terpisah yang bisa Anda pilih sesuai jumlah orang dan kebutuhan: unit Villa yang lapang untuk keluarga, serta studio yang ideal untuk Anda yang ingin fokus bekerja di ruang pribadi."
     },
     "specLabels": {
       "size": "Luas",
@@ -246,8 +246,8 @@
     "reserveCta": "Reservasi →",
     "amenitiesHeader": {
       "eyebrow": "Fasilitas",
-      "title": "Fasilitas & layanan di semua kamar",
-      "lead": "Kesembilan fasilitas ini sudah termasuk dalam biaya bulanan, tanpa tagihan tambahan di kemudian hari."
+      "title": "Fasilitas & layanan dalam biaya bulanan",
+      "lead": "Kesembilan fasilitas ini sudah termasuk dalam biaya bulanan (hanya pinjaman kompor gratis yang berlaku dengan syarat), tanpa tagihan tambahan di kemudian hari."
     },
     "houseRulesHeader": {
       "eyebrow": "Tata tertib",
@@ -352,7 +352,7 @@
       "Fasilitas Wi-Fi",
       "Housekeeping mingguan",
       "Diskon 10% mulai 3 bulan",
-      "JP · EN · ID",
+      "EN · ID",
       "Est. 2024"
     ]
   },
@@ -417,7 +417,7 @@
         "tag": "Kenyamanan"
       },
       {
-        "label": "Kompor",
+        "label": "Pinjaman kompor & peralatan masak gratis (Villa & King Studio, masa inap 1 bulan atau lebih)",
         "tag": "Dapur"
       },
       {
@@ -452,7 +452,7 @@
     "title1": "Lihat dulu",
     "emphasis": "berapa total biayanya",
     "title2": ".",
-    "lead": "Pilih tipe kamar dan lama tinggal untuk melihat total biaya yang sebenarnya, termasuk listrik dan diskon.",
+    "lead": "Pilih tipe kamar, lama tinggal, dan jumlah tamu untuk melihat total biaya yang sebenarnya, termasuk diskon dan perkiraan listrik.",
     "roomLabel": "Tipe kamar",
     "monthsLabel": "Lama tinggal",
     "discount3m": "Diskon 10% mulai 3 bulan",
@@ -460,7 +460,7 @@
     "estimateTitle": "Perkiraan biaya",
     "rent": "Sewa",
     "discountRow": "Diskon jangka panjang",
-    "electricity": "Listrik (perkiraan, sesuai pemakaian)",
+    "electricity": "Listrik (prabayar, perkiraan untuk {count} orang)",
     "includedRow1": "Wi-Fi / air / housekeeping",
     "includedRow2": "Ganti handuk 2× seminggu",
     "included": "✓ Termasuk",
@@ -468,7 +468,8 @@
     "totalMonths": "Total ({months} bulan)",
     "total2Weeks": "Total (2 minggu)",
     "monthlyAvg": "Rata-rata per bulan",
-    "note": "* Harga ditetapkan dalam rupiah (IDR). Total bisa berubah sesuai pemakaian listrik · Deposit Rp 2.000.000 dibayar terpisah"
+    "note": "* Harga ditetapkan dalam rupiah (IDR). Listrik diperkirakan Rp 300.000 per orang per bulan dan tergantung pemakaian · Deposit Rp 2.000.000 dibayar terpisah",
+    "guestsLabel": "Jumlah tamu"
   },
   "ReviewPlaceholders": [
     {
@@ -717,7 +718,7 @@
       {
         "category": "pricing",
         "q": "Apa saja yang sudah termasuk dalam harga sewa?",
-        "a": "Sewa kamar, Wi-Fi, biaya listrik & air untuk area bersama, housekeeping seminggu sekali, serta ganti handuk dua kali seminggu. Hanya listrik di kamar yang ditagih terpisah sesuai pemakaian (kisaran Rp 600.000–1.200.000 per kamar per bulan). Harga ditetapkan dalam rupiah (IDR); nominal dalam yen Jepang atau dolar AS hanya perkiraan."
+        "a": "Sewa kamar, Wi-Fi, biaya listrik & air untuk area bersama, housekeeping seminggu sekali, serta ganti handuk dua kali seminggu. Listrik di kamar menggunakan sistem prabayar (token) dan tidak termasuk dalam biaya bulanan. Selama menginap, jika ingin mengisi ulang, cukup serahkan uangnya kepada staf dan staf akan mengisikannya untuk Anda (perkiraan Rp 300.000 per orang per bulan). Harga ditetapkan dalam rupiah (IDR); nominal dalam yen Jepang atau dolar AS hanya perkiraan."
       },
       {
         "category": "booking",
@@ -727,7 +728,7 @@
       {
         "category": "pricing",
         "q": "Bagaimana cara pembayarannya?",
-        "a": "Melalui transfer bank (bisa via Wise). Pembayaran pertama berupa pelunasan di muka untuk seluruh masa inap yang dipesan, dan reservasi terkonfirmasi setelah pembayaran kami terima. Deposit (Rp 2.000.000) dibayar terpisah saat check-in."
+        "a": "Melalui transfer bank (bisa via Wise). Sewa untuk seluruh masa inap dibayar lunas di muka, dan reservasi terkonfirmasi setelah pembayaran kami terima. Saat check-in, Anda hanya membayar deposit (Rp 2.000.000)."
       },
       {
         "category": "booking",
@@ -802,7 +803,7 @@
       "title1": "Cek ketersediaan,",
       "emphasis": "minta penawaran harga",
       "title2": ".",
-      "lead": "Silakan isi formulir di bawah ini. Dalam 2 hari kerja, kami akan mengabarkan ketersediaan kamar beserta penawaran harga final. Kami melayani dalam bahasa Jepang, Inggris, dan Indonesia. Permintaan ini belum mengikat, jadi Anda bisa membatalkannya kapan saja."
+      "lead": "Silakan isi formulir di bawah ini. Dalam 2 hari kerja, kami akan mengabarkan ketersediaan kamar beserta penawaran harga final. Kami melayani dalam bahasa Inggris dan Indonesia. Permintaan ini belum mengikat, jadi Anda bisa membatalkannya kapan saja."
     },
     "steps": {
       "step1": {
@@ -857,7 +858,7 @@
       "Lainnya"
     ],
     "terms": {
-      "agreeDescription": "Check-in 14.00 / check-out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, dan tidak boleh membawa hewan peliharaan. Pembatalan tidak dapat dilakukan mulai 3 hari sebelum check-in. Detail lengkap dapat dibaca melalui tautan (S&K terbuka di tab baru).",
+      "agreeDescription": "Check-in 14.00 / check-out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, dan tidak boleh membawa hewan peliharaan. Pembatalan paling lambat 7 hari sebelum check-in dikembalikan penuh (dikurangi biaya transfer bank); setelah itu tidak ada pengembalian dana. Detail lengkap dapat dibaca melalui tautan (S&K terbuka di tab baru).",
       "agreeLabel": "Saya telah membaca dan menyetujui <rules>tata tertib</rules> serta <terms>syarat & ketentuan (termasuk kebijakan pembatalan)</terms>."
     },
     "modal": {
@@ -895,14 +896,14 @@
       },
       "rentLine": "Sewa",
       "discountLine": "Diskon jangka panjang",
-      "electricityLine": "Listrik (perkiraan, sesuai pemakaian)",
+      "electricityLine": "Listrik (prabayar, perkiraan untuk {count} orang)",
       "includedLine": "Wi-Fi · housekeeping · handuk",
       "included": "Termasuk",
       "total": "Total",
       "monthlyAvg": "Rata-rata per bulan",
-      "depositTitle": "Pembayaran awal",
-      "depositSuffix": "(dibayar penuh di muka via transfer bank)",
-      "balanceNote": "Sisa pembayaran (termasuk deposit Rp 2.000.000) dibayar saat check-in"
+      "depositTitle": "Dibayar sebelum check-in",
+      "depositSuffix": "(seluruh biaya sewa, via transfer bank)",
+      "balanceNote": "Saat check-in, Anda hanya membayar deposit Rp 2.000.000. Listrik prabayar diisi ulang selama menginap."
     },
     "success": {
       "eyebrow": "Reservasi · Terkirim",
@@ -925,7 +926,7 @@
       "nextSteps": [
         "Kami akan mengirim email konfirmasi dalam 2 hari kerja.",
         "Setelah ketersediaan kamar kami cek, kami akan mengirimkan penawaran harga final beserta informasi cara pembayaran.",
-        "Jika semuanya sesuai, kami lanjutkan ke penandatanganan kontrak dan pembayaran reservasi."
+        "Jika semuanya sesuai, kami lanjutkan ke penandatanganan kontrak dan pelunasan seluruh biaya sewa melalui transfer bank."
       ],
       "resendButton": "Kirim permintaan lain",
       "greeting": "Terima kasih, {name}!",
@@ -947,7 +948,7 @@
     "items": [
       "Fotokopi identitas yang berlaku (paspor, dll.) dari seluruh penghuni wajib diserahkan saat check-in. Hanya orang yang terdaftar yang berhak menghuni kamar.",
       "Pembayaran pertama (penuh untuk seluruh masa inap) wajib dilunasi di muka, dan reservasi terkonfirmasi setelah pembayaran diterima. Deposit dibayarkan terpisah saat check-in.",
-      "Pembatalan tidak dapat dilakukan mulai 3 (tiga) hari sebelum check-in.",
+      "Pembatalan paling lambat 7 (tujuh) hari sebelum check-in akan dikembalikan penuh setelah dikurangi biaya transfer bank yang sebenarnya. Pembatalan setelah batas tersebut tidak mendapat pengembalian dana.",
       "Tidak diperkenankan menerima tamu di dalam kamar tanpa izin terlebih dahulu dari pengelola.",
       "Tidak diperkenankan membawa hewan peliharaan.",
       "Perpanjangan sewa dianggap sebagai reservasi baru, sehingga hanya dapat diterima apabila kamar masih tersedia.",

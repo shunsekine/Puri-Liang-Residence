@@ -21,10 +21,12 @@ export default function RoomSimulator() {
 
     const [months, setMonths] = useState(3);
     const [roomId, setRoomId] = useState<RoomId>('villa');
+    const [guests, setGuests] = useState(2);
 
     const r = ROOMS.find(x => x.id === roomId)!;
     const rent = months === 0.5 ? roomPrice2WeeksAmount(r, code) : roomPriceAmount(r, code) * months;
-    const elec = electricityAmount(code) * months;
+    // 電気代の目安は 1 名あたり・月額（プリペイド式。滞在中にチャージ）
+    const elec = electricityAmount(code) * guests * months;
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
     const total = rent - disc + elec;
@@ -50,7 +52,7 @@ export default function RoomSimulator() {
                                     key={rr.id}
                                     type="button"
                                     className={`v2-simx-opt${rr.id === roomId ? ' on' : ''}`}
-                                    onClick={() => setRoomId(rr.id)}
+                                    onClick={() => { setRoomId(rr.id); setGuests(g => Math.min(g, rr.capacity)); }}
                                 >
                                     <div className="n">{tRoom(`${rr.id}.name`)}</div>
                                     <div className="s">{rr.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: rr.capacity })}</div>
@@ -75,12 +77,24 @@ export default function RoomSimulator() {
                             <span className={`tag${discount >= 0.15 ? ' on' : ''}`}>{t('discount6m')}</span>
                         </div>
                     </div>
+
+                    <div className="v2-simx-field">
+                        <span className="v2-simx-lbl">{t('guestsLabel')}</span>
+                        <div className="v2-simx-stepper">
+                            <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} aria-label="−">−</button>
+                            <div className="num">
+                                <span className="big">{guests}</span>
+                                <span className="unit">{tCommon('guestsUnit', { count: guests })}</span>
+                            </div>
+                            <button type="button" onClick={() => setGuests(Math.min(r.capacity, guests + 1))} aria-label="+">＋</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="v2-simx-right">
                     <div className="v2-simx-head">
                         <div className="t">{t('estimateTitle')}</div>
-                        <div className="s">{tRoom(`${r.id}.name`)} × {duration}</div>
+                        <div className="s">{tRoom(`${r.id}.name`)} × {duration} · {tCommon('guestsCount', { count: guests })}</div>
                     </div>
                     <div className="v2-simx-line">
                         <span className="l">{t('rent')}</span>
@@ -93,7 +107,7 @@ export default function RoomSimulator() {
                         </div>
                     )}
                     <div className="v2-simx-line">
-                        <span className="l">{t('electricity')}</span>
+                        <span className="l">{t('electricity', { count: guests })}</span>
                         <span className="r">{tCommon('approx')} {formatPrice(code, elec)}</span>
                     </div>
                     <div className="v2-simx-line">

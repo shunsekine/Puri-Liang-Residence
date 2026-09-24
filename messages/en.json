@@ -68,7 +68,7 @@
       "emphasis": "but built for the long haul",
       "title2": ".",
       "p1": "Puri Liang is not a resort. We have a pool, but it is not an infinity pool, and we are not on the beach. We are a regular residence built for families and colleagues spending a few months on the island.",
-      "p2": "Everything here is set up so daily life just works. Wi-Fi, water, weekly housekeeping, and towel changes are included in the monthly rate, so costs don't pile up later — electricity is the only extra, billed at actual usage. Hot water around the clock, and staff who respond even on weekends.",
+      "p2": "Everything here is set up so daily life just works. Wi-Fi, water, weekly housekeeping, and towel changes are included in the monthly rate, so costs don't pile up later — the only extra is in-room electricity, which is prepaid. Hot water around the clock, and staff who respond even on weekends.",
       "quote": "\"Too long for a hotel, too short for a lease. We exist to fill that gap.\""
     },
     "roomsPreview": {
@@ -152,7 +152,7 @@
           },
           {
             "k": "Kitchen",
-            "v": "Fridge & stove"
+            "v": "Fridge · stove lent free (conditions apply)"
           },
           {
             "k": "Hot water",
@@ -210,7 +210,7 @@
     "included": {
       "eyebrow": "Included · in the monthly rate",
       "title": "All 9 items are included in your monthly rate.",
-      "lead": "The only variable cost is electricity, billed at actual usage. Everything else is fixed."
+      "lead": "The only cost outside the monthly rate is in-room electricity, which is prepaid. Everything else is fixed."
     },
     "voices": {
       "eyebrow": "Voices",
@@ -234,7 +234,7 @@
       "title1": "Three room types, three",
       "emphasis": "ways of living",
       "title2": ".",
-      "lead": "Four self-contained rooms to suit different group sizes and purposes — from a spacious villa for families to studios for anyone who wants a private space to focus."
+      "lead": "Three types of self-contained rooms to suit different group sizes and purposes — from a spacious villa for families to studios for anyone who wants a private space to focus."
     },
     "specLabels": {
       "size": "Size",
@@ -246,8 +246,8 @@
     "reserveCta": "Reserve →",
     "amenitiesHeader": {
       "eyebrow": "Amenities",
-      "title": "Included with every room",
-      "lead": "All 9 items are included in your monthly rate. No surprise bills after you move in."
+      "title": "Included in the monthly rate",
+      "lead": "All 9 items are included in your monthly rate (only the free stove loan has conditions). No surprise bills after you move in."
     },
     "houseRulesHeader": {
       "eyebrow": "House Rules",
@@ -352,7 +352,7 @@
       "Wi-Fi included",
       "Weekly housekeeping",
       "10% off from 3 months",
-      "JP · EN · ID",
+      "EN · ID",
       "Est. 2024"
     ]
   },
@@ -417,7 +417,7 @@
         "tag": "Comfort"
       },
       {
-        "label": "Stove",
+        "label": "Free stove & kitchenware loan (Villa & King Studio, stays of 1+ month)",
         "tag": "Kitchen"
       },
       {
@@ -452,7 +452,7 @@
     "title1": "See what you'll pay,",
     "emphasis": "before you commit",
     "title2": ".",
-    "lead": "Pick a room and length of stay to see what you'd actually pay, including electricity and discounts.",
+    "lead": "Pick a room, length of stay, and number of guests to see what you'd actually pay, including discounts and estimated electricity.",
     "roomLabel": "Room type",
     "monthsLabel": "Length of stay",
     "discount3m": "10% off for 3+ months",
@@ -460,7 +460,7 @@
     "estimateTitle": "Cost estimate",
     "rent": "Rent",
     "discountRow": "Long-stay discount",
-    "electricity": "Electricity (estimated, billed by usage)",
+    "electricity": "Electricity (prepaid, est. for {count, plural, one {# guest} other {# guests}})",
     "includedRow1": "Wi-Fi / water / housekeeping",
     "includedRow2": "Towel changes (twice a week)",
     "included": "✓ Included",
@@ -468,7 +468,8 @@
     "totalMonths": "Total ({months, plural, one {# month} other {# months}})",
     "total2Weeks": "Total (2 weeks)",
     "monthlyAvg": "Monthly average:",
-    "note": "* Prices are set in IDR; USD amounts are approximate. Totals vary with exchange rates and electricity usage. A separate Rp 2,000,000 deposit applies."
+    "note": "* Prices are set in IDR; USD amounts are approximate. Electricity is estimated at Rp 300,000 per guest per month and depends on actual usage. A separate Rp 2,000,000 deposit applies.",
+    "guestsLabel": "Guests"
   },
   "ReviewPlaceholders": [
     {
@@ -717,7 +718,7 @@
       {
         "category": "pricing",
         "q": "What's included in the rate?",
-        "a": "Rent, Wi-Fi, utilities for shared areas, weekly housekeeping, and towel changes twice a week. Only electricity is billed separately, based on actual usage (roughly Rp 600,000–1,200,000 per room per month). Prices are set in Indonesian rupiah (IDR); JPY and USD amounts are approximate."
+        "a": "Rent, Wi-Fi, utilities for shared areas, weekly housekeeping, and towel changes twice a week. In-room electricity is prepaid (token-based) and not included in the monthly rate: whenever you need to top up during your stay, just hand the amount to our staff and they'll do it for you (roughly Rp 300,000 per person per month). Prices are set in Indonesian rupiah (IDR); JPY and USD amounts are approximate."
       },
       {
         "category": "booking",
@@ -727,7 +728,7 @@
       {
         "category": "pricing",
         "q": "How can I pay?",
-        "a": "By bank transfer (Wise is accepted). Your booking is confirmed once you've paid for your entire stay in advance. The deposit (Rp 2,000,000) is paid separately at check-in."
+        "a": "By bank transfer (Wise is accepted). Your booking is confirmed once you've paid the rent for your entire stay in advance. At check-in, you pay only the deposit (Rp 2,000,000)."
       },
       {
         "category": "booking",
@@ -802,7 +803,7 @@
       "title1": "Check availability,",
       "emphasis": "get a quote",
       "title2": ".",
-      "lead": "Fill out the form below, and we'll reply within two business days with availability and a final quote. We can help in Japanese, English, or Indonesian. This is only an inquiry, not a booking or hold, so you're free to cancel at any time."
+      "lead": "Fill out the form below, and we'll reply within two business days with availability and a final quote. We reply in English or Indonesian. This is only an inquiry, not a booking or hold, so you're free to cancel at any time."
     },
     "steps": {
       "step1": {
@@ -857,7 +858,7 @@
       "Other"
     ],
     "terms": {
-      "agreeDescription": "Check-in 14:00 / check-out 11:00, quiet hours 22:00–07:00, no smoking indoors, no pets. Cancellations are not accepted within 3 days of check-in. Tap the links for full details (the terms open in a new tab).",
+      "agreeDescription": "Check-in 14:00 / check-out 11:00, quiet hours 22:00–07:00, no smoking indoors, no pets. Cancellations up to 7 days before check-in are refunded in full (minus bank fees); after that, no refund. Tap the links for full details (the terms open in a new tab).",
       "agreeLabel": "I have read and agree to <rules>the house rules</rules> and <terms>the terms & conditions (incl. cancellation policy)</terms>."
     },
     "modal": {
@@ -895,14 +896,14 @@
       },
       "rentLine": "Rent",
       "discountLine": "Long-stay discount",
-      "electricityLine": "Electricity (est., billed by usage)",
+      "electricityLine": "Electricity (prepaid, est. for {count, plural, one {# guest} other {# guests}})",
       "includedLine": "Wi-Fi · housekeeping · towels",
       "included": "Included",
       "total": "Total",
       "monthlyAvg": "Avg. / month",
-      "depositTitle": "Initial payment",
-      "depositSuffix": "(paid in full upfront by bank transfer)",
-      "balanceNote": "The remaining balance (incl. the Rp 2,000,000 deposit) is paid at check-in"
+      "depositTitle": "Due before check-in",
+      "depositSuffix": "(full rent, by bank transfer)",
+      "balanceNote": "At check-in, you pay only the Rp 2,000,000 deposit. Electricity is prepaid and topped up during your stay."
     },
     "success": {
       "eyebrow": "Reservation · Sent",
@@ -925,7 +926,7 @@
       "nextSteps": [
         "We'll send a confirmation email within 2 business days.",
         "Once we've checked availability, we'll send you a final quote and payment details.",
-        "If you're happy with everything, we'll move on to signing the agreement and payment."
+        "If you're happy with everything, we'll move on to signing the agreement and paying the full rent by bank transfer."
       ],
       "resendButton": "Send another request",
       "greeting": "Thank you, {name}!",
@@ -947,7 +948,7 @@
     "items": [
       "A photocopy of a valid ID (passport, etc.) for every occupant must be submitted at check-in. Only registered persons may occupy the room.",
       "Full payment for the entire reservation period must be made in advance to confirm your booking. The deposit is paid separately at check-in.",
-      "Cancellations are not accepted within 3 (three) days of check-in.",
+      "Cancellations made up to 7 (seven) days before check-in are refunded in full, minus the actual bank transfer fee for the refund. Cancellations made after that are non-refundable.",
       "Receiving guests in the room without prior permission from management is not permitted.",
       "No pets are permitted.",
       "A rental extension is treated as a new reservation and can be accepted only if a room is available.",

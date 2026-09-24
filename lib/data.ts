@@ -12,7 +12,7 @@
 //   - King Studio: 3F, king-size bed only
 //   - Twin Studio: 2F, 2 × semi-double beds
 //   - House rules: pool times removed
-//   - Cancellation: 2 weeks 50% / 1 week 25% / non-refundable thereafter
+//   - Cancellation: full refund (minus bank fee) up to 7 days before check-in, non-refundable after (2026-09)
 //   - Workspace section removed from Home
 //   - East/West/South/North crossroads on Location
 
@@ -148,9 +148,11 @@ export const LOCATION = {
 // -----------------------------------------------------------------------------
 
 export const SIMULATOR_DEFAULTS = {
+  // 電気代の目安: 1名あたり月額（2026-09 オーナー確認）。電気はプリペイド（トークン）式で、
+  // 滞在中にゲストがスタッフへ代金を渡してチャージを代行してもらう。前払い（家賃）には含めない
   electricityIDR: 300000,
-  electricityJPY: 2700,   // 旧 electricityJPYPerMonth(9000) を改名・更新
-  electricityUSD: 18,     // 追加
+  electricityJPY: 2700,
+  electricityUSD: 18,
   discounts: [
     { months: 6, rate: 0.15 },
     { months: 3, rate: 0.10 },
@@ -162,12 +164,11 @@ export const SIMULATOR_DEFAULTS = {
 // -----------------------------------------------------------------------------
 
 export const CANCELLATION = {
-  // 1 week before check-in: 100% refund
-  // 3 days before check-in: 50% refund
-  // Less than 3 days: non-refundable
+  // Up to 7 days before check-in: full refund, minus the actual bank transfer fee for the refund
+  // After that: non-refundable
+  // (2026-09 unified with FAQ / Terms; the old 3-day tier is gone)
   tiers: [
     { daysBefore: 7, refundPct: 100 },
-    { daysBefore: 3, refundPct: 50 },
     { daysBefore: 0, refundPct: 0 },
   ],
 } as const;

@@ -90,17 +90,19 @@ export default function ReserveForm() {
     const r = ROOMS.find(x => x.id === room)!;
     const unitPrice = roomPriceAmount(r, code);
     const rent = months === 0.5 ? roomPrice2WeeksAmount(r, code) : unitPrice * months;
-    const elec = electricityAmount(code) * months;
+    // 電気代の目安は 1 名あたり・月額。電気はプリペイド式で滞在中にチャージするため、前払い（upfront）には含めない
+    const elec = electricityAmount(code) * guests * months;
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
-    const total = rent - disc + elec;
+    const upfront = rent - disc;
+    const total = upfront + elec;
     const checkout = addMonths(checkin, months);
     const duration = months === 0.5 ? tCommon('weeksCount', { count: 2 }) : tCommon('monthsCount', { count: months });
     const guestsLabel = tCommon('guestsCount', { count: guests });
 
     // IDR calculations for the payload (actual billing is always in IDR)
     const rentIDR = months === 0.5 ? r.price2WeeksIDR! : r.priceIDR * months;
-    const elecIDR = SIMULATOR_DEFAULTS.electricityIDR * months;
+    const elecIDR = SIMULATOR_DEFAULTS.electricityIDR * guests * months;
     const discIDR = Math.round(rentIDR * discount);
     const totalIDR = rentIDR - discIDR + elecIDR;
 
@@ -269,7 +271,7 @@ export default function ReserveForm() {
                                                 key={rr.id}
                                                 type="button"
                                                 className={`v2-res-room${rr.id === room ? ' on' : ''}`}
-                                                onClick={() => setRoom(rr.id)}
+                                                onClick={() => { setRoom(rr.id); setGuests(g => Math.min(g, rr.capacity)); }}
                                             >
                                                 <div className="n">{tRoom(`${rr.id}.name`)}</div>
                                                 <div className="s">{rr.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: rr.capacity })} · {tRoom(`${rr.id}.floor`)}</div>
@@ -480,7 +482,7 @@ export default function ReserveForm() {
                                     </div>
                                 )}
                                 <div className="line">
-                                    <span className="l">{t('summary.electricityLine')}</span>
+                                    <span className="l">{t('summary.electricityLine', { count: guests })}</span>
                                     <span className="r">{tCommon('approx')} {formatPrice(code, elec)}</span>
                                 </div>
                                 <div className="line">
@@ -501,7 +503,7 @@ export default function ReserveForm() {
                             <div className="v2-res-summary-deposit">
                                 <div className="k">{t('summary.depositTitle')}</div>
                                 <div className="v">
-                                    {tCommon('approx')} {formatPrice(code, total)}{' '}
+                                    {tCommon('approx')} {formatPrice(code, upfront)}{' '}
                                     <small>{t('summary.depositSuffix')}</small>
                                 </div>
                                 <div className="note">{t('summary.balanceNote')}</div>
