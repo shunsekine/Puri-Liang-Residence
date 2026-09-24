@@ -14,6 +14,7 @@ GAS_BUILD_DIR="$OUT" node test/abuse.test.js
 GAS_BUILD_DIR="$OUT" node test/optionalFields.test.js
 GAS_BUILD_DIR="$OUT" node test/templates.test.js
 GAS_BUILD_DIR="$OUT" node test/retention.test.js
+GAS_BUILD_DIR="$OUT" node test/hardening.test.js
 
 # 貼り付けと同じ形でも通すこと（build-gs.sh の出力を 1 つのグローバル空間に読み込み、ファイル順を正逆で 2 回）
 GLOBAL="$(mktemp -d)"
@@ -24,7 +25,7 @@ for m in Main EmailService Retry WebhookParser SpreadsheetService Retention Conf
   echo "module.exports = require('$PWD/test/global-loader.js');" > "$GLOBAL/shim/$m.js"
 done
 for order in forward reverse; do
-  for t in sendAutoReplies doPost abuse optionalFields templates retention; do
+  for t in sendAutoReplies doPost abuse optionalFields templates retention hardening; do
     GAS_ORDER="$order" GAS_DIST_DIR="$GLOBAL/dist" GAS_BUILD_DIR="$GLOBAL/shim" node "test/$t.test.js" > "$GLOBAL/out.txt" 2>&1 \
       || { cat "$GLOBAL/out.txt"; echo "global scope ($order): $t FAILED"; exit 1; }
   done

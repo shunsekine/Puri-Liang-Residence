@@ -9,7 +9,7 @@
 
 ## ① 安定情報（更新＝ユーザーの明確な指示時のみ）
 
-最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `3556d41`（main）
+最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `c81039b`（main）
 
 ### 概要とオーナーとのスタンス
 
@@ -47,7 +47,7 @@
 |---|---|---|
 | 型チェック | `npx tsc --noEmit` | 0 |
 | ビルド（postbuild で成果物の秘密検査） | `npm run build` | 0 |
-| Lint | `npm run lint` | 現状 **1**（既存 4 件。増やさない） |
+| Lint | `npm run lint` | 現状 **1**（既存のエラー 2 件。増やさない） |
 | GAS | `npm run gas:check`（型チェック＋スタブ付き合成テスト） | 0 |
 | 公開物の最低ライン（§11 ③⑤）と翻訳の契約 | `npm run check:public`（検出力の自己テスト・秘密・env allowlist・ログの PII・route の契約テスト・翻訳のキー一致／ICU 構文／空リンク `href="#"`／プライバシーポリシーへの導線） | 0 |
 | モデル層監査 | `python3 /home/ubuntu/agent-global-rules/audit_model_layer.py . --gate` | 0 |
@@ -88,7 +88,7 @@
 
 ## ③ 引継ぎ・作業状態（随時更新）
 
-最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `3556d41`
+最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `c81039b`
 
 ### in_flight
 
@@ -96,7 +96,7 @@
 
 ### 次にやること（優先順）
 
-1. **WO-PB-3F の残り**: F3・F5・F6・段階 A の秘密の空白除去（変換のスクリプト化 `build-gs.sh`・1 スコープ検査・README の手順は済み）（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md`）。
+1. **WO-PB-3F の残り（F3・F5・F6・秘密の空白除去）の本番反映**: コードは済み。main へのマージ・GAS の貼り付け・「デプロイを管理 → 鉛筆 → 新バージョン」（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md` §3）。
 2. **Templates の文面をリポジトリで管理するか検討**（今はシートにしかなく、2026-09 に事業ルールとずれていた）。
 3. Google Search Console で再インデックス申請（`/privacy` 追加を含む）。
 4. Next.js 16 の `middleware.ts` → `proxy.ts` 移行（廃止予定の警告）。

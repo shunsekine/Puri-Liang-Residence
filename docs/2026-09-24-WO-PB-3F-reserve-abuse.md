@@ -1,6 +1,6 @@
 # WO-PB-3F: 予約フォームの悪用対策（攻撃者役レビュー F1・F2 ほか）
 
-最終更新: 2026-09-24 / 作成: Claude (Opus 5.5) / 起点: `docs/2026-09-23-WO-PB-3-attacker-review.md` の F1・F2（高）
+最終更新: 2026-09-24（F3・F5・F6・秘密の空白除去） / 作成: Claude (Opus 5.5) / 起点: `docs/2026-09-23-WO-PB-3-attacker-review.md` の F1・F2（高）
 
 > **目的**: 誰でも叩ける `/api/reserve` を使って、(F1) オーナーの Gmail から任意のアドレスへ自動返信を送らせる、(F2) 受信時刻を偽って 15 分の待ちを飛ばす、を止める。
 > **推奨モデル**: Opus 5（GAS の送信判定と本番反映の順序を含むため）。
@@ -32,7 +32,7 @@
 - `gas-booking-automation/build-gs.sh`: import 行と `export` を外し、`tsc --target ES2019 --module none` で `gas-booking-automation/dist/*.js` を作る（2026-09-24 に手で行った手順）。`dist/` は `.gitignore`。（2026-09-24 済み。`test/run.sh` の 1 スコープ検査も済み）
 - `test/run.sh` に「dist を 1 つのグローバル空間に読み込んで、既存テストを通す」を追加する（2026-09-24 に手で確認した方法）。今の CommonJS ビルドでのテストは残す。
 - README の「`clasp push`」の手順を、実態（変換→貼り付け→「デプロイを管理 → 鉛筆 → 新バージョン」→フォームから 1 件）に直す。（2026-09-24 済み: GAS README「反映手順」）
-- 共有秘密の照合前に、前後の空白を取り除く（route と `WebhookParser.isAuthorized` の両方）。テストを 1 ケース足す。
+- 共有秘密の照合前に、前後の空白を取り除く（route と `WebhookParser.isAuthorized` の両方）。テストを 1 ケース足す。（2026-09-24 済み。空白だけの値は除いた後の長さで未設定と同じ＝fail-closed）
 
 ### 段階 B: route（F2・F5・F6）
 
@@ -43,6 +43,7 @@
   - `room_id` ∈ `villa|king|twin` / `guests`: 整数 1〜10 / `language` ∈ `ja|en|id`
   - `checkin`・`checkout`: `YYYY-MM-DD`。`checkout > checkin`。`checkin` は今日（UTC）の前日以降（バリとの時差の分だけ余裕を持たせる）
 - catch 節は固定文言にする（F6。`error.message` を返さない）。
+- （2026-09-24 済み: サイズ上限 16 KB・壊れた JSON は 400・エラーの応答は `{ success: false }` だけ。GAS の応答も透過せず、成功時の問い合わせ ID も返さない。GAS への通信失敗と GAS の失敗応答は 502。GAS の `doPost` の例外は `error: 'internal'`）
 - テスト（`tests/reserve-route.test.mjs` に追加）: 上記の各違反が 400 で GAS を呼ばないこと／余分な項目と `submitted_at` が転送されないこと／正常系は従来どおり転送されること。
 
 ### 段階 C: GAS（F1・F2・F3）
@@ -52,7 +53,7 @@
 - `sendAutoReplies`: 自動送信の直前に次を判定し、当たれば送らずに下書き＋`IRREGULAR_FLAG` 追記＋担当者への通知（既存の失敗通知と同じく 1 実行 1 通）:
   - 同じアドレスへ 24 時間以内に `1次送信済` がある
   - 今日（スクリプトのタイムゾーン）の自動送信が `Settings.DAILY_AUTO_REPLY_CAP`（**既定 20**・未設定なら 20）に達している
-- `appendInquiry`: 文字列の値が `= + - @` やタブで始まるなら `'` を前置する（F3。N 列の WhatsApp テキストも）。
+- `appendInquiry`: 文字列の値が `= + - @` やタブで始まるなら `'` を前置する（F3。N 列の WhatsApp テキストも）。（2026-09-24 済み。CR も対象。テストは `test/hardening.test.js`）
 - テスト（`test/` に追加）: 過去の `submitted_at` を送っても受信時刻が現在になる／同じアドレス 2 件目は下書き／上限の次の 1 件は下書き／`=HYPERLINK(...)` の名前が `'` 付きで記帳される。
 
 ### 共通
@@ -83,5 +84,6 @@
 
 ## 範囲外の気づき（本 WO では直さない）
 
-- フォームが送る `phone`・`nationality`・料金は GAS で記録されていない（`parsePayload` が読まない）。担当者が電話番号を必要とするなら別途対応が要る。オーナー側の運用を確認してから決める。
+- ~~フォームが送る `phone`・`nationality`・料金は GAS で記録されていない~~ → 2026-09-24 オーナー決定で電話・国籍・滞在目的は任意入力にして P〜R 列に記帳（料金は記録しない）。
+- route は GAS の応答が JSON として読めないとき成功扱いにしている（`gasRes.json().catch(() => ({ success: true }))`）。GAS がスクリプトの読み込み自体で失敗して HTML のエラーページを返すと、フォームには成功と出るが記帳されない [推測・本番で起きた記録は無い]。成功時に GAS が JSON 以外を返す場合があるかを確かめてから、失敗扱いに変えるか決める。
 - F4（通知文への改行差し込み）は、段階 B の `name` の改行禁止で入口は狭まる。`notes` の改行はそのまま（正当な用途があるため）。F7（ID 採番の競合）は件数が少ないうちは実害が小さいので見送る。

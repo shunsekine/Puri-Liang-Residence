@@ -31,12 +31,18 @@ export class WebhookParser {
   /**
    * 共有秘密の検証。Web アプリ URL は「全員（匿名）」に公開されているため、URL を知っているだけでは記帳できないようにする。
    * 期待値が未設定・短すぎる場合は拒否する（fail-closed。未設定を「検証しない」にしない）。
+   * 両方とも前後の空白を除いてから比べる（スクリプト プロパティや Vercel に貼るときに入る改行・空白で正しい送信を拒否しない。
+   * 空白だけの値は除いた後の長さで未設定と同じになる。WO-PB-3F 段階 A）。
    */
-  static isAuthorized(payload: unknown, expected: string | null | undefined): boolean {
-    if (typeof expected !== 'string' || expected.length < WEBHOOK_SECRET_MIN_LENGTH) return false;
+  static isAuthorized(payload: unknown, rawExpected: string | null | undefined): boolean {
+    if (typeof rawExpected !== 'string') return false;
+    const expected = rawExpected.trim();
+    if (expected.length < WEBHOOK_SECRET_MIN_LENGTH) return false;
     if (typeof payload !== 'object' || payload === null) return false;
-    const given = (payload as Record<string, unknown>)[WEBHOOK_SECRET_FIELD];
-    if (typeof given !== 'string' || given.length !== expected.length) return false;
+    const rawGiven = (payload as Record<string, unknown>)[WEBHOOK_SECRET_FIELD];
+    if (typeof rawGiven !== 'string') return false;
+    const given = rawGiven.trim();
+    if (given.length !== expected.length) return false;
     let diff = 0;
     for (let i = 0; i < expected.length; i++) diff |= given.charCodeAt(i) ^ expected.charCodeAt(i);
     return diff === 0;

@@ -36,9 +36,10 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
     // レスポンスの返却
     return ContentService.createTextOutput(JSON.stringify({ success: true, id: inquiry.id }))
       .setMimeType(ContentService.MimeType.JSON);
-  } catch (error: any) {
+  } catch (error) {
+    // 応答は固定文言（例外のメッセージにはシートの ID や値が入りうる。詳細は実行ログだけ。WO-PB-3F F6）
     console.error('[doPost] Error:', error);
-    return ContentService.createTextOutput(JSON.stringify({ success: false, error: error.message }))
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'internal' }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }

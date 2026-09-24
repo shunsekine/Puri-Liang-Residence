@@ -6,6 +6,8 @@ type SheetValues = ReturnType<GoogleAppsScript.Spreadsheet.Range['getValues']>;
 
 /** 保存期間の匿名化で 1 回の RangeList に入れる行数の上限（A1 表記の並びが長くなりすぎないように） */
 const ANONYMIZE_BATCH_ROWS = 100;
+/** 先頭がこれらだと Sheets が数式として解釈しうる（= + - @。タブ・CR は CSV に書き出したときに同じ扱いになりうる） */
+const CELL_FORMULA_LEAD_RE = /^[=+\-@\t\r]/;
 
 export class SpreadsheetService {
   /**
@@ -104,6 +106,14 @@ export class SpreadsheetService {
     row[COLUMNS.INQUIRIES.PHONE - 1] = inquiry.phone ? `'${inquiry.phone}` : '';
     row[COLUMNS.INQUIRIES.NATIONALITY - 1] = inquiry.nationality;
     row[COLUMNS.INQUIRIES.STAY_PURPOSES - 1] = inquiry.stayPurposes;
+
+    // 数式の無害化（WO-PB-3F F3）。フォームの値（氏名・備考など）が = で始まると、Sheets は数式として評価する
+    // （=HYPERLINK で担当者の画面に偽のリンク、=IMPORTXML で行の値を外部へ送らせる）。' を前置すると文字列になり、
+    // セルの表示と getValues には ' が出ない（電話の ' と同じ）。途中の = や、先頭が ' の値（電話）は変えない
+    for (let i = 0; i < row.length; i++) {
+      const v = row[i];
+      if (typeof v === 'string' && CELL_FORMULA_LEAD_RE.test(v)) row[i] = `'${v}`;
+    }
 
     // 記帳失敗＝問い合わせの消失なので、まれな二重行のリスクより優先してリトライする
     // （二重行は O列 MessageId で判別可能）
