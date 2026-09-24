@@ -24,7 +24,12 @@ global.GmailApp = {
   sendEmail: (to, subject, body) => { if (to === 'BAD') throw new Error('Invalid email: BAD'); calls.sent.push({ to, subject }); },
   createDraft: (to, subject) => calls.drafts.push({ to, subject }),
 };
-global.Utilities = { sleep: (ms) => calls.sleep.push(ms) };
+// formatDate・Session は送信上限（WO-PB-3F F1）の「今日」の判定が使う。上限の挙動そのものは abuse.test.js で見る
+global.Utilities = {
+  sleep: (ms) => calls.sleep.push(ms),
+  formatDate: (d, tz) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d),
+};
+global.Session = { getScriptTimeZone: () => 'Asia/Tokyo' };
 console.warn = () => {}; console.error = () => {};
 
 const { EmailService } = require(process.env.GAS_BUILD_DIR + '/EmailService');

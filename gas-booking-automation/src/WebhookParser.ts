@@ -6,6 +6,10 @@ export const WEBHOOK_SECRET_FIELD = 'webhook_secret';
 export const WEBHOOK_SECRET_PROPERTY = 'WEBHOOK_SECRET';
 /** これより短い秘密は未設定と同じ扱い（推測・総当たりに耐えない値で「設定済み」にしない）。 */
 export const WEBHOOK_SECRET_MIN_LENGTH = 32;
+/** app/api/reserve/route.ts・components/pages/ReserveForm.tsx の validate() と同じ式（WO-PB-3F F1） */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** 氏名に URL らしき文字列（{Name} 経由で自動返信の本文へ宣伝・誘導文を差し込ませない。WO-PB-3F F1） */
+const URL_LIKE_RE = /http|www\.|:\/\//i;
 
 export class WebhookParser {
   /**
@@ -35,7 +39,9 @@ export class WebhookParser {
     const periodCategory = diffDays >= 30 ? '1ヶ月以上先' : '1ヶ月以内';
 
     return {
-      timestamp: new Date(payload.submitted_at || new Date().toISOString()),
+      // 受信時刻はサーバー時刻。payload.submitted_at は送り手が自由に書けるので使わない
+      // （過去にすると 15 分の待ちを飛ばして即時送信できた。WO-PB-3F F2）
+      timestamp: new Date(),
       name: payload.name || 'Unknown',
       email: payload.email,
       language: payload.language || 'en',
@@ -94,6 +100,21 @@ export class WebhookParser {
       flags.push(`過去日付検知(チェックイン: ${inquiry.checkIn.toLocaleDateString()})`);
     }
 
+    // 4. メール形式（WO-PB-3F F1）。route でも検証するが、判定は記帳する側にも置く（旗付きは自動送信せず下書き）
+    if (!WebhookParser.isValidEmail(inquiry.email)) {
+      flags.push('メール形式不正');
+    }
+
+    // 5. 氏名に URL らしき文字列（WO-PB-3F F1）
+    if (URL_LIKE_RE.test(String(inquiry.name))) {
+      flags.push('氏名にURL');
+    }
+
     return flags.length > 0 ? flags.join(' / ') : 'なし';
+  }
+
+  /** メールアドレスの形式と長さ（254 文字まで） */
+  static isValidEmail(email: unknown): boolean {
+    return typeof email === 'string' && email.length <= 254 && EMAIL_RE.test(email);
   }
 }

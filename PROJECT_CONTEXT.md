@@ -116,7 +116,7 @@ messages/{ja,en,id}.json
 
 ## 次にやること（公開後 / 優先順）
 
-0. **【高】WO-PB-3F（F1・F2・F3・F5・F6 と GAS 変換のスクリプト化・秘密の空白除去）**: `docs/2026-09-24-WO-PB-3F-reserve-abuse.md`。着手前に §5 の 2 点をユーザーに確認。
+0. **【高】WO-PB-3F**（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md`）: **F1・F2 はコード対応済み・本番未反映**（ブランチ `wo-pb-3f-reserve-abuse`。§5 は上限 20・Turnstile なしで確定）。反映は WO §3（GAS は `Config`・`EmailService`・`SpreadsheetService`・`WebhookParser` を貼る）。残り: F3・F5・F6・段階 A（GAS 変換のスクリプト化・秘密の空白除去）。
 1. （0 に統合）
 2. **Google Search Console で再インデックス申請**。
 3. King Studio 写真差し込み。
@@ -126,7 +126,7 @@ messages/{ja,en,id}.json
 ## 既知の問題・触ってはいけない箇所
 
 - **フォーム**: 環境変数 `GAS_WEBHOOK_URL` 未設定時はモック成功レスポンスを返す安全設計。Vercel設定忘れに注意。URL 設定済みで `GAS_WEBHOOK_SECRET` 未設定なら 503（転送しない）。
-- **§11 ④ 攻撃者役レビュー**: 2026-09-23 Fable 5.1（実装は Opus 5.5）。所見 8 件（高 2・中 3・低 3）、**F1 スパム踏み台・F2 記帳偽造（高）は未対応**。詳細と状態は `docs/2026-09-23-WO-PB-3-attacker-review.md`。
+- **§11 ④ 攻撃者役レビュー**: 2026-09-23 Fable 5.1（実装は Opus 5.5）。所見 8 件（高 2・中 3・低 3）。**F1 スパム踏み台・F2 記帳偽造（高）はコード対応済み・本番未反映**（WO-PB-3F）、F3〜F7 は未対応。詳細と状態は `docs/2026-09-23-WO-PB-3-attacker-review.md`。
 - **§11 ⑤ ログ**: Next の route と GAS は本文・個人情報をログに書かない（検査 C）。記録は Sheets の `Inquiries`（ID・受信日時）が担う。閲覧者の記録は無い（ログインが無いため）。
 - **VM共用**: 他エージェント（Gemini/Antigravity/Claude）のプロセス・作業を予告なく停止/上書きしない。
 - **GAS のデプロイは `puriliangresidence.bali@gmail.com` で行う**: スプレッドシートとスクリプトの所有者は個人アカウントだが、トリガー（`processAutoReplies` 等）は puriliang が作成しており、顧客への返信はそこから送られる。個人アカウントで認可・手動実行すると個人の Gmail から顧客へ送られうる。Web アプリのデプロイは「デプロイを管理 → 鉛筆 → 新バージョン」（「新しいデプロイ」は別 URL を作る）。
@@ -142,5 +142,5 @@ messages/{ja,en,id}.json
 
 ---
 
-- **最終更新日時**: 2026-09-24（WO-PB-3 の本番反映・GAS 反映方法）
+- **最終更新日時**: 2026-09-24（WO-PB-3F の F1・F2 をコード対応）
 - **更新したエージェント名**: Claude (claude-opus-5-5)
