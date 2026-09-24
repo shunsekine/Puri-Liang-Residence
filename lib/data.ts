@@ -197,8 +197,9 @@ export function currencyForLocale(locale: string): CurrencyCode {
 
 const SYMBOL: Record<CurrencyCode, string> = { JPY: '¥', USD: '$', IDR: 'Rp ' };
 
+// IDR は id ロケールでだけ表示されるので、インドネシア式の桁区切り（Rp 9.000.000）にする（本文の表記と揃える）
 export function formatPrice(code: CurrencyCode, amount: number): string {
-  return `${SYMBOL[code]}${amount.toLocaleString('en-US')}`;
+  return `${SYMBOL[code]}${amount.toLocaleString(code === 'IDR' ? 'id-ID' : 'en-US')}`;
 }
 
 export function roomPriceAmount(room: Room, code: CurrencyCode): number {
