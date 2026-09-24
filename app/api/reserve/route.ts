@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { RoomId } from '@/lib/data';
+import { isValidPhone } from '@/lib/phone';
 import jaMessages from '@/messages/ja.json';
 import enMessages from '@/messages/en.json';
 import idMessages from '@/messages/id.json';
@@ -7,9 +8,10 @@ import idMessages from '@/messages/id.json';
 // 入口の検証（WO-PB-3F F1・F2。docs/2026-09-24-WO-PB-3F-reserve-abuse.md）。
 // 本文をそのまま転送せず、GAS（gas-booking-automation/src/WebhookParser.ts parsePayload）が読む項目だけを検証して組み立て直す。
 // - submitted_at は送らない（受信時刻は GAS のサーバー時刻。F2）
-// - フォームが送る phone・nationality・料金などは GAS が読まない（記録されていない）ので送らない。記録するなら GAS 側と同時にここへ足す
+// - 料金・subject などフォームが送る他の項目は GAS が読まないので送らない。記録するなら GAS 側と同時にここへ足す
 // - room はクライアントの文字列を使わず、room_id と language から作る（フォームが送る tRoom(`${id}.name`) と同じ値。
 //   任意の文字列を自動返信の {RoomType} や担当者通知へ差し込ませない）
+// - phone・nationality・stay_purposes は任意（2026-09-24 オーナー決定。無い・空は通す）。GAS が P・Q・R 列に記帳する
 // 受け入れる形は components/pages/ReserveForm.tsx の handleSubmit と validate() に合わせている（片方だけ変えない）。
 const LANGUAGES = ['ja', 'en', 'id'] as const;
 const ROOM_IDS = ['villa', 'king', 'twin'] as const satisfies readonly RoomId[];
@@ -30,6 +32,12 @@ type ForwardedInquiry = {
   room_id: RoomId;
   guests: number;
   notes: string;
+  /** 前後の空白を除いた値。未入力は '' */
+  phone: string;
+  /** messages の Reserve.nationalities のキー。未回答は '' */
+  nationality: string;
+  /** その言語の Reserve.purposes のラベル（重複なし）。未選択は [] */
+  stay_purposes: string[];
 };
 
 const oneOf = <T extends string>(list: readonly T[], v: unknown): v is T => typeof v === 'string' && (list as readonly string[]).includes(v);
@@ -72,6 +80,20 @@ function parseInquiry(body: Record<string, unknown>): ForwardedInquiry | { inval
   const yesterdayUtc = new Date(Date.now() - DAY_MS).toISOString().slice(0, 10);
   if (checkin < yesterdayUtc) return { invalid: 'dates' };
 
+  // 任意項目。null は「無い」と同じ扱い（notes と同じ）
+  const phone = body.phone ?? '';
+  if (typeof phone !== 'string' || !isValidPhone(phone.trim())) return { invalid: 'phone' };
+  const reserve = MESSAGES[language].Reserve;
+  const rawNationality = body.nationality ?? '';
+  // Object.keys で照合する（`in` や添字だと constructor・__proto__ などプロトタイプのキーが通る）
+  const nationality = rawNationality === '' ? '' : oneOf(Object.keys(reserve.nationalities), rawNationality) ? rawNationality : null;
+  if (nationality === null) return { invalid: 'nationality' };
+  const purposes = body.stay_purposes ?? [];
+  const allowedPurposes: readonly string[] = reserve.purposes;
+  if (!Array.isArray(purposes) || !purposes.every((p) => oneOf(allowedPurposes, p)) || new Set(purposes).size !== purposes.length) {
+    return { invalid: 'stay_purposes' };
+  }
+
   return {
     name: trimmedName,
     email,
@@ -82,6 +104,9 @@ function parseInquiry(body: Record<string, unknown>): ForwardedInquiry | { inval
     room_id,
     guests,
     notes,
+    phone: phone.trim(),
+    nationality,
+    stay_purposes: purposes,
   };
 }
 

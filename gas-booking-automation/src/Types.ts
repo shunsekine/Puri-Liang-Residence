@@ -16,7 +16,7 @@ export interface InquiryData {
   timestamp: Date;
   name: string;
   email: string;
-  language: string; // 'ja' | 'en'
+  language: string; // 'ja' | 'en' | 'id'（テンプレートは `${種類}_${言語}`、無ければ _en）
   checkIn: Date;
   checkOut: Date;
   roomType: string;
@@ -27,4 +27,11 @@ export interface InquiryData {
   status?: InquiryStatus;
   whatsAppText?: string;
   messageId: string;
+  // 任意項目（2026-09-24 オーナー決定）。未入力・不正な値は ''
+  phone: string;
+  nationality: string;
+  /** 選んだ滞在目的を ", " で連結した文字列 */
+  stayPurposes: string;
+  /** 受信時の検証で捨てた任意項目の旗（parsePayload → detectIrregularities。シートには IrregularFlag として残る） */
+  inputFlags?: string[];
 }

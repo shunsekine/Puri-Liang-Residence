@@ -1,11 +1,19 @@
 import { SpreadsheetService } from './SpreadsheetService';
 import { InquiryData } from './Types';
-import { CONFIG, COLUMNS } from './Config';
+import { CONFIG, COLUMNS, PRE_FIRST_REPLY_STATUSES } from './Config';
 import { errorMessage } from './Retry';
 
 const HOUR_MS = 60 * 60 * 1000;
-/** 送信前の状態。これ以外の状態で旗なしの行は「自動返信を経た」とみなす（AutoReplyLimiter.wasAutoReplied） */
-const PRE_SEND_STATUSES = ['', 'New', '1次送信待ち', 'エラー'];
+/** 最終回答のステータス → テンプレートの種類（Templates シートの `${種類}_${言語}`） */
+const FINAL_ANSWER_TEMPLATE_KINDS: Record<string, string> = { '空室': 'Available', '満室': 'Full', 'キャンセル待ち': 'AcceptWaiting' };
+
+/** Templates シートから選んだテンプレート。fallbackFrom は、無かったので英語で代用した元の ID（代用していなければ null） */
+interface ResolvedTemplate {
+  id: string;
+  subject: string;
+  body: string;
+  fallbackFrom: string | null;
+}
 
 /**
  * 自動返信の上限（WO-PB-3F F1: 公開フォームから任意のアドレスへ自動返信を送らせる踏み台を、件数で止める）。
@@ -56,11 +64,11 @@ class AutoReplyLimiter {
 
   /**
    * 自動返信（1次送信済）を経た行か。担当者が状態を進めても（空室・クローズ等）数え続けるため、状態の文字列ではなく
-   * 「旗なし（＝自動送信の対象）で、送信前の状態でない」で判定する。旗付きの行は下書きなので数えない。
+   * 「旗なし（＝自動送信の対象）で、送信前の状態（PRE_FIRST_REPLY_STATUSES）でない」で判定する。旗付きの行は下書きなので数えない。
    */
   private static wasAutoReplied(status: unknown, flag: unknown): boolean {
     const f = String(flag ?? '').trim();
-    return (f === '' || f === 'なし') && !PRE_SEND_STATUSES.includes(String(status ?? '').trim());
+    return (f === '' || f === 'なし') && !PRE_FIRST_REPLY_STATUSES.includes(String(status ?? '').trim());
   }
 
   private static key(email: unknown): string {
@@ -204,18 +212,35 @@ export class EmailService {
   }
 
   /**
-   * 一次返信の送信または下書き作成。送信上限で保留した場合はその理由を返す（担当者への通知は呼び出し側で 1 通にまとめる）
+   * テンプレートを `${kind}_${言語}` → `${kind}_en` の順に探す。どちらも無ければ例外（黙って送らないままにしない。
+   * 一次返信は sendAutoReplies の行単位の隔離で「エラー」＋担当者への失敗通知になり、最終回答は onEdit がセルにメモを残す）
+   */
+  private static resolveTemplate(kind: string, language: string): ResolvedTemplate {
+    const lang = String(language ?? '').trim() || CONFIG.TEMPLATE_FALLBACK_LANGUAGE;
+    const wanted = `${kind}_${lang}`;
+    const fallback = `${kind}_${CONFIG.TEMPLATE_FALLBACK_LANGUAGE}`;
+    const ids = wanted === fallback ? [wanted] : [wanted, fallback];
+    const found = SpreadsheetService.findTemplate(ids);
+    if (!found) {
+      throw new Error(`Templates シートにテンプレートがありません（件名・本文が空の行も含む）: ${ids.join(' / ')}`);
+    }
+    return { ...found, fallbackFrom: found.id === wanted ? null : wanted };
+  }
+
+  /** 英語で代用したことの担当者向けの注記（代用していなければ null） */
+  private static fallbackNote(template: ResolvedTemplate): string | null {
+    if (!template.fallbackFrom) return null;
+    return `※ Templates シートに ${template.fallbackFrom} が無いため、英語のテンプレート ${template.id} を使いました。` +
+      `${template.fallbackFrom} の行（件名・本文）を追加すると、次からはそちらを使います。`;
+  }
+
+  /**
+   * 一次返信の送信または下書き作成。送信上限で保留した場合はその理由を返す（担当者への通知は呼び出し側で 1 通にまとめる）。
+   * テンプレートが無ければ例外（呼び出し側で行を「エラー」にして担当者へ通知）
    */
   static sendInitialReply(inquiry: InquiryData, rowNum: number, limiter: AutoReplyLimiter): string | null {
-    const templateId = inquiry.periodCategory === '1ヶ月以上先' 
-      ? `1MonthLater_${inquiry.language}` 
-      : `1MonthWithin_${inquiry.language}`;
-
-    const template = SpreadsheetService.getTemplate(templateId);
-    if (!template) {
-      console.error(`Template not found: ${templateId}`);
-      return null;
-    }
+    const kind = inquiry.periodCategory === '1ヶ月以上先' ? '1MonthLater' : '1MonthWithin';
+    const template = this.resolveTemplate(kind, inquiry.language);
 
     const body = this.replacePlaceholders(template.body, inquiry);
     const subject = this.replacePlaceholders(template.subject, inquiry);
@@ -241,7 +266,7 @@ export class EmailService {
       SpreadsheetService.updateStatus(rowNum, '1次送信済');
     }
 
-    this.notifyOwnerOfReply(inquiry);
+    this.notifyOwnerOfReply(inquiry, this.fallbackNote(template));
     return null;
   }
 
@@ -254,9 +279,10 @@ export class EmailService {
   }
 
   /**
-   * 一次返信の送信（またはイレギュラー時の下書き作成）を担当者へ通知
+   * 一次返信の送信（またはイレギュラー時の下書き作成）を担当者へ通知。templateNote は英語のテンプレートで代用したときの注記
+   * （通知を増やさず、この 1 通に書く）
    */
-  private static notifyOwnerOfReply(inquiry: InquiryData): void {
+  private static notifyOwnerOfReply(inquiry: InquiryData, templateNote: string | null): void {
     const settings = SpreadsheetService.getSettings();
     const notifyEmail = settings['NOTIFICATION_EMAIL'];
     if (!notifyEmail) return;
@@ -276,37 +302,67 @@ export class EmailService {
       `Check-out: ${inquiry.checkOut.toLocaleDateString()}`,
       `Room: ${inquiry.roomType}`,
       `Guests: ${inquiry.guests}`,
+      // 任意項目（未回答は "-"）。WhatsApp 文面（N列）には入れない
+      `WhatsApp/Phone: ${inquiry.phone || '-'}`,
+      `Nationality: ${inquiry.nationality || '-'}`,
+      `Purpose of stay: ${inquiry.stayPurposes || '-'}`,
       '',
       hasFlag
         ? `※イレギュラー検知: ${inquiry.irregularFlag}\nGmailの下書きを確認のうえ送信してください。`
         : '定型の一次返信を自動送信済みです。空室状況が分かり次第、スプレッドシートのステータスを更新してください。',
     ];
+    if (templateNote) lines.push('', templateNote);
 
     GmailApp.sendEmail(notifyEmail, subject, lines.join('\n'));
   }
 
   /**
-   * 最終回答の新規下書き作成（新規メール下書きとして生成）
+   * 最終回答の新規下書き作成（新規メール下書きとして生成）。
+   * 英語で代用したときはその注記を返す（onEdit がステータスのセルにメモする）。テンプレートが無ければ例外
    */
-  static createDraftForFinalAnswer(inquiry: InquiryData, status: string): void {
-    let templateId = '';
-    if (status === '空室') {
-      templateId = `Available_${inquiry.language}`;
-    } else if (status === '満室') {
-      templateId = `Full_${inquiry.language}`;
-    } else if (status === 'キャンセル待ち') {
-      templateId = `AcceptWaiting_${inquiry.language}`;
-    }
+  static createDraftForFinalAnswer(inquiry: InquiryData, status: string): { note: string | null } | null {
+    // 自分のキーだけを見る（添字だと constructor 等のプロトタイプのキーが通る）
+    if (!Object.prototype.hasOwnProperty.call(FINAL_ANSWER_TEMPLATE_KINDS, status)) return null;
+    const kind = FINAL_ANSWER_TEMPLATE_KINDS[status];
 
-    if (!templateId) return;
+    const template = this.resolveTemplate(kind, inquiry.language);
+    const body = this.replacePlaceholders(template.body, inquiry);
+    const subject = `Re: ${this.replacePlaceholders(template.subject, inquiry)} (${inquiry.id})`;
 
-    const template = SpreadsheetService.getTemplate(templateId);
-    if (template) {
-      const body = this.replacePlaceholders(template.body, inquiry);
-      const subject = `Re: ${this.replacePlaceholders(template.subject, inquiry)} (${inquiry.id})`;
-      
-      // Webリクエスト起点のため、新規の下書きメールとして生成
-      GmailApp.createDraft(inquiry.email, subject, body);
+    // Webリクエスト起点のため、新規の下書きメールとして生成
+    GmailApp.createDraft(inquiry.email, subject, body);
+    return { note: this.fallbackNote(template) };
+  }
+
+  /**
+   * 保存期間を過ぎて匿名化した問い合わせを担当者へまとめて通知（1 実行 1 通）。ID だけを書き、個人データは入れない
+   */
+  static notifyOwnerOfAnonymized(done: { rowNum: number; id: string }[], retentionDays: number, pending: { rowNum: number; id: string }[]): void {
+    try {
+      const settings = SpreadsheetService.getSettings();
+      const notifyEmail = settings['NOTIFICATION_EMAIL'];
+      if (!notifyEmail) return;
+
+      const subject = `【個人データの整理】保存期間を過ぎた問い合わせ ${done.length} 件を匿名化しました`;
+      const lines = [
+        `Inquiries シートで、受信日時とチェックアウト日の遅い方から ${retentionDays} 日（Settings の RETENTION_DAYS）を過ぎた問い合わせの個人データを消しました。`,
+        '消した列: 氏名・メール・備考・WhatsApp 文面・電話・国籍・滞在目的。ID・日付・部屋・人数・ステータスは帳簿として残しています（行は削除していません）。',
+        '匿名化した行は AnonymizedAt 列（S列）に日時が入っています。',
+        '',
+        ...done.map(d => `- 行 ${d.rowNum} / ${d.id}`),
+      ];
+      if (pending.length > 0) {
+        lines.push(
+          '',
+          '次の行は保存期間を過ぎていますが、一次返信前（1次送信待ち・エラー等）のため触っていません。ステータスを整理すると次回の実行で匿名化されます。',
+          ...pending.map(d => `- 行 ${d.rowNum} / ${d.id}`),
+        );
+      }
+      lines.push('', '※ Gmail に残っている送受信メール・下書きは対象外です。');
+      GmailApp.sendEmail(notifyEmail, subject, lines.join('\n'));
+    } catch (error) {
+      // 通知自体の失敗で本処理を落とさない（匿名化はもう済んでいる。実行ログには残す）
+      console.error(`[notifyOwnerOfAnonymized] ${errorMessage(error)}`);
     }
   }
 
