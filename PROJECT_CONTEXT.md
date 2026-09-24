@@ -63,7 +63,7 @@
 
 - 捏造しない（AGENTS.md §8）。URL・アドレス・仕様は裏付けを取るか質問する。
 - **連絡先非掲載**: Email/WhatsApp 等の直接連絡先はサイトに載せない。
-- 多言語: `app/[locale]/...`、matcher `/(ja|en|id)/:path*`。
+- 多言語: `app/[locale]/...`、`proxy.ts`（Next 16。旧 middleware）の matcher `/(ja|en|id)/:path*`。対応外の先頭セグメントは layout で 404（`tests/messages.test.mjs` ⑥）。
 
 ### 既知の問題・触ってはいけない箇所
 
@@ -99,7 +99,6 @@
 1. **WO-PB-3F の残り（F3・F5・F6・秘密の空白除去）の本番反映**: コードは済み。main へのマージ・GAS の貼り付け・「デプロイを管理 → 鉛筆 → 新バージョン」（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md` §3）。
 2. **Templates の文面をリポジトリで管理するか検討**（今はシートにしかなく、2026-09 に事業ルールとずれていた）。
 3. Google Search Console で再インデックス申請（`/privacy` 追加を含む）。
-4. Next.js 16 の `middleware.ts` → `proxy.ts` 移行（廃止予定の警告）。
 
 ### 経緯の所在
 
