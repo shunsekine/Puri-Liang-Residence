@@ -37,7 +37,7 @@ export const NEXT_PUBLIC_ALLOWLIST = new Set(['BASE_URL', 'GA_ID', 'CLARITY_ID']
 export const SERVER_ONLY_DIRS = ['app/api/']
 /** B・C の走査対象（Next のソース）。 */
 const SOURCE_DIRS = ['app', 'components', 'lib']
-const SOURCE_ROOT_FILES = ['middleware.ts', 'i18n.ts', 'navigation.ts']
+const SOURCE_ROOT_FILES = ['proxy.ts', 'i18n.ts', 'navigation.ts']
 /** C の走査対象（server 側でログを書く場所）。 */
 const LOG_DIRS = ['app/api', 'gas-booking-automation/src']
 /** D で値と名前を必ず探す秘密（名前の規則に合わなくても）。 */
@@ -313,7 +313,10 @@ function main(argv) {
     console.log(`check-public-baseline: D OK（${argv[bi + 1]}・探した秘密 ${Object.keys(collectSecrets(env)).length} 件）`)
     return 0
   }
-  const errs = [...checkA(REPO, trackedFiles(REPO)), ...checkB(REPO), ...checkC(REPO)]
+  // 走査対象のルートのファイルが無ければ落とす（sourceFiles は無いファイルを飛ばすので、名前を変えると黙って走査から外れる。
+  // 2026-09-24 に middleware.ts → proxy.ts へ変えたときに見つけた）
+  const missing = SOURCE_ROOT_FILES.filter((f) => !existsSync(join(REPO, f))).map((f) => `[B] 走査対象の ${f} が無い（名前を変えたら SOURCE_ROOT_FILES も直す）`)
+  const errs = [...missing, ...checkA(REPO, trackedFiles(REPO)), ...checkB(REPO), ...checkC(REPO)]
   if (errs.length) { console.error('★公開物の最低ラインに不備:\n' + errs.join('\n')); return 1 }
   console.log('check-public-baseline: A/B/C OK（③ 追跡ファイル・ブラウザへ届く環境変数、⑤ ログの PII）')
   return 0

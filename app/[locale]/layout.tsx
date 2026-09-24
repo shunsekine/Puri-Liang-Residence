@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import "../globals.css";
 import "../globals.v2.css";        // V2 Bohemian Natural design system
 import "../globals.v2.pages.css";  // V2 page-specific styles
-import { NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import { routing } from '../../navigation';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import PageTransitionLoader from '../../components/common/PageTransitionLoader';
@@ -67,6 +69,9 @@ export default async function RootLayout({
   params
 }: Readonly<Props>) {
   const { locale } = await params;
+  // 対応外の先頭セグメント（/zz・/privacy・/favicon.ico 等）は 404。無いと ja の内容を 200 で返し、任意の URL が
+  // トップページの複製として検索エンジンに見える（i18n.ts は既定言語へ寄せるだけ）
+  if (!hasLocale(routing.locales, locale)) notFound();
   const messages = await getMessages();
   const t = await getTranslations({ locale, namespace: 'Metadata.Base' });
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://puri-liang-residence.vercel.app';

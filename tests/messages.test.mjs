@@ -5,9 +5,12 @@
 // ③ 空リンク href="#" が無い（2026-09 まで予約フォームの「プライバシーポリシー」が href="#" だった）
 // ④ プライバシーポリシーのページと、予約フォーム・フッターからの導線がある
 // ⑤ 予約フォームと送信完了の表示に data-clarity-mask がある（ポリシーの「フォームの入力は Clarity の記録から除外」と対）
+// ⑥ 対応外の先頭セグメントは 404（app/[locale]/layout.tsx の hasLocale → notFound）。無いと /zz や /favicon.ico が ja のトップを
+//    200 で返し、任意の URL がトップの複製になる（2026-09-24 まで本番がそうだった）。Next 16 の proxy.ts があり middleware.ts が無い
 // 検出力の確認（2026-09-24）: 合成データ（id だけキー欠落・配列の長さ違い・閉じ忘れの plural・'{ の誤エスケープ・
 //   href="#"・導線の欠落）で 6 件すべて FAIL になることを確認した（MESSAGES_DIR / SRC_ROOT で差し替えて実行）。
-//   ⑤ は data-clarity-mask を外した合成ソースで FAIL を確認した。
+//   ⑤ は data-clarity-mask を外した合成ソースで FAIL を確認した。⑥ は notFound の行を消した合成ソースと、middleware.ts に
+//   戻した合成ソースの 2 つで FAIL を確認した（2026-09-24）。
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -101,6 +104,13 @@ check('⑤ 予約フォームと送信完了の表示を Clarity の記録から
   const src = readFileSync(join(srcRoot, 'components/pages/ReserveForm.tsx'), 'utf8')
   assert.match(src, /<form className="v2-res-form"[^>]*data-clarity-mask="true"/, 'フォームに data-clarity-mask が無い')
   assert.match(src, /className="v2-res-success-card" data-clarity-mask="true"/, '送信完了の表示に data-clarity-mask が無い')
+})
+
+check('⑥ 対応外の言語は 404・proxy.ts', () => {
+  const layout = readFileSync(join(srcRoot, 'app/[locale]/layout.tsx'), 'utf8')
+  assert.match(layout, /if \(!hasLocale\(routing\.locales, locale\)\) notFound\(\);/, 'layout に hasLocale → notFound が無い')
+  assert.ok(existsSync(join(srcRoot, 'proxy.ts')), 'proxy.ts が無い')
+  assert.ok(!existsSync(join(srcRoot, 'middleware.ts')), 'middleware.ts がある（Next 16 では proxy.ts）')
 })
 
 if (failed) {
