@@ -203,7 +203,8 @@ export default function ReserveForm() {
         return (
             <section className="v2-section">
                 <div className="v2-res-success">
-                    <div className="v2-res-success-card">
+                    {/* data-clarity-mask: 送信完了の表示（氏名・メール）を Microsoft Clarity の記録から伏せる（プライバシーポリシーの記述と対） */}
+                    <div className="v2-res-success-card" data-clarity-mask="true">
                         <div className="v2-res-success-mark">✓</div>
                         <div className="v2-res-success-t">
                             {name ? t('success.greeting', { name }) : t('success.greetingDefault')}
@@ -246,7 +247,9 @@ export default function ReserveForm() {
             <section className="v2-section">
                 <div className="v2-res-wrap">
                     {/* ─── Left: Form ──────────────────────────────────── */}
-                    <form className="v2-res-form" onSubmit={handleSubmit} noValidate>
+                    {/* data-clarity-mask: 入力内容を Microsoft Clarity の記録から伏せる。既定（Balanced）では数字・@ を含む語しか伏せられず、
+                        氏名や要望の文章は記録されうる（2026-09-24 に clarity.js 0.8.70 で確認） */}
+                    <form className="v2-res-form" onSubmit={handleSubmit} noValidate data-clarity-mask="true">
                         {/* Honeypot (visually hidden, bot-only) */}
                         <input
                             ref={honeypotRef}

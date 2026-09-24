@@ -920,6 +920,7 @@
         "title": "Cookies and analytics",
         "items": [
           "Google Analytics and Microsoft Clarity use cookies and similar technologies to understand how the site is used.",
+          "What you type into the reservation form, and the confirmation screen after sending it, are masked from Microsoft Clarity recordings.",
           "You can disable cookies in your browser settings. You can also stop Google Analytics with the opt-out browser add-on provided by Google."
         ]
       },

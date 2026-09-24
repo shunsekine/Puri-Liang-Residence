@@ -920,6 +920,7 @@
         "title": "Cookie とアクセス解析",
         "items": [
           "Google Analytics と Microsoft Clarity は、Cookie 等を使ってサイトの利用状況を把握します。",
+          "予約フォームへの入力内容と送信完了の画面は、Microsoft Clarity の記録から伏せています。",
           "Cookie はブラウザの設定で無効にできます。Google Analytics は、Google が提供するオプトアウト用のブラウザ アドオンでも停止できます。"
         ]
       },

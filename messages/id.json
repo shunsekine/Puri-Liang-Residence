@@ -920,6 +920,7 @@
         "title": "Cookie dan analitik",
         "items": [
           "Google Analytics dan Microsoft Clarity menggunakan cookie dan teknologi serupa untuk memahami cara situs ini digunakan.",
+          "Isian formulir reservasi dan layar konfirmasi setelah mengirim disamarkan dari rekaman Microsoft Clarity.",
           "Anda dapat menonaktifkan cookie melalui pengaturan peramban. Google Analytics juga dapat dihentikan dengan add-on peramban untuk opt-out yang disediakan Google."
         ]
       },

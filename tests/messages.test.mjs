@@ -4,8 +4,10 @@
 //    アポストロフィを { や < の直前に置くと ICU のエスケープになり壊れる）
 // ③ 空リンク href="#" が無い（2026-09 まで予約フォームの「プライバシーポリシー」が href="#" だった）
 // ④ プライバシーポリシーのページと、予約フォーム・フッターからの導線がある
+// ⑤ 予約フォームと送信完了の表示に data-clarity-mask がある（ポリシーの「フォームの入力は Clarity の記録から除外」と対）
 // 検出力の確認（2026-09-24）: 合成データ（id だけキー欠落・配列の長さ違い・閉じ忘れの plural・'{ の誤エスケープ・
 //   href="#"・導線の欠落）で 6 件すべて FAIL になることを確認した（MESSAGES_DIR / SRC_ROOT で差し替えて実行）。
+//   ⑤ は data-clarity-mask を外した合成ソースで FAIL を確認した。
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -93,6 +95,12 @@ check('④ プライバシーポリシーのページと導線（予約フォー
     assert.match(readFileSync(join(srcRoot, f), 'utf8'), /href="\/privacy"/, `${f} に /privacy へのリンクが無い`)
   }
   for (const l of LOCALES) assert.ok(flat[l]['Privacy.sections[]'] > 0, `${l} に Privacy.sections が無い`)
+})
+
+check('⑤ 予約フォームと送信完了の表示を Clarity の記録から伏せる', () => {
+  const src = readFileSync(join(srcRoot, 'components/pages/ReserveForm.tsx'), 'utf8')
+  assert.match(src, /<form className="v2-res-form"[^>]*data-clarity-mask="true"/, 'フォームに data-clarity-mask が無い')
+  assert.match(src, /className="v2-res-success-card" data-clarity-mask="true"/, '送信完了の表示に data-clarity-mask が無い')
 })
 
 if (failed) {
