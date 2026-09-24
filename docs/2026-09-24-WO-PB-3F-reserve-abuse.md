@@ -13,7 +13,7 @@
 - 受信時刻は `payload.submitted_at` をそのまま採用している（`WebhookParser.ts` の `timestamp:`）。これが F2 の入口。
 - 自動送信は `EmailService.sendAutoReplies` → `sendInitialReply` の `GmailApp.sendEmail(inquiry.email, …)`。件数の上限は無い。
 - **Vercel のサーバー関数はインスタンス間でメモリを共有しない**。route の中に「IP ごとの回数」を持っても効かない [推測・一般的な性質]。件数を数える状態は Sheets（GAS 側）に置く。
-- GAS は `clasp push` では反映できない（`src/*.ts` が import/export を含む）。反映は「変換→貼り付け→新バージョン」（`PROJECT_CONTEXT.md` 検証手段の注記）。
+- GAS は `clasp push` では反映できない（`src/*.ts` が import/export を含む）。反映は「変換→貼り付け→新バージョン」（`gas-booking-automation/README.md`「反映手順」）。
 
 ## 1. 設計判断（守りを置く場所）
 
@@ -31,7 +31,7 @@
 
 - `gas-booking-automation/build-gs.sh`: import 行と `export` を外し、`tsc --target ES2019 --module none` で `gas-booking-automation/dist/*.js` を作る（2026-09-24 に手で行った手順）。`dist/` は `.gitignore`。
 - `test/run.sh` に「dist を 1 つのグローバル空間に読み込んで、既存テストを通す」を追加する（2026-09-24 に手で確認した方法）。今の CommonJS ビルドでのテストは残す。
-- README の「`clasp push`」の手順を、実態（変換→貼り付け→「デプロイを管理 → 鉛筆 → 新バージョン」→フォームから 1 件）に直す。
+- README の「`clasp push`」の手順を、実態（変換→貼り付け→「デプロイを管理 → 鉛筆 → 新バージョン」→フォームから 1 件）に直す。（2026-09-24 済み: GAS README「反映手順」）
 - 共有秘密の照合前に、前後の空白を取り除く（route と `WebhookParser.isAuthorized` の両方）。テストを 1 ケース足す。
 
 ### 段階 B: route（F2・F5・F6）
