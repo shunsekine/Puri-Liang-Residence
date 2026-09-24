@@ -21,6 +21,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/navigation';
 import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, roomPrice2WeeksAmount, electricityAmount } from '@/lib/data';
+import { PHONE_MAX_LENGTH, isValidPhone, normalizePhoneInput } from '@/lib/phone';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
@@ -59,7 +60,8 @@ export default function ReserveForm() {
 
     // --- Contact (Step 2) ---
     const [name, setName] = useState('');
-    const [nationality, setNationality] = useState('JP');
+    // 国籍・電話・滞在目的は任意（2026-09-24 オーナー決定）。国籍の '' は「回答しない」
+    const [nationality, setNationality] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [purposes, setPurposes] = useState<string[]>([]);
@@ -110,11 +112,12 @@ export default function ReserveForm() {
         setPurposes(p => p.includes(label) ? p.filter(x => x !== label) : [...p, label]);
     };
 
-    const validate = (): string | null => {
+    // phoneValue は normalizePhoneInput 済みの値（送る値と同じ）。規則は route と共有（lib/phone.ts）
+    const validate = (phoneValue: string): string | null => {
         if (checkin < today) return t('errors.checkinPast');
         if (!name.trim()) return t('errors.nameRequired');
         if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return t('errors.emailInvalid');
-        if (!phone.trim()) return t('errors.phoneRequired');
+        if (!isValidPhone(phoneValue)) return t('errors.phoneInvalid');
         if (!agree) return t('errors.agreeRequired');
         return null;
     };
@@ -131,7 +134,8 @@ export default function ReserveForm() {
             return;
         }
 
-        const err = validate();
+        const phoneValue = normalizePhoneInput(phone);
+        const err = validate(phoneValue);
         if (err) {
             setStatus('error');
             setErrorMsg(err);
@@ -149,14 +153,15 @@ export default function ReserveForm() {
             name,
             nationality,
             email,
-            phone,
+            phone: phoneValue,
             room: localizedRoom,
             room_id: r.id,
             checkin,
             checkout,
             months,
             guests,
-            stay_purposes: purposes.length ? purposes.join(', ') : '(none)',
+            // 選んだラベル（表示中の言語の Reserve.purposes）の配列。route がその一覧と照合する
+            stay_purposes: purposes,
             notes: notes || '(none)',
             language: locale,
             currency: code,
@@ -326,6 +331,7 @@ export default function ReserveForm() {
                                     <div className="v2-res-field">
                                         <label>{t('fields.nationality')}</label>
                                         <select value={nationality} onChange={e => setNationality(e.target.value)}>
+                                            <option value="">{t('fields.nationalityNone')}</option>
                                             {Object.entries(nationalities).map(([code, label]) => (
                                                 <option key={code} value={code}>{label}</option>
                                             ))}
@@ -338,8 +344,8 @@ export default function ReserveForm() {
                                         <input type="email" placeholder={t('fields.emailPlaceholder')} value={email} onChange={e => setEmail(e.target.value)} required />
                                     </div>
                                     <div className="v2-res-field">
-                                        <label>{t('fields.phone')} <span className="req">{t('fields.required')}</span></label>
-                                        <input type="tel" placeholder={t('fields.phonePlaceholder')} value={phone} onChange={e => setPhone(e.target.value)} required />
+                                        <label>{t('fields.phone')}</label>
+                                        <input type="tel" maxLength={PHONE_MAX_LENGTH} placeholder={t('fields.phonePlaceholder')} value={phone} onChange={e => setPhone(e.target.value)} />
                                     </div>
                                 </div>
                                 <div className="v2-res-field">

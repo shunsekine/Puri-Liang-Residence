@@ -12,8 +12,16 @@
 //     ― ⑥ 4 件すべて（submitted_at・bcc 等がそのまま転送／room にクライアントの文字列）、⑦ 違反 34 件すべて「GAS へ転送された」、
 //     ⑦ モック時の違反が 200、⑧ name の空白除去・タブの空白化の 2 件。⑧ の実フォーム形 17 件は変更前も通る（正当な送信を落とさない
 //     ことの回帰検査）。
+// 任意項目（2026-09-24 オーナー決定: 電話・国籍・滞在目的は任意にして、実際に記録する）:
+//   ⑨ phone・nationality・stay_purposes を検証して転送する。どれも任意（無い・空は通る）
+//      phone: 前後の空白を除いて 30 文字以内・数字・空白・+ - ( ) . のみ（lib/phone.ts。フォームの validate() と同じ関数）
+//      nationality: '' か messages の Reserve.nationalities のキー / stay_purposes: その言語の Reserve.purposes の配列・重複なし
+//   検出力の確認（2026-09-24）: 変更前の route.ts（32706ad）に対して実行し、新規・変更 61 件が落ちることを確認した
+//     ― ⑥ allowlist 1 件と ⑧ 実フォーム形 17 件（phone・nationality・stay_purposes が転送されない）、⑨ 通る 24 件（同上）、
+//     ⑨ 違反 19 件すべて「GAS へ転送された」。⑥ の submitted_at・未知の項目・room の 3 件、⑦ 違反 34 件、⑦ モックの 1 件、
+//     ⑧ name の 2 件は変更前も通る（既存の検査が壊れていないことの回帰検査）。
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -22,19 +30,25 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const require = createRequire(import.meta.url)
 const ts = require('typescript')
 
-const routePath = process.env.ROUTE_UNDER_TEST ?? join(root, 'app/api/reserve/route.ts')
-const { outputText } = ts.transpileModule(readFileSync(routePath, 'utf8'), {
-  // esModuleInterop はプロジェクトの tsconfig と同じ（route が JSON を default import するため）
-  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
-})
 const NextResponse = { json: (data, init) => ({ data, status: init?.status ?? 200 }) }
-const mod = { exports: {} }
-new Function('require', 'module', 'exports', outputText)(
-  (id) => (id === 'next/server' ? { NextResponse } : require(id.startsWith('@/') ? join(root, id.slice(2)) : id)),
-  mod,
-  mod.exports,
-)
-const { POST } = mod.exports
+/** TS を CommonJS に変換して読み込む。`@/…` の .ts（例: lib/phone.ts）も同じ方法で読む。 */
+function loadTs(path) {
+  const { outputText } = ts.transpileModule(readFileSync(path, 'utf8'), {
+    // esModuleInterop はプロジェクトの tsconfig と同じ（route が JSON を default import するため）
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
+  })
+  const mod = { exports: {} }
+  new Function('require', 'module', 'exports', outputText)(requireShim, mod, mod.exports)
+  return mod.exports
+}
+function requireShim(id) {
+  if (id === 'next/server') return { NextResponse }
+  if (!id.startsWith('@/')) return require(id)
+  const p = join(root, id.slice(2))
+  return existsSync(p + '.ts') ? loadTs(p + '.ts') : require(p)
+}
+const routePath = process.env.ROUTE_UNDER_TEST ?? join(root, 'app/api/reserve/route.ts')
+const { POST } = loadTs(routePath)
 
 const forwarded = []
 globalThis.fetch = async (url, init) => {
@@ -50,7 +64,10 @@ const SECRET = 's'.repeat(64)
 const DAY = 864e5
 const utcDay = (offsetDays) => new Date(Date.now() + offsetDays * DAY).toISOString().slice(0, 10)
 const addDays = (ymd, n) => new Date(Date.parse(ymd) + n * DAY).toISOString().slice(0, 10)
-const roomName = (lang, id) => require(join(root, 'messages', `${lang}.json`)).RoomData[id].name
+const messages = (lang) => require(join(root, 'messages', `${lang}.json`))
+const roomName = (lang, id) => messages(lang).RoomData[id].name
+const purposesOf = (lang) => messages(lang).Reserve.purposes
+const LANGS = ['ja', 'en', 'id']
 function formPayload(over = {}) {
   const checkin = over.checkin ?? utcDay(40)
   const language = over.language ?? 'ja'
@@ -63,13 +80,14 @@ function formPayload(over = {}) {
     email: 'synthetic@example.com',
     phone: '+81 90 0000 0000',
     // フォームは tRoom(`${r.id}.name`)＝表示中の言語の RoomData の名前を送る（列挙外の違反ケースでは適当な名前）
-    room: ['ja', 'en', 'id'].includes(language) && ['villa', 'king', 'twin'].includes(room_id) ? roomName(language, room_id) : 'Villa',
+    room: LANGS.includes(language) && ['villa', 'king', 'twin'].includes(room_id) ? roomName(language, room_id) : 'Villa',
     room_id,
     checkin,
     checkout: addDays(checkin, 92),
     months: 3,
     guests: 2,
-    stay_purposes: '(none)',
+    // フォームは選んだ滞在目的（表示中の言語の Reserve.purposes のラベル）の配列を送る
+    stay_purposes: LANGS.includes(language) ? [purposesOf(language)[0]] : [],
     notes: '(none)',
     language,
     currency: 'JPY',
@@ -88,7 +106,7 @@ function formPayload(over = {}) {
   }
 }
 /** GAS の WebhookParser.parsePayload が読む項目（submitted_at を除く）。これ以外は転送しない。 */
-const GAS_FIELDS = ['name', 'email', 'language', 'checkin', 'checkout', 'room', 'room_id', 'guests', 'notes']
+const GAS_FIELDS = ['name', 'email', 'language', 'checkin', 'checkout', 'room', 'room_id', 'guests', 'notes', 'phone', 'nationality', 'stay_purposes']
 
 // ---- 新しいケースは 1 件ずつ記録し、最後にまとめて判定する（変更前のコードで「どれが落ちるか」を全部見るため）
 const failures = []
@@ -130,8 +148,8 @@ for (const bad of [null, 'text', ['a'], 42]) {
 }
 
 // ---------------------------------------------------------------- WO-PB-3F
-// ⑥ allowlist: 実フォームの本文 → GAS が読む 9 項目＋秘密だけ。値は従来の転送と同じ
-await t('⑥ 転送は GAS が読む 9 項目＋webhook_secret だけ（submitted_at・phone・料金などを送らない）', async () => {
+// ⑥ allowlist: 実フォームの本文 → GAS が読む 12 項目＋秘密だけ。値は従来の転送と同じ
+await t('⑥ 転送は GAS が読む 12 項目＋webhook_secret だけ（submitted_at・料金などを送らない）', async () => {
   const sent = formPayload()
   const n = forwarded.length
   res = await POST(req(sent))
@@ -240,6 +258,78 @@ for (const [label, over] of violations) {
     assert.equal(res.status, 400, `status ${res.status}`)
     assert.equal(res.data.success, false)
     assert.ok(!('message' in res.data), 'message を返した（フォームは message があるとそれを表示する）')
+  })
+}
+
+// ---------------------------------------------------------------- 任意項目（電話・国籍・滞在目的）
+// ⑨ 通る: 無い・空は任意として通し、値は検証済みのものを転送する
+const optionalPasses = [
+  ['phone なし', { phone: undefined }, { phone: '' }],
+  ['phone null', { phone: null }, { phone: '' }],
+  ['phone 空', { phone: '' }, { phone: '' }],
+  ['phone 空白だけ', { phone: '   ' }, { phone: '' }],
+  ['phone 前後の空白は落とす', { phone: '  +62 812-3456-7890  ' }, { phone: '+62 812-3456-7890' }],
+  ['phone 括弧とドット', { phone: '(03) 1234.5678' }, { phone: '(03) 1234.5678' }],
+  ['phone 0 始まり', { phone: '081234567890' }, { phone: '081234567890' }],
+  ['phone 30 文字', { phone: '1'.repeat(30) }, { phone: '1'.repeat(30) }],
+  ['phone 前後の空白を除いて 30 文字', { phone: ` ${'1'.repeat(30)} ` }, { phone: '1'.repeat(30) }],
+  ['nationality なし', { nationality: undefined }, { nationality: '' }],
+  ['nationality 空（回答しない）', { nationality: '' }, { nationality: '' }],
+  ['stay_purposes なし', { stay_purposes: undefined }, { stay_purposes: [] }],
+  ['stay_purposes 空配列', { stay_purposes: [] }, { stay_purposes: [] }],
+]
+for (const code of Object.keys(messages('en').Reserve.nationalities)) {
+  optionalPasses.push([`nationality ${code}`, { nationality: code }, { nationality: code }])
+}
+for (const lang of LANGS) {
+  const all = purposesOf(lang)
+  optionalPasses.push([`stay_purposes ${lang} の全ラベル`, { language: lang, stay_purposes: all }, { stay_purposes: all }])
+  optionalPasses.push([`stay_purposes ${lang} の最後の 1 つ`, { language: lang, stay_purposes: all.slice(-1) }, { stay_purposes: all.slice(-1) }])
+}
+for (const [label, over, want] of optionalPasses) {
+  await t(`⑨ 通る: ${label}`, async () => {
+    const sent = formPayload(over)
+    for (const [k, v] of Object.entries(over)) if (v === undefined) delete sent[k]
+    const n = forwarded.length
+    res = await POST(req(sent))
+    assert.equal(res.status, 200, `status ${res.status}`)
+    assert.equal(forwarded.length, n + 1, '転送されない')
+    const body = forwarded.at(-1).body
+    for (const [k, v] of Object.entries(want)) assert.deepEqual(body[k], v, k)
+  })
+}
+
+// ⑨ 違反は 400・転送しない・message を返さない
+const optionalViolations = [
+  ['phone 31 文字', { phone: '1'.repeat(31) }],
+  ['phone に英字', { phone: '090-CALL-ME' }],
+  ['phone が数式', { phone: '=HYPERLINK("http://spam.example","x")' }],
+  ['phone に途中の改行', { phone: '090\n1234' }],
+  ['phone に途中のタブ', { phone: '090\t1234' }],
+  ['phone 全角数字（フォームは NFKC で半角にしてから送る）', { phone: '０９０' }],
+  ['phone が数値', { phone: 819000000000 }],
+  ['phone が配列', { phone: ['090'] }],
+  ['nationality 列挙外', { nationality: 'XX' }],
+  ['nationality 小文字', { nationality: 'jp' }],
+  ['nationality がラベル', { nationality: 'Japan' }],
+  ['nationality がプロトタイプのキー', { nationality: 'constructor' }],
+  ['nationality が __proto__', { nationality: '__proto__' }],
+  ['nationality が数値', { nationality: 42 }],
+  ['stay_purposes が文字列（旧フォームの形）', { stay_purposes: '(none)' }],
+  ['stay_purposes 列挙外', { language: 'en', stay_purposes: ['Clubbing'] }],
+  ['stay_purposes 別の言語のラベル', { language: 'en', stay_purposes: [purposesOf('ja')[0]] }],
+  ['stay_purposes 重複', { language: 'en', stay_purposes: [purposesOf('en')[0], purposesOf('en')[0]] }],
+  ['stay_purposes の要素が文字列でない', { language: 'en', stay_purposes: [42] }],
+]
+for (const [label, over] of optionalViolations) {
+  await t(`⑨ 400: ${label}`, async () => {
+    const sent = formPayload(over)
+    const n = forwarded.length
+    res = await POST(req(sent))
+    assert.equal(forwarded.length, n, 'GAS へ転送された')
+    assert.equal(res.status, 400, `status ${res.status}`)
+    assert.equal(res.data.success, false)
+    assert.ok(!('message' in res.data), 'message を返した')
   })
 }
 

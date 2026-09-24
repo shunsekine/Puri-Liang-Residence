@@ -10,3 +10,6 @@ trap 'rm -rf "$OUT"' EXIT
 GAS_BUILD_DIR="$OUT" node test/sendAutoReplies.test.js
 GAS_BUILD_DIR="$OUT" node test/doPost.test.js
 GAS_BUILD_DIR="$OUT" node test/abuse.test.js
+GAS_BUILD_DIR="$OUT" node test/optionalFields.test.js
+GAS_BUILD_DIR="$OUT" node test/templates.test.js
+GAS_BUILD_DIR="$OUT" node test/retention.test.js

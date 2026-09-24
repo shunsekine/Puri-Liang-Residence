@@ -4,6 +4,9 @@ import { withRetry } from './Retry';
 
 type SheetValues = ReturnType<GoogleAppsScript.Spreadsheet.Range['getValues']>;
 
+/** 保存期間の匿名化で 1 回の RangeList に入れる行数の上限（A1 表記の並びが長くなりすぎないように） */
+const ANONYMIZE_BATCH_ROWS = 100;
+
 export class SpreadsheetService {
   /**
    * シートを名前で取得（一過性エラーはリトライ）
@@ -43,18 +46,19 @@ export class SpreadsheetService {
   }
 
   /**
-   * Templates シートからテンプレートを ID ベースで取得
+   * Templates シートから、ids の先頭から順に最初に見つかったテンプレートを返す（シートは 1 回だけ読む）。
+   * 件名か本文が空の行は無いものとして扱う（貼り付け前の行で空のメールを送らない）。どれも無ければ null
    */
-  static getTemplate(templateId: string): { subject: string, body: string } | null {
+  static findTemplate(ids: string[]): { id: string, subject: string, body: string } | null {
     const data = this.getAllValues(CONFIG.SHEET_NAMES.TEMPLATES);
     if (!data) return null;
 
-    for (let i = 1; i < data.length; i++) {
-      if (String(data[i][0]).trim() === templateId) {
-        return {
-          subject: String(data[i][1]),
-          body: String(data[i][2])
-        };
+    for (const id of ids) {
+      for (let i = 1; i < data.length; i++) {
+        if (String(data[i][0]).trim() !== id) continue;
+        const subject = String(data[i][1] ?? '');
+        const body = String(data[i][2] ?? '');
+        if (subject.trim() && body.trim()) return { id, subject, body };
       }
     }
     return null;
@@ -93,6 +97,11 @@ export class SpreadsheetService {
     row[COLUMNS.INQUIRIES.STATUS - 1] = status;
     row[COLUMNS.INQUIRIES.WHATSAPP_TEXT - 1] = whatsAppText;
     row[COLUMNS.INQUIRIES.MESSAGE_ID - 1] = inquiry.messageId;
+    // 任意項目（P・Q・R）。電話は ' を前置して文字列にする（Sheets は "0812…" を数値にして先頭の 0 を落とし、
+    // 長い番号は指数表記にする。' はセルの表示・getValues には出ない）
+    row[COLUMNS.INQUIRIES.PHONE - 1] = inquiry.phone ? `'${inquiry.phone}` : '';
+    row[COLUMNS.INQUIRIES.NATIONALITY - 1] = inquiry.nationality;
+    row[COLUMNS.INQUIRIES.STAY_PURPOSES - 1] = inquiry.stayPurposes;
 
     // 記帳失敗＝問い合わせの消失なので、まれな二重行のリスクより優先してリトライする
     // （二重行は O列 MessageId で判別可能）
@@ -111,6 +120,59 @@ export class SpreadsheetService {
     withRetry(`updateStatus(row ${rowNum})`, () =>
       sheet.getRange(rowNum, COLUMNS.INQUIRIES.STATUS).setValue(status)
     );
+  }
+
+  /**
+   * ステータス（M列）のセルのメモに日付付きで 1 行足す。最終回答の下書きで英語のテンプレートを代用した・作れなかったことを、
+   * ステータスを変えた担当者に見える場所で伝える。既存のメモ（担当者が手で書いたもの）は消さない
+   */
+  static addStatusNote(rowNum: number, text: string): void {
+    const sheet = this.getSheet(CONFIG.SHEET_NAMES.INQUIRIES);
+    if (!sheet) return;
+    const day = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+    withRetry(`addStatusNote(row ${rowNum})`, () => {
+      const range = sheet.getRange(rowNum, COLUMNS.INQUIRIES.STATUS);
+      const current = String(range.getNote() ?? '');
+      range.setNote(current ? `${current}\n${day} ${text}` : `${day} ${text}`);
+    });
+  }
+
+  /**
+   * 保存期間を過ぎた行の個人データの列を空にし、AnonymizedAt（S列）に stamp を入れる。行は消さない（ID は getLastRow で
+   * 採番するので、消すと ID が再利用される）。
+   * targets は getAllValues の時点の行番号と ID。書く直前に A 列を読み直し、ID が一致した行だけを書く（読み取り後の
+   * 並べ替え・行の挿入で別の問い合わせの個人データを消さない。ずれた行は次回の実行に回る）。
+   * 消去 → 印の順に、それぞれ RangeList 1 回（ANONYMIZE_BATCH_ROWS 行ごと）で書く。どちらも冪等なのでリトライしてよい。
+   * 消去の後に印が失敗しても、次回は印が無いので同じ行をもう一度消して印を付ける（印だけ付いて個人データが残ることは無い）。
+   * 書いた行を返す。
+   */
+  static anonymizeRows(targets: { rowNum: number, id: string }[], personalColumns: number[], stamp: Date): { rowNum: number, id: string }[] {
+    if (targets.length === 0) return [];
+    const sheet = this.getSheet(CONFIG.SHEET_NAMES.INQUIRIES);
+    if (!sheet) return [];
+
+    const I = COLUMNS.INQUIRIES;
+    const maxRow = Math.max(...targets.map((t) => t.rowNum));
+    const ids = withRetry('anonymizeRows: re-read IDs', () => sheet.getRange(1, I.ID, maxRow, 1).getValues());
+    const confirmed = targets.filter((t) => t.id !== '' && String(ids[t.rowNum - 1]?.[0] ?? '') === t.id);
+
+    for (let start = 0; start < confirmed.length; start += ANONYMIZE_BATCH_ROWS) {
+      const batch = confirmed.slice(start, start + ANONYMIZE_BATCH_ROWS);
+      const cells = batch.flatMap((t) => personalColumns.map((c) => SpreadsheetService.a1(t.rowNum, c)));
+      const marks = batch.map((t) => SpreadsheetService.a1(t.rowNum, I.ANONYMIZED_AT));
+      withRetry(`anonymizeRows: clear ${batch.length} rows`, () => sheet.getRangeList(cells).clearContent());
+      withRetry(`anonymizeRows: mark ${batch.length} rows`, () => sheet.getRangeList(marks).setValue(stamp));
+    }
+    return confirmed;
+  }
+
+  /** 行・列番号（1 始まり）を A1 表記に */
+  private static a1(rowNum: number, col: number): string {
+    let letters = '';
+    for (let n = col; n > 0; n = Math.floor((n - 1) / 26)) {
+      letters = String.fromCharCode(65 + ((n - 1) % 26)) + letters;
+    }
+    return `${letters}${rowNum}`;
   }
 
   /**
@@ -148,7 +210,11 @@ export class SpreadsheetService {
       periodCategory: row[COLUMNS.INQUIRIES.PERIOD_CATEGORY - 1],
       irregularFlag: row[COLUMNS.INQUIRIES.IRREGULAR_FLAG - 1],
       status: row[COLUMNS.INQUIRIES.STATUS - 1] as InquiryStatus,
-      messageId: row[COLUMNS.INQUIRIES.MESSAGE_ID - 1]
+      messageId: row[COLUMNS.INQUIRIES.MESSAGE_ID - 1],
+      // 任意項目の列（P〜R）は、見出しを足す前の古いシートでは範囲外（undefined）になりうる
+      phone: String(row[COLUMNS.INQUIRIES.PHONE - 1] ?? '').replace(/^'/, ''),
+      nationality: String(row[COLUMNS.INQUIRIES.NATIONALITY - 1] ?? ''),
+      stayPurposes: String(row[COLUMNS.INQUIRIES.STAY_PURPOSES - 1] ?? '')
     };
   }
 
