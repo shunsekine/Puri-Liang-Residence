@@ -1,8 +1,8 @@
 export const CONFIG = {
   SHEET_NAMES: {
     INQUIRIES: 'Inquiries',
-    SETTINGS: 'Settings',
-    TEMPLATES: 'Templates'
+    SETTINGS: 'Settings'
+    // メールの文面は Templates.ts（2026-09-24 に Templates シートから移した。シートの Templates タブは読まない）
   },
   GMAIL_LABEL_QUERY: 'is:unread label:inbox subject:"Booking Inquiry"', // 調整必要
   POLLING_INTERVAL_MINUTES: 5,
@@ -17,7 +17,7 @@ export const CONFIG = {
   DEFAULT_RETENTION_DAYS: 730,
   /** RETENTION_DAYS の下限。これ未満や数でない値は入力ミスとみなし、何も消さずに止める（消した個人データは戻せないため） */
   MIN_RETENTION_DAYS: 365,
-  /** テンプレートに `${種類}_${言語}` の行が無いときに使う言語（Templates シート） */
+  /** 問い合わせの言語の文面が無い（ja・en・id 以外）ときに使う言語（Templates.ts） */
   TEMPLATE_FALLBACK_LANGUAGE: 'en',
 };
 

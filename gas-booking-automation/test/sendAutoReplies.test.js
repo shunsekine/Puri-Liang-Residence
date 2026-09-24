@@ -17,7 +17,6 @@ const sheets = {
     getRange: (r, c, nr, nc) => ({ getValues: () => [inquiries[r-1]], setValue: (v) => { calls.status[r] = v; inquiries[r-1][12] = v; } }),
   },
   Settings: { getDataRange: () => ({ getValues: () => [['Key','Value'],['NOTIFICATION_EMAIL','owner@example.com']] }) },
-  Templates: { getDataRange: () => ({ getValues: () => [['ID','Subject','Body'],['1MonthLater_en','Hi {Name}','Body {ID}']] }) },
 };
 global.SpreadsheetApp = { getActiveSpreadsheet: () => ({ getSheetByName: (n) => sheets[n] || null }) };
 global.GmailApp = {

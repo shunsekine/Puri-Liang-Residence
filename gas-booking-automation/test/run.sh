@@ -21,7 +21,7 @@ GLOBAL="$(mktemp -d)"
 trap 'rm -rf "$OUT" "$GLOBAL"' EXIT
 bash build-gs.sh "$GLOBAL/dist" > /dev/null
 mkdir -p "$GLOBAL/shim"
-for m in Main EmailService Retry WebhookParser SpreadsheetService Retention Config Types; do
+for m in Main EmailService Retry WebhookParser SpreadsheetService Retention Config Types Templates; do
   echo "module.exports = require('$PWD/test/global-loader.js');" > "$GLOBAL/shim/$m.js"
 done
 for order in forward reverse; do

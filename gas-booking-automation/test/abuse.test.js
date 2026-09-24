@@ -35,13 +35,11 @@ const inquiriesSheet = {
     setValue: (v) => { inquiries[r - 1][c - 1] = v; },
   }),
 };
-const TEMPLATES = [['ID', 'Subject', 'Body'], ['1MonthLater_en', 'Hi {Name}', 'Body {ID}'], ['1MonthWithin_en', 'Hi {Name}', 'Body {ID}']];
 global.SpreadsheetApp = {
   getActiveSpreadsheet: () => ({
     getSheetByName: (n) => (n === 'Inquiries' ? inquiriesSheet
       : n === 'Settings' ? { getDataRange: () => ({ getValues: () => settingsRows }) }
-        : n === 'Templates' ? { getDataRange: () => ({ getValues: () => TEMPLATES }) }
-          : null),
+        : null),
   }),
 };
 global.GmailApp = {

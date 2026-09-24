@@ -2,12 +2,13 @@ import { SpreadsheetService } from './SpreadsheetService';
 import { InquiryData } from './Types';
 import { CONFIG, COLUMNS, PRE_FIRST_REPLY_STATUSES } from './Config';
 import { errorMessage } from './Retry';
+import { TemplateKind, mailTemplateFor } from './Templates';
 
 const HOUR_MS = 60 * 60 * 1000;
-/** 最終回答のステータス → テンプレートの種類（Templates シートの `${種類}_${言語}`） */
-const FINAL_ANSWER_TEMPLATE_KINDS: Record<string, string> = { '空室': 'Available', '満室': 'Full', 'キャンセル待ち': 'AcceptWaiting' };
+/** 最終回答のステータス → テンプレートの種類（Templates.ts） */
+const FINAL_ANSWER_TEMPLATE_KINDS: Record<string, TemplateKind> = { '空室': 'Available', '満室': 'Full', 'キャンセル待ち': 'AcceptWaiting' };
 
-/** Templates シートから選んだテンプレート。fallbackFrom は、無かったので英語で代用した元の ID（代用していなければ null） */
+/** 選んだ文面。fallbackFrom は、その言語の文面が無かったので英語で代用した元の言語（代用していなければ null） */
 interface ResolvedTemplate {
   id: string;
   subject: string;
@@ -212,34 +213,31 @@ export class EmailService {
   }
 
   /**
-   * テンプレートを `${kind}_${言語}` → `${kind}_en` の順に探す。どちらも無ければ例外（黙って送らないままにしない。
-   * 一次返信は sendAutoReplies の行単位の隔離で「エラー」＋担当者への失敗通知になり、最終回答は onStatusEdit がセルにメモを残す）
+   * 文面（Templates.ts）を種類と言語で選ぶ。ja・en・id 以外の言語は英語で代用する（全種類×3 言語がそろっていることは
+   * test/templates.test.js が検査するので、文面が無くて止まることは無い）
    */
-  private static resolveTemplate(kind: string, language: string): ResolvedTemplate {
-    const lang = String(language ?? '').trim() || CONFIG.TEMPLATE_FALLBACK_LANGUAGE;
-    const wanted = `${kind}_${lang}`;
-    const fallback = `${kind}_${CONFIG.TEMPLATE_FALLBACK_LANGUAGE}`;
-    const ids = wanted === fallback ? [wanted] : [wanted, fallback];
-    const found = SpreadsheetService.findTemplate(ids);
-    if (!found) {
-      throw new Error(`Templates シートにテンプレートがありません（件名・本文が空の行も含む）: ${ids.join(' / ')}`);
-    }
-    return { ...found, fallbackFrom: found.id === wanted ? null : wanted };
+  private static resolveTemplate(kind: TemplateKind, language: string): ResolvedTemplate {
+    const t = mailTemplateFor(kind, language);
+    return {
+      id: `${kind}_${t.language}`,
+      subject: t.subject,
+      body: t.body,
+      fallbackFrom: t.fallbackFrom === null ? null : `${kind}_${t.fallbackFrom}`,
+    };
   }
 
   /** 英語で代用したことの担当者向けの注記（代用していなければ null） */
   private static fallbackNote(template: ResolvedTemplate): string | null {
     if (!template.fallbackFrom) return null;
-    return `※ Templates シートに ${template.fallbackFrom} が無いため、英語のテンプレート ${template.id} を使いました。` +
-      `${template.fallbackFrom} の行（件名・本文）を追加すると、次からはそちらを使います。`;
+    return `※ ${template.fallbackFrom} の文面が無い（対応言語は ja・en・id）ため、英語の文面 ${template.id} を使いました。`;
   }
 
   /**
    * 一次返信の送信または下書き作成。送信上限で保留した場合はその理由を返す（担当者への通知は呼び出し側で 1 通にまとめる）。
-   * テンプレートが無ければ例外（呼び出し側で行を「エラー」にして担当者へ通知）
+   * Gmail・シートの失敗は例外（呼び出し側で行を「エラー」にして担当者へ通知）
    */
   static sendInitialReply(inquiry: InquiryData, rowNum: number, limiter: AutoReplyLimiter): string | null {
-    const kind = inquiry.periodCategory === '1ヶ月以上先' ? '1MonthLater' : '1MonthWithin';
+    const kind: TemplateKind = inquiry.periodCategory === '1ヶ月以上先' ? '1MonthLater' : '1MonthWithin';
     const template = this.resolveTemplate(kind, inquiry.language);
 
     const body = this.replacePlaceholders(template.body, inquiry);
@@ -318,7 +316,7 @@ export class EmailService {
 
   /**
    * 最終回答の新規下書き作成（新規メール下書きとして生成）。
-   * 英語で代用したときはその注記を返す（onStatusEdit がステータスのセルにメモする）。テンプレートが無ければ例外
+   * 英語で代用したときはその注記を返す（onStatusEdit がステータスのセルにメモする）。Gmail の失敗は例外
    */
   static createDraftForFinalAnswer(inquiry: InquiryData, status: string): { note: string | null } | null {
     // 自分のキーだけを見る（添字だと constructor 等のプロトタイプのキーが通る）
