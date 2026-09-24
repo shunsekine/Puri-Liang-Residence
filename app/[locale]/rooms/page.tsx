@@ -95,7 +95,7 @@ function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; re
             <div>
                 <div className="v2-rd-meta">
                     <span className="chip">{room.size}{tCommon('metersSq')}</span>
-                    <span className="chip">{room.capacity}{tCommon('guestsUnit')}</span>
+                    <span className="chip">{tCommon('guestsCount', { count: room.capacity })}</span>
                 </div>
                 <h2>
                     {t('name')}
@@ -105,7 +105,7 @@ function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; re
                 <div className="v2-rd-spec">
                     <div><div className="k">{tRooms('specLabels.size')}</div><div className="v">{room.size}{tCommon('metersSq')}</div></div>
                     <div><div className="k">{tRooms('specLabels.sleeps')}</div><div className="v">{room.capacity}</div></div>
-                    <div><div className="k">{tRooms('specLabels.floor')}</div><div className="v">{room.floor}</div></div>
+                    <div><div className="k">{tRooms('specLabels.floor')}</div><div className="v">{t('floor')}</div></div>
                 </div>
                 <ul className="v2-rd-bullets">
                     {bullets.map((b, i) => <li key={i}>{b}</li>)}
@@ -113,7 +113,7 @@ function RoomDetailRow({ room, index, reverse }: { room: Room; index: number; re
                 <div className="v2-rd-price">
                     <div>
                         <span className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(room, code))}</span>
-                        <div className="u">{tRooms('priceNote')}</div>
+                        <div className="u">{tRooms('priceNote', { currency: code })}</div>
                         <div style={{ fontSize: 11, color: 'var(--v2-muted)', marginTop: 2 }}>
                             {tCommon('priceRefNote')}
                         </div>

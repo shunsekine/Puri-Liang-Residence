@@ -73,8 +73,8 @@
     },
     "roomsPreview": {
       "eyebrow": "Rooms · お部屋",
-      "title": "3室、それぞれの暮らし。",
-      "lead": "家族向けのヴィラから、ひとり用のスタジオまで。同じ敷地の中に、用途と人数の違う3つの部屋があります。",
+      "title": "3タイプ、それぞれの暮らし。",
+      "lead": "家族向けのヴィラから、ひとり用のスタジオまで。同じ敷地の中に、用途と人数の違う3タイプの部屋があります。",
       "detailCta": "詳細 →"
     },
     "amenities": {
@@ -231,7 +231,7 @@
     "size": "広さ: {size}㎡",
     "hero": {
       "eyebrow": "Rooms",
-      "title1": "3室、それぞれの",
+      "title1": "3タイプ、それぞれの",
       "emphasis": "暮らし方",
       "title2": "。",
       "lead": "人数や目的に合わせて選べる、4つの独立したお部屋。ご家族向けの広々としたヴィラと、個室で集中したい方に最適なスタジオをご用意しています。"
@@ -242,7 +242,7 @@
       "floor": "Floor",
       "bath": "Bath"
     },
-    "priceNote": "JPY / month · 最低2週間から",
+    "priceNote": "{currency} / month · 最低2週間から",
     "reserveCta": "予約する →",
     "amenitiesHeader": {
       "eyebrow": "Amenities",
@@ -310,7 +310,10 @@
     "byCar": "車",
     "onFoot": "徒歩",
     "yearFounded": "Est. 2024",
-    "photoPlaceholder": "写真は準備中（後日更新）"
+    "photoPlaceholder": "写真は準備中（後日更新）",
+    "monthsCount": "{count}ヶ月",
+    "weeksCount": "{count}週間",
+    "guestsCount": "{count}名"
   },
   "Nav": {
     "stay": "Stay",
@@ -357,7 +360,7 @@
     "villa": {
       "name": "Villa",
       "nameLocal": "ヴィラ",
-      "description": "家族や夫婦の長期滞在に。プールサイドに面した独立感のある一棟。（※1ヶ月以上の滞在でコンロ・簡易キッチン道具を無料貸出）",
+      "description": "家族や夫婦の長期滞在に。プールサイドに面した、独立感のあるお部屋。（※1ヶ月以上の滞在でコンロ・簡易キッチン道具を無料貸出）",
       "bullets": [
         "キングサイズベッド + ソファベッド",
         "プールビュー",
@@ -365,7 +368,8 @@
         "リビング & ダイニング",
         "専用ワークデスク × 1"
       ],
-      "available": "撮影済み"
+      "available": "撮影済み",
+      "floor": "1F または 2F"
     },
     "king": {
       "name": "King Studio",
@@ -377,7 +381,8 @@
         "ミニキッチン（冷蔵庫）",
         "バルコニー"
       ],
-      "available": "撮影予定（2026年6月）"
+      "available": "撮影予定（2026年6月）",
+      "floor": "3F"
     },
     "twin": {
       "name": "Twin Studio",
@@ -389,7 +394,8 @@
         "ミニキッチン（冷蔵庫）",
         "エアコン"
       ],
-      "available": "撮影済み"
+      "available": "撮影済み",
+      "floor": "2F"
     }
   },
   "Amenities": {
@@ -656,7 +662,8 @@
           "time": "10分",
           "mode": "車"
         }
-      ]
+      ],
+      "timeFormat": "{mode} {time}"
     },
     "neighborhood": {
       "eyebrow": "Neighborhood · 暮らしの実感",
@@ -830,8 +837,7 @@
       "otherRequests": "その他のご要望(任意)",
       "otherRequestsPlaceholder": "追加ベッド、空港送迎など…",
       "checkoutLabel": "チェックアウト予定日",
-      "capacityHint": "は定員",
-      "guestsUnit": "名まで",
+      "capacityHint": "{room} は定員 {count}名まで",
       "required": "*",
       "idNote": "※ チェックイン時に、ご入居者全員分の身分証（パスポート等）のコピーをご提出いただきます。政府の規制により、滞在者を地元当局へ登録する必要があるためです。"
     },
@@ -851,11 +857,8 @@
       "その他"
     ],
     "terms": {
-      "rulesLinkText": "ハウスルール",
-      "joiner": " と ",
-      "termsLinkText": "利用規約（キャンセルポリシー含む）",
-      "agreeSuffix": " を確認のうえ、同意します",
-      "agreeDescription": "チェックイン 14:00 / アウト 11:00、静音時間 22:00–07:00、屋内禁煙、ペット不可。キャンセルはチェックイン3日前以降不可。リンクから全文を確認できます（利用規約は新しいタブで開きます）。"
+      "agreeDescription": "チェックイン 14:00 / アウト 11:00、静音時間 22:00–07:00、屋内禁煙、ペット不可。キャンセルはチェックイン3日前以降不可。リンクから全文を確認できます（利用規約は新しいタブで開きます）。",
+      "agreeLabel": "<rules>ハウスルール</rules>と<terms>利用規約（キャンセルポリシー含む）</terms>を確認のうえ、同意します"
     },
     "modal": {
       "eyebrow": "House Rules · 共通の前提",
@@ -909,8 +912,6 @@
       "leadPrefix": "2営業日以内に、メール（",
       "leadDefault": "ご登録のアドレス",
       "leadSuffix": "）宛に空室状況と最終見積もりをお返しします。返信が届かない場合は、迷惑メールフォルダもご確認ください。",
-      "salutation": "様、ありがとうございます",
-      "salutationDefault": "お客様",
       "subtitle": "以下の内容で送信されました。お控えとしてご確認ください。",
       "grid": {
         "room": "お部屋",
@@ -926,7 +927,9 @@
         "空室確認後、最終見積もりとお支払い方法のご案内をお送りします。",
         "ご納得いただけたら、契約書面の取り交わしと予約金のお支払いに進みます。"
       ],
-      "resendButton": "別の条件で再送信する"
+      "resendButton": "別の条件で再送信する",
+      "greeting": "{name} 様、ありがとうございます",
+      "greetingDefault": "ありがとうございます"
     },
     "faqHeader": {
       "eyebrow": "FAQ · 予約に関するご質問",

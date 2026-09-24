@@ -164,7 +164,7 @@ export default function LocationPage() {
                             </div>
                             <div className="v2-poi-meta">
                                 <div className="dist">{p.dist}<small>{p.unit}</small></div>
-                                <div className="time">{p.mode} {p.time}</div>
+                                <div className="time">{t('around.timeFormat', { mode: p.mode, time: p.time })}</div>
                             </div>
                         </article>
                     ))}

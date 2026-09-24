@@ -23,7 +23,7 @@ export default function RoomPreviewCard({ room }: { room: Room }) {
                 style={has ? { backgroundImage: `url("${IMG[room.photos[0]]}")` } : undefined}
             >
                 {has ? (
-                    <span className="v2-room-tag">{room.size}{tCommon('metersSq')} · {room.capacity}{tCommon('guestsUnit')}</span>
+                    <span className="v2-room-tag">{room.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: room.capacity })}</span>
                 ) : (
                     <>
                         <span style={{ fontFamily: 'var(--v2-display)', fontSize: 28, color: 'var(--v2-terracotta-dark)', opacity: 0.7 }}>📷</span>
@@ -38,8 +38,8 @@ export default function RoomPreviewCard({ room }: { room: Room }) {
                 </div>
                 <div className="v2-room-meta">
                     <span className="chip">{room.size}{tCommon('metersSq')}</span>
-                    <span className="chip">{room.capacity}{tCommon('guestsUnit')}</span>
-                    <span className="chip">{room.floor}</span>
+                    <span className="chip">{tCommon('guestsCount', { count: room.capacity })}</span>
+                    <span className="chip">{t('floor')}</span>
                 </div>
                 <ul className="v2-room-bullets">
                     {bullets.slice(0, 3).map((b, i) => <li key={i}>{b}</li>)}
@@ -47,7 +47,7 @@ export default function RoomPreviewCard({ room }: { room: Room }) {
                 <div className="v2-room-foot">
                     <div>
                         <span className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(room, code))}</span>
-                        <span className="u">/ {tCommon('monthsUnit')}</span>
+                        <span className="u">{tCommon('perMonth')}</span>
                     </div>
                     <Link href="/rooms" className="v2-btn" style={{ padding: '8px 16px', fontSize: 12 }}>→</Link>
                 </div>

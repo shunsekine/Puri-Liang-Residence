@@ -28,6 +28,7 @@ export default function RoomSimulator() {
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
     const total = rent - disc + elec;
+    const duration = months === 0.5 ? tCommon('weeksCount', { count: 2 }) : tCommon('monthsCount', { count: months });
 
     return (
         <section className="v2-section" style={{ background: 'var(--v2-sand-light)' }}>
@@ -52,7 +53,7 @@ export default function RoomSimulator() {
                                     onClick={() => setRoomId(rr.id)}
                                 >
                                     <div className="n">{tRoom(`${rr.id}.name`)}</div>
-                                    <div className="s">{rr.size}{tCommon('metersSq')} · {rr.capacity}{tCommon('guestsUnit')}</div>
+                                    <div className="s">{rr.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: rr.capacity })}</div>
                                     <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span>{tCommon('perMonth')}</span></div>
                                 </button>
                             ))}
@@ -65,7 +66,7 @@ export default function RoomSimulator() {
                             <button type="button" onClick={() => setMonths(months === 1 ? 0.5 : Math.max(0.5, months - 1))} aria-label="−">−</button>
                             <div className="num">
                                 <span className="big">{months === 0.5 ? '2' : months}</span>
-                                <span className="unit">{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit')}</span>
+                                <span className="unit">{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit', { count: months })}</span>
                             </div>
                             <button type="button" onClick={() => setMonths(months === 0.5 ? 1 : Math.min(12, months + 1))} aria-label="+">＋</button>
                         </div>
@@ -79,7 +80,7 @@ export default function RoomSimulator() {
                 <div className="v2-simx-right">
                     <div className="v2-simx-head">
                         <div className="t">{t('estimateTitle')}</div>
-                        <div className="s">{tRoom(`${r.id}.name`)} × {months === 0.5 ? '2' + tCommon('weeksUnit') : months + tCommon('monthsUnit')}</div>
+                        <div className="s">{tRoom(`${r.id}.name`)} × {duration}</div>
                     </div>
                     <div className="v2-simx-line">
                         <span className="l">{t('rent')}</span>
@@ -105,7 +106,7 @@ export default function RoomSimulator() {
                     </div>
                     <div className="v2-simx-total">
                         <div>
-                            <div className="lbl">{t('totalMonths', { months })}</div>
+                            <div className="lbl">{months === 0.5 ? t('total2Weeks') : t('totalMonths', { months })}</div>
                             <div className="avg">{t('monthlyAvg')} {tCommon('approx')} {formatPrice(code, Math.round(total / months))}</div>
                         </div>
                         <div className="big">{tCommon('approx')} {formatPrice(code, total)}</div>

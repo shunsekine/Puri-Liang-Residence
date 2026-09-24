@@ -73,8 +73,8 @@
     },
     "roomsPreview": {
       "eyebrow": "Kamar",
-      "title": "Tiga kamar, tiga gaya hidup.",
-      "lead": "Mulai dari villa untuk keluarga hingga studio untuk satu orang. Tiga kamar dengan ukuran dan kegunaan berbeda, semuanya dalam satu properti yang sama.",
+      "title": "Tiga tipe kamar, tiga gaya hidup.",
+      "lead": "Mulai dari villa untuk keluarga hingga studio untuk satu orang. Tiga tipe kamar dengan ukuran dan kegunaan berbeda, semuanya dalam satu properti yang sama.",
       "detailCta": "Detail →"
     },
     "amenities": {
@@ -231,7 +231,7 @@
     "size": "Luas: {size}㎡",
     "hero": {
       "eyebrow": "Kamar",
-      "title1": "Tiga kamar, tiga",
+      "title1": "Tiga tipe kamar, tiga",
       "emphasis": "cara tinggal",
       "title2": ".",
       "lead": "Pilih dari empat kamar independen yang dirancang untuk gaya hidup berbeda—mulai dari villa yang luas untuk keluarga, hingga studio privat yang tenang untuk fokus bekerja."
@@ -242,7 +242,7 @@
       "floor": "Lantai",
       "bath": "Kamar mandi"
     },
-    "priceNote": "JPY / bulan · minimal 2 minggu",
+    "priceNote": "{currency} / bulan · minimal 2 minggu",
     "reserveCta": "Reservasi →",
     "amenitiesHeader": {
       "eyebrow": "Fasilitas",
@@ -310,7 +310,10 @@
     "byCar": "dengan mobil",
     "onFoot": "jalan kaki",
     "yearFounded": "Est. 2024",
-    "photoPlaceholder": "Segera diperbarui"
+    "photoPlaceholder": "Segera diperbarui",
+    "monthsCount": "{count} bulan",
+    "weeksCount": "{count} minggu",
+    "guestsCount": "{count} orang"
   },
   "Nav": {
     "stay": "Stay",
@@ -357,7 +360,7 @@
     "villa": {
       "name": "Villa",
       "nameLocal": "Villa",
-      "description": "Untuk keluarga atau pasangan yang tinggal lebih lama. Unit mandiri yang menghadap ke tepi kolam renang. (*Sewa kompor & peralatan masak gratis untuk masa inap 1+ bulan)",
+      "description": "Untuk keluarga atau pasangan yang tinggal lebih lama. Unit privat yang menghadap ke kolam renang. (*Pinjam kompor & peralatan masak gratis untuk masa inap 1 bulan atau lebih)",
       "bullets": [
         "Tempat tidur King-size + sofa bed",
         "Pemandangan kolam",
@@ -365,7 +368,8 @@
         "Ruang tamu & ruang makan",
         "1 meja kerja khusus"
       ],
-      "available": "Sudah difoto"
+      "available": "Sudah difoto",
+      "floor": "Lantai 1 atau 2"
     },
     "king": {
       "name": "King Studio",
@@ -377,7 +381,8 @@
         "Dapur kecil (kulkas)",
         "Balkon"
       ],
-      "available": "Akan difoto (Juni 2026)"
+      "available": "Akan difoto (Juni 2026)",
+      "floor": "Lantai 3"
     },
     "twin": {
       "name": "Twin Studio",
@@ -389,7 +394,8 @@
         "Dapur kecil (kulkas)",
         "AC"
       ],
-      "available": "Sudah difoto"
+      "available": "Sudah difoto",
+      "floor": "Lantai 2"
     }
   },
   "Amenities": {
@@ -656,7 +662,8 @@
           "time": "10 menit",
           "mode": "mobil"
         }
-      ]
+      ],
+      "timeFormat": "{time} {mode}"
     },
     "neighborhood": {
       "eyebrow": "Lingkungan · Tinggal di sini",
@@ -830,8 +837,7 @@
       "otherRequests": "Permintaan lain (opsional)",
       "otherRequestsPlaceholder": "Tambahan tempat tidur, antar-jemput bandara, dll.",
       "checkoutLabel": "Perkiraan check-out",
-      "capacityHint": "kapasitas maks.",
-      "guestsUnit": "orang",
+      "capacityHint": "Kapasitas {room} maksimal {count} orang",
       "required": "*",
       "idNote": "Saat check-in, Anda akan diminta menyerahkan fotokopi identitas (paspor, dll.) setiap penghuni — sesuai peraturan pemerintah, pengelola wajib mendaftarkan penghuni kepada petugas setempat."
     },
@@ -851,11 +857,8 @@
       "Lainnya"
     ],
     "terms": {
-      "rulesLinkText": "peraturan rumah",
-      "joiner": " dan ",
-      "termsLinkText": "syarat & ketentuan (termasuk kebijakan pembatalan)",
-      "agreeSuffix": " — Saya sudah membaca dan setuju",
-      "agreeDescription": "Check-in 14.00 / out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, tanpa hewan. Pembatalan tidak dapat dilakukan mulai 3 hari sebelum check-in. Buka tautan untuk detail lengkap (S&K terbuka di tab baru)."
+      "agreeDescription": "Check-in 14.00 / out 11.00, jam tenang 22.00–07.00, dilarang merokok di dalam ruangan, tanpa hewan. Pembatalan tidak dapat dilakukan mulai 3 hari sebelum check-in. Buka tautan untuk detail lengkap (S&K terbuka di tab baru).",
+      "agreeLabel": "Saya telah membaca dan menyetujui <rules>peraturan rumah</rules> serta <terms>syarat & ketentuan (termasuk kebijakan pembatalan)</terms>."
     },
     "modal": {
       "eyebrow": "Peraturan rumah · kesepakatan bersama",
@@ -909,8 +912,6 @@
       "leadPrefix": "Kami akan membalas dalam 2 hari kerja ke (",
       "leadDefault": "alamat yang Anda daftarkan",
       "leadSuffix": ") dengan ketersediaan dan estimasi akhir. Mohon cek folder spam jika balasan kami tidak terlihat.",
-      "salutation": ", terima kasih",
-      "salutationDefault": "Halo",
       "subtitle": "Berikut data yang Anda kirim — mohon disimpan sebagai catatan.",
       "grid": {
         "room": "Kamar",
@@ -926,7 +927,9 @@
         "Setelah ketersediaan dicek, kami kirim estimasi akhir dan pilihan pembayaran.",
         "Jika Anda setuju dengan ketentuan, kami lanjut ke penandatanganan kontrak dan pembayaran reservasi."
       ],
-      "resendButton": "Kirim permintaan lain"
+      "resendButton": "Kirim permintaan lain",
+      "greeting": "Terima kasih, {name}!",
+      "greetingDefault": "Terima kasih!"
     },
     "faqHeader": {
       "eyebrow": "FAQ · Pertanyaan reservasi",

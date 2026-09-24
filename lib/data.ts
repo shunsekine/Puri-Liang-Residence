@@ -70,7 +70,7 @@ export interface Room {
   capacity: number;   // sleeps
   bedrooms: number;
   bathrooms: number;
-  floor: string;
+  // Floor labels live in the messages file under RoomData.{id}.floor
   priceJPY: number;
   priceUSD: number;
   priceIDR: number;
@@ -89,7 +89,6 @@ export const ROOMS: Room[] = [
     capacity: 4,
     bedrooms: 1,
     bathrooms: 1,
-    floor: '1F & 2F',
     priceJPY: 82000,
     priceUSD: 510,
     priceIDR: 9000000,
@@ -104,7 +103,6 @@ export const ROOMS: Room[] = [
     capacity: 2,
     bedrooms: 1,
     bathrooms: 1,
-    floor: '3F',
     priceJPY: 64000,
     priceUSD: 400,
     priceIDR: 7000000,
@@ -119,7 +117,6 @@ export const ROOMS: Room[] = [
     capacity: 2,
     bedrooms: 1,
     bathrooms: 1,
-    floor: '2F',
     priceJPY: 55000,
     priceUSD: 340,
     priceIDR: 6000000,

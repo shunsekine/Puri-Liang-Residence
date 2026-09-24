@@ -231,7 +231,7 @@
     "size": "Size: {size}㎡",
     "hero": {
       "eyebrow": "Rooms",
-      "title1": "Three rooms, three",
+      "title1": "Three room types, three",
       "emphasis": "ways of living",
       "title2": ".",
       "lead": "Choose from four independent rooms designed for different lifestyles—from a family-friendly villa to private studios built for deep focus."
@@ -242,7 +242,7 @@
       "floor": "Floor",
       "bath": "Bath"
     },
-    "priceNote": "JPY / month · 2-week minimum",
+    "priceNote": "{currency} / month · 2-week minimum",
     "reserveCta": "Reserve →",
     "amenitiesHeader": {
       "eyebrow": "Amenities",
@@ -301,16 +301,19 @@
     "currencyNote": "Prices are based on IDR. USD shown is an approximation.",
     "priceRefNote": "Reference price · billed in IDR",
     "yen": "yen",
-    "monthsUnit": "months",
+    "monthsUnit": "{count, plural, one {month} other {months}}",
     "weeksUnit": "weeks",
-    "guestsUnit": "guests",
+    "guestsUnit": "{count, plural, one {guest} other {guests}}",
     "metersSq": "m²",
     "kmUnit": "km",
     "minutesUnit": "min",
     "byCar": "by car",
     "onFoot": "on foot",
     "yearFounded": "Est. 2024",
-    "photoPlaceholder": "To be updated"
+    "photoPlaceholder": "To be updated",
+    "monthsCount": "{count, plural, one {# month} other {# months}}",
+    "weeksCount": "{count, plural, one {# week} other {# weeks}}",
+    "guestsCount": "{count, plural, one {# guest} other {# guests}}"
   },
   "Nav": {
     "stay": "Stay",
@@ -357,7 +360,7 @@
     "villa": {
       "name": "Villa",
       "nameLocal": "Villa",
-      "description": "For families or couples on a longer stay. A standalone unit overlooking the poolside. (*Free stove & kitchenware rental for stays of 1+ month)",
+      "description": "For families or couples on a longer stay. A private unit overlooking the pool. (*Stove and basic kitchenware lent free of charge for stays of 1 month or more)",
       "bullets": [
         "King-size bed + sofa bed",
         "Pool view",
@@ -365,7 +368,8 @@
         "Living & dining",
         "One dedicated work desk"
       ],
-      "available": "Photographed"
+      "available": "Photographed",
+      "floor": "1F or 2F"
     },
     "king": {
       "name": "King Studio",
@@ -377,7 +381,8 @@
         "Kitchenette (fridge)",
         "Balcony"
       ],
-      "available": "Photoshoot scheduled (June 2026)"
+      "available": "Photoshoot scheduled (June 2026)",
+      "floor": "3F"
     },
     "twin": {
       "name": "Twin Studio",
@@ -389,7 +394,8 @@
         "Kitchenette (fridge)",
         "Air conditioning"
       ],
-      "available": "Photographed"
+      "available": "Photographed",
+      "floor": "2F"
     }
   },
   "Amenities": {
@@ -656,7 +662,8 @@
           "time": "10 min",
           "mode": "by car"
         }
-      ]
+      ],
+      "timeFormat": "{time} {mode}"
     },
     "neighborhood": {
       "eyebrow": "Neighborhood · Living here",
@@ -830,8 +837,7 @@
       "otherRequests": "Other requests (optional)",
       "otherRequestsPlaceholder": "Extra bed, airport pickup, etc.",
       "checkoutLabel": "Expected check-out",
-      "capacityHint": "max capacity",
-      "guestsUnit": "guests",
+      "capacityHint": "The {room} sleeps up to {count}",
       "required": "*",
       "idNote": "At check-in, you'll be asked to submit a copy of each guest's ID (passport, etc.) — government regulations require us to register tenants with the local authorities."
     },
@@ -851,11 +857,8 @@
       "Other"
     ],
     "terms": {
-      "rulesLinkText": "the house rules",
-      "joiner": " and ",
-      "termsLinkText": "the terms & conditions (incl. cancellation policy)",
-      "agreeSuffix": " — I have read and agree",
-      "agreeDescription": "Check-in 14:00 / out 11:00, quiet hours 22:00–07:00, no indoor smoking, no pets. No cancellation from 3 days before check-in. Tap the links for full details (terms open in a new tab)."
+      "agreeDescription": "Check-in 14:00 / out 11:00, quiet hours 22:00–07:00, no indoor smoking, no pets. No cancellation from 3 days before check-in. Tap the links for full details (terms open in a new tab).",
+      "agreeLabel": "I have read and agree to <rules>the house rules</rules> and <terms>the terms & conditions (incl. cancellation policy)</terms>."
     },
     "modal": {
       "eyebrow": "House Rules · shared expectations",
@@ -909,8 +912,6 @@
       "leadPrefix": "We'll respond within 2 business days at (",
       "leadDefault": "your registered address",
       "leadSuffix": ") with availability and a final quote. Please check your spam folder if you don't see our reply.",
-      "salutation": ", thank you",
-      "salutationDefault": "Hello",
       "subtitle": "Here's the information you submitted — please keep it for your records.",
       "grid": {
         "room": "Room",
@@ -926,7 +927,9 @@
         "Once we verify availability, we'll send a final quote and payment options.",
         "If you're happy with the terms, we'll proceed to contract signing and the booking payment."
       ],
-      "resendButton": "Send another request"
+      "resendButton": "Send another request",
+      "greeting": "Thank you, {name}!",
+      "greetingDefault": "Thank you!"
     },
     "faqHeader": {
       "eyebrow": "FAQ · Booking questions",

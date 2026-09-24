@@ -95,6 +95,8 @@ export default function ReserveForm() {
     const disc = Math.round(rent * discount);
     const total = rent - disc + elec;
     const checkout = addMonths(checkin, months);
+    const duration = months === 0.5 ? tCommon('weeksCount', { count: 2 }) : tCommon('monthsCount', { count: months });
+    const guestsLabel = tCommon('guestsCount', { count: guests });
 
     // IDR calculations for the payload (actual billing is always in IDR)
     const rentIDR = months === 0.5 ? r.price2WeeksIDR! : r.priceIDR * months;
@@ -197,7 +199,7 @@ export default function ReserveForm() {
                     <div className="v2-res-success-card">
                         <div className="v2-res-success-mark">✓</div>
                         <div className="v2-res-success-t">
-                            {name || t('success.salutationDefault')}{t('success.salutation')}
+                            {name ? t('success.greeting', { name }) : t('success.greetingDefault')}
                         </div>
                         <div className="v2-res-success-s">
                             {t('success.leadPrefix')}{email || t('success.leadDefault')}{t('success.leadSuffix')}
@@ -205,10 +207,10 @@ export default function ReserveForm() {
 
                         <div className="v2-res-success-grid">
                             <div><span className="k">{t('success.grid.room')}</span><span className="v">{tRoom(`${r.id}.name`)}</span></div>
-                            <div><span className="k">{t('success.grid.period')}</span><span className="v">{months === 0.5 ? '2 ' + tCommon('weeksUnit') : months + ' ' + tCommon('monthsUnit')}</span></div>
+                            <div><span className="k">{t('success.grid.period')}</span><span className="v">{duration}</span></div>
                             <div><span className="k">{t('success.grid.checkin')}</span><span className="v">{checkin}</span></div>
                             <div><span className="k">{t('success.grid.checkout')}</span><span className="v">{checkout}</span></div>
-                            <div><span className="k">{t('success.grid.guests')}</span><span className="v">{guests} {tCommon('guestsUnit')}</span></div>
+                            <div><span className="k">{t('success.grid.guests')}</span><span className="v">{guestsLabel}</span></div>
                             <div><span className="k">{t('success.grid.total')}</span><span className="v">{tCommon('approx')} {formatPrice(code, total)}</span></div>
                         </div>
 
@@ -270,7 +272,7 @@ export default function ReserveForm() {
                                                 onClick={() => setRoom(rr.id)}
                                             >
                                                 <div className="n">{tRoom(`${rr.id}.name`)}</div>
-                                                <div className="s">{rr.size}{tCommon('metersSq')} · {rr.capacity}{tCommon('guestsUnit')} · {rr.floor}</div>
+                                                <div className="s">{rr.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: rr.capacity })} · {tRoom(`${rr.id}.floor`)}</div>
                                                 <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span>{tCommon('perMonth')}</span></div>
                                             </button>
                                         ))}
@@ -285,7 +287,7 @@ export default function ReserveForm() {
                                         <label>{t('fields.stayMonths')}</label>
                                         <div className="v2-res-stepper">
                                             <button type="button" onClick={() => setMonths(months === 1 ? 0.5 : Math.max(0.5, months - 1))} aria-label="−">−</button>
-                                            <span className="n">{months === 0.5 ? '2' : months}<small>{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit')}</small></span>
+                                            <span className="n">{months === 0.5 ? '2' : months}<small>{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit', { count: months })}</small></span>
                                             <button type="button" onClick={() => setMonths(months === 0.5 ? 1 : Math.min(12, months + 1))} aria-label="+">＋</button>
                                         </div>
                                     </div>
@@ -293,13 +295,13 @@ export default function ReserveForm() {
                                         <label>{t('fields.guests')}</label>
                                         <div className="v2-res-stepper">
                                             <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} aria-label="−">−</button>
-                                            <span className="n">{guests}<small>{tCommon('guestsUnit')}</small></span>
+                                            <span className="n">{guests}<small>{tCommon('guestsUnit', { count: guests })}</small></span>
                                             <button type="button" onClick={() => setGuests(Math.min(r.capacity, guests + 1))} aria-label="+">＋</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="v2-res-hint">
-                                    {t('fields.checkoutLabel')}: <strong>{checkout}</strong> · {tRoom(`${r.id}.name`)} {t('fields.capacityHint')} {r.capacity}{t('fields.guestsUnit')}
+                                    {t('fields.checkoutLabel')}: <strong>{checkout}</strong> · {t('fields.capacityHint', { room: tRoom(`${r.id}.name`), count: r.capacity })}
                                 </div>
                             </div>
                         </div>
@@ -377,23 +379,28 @@ export default function ReserveForm() {
                                     <input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} />
                                     <div>
                                         <div className="t">
-                                            <button
-                                                type="button"
-                                                className="v2-res-rules-link"
-                                                onClick={e => { e.preventDefault(); setRulesOpen(true); }}
-                                            >
-                                                {t('terms.rulesLinkText')}
-                                            </button>
-                                            {t('terms.joiner')}
-                                            <Link
-                                                href="/faq#terms"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="v2-res-rules-link"
-                                            >
-                                                {t('terms.termsLinkText')}
-                                            </Link>
-                                            {t('terms.agreeSuffix')} <span className="req">{t('fields.required')}</span>
+                                            {t.rich('terms.agreeLabel', {
+                                                rules: (chunks) => (
+                                                    <button
+                                                        type="button"
+                                                        className="v2-res-rules-link"
+                                                        onClick={e => { e.preventDefault(); setRulesOpen(true); }}
+                                                    >
+                                                        {chunks}
+                                                    </button>
+                                                ),
+                                                terms: (chunks) => (
+                                                    <Link
+                                                        href="/faq#terms"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="v2-res-rules-link"
+                                                    >
+                                                        {chunks}
+                                                    </Link>
+                                                ),
+                                            })}{' '}
+                                            <span className="req">{t('fields.required')}</span>
                                         </div>
                                         <div className="s">{t('terms.agreeDescription')}</div>
                                     </div>
@@ -453,13 +460,13 @@ export default function ReserveForm() {
                             </div>
                             <div className="v2-res-summary-body">
                                 <div className="v2-res-summary-name">{tRoom(`${r.id}.name`)}</div>
-                                <div className="v2-res-summary-meta">{r.size}{tCommon('metersSq')} · {r.capacity}{tCommon('guestsUnit')} · {r.floor}</div>
+                                <div className="v2-res-summary-meta">{r.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: r.capacity })} · {tRoom(`${r.id}.floor`)}</div>
                             </div>
                             <div className="v2-res-summary-stay">
                                 <div><span className="k">{t('summary.stayKeys.in')}</span><span className="v">{checkin}</span></div>
                                 <div><span className="k">{t('summary.stayKeys.out')}</span><span className="v">{checkout}</span></div>
-                                <div><span className="k">{t('summary.stayKeys.period')}</span><span className="v">{months === 0.5 ? '2' + tCommon('weeksUnit') : months + tCommon('monthsUnit')}</span></div>
-                                <div><span className="k">{t('summary.stayKeys.guests')}</span><span className="v">{guests}{tCommon('guestsUnit')}</span></div>
+                                <div><span className="k">{t('summary.stayKeys.period')}</span><span className="v">{duration}</span></div>
+                                <div><span className="k">{t('summary.stayKeys.guests')}</span><span className="v">{guestsLabel}</span></div>
                             </div>
                             <div className="v2-res-summary-pricing">
                                 <div className="line">
