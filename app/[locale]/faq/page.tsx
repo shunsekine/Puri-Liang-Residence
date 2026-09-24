@@ -12,14 +12,8 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props) {
     const { locale } = await params;
-    // Phase 2.1 — until Metadata.FAQ is added to messages, fall back to Base.
-    try {
-        const t = await getTranslations({ locale, namespace: 'Metadata.FAQ' });
-        return { title: t('title'), description: t('description') };
-    } catch {
-        const t = await getTranslations({ locale, namespace: 'Metadata.Base' });
-        return { title: `FAQ | ${t('siteName')}` };
-    }
+    const t = await getTranslations({ locale, namespace: 'Metadata.FAQ' });
+    return { title: t('title'), description: t('description') };
 }
 
 interface FAQItem { category: FAQCategory; q: string; a: string; }

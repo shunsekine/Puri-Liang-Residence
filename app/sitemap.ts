@@ -3,12 +3,9 @@ import { MetadataRoute } from 'next';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://puri-liang-residence.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    // 2026-05 V2 update:
-    //   - locales: added 'id' (Bahasa Indonesia)
-    //   - routes: added '/faq' (new page in V2 — JP/EN/ID grouped Q&A)
-    // 2026-07 update: /terms is merged into /faq#terms (2026-07)
+    // Terms live in /faq#terms (no /terms page)
     const locales = ['ja', 'en', 'id'];
-    const routes = ['', '/features', '/rooms', '/location', '/faq', '/reserve'];
+    const routes = ['', '/features', '/rooms', '/location', '/faq', '/reserve', '/privacy'];
 
     const sitemapEntries = routes.flatMap((route) => {
         return locales.map((locale) => ({

@@ -78,6 +78,9 @@ export default function Footer() {
                 <Link href="/faq#terms" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>
                     {t('termsLink')}
                 </Link>
+                <Link href="/privacy" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                    {t('privacyLink')}
+                </Link>
             </div>
         </footer>
     );

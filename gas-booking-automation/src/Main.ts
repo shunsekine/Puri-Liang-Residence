@@ -1,7 +1,9 @@
 import { WebhookParser, WEBHOOK_SECRET_FIELD, WEBHOOK_SECRET_PROPERTY } from './WebhookParser';
 import { EmailService } from './EmailService';
 import { SpreadsheetService } from './SpreadsheetService';
+import { RetentionService } from './Retention';
 import { CONFIG, COLUMNS } from './Config';
+import { errorMessage } from './Retry';
 
 /**
  * Webhook (POSTリクエスト) のエントリポイント
@@ -49,9 +51,12 @@ export function processAutoReplies() {
 }
 
 /**
- * スプレッドシートの編集時（onEdit）に実行される処理
+ * スプレッドシートの編集時に実行される処理（担当者が M 列のステータスを変えたら最終回答の下書きを作る）。
+ * インストール型トリガー（スプレッドシートから・編集時）で puriliangresidence.bali@gmail.com が登録する。
+ * 名前を onEdit にしない: onEdit はシンプルトリガーとして自動で動き、Gmail を呼べずに失敗する（2026-09-24 に本番で
+ * 下書きが作られていなかった原因）。インストール型も足すと二重に動く
  */
-export function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
+export function onStatusEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
   const sheet = e.range.getSheet();
   if (sheet.getName() !== CONFIG.SHEET_NAMES.INQUIRIES) return;
 
@@ -65,11 +70,39 @@ export function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
     
     if (inquiry) {
       if (['空室', '満室', 'キャンセル待ち'].includes(newStatus)) {
-        EmailService.createDraftForFinalAnswer(inquiry, newStatus);
+        let result: { note: string | null } | null;
+        try {
+          result = EmailService.createDraftForFinalAnswer(inquiry, newStatus);
+        } catch (error) {
+          // 下書きを作れなかった（テンプレートが無い等）。ステータスは担当者が選んだ値のまま残し、理由をセルに書いてから投げ直す
+          // （トリガーの失敗として実行ログと Apps Script の失敗通知にも残る）
+          try {
+            SpreadsheetService.addStatusNote(rowNum, `【エラー】最終回答の下書きを作成できませんでした: ${errorMessage(error)}。Templates シートに行を追加してから、ステータスを選び直してください。`);
+          } catch (e) {
+            console.error(`[onStatusEdit] failed to add the note on row ${rowNum}: ${errorMessage(e)}`);
+          }
+          throw error;
+        }
         SpreadsheetService.updateStatus(rowNum, '最終送信待ち');
+        // 英語で代用したときだけ、ステータスのセルに注記（下書きは作れているので、メモの失敗で onStatusEdit を落とさない）
+        if (result?.note) {
+          try {
+            SpreadsheetService.addStatusNote(rowNum, result.note);
+          } catch (e) {
+            console.error(`[onStatusEdit] failed to add the note on row ${rowNum}: ${errorMessage(e)}`);
+          }
+        }
       }
     }
   }
+}
+
+/**
+ * 月 1 回の定期トリガー（時間主導型・月ベース）から実行: 保存期間（Settings.RETENTION_DAYS・既定 730 日）を過ぎた問い合わせの
+ * 個人データを消す（行は消さない）。詳細は Retention.ts。トリガーは puriliangresidence.bali@gmail.com で作る（README）
+ */
+export function anonymizeExpiredInquiries(): void {
+  RetentionService.anonymizeExpired(new Date());
 }
 
 /**

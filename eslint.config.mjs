@@ -15,6 +15,10 @@ const eslintConfig = defineConfig([
     ".incoming/**",
     // GAS の検証ハーネス（Node CommonJS・Next.js のルール対象外）
     "gas-booking-automation/test/**",
+    // GAS の貼り付け用の生成物（build-gs.sh の出力。src/*.ts を見る）
+    "gas-booking-automation/dist/**",
+    // エージェントの作業用 worktree（別ブランチの複製）
+    ".claude/**",
   ]),
 ]);
 

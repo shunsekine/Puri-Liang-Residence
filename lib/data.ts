@@ -1,33 +1,7 @@
-// Shared data exported from the prototype's src/shared.jsx.
-// Strings are duplicated here for type safety — the page components also pull
-// some strings from next-intl messages (messages/{ja,en,id}.json). When data
-// fields contain Japanese phrasing only, that's intentional placeholder content
-// for the JP/EN/ID multi-locale wrapper — translate via the messages file.
-//
-// 2026-05 update reflects all V2 Bohemian Natural content decisions:
-//   - 9 inclusions (down from 15)
-//   - "同じ敷地" wording (not "同じ建物")
-//   - 2週間から (not 1ヶ月から)
-//   - JPY/USD displays are approximations (約 / approx.)
-//   - King Studio: 3F, king-size bed only
-//   - Twin Studio: 2F, 2 × semi-double beds
-//   - House rules: pool times removed
-//   - Cancellation: 2 weeks 50% / 1 week 25% / non-refundable thereafter
-//   - Workspace section removed from Home
-//   - East/West/South/North crossroads on Location
-
-// -----------------------------------------------------------------------------
-// Brand
-// -----------------------------------------------------------------------------
-
-export const BRAND = {
-  name: 'Puri Liang',
-  fullName: 'Puri Liang Residence',
-  address: 'Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali',
-  addressShort: 'Sidakarya, Denpasar Selatan, Bali',
-  email: 'puriliangresidence.bali@gmail.com', // 公開せず、システム送信用途のみで使用
-  whatsapp: '+62 813-xxxx-xxxx',
-} as const;
+// Shared site data (numbers, image paths, room specs, currency helpers).
+// Localized copy lives in messages/{ja,en,id}.json; this file holds only values that are the same
+// in every locale. Owner-confirmed business rules (prices, deposit, cancellation, electricity, languages)
+// are listed in PROJECT_CONTEXT.md「事業ルール」— keep the messages, this file and the GAS templates in step.
 
 // -----------------------------------------------------------------------------
 // Image paths (public/images/*)
@@ -70,7 +44,7 @@ export interface Room {
   capacity: number;   // sleeps
   bedrooms: number;
   bathrooms: number;
-  floor: string;
+  // Floor labels live in the messages file under RoomData.{id}.floor
   priceJPY: number;
   priceUSD: number;
   priceIDR: number;
@@ -89,7 +63,6 @@ export const ROOMS: Room[] = [
     capacity: 4,
     bedrooms: 1,
     bathrooms: 1,
-    floor: '1F & 2F',
     priceJPY: 82000,
     priceUSD: 510,
     priceIDR: 9000000,
@@ -104,7 +77,6 @@ export const ROOMS: Room[] = [
     capacity: 2,
     bedrooms: 1,
     bathrooms: 1,
-    floor: '3F',
     priceJPY: 64000,
     priceUSD: 400,
     priceIDR: 7000000,
@@ -119,7 +91,6 @@ export const ROOMS: Room[] = [
     capacity: 2,
     bedrooms: 1,
     bathrooms: 1,
-    floor: '2F',
     priceJPY: 55000,
     priceUSD: 340,
     priceIDR: 6000000,
@@ -151,9 +122,11 @@ export const LOCATION = {
 // -----------------------------------------------------------------------------
 
 export const SIMULATOR_DEFAULTS = {
+  // 電気代の目安: 1名あたり月額（2026-09 オーナー確認）。電気はプリペイド（トークン）式で、
+  // 滞在中にゲストがスタッフへ代金を渡してチャージを代行してもらう。前払い（家賃）には含めない
   electricityIDR: 300000,
-  electricityJPY: 2700,   // 旧 electricityJPYPerMonth(9000) を改名・更新
-  electricityUSD: 18,     // 追加
+  electricityJPY: 2700,
+  electricityUSD: 18,
   discounts: [
     { months: 6, rate: 0.15 },
     { months: 3, rate: 0.10 },
@@ -165,12 +138,11 @@ export const SIMULATOR_DEFAULTS = {
 // -----------------------------------------------------------------------------
 
 export const CANCELLATION = {
-  // 1 week before check-in: 100% refund
-  // 3 days before check-in: 50% refund
-  // Less than 3 days: non-refundable
+  // Up to 7 days before check-in: full refund, minus the actual bank transfer fee for the refund
+  // After that: non-refundable
+  // (2026-09 unified with FAQ / Terms; the old 3-day tier is gone)
   tiers: [
     { daysBefore: 7, refundPct: 100 },
-    { daysBefore: 3, refundPct: 50 },
     { daysBefore: 0, refundPct: 0 },
   ],
 } as const;
@@ -200,8 +172,9 @@ export function currencyForLocale(locale: string): CurrencyCode {
 
 const SYMBOL: Record<CurrencyCode, string> = { JPY: '¥', USD: '$', IDR: 'Rp ' };
 
+// IDR は id ロケールでだけ表示されるので、インドネシア式の桁区切り（Rp 9.000.000）にする（本文の表記と揃える）
 export function formatPrice(code: CurrencyCode, amount: number): string {
-  return `${SYMBOL[code]}${amount.toLocaleString('en-US')}`;
+  return `${SYMBOL[code]}${amount.toLocaleString(code === 'IDR' ? 'id-ID' : 'en-US')}`;
 }
 
 export function roomPriceAmount(room: Room, code: CurrencyCode): number {

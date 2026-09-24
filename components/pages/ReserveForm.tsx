@@ -21,6 +21,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/navigation';
 import { ROOMS, IMG, SIMULATOR_DEFAULTS, type RoomId, currencyForLocale, formatPrice, roomPriceAmount, roomPrice2WeeksAmount, electricityAmount } from '@/lib/data';
+import { PHONE_MAX_LENGTH, isValidPhone, normalizePhoneInput } from '@/lib/phone';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
@@ -59,7 +60,8 @@ export default function ReserveForm() {
 
     // --- Contact (Step 2) ---
     const [name, setName] = useState('');
-    const [nationality, setNationality] = useState('JP');
+    // 国籍・電話・滞在目的は任意（2026-09-24 オーナー決定）。国籍の '' は「回答しない」
+    const [nationality, setNationality] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [purposes, setPurposes] = useState<string[]>([]);
@@ -90,15 +92,19 @@ export default function ReserveForm() {
     const r = ROOMS.find(x => x.id === room)!;
     const unitPrice = roomPriceAmount(r, code);
     const rent = months === 0.5 ? roomPrice2WeeksAmount(r, code) : unitPrice * months;
-    const elec = electricityAmount(code) * months;
+    // 電気代の目安は 1 名あたり・月額。電気はプリペイド式で滞在中にチャージするため、前払い（upfront）には含めない
+    const elec = electricityAmount(code) * guests * months;
     const discount = getDiscount(months);
     const disc = Math.round(rent * discount);
-    const total = rent - disc + elec;
+    const upfront = rent - disc;
+    const total = upfront + elec;
     const checkout = addMonths(checkin, months);
+    const duration = months === 0.5 ? tCommon('weeksCount', { count: 2 }) : tCommon('monthsCount', { count: months });
+    const guestsLabel = tCommon('guestsCount', { count: guests });
 
     // IDR calculations for the payload (actual billing is always in IDR)
     const rentIDR = months === 0.5 ? r.price2WeeksIDR! : r.priceIDR * months;
-    const elecIDR = SIMULATOR_DEFAULTS.electricityIDR * months;
+    const elecIDR = SIMULATOR_DEFAULTS.electricityIDR * guests * months;
     const discIDR = Math.round(rentIDR * discount);
     const totalIDR = rentIDR - discIDR + elecIDR;
 
@@ -106,11 +112,12 @@ export default function ReserveForm() {
         setPurposes(p => p.includes(label) ? p.filter(x => x !== label) : [...p, label]);
     };
 
-    const validate = (): string | null => {
+    // phoneValue は normalizePhoneInput 済みの値（送る値と同じ）。規則は route と共有（lib/phone.ts）
+    const validate = (phoneValue: string): string | null => {
         if (checkin < today) return t('errors.checkinPast');
         if (!name.trim()) return t('errors.nameRequired');
         if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return t('errors.emailInvalid');
-        if (!phone.trim()) return t('errors.phoneRequired');
+        if (!isValidPhone(phoneValue)) return t('errors.phoneInvalid');
         if (!agree) return t('errors.agreeRequired');
         return null;
     };
@@ -127,7 +134,8 @@ export default function ReserveForm() {
             return;
         }
 
-        const err = validate();
+        const phoneValue = normalizePhoneInput(phone);
+        const err = validate(phoneValue);
         if (err) {
             setStatus('error');
             setErrorMsg(err);
@@ -145,14 +153,15 @@ export default function ReserveForm() {
             name,
             nationality,
             email,
-            phone,
+            phone: phoneValue,
             room: localizedRoom,
             room_id: r.id,
             checkin,
             checkout,
             months,
             guests,
-            stay_purposes: purposes.length ? purposes.join(', ') : '(none)',
+            // 選んだラベル（表示中の言語の Reserve.purposes）の配列。route がその一覧と照合する
+            stay_purposes: purposes,
             notes: notes || '(none)',
             language: locale,
             currency: code,
@@ -194,10 +203,11 @@ export default function ReserveForm() {
         return (
             <section className="v2-section">
                 <div className="v2-res-success">
-                    <div className="v2-res-success-card">
+                    {/* data-clarity-mask: 送信完了の表示（氏名・メール）を Microsoft Clarity の記録から伏せる（プライバシーポリシーの記述と対） */}
+                    <div className="v2-res-success-card" data-clarity-mask="true">
                         <div className="v2-res-success-mark">✓</div>
                         <div className="v2-res-success-t">
-                            {name || t('success.salutationDefault')}{t('success.salutation')}
+                            {name ? t('success.greeting', { name }) : t('success.greetingDefault')}
                         </div>
                         <div className="v2-res-success-s">
                             {t('success.leadPrefix')}{email || t('success.leadDefault')}{t('success.leadSuffix')}
@@ -205,10 +215,10 @@ export default function ReserveForm() {
 
                         <div className="v2-res-success-grid">
                             <div><span className="k">{t('success.grid.room')}</span><span className="v">{tRoom(`${r.id}.name`)}</span></div>
-                            <div><span className="k">{t('success.grid.period')}</span><span className="v">{months === 0.5 ? '2 ' + tCommon('weeksUnit') : months + ' ' + tCommon('monthsUnit')}</span></div>
+                            <div><span className="k">{t('success.grid.period')}</span><span className="v">{duration}</span></div>
                             <div><span className="k">{t('success.grid.checkin')}</span><span className="v">{checkin}</span></div>
                             <div><span className="k">{t('success.grid.checkout')}</span><span className="v">{checkout}</span></div>
-                            <div><span className="k">{t('success.grid.guests')}</span><span className="v">{guests} {tCommon('guestsUnit')}</span></div>
+                            <div><span className="k">{t('success.grid.guests')}</span><span className="v">{guestsLabel}</span></div>
                             <div><span className="k">{t('success.grid.total')}</span><span className="v">{tCommon('approx')} {formatPrice(code, total)}</span></div>
                         </div>
 
@@ -237,7 +247,9 @@ export default function ReserveForm() {
             <section className="v2-section">
                 <div className="v2-res-wrap">
                     {/* ─── Left: Form ──────────────────────────────────── */}
-                    <form className="v2-res-form" onSubmit={handleSubmit} noValidate>
+                    {/* data-clarity-mask: 入力内容を Microsoft Clarity の記録から伏せる。既定（Balanced）では数字・@ を含む語しか伏せられず、
+                        氏名や要望の文章は記録されうる（2026-09-24 に clarity.js 0.8.70 で確認） */}
+                    <form className="v2-res-form" onSubmit={handleSubmit} noValidate data-clarity-mask="true">
                         {/* Honeypot (visually hidden, bot-only) */}
                         <input
                             ref={honeypotRef}
@@ -267,10 +279,10 @@ export default function ReserveForm() {
                                                 key={rr.id}
                                                 type="button"
                                                 className={`v2-res-room${rr.id === room ? ' on' : ''}`}
-                                                onClick={() => setRoom(rr.id)}
+                                                onClick={() => { setRoom(rr.id); setGuests(g => Math.min(g, rr.capacity)); }}
                                             >
                                                 <div className="n">{tRoom(`${rr.id}.name`)}</div>
-                                                <div className="s">{rr.size}{tCommon('metersSq')} · {rr.capacity}{tCommon('guestsUnit')} · {rr.floor}</div>
+                                                <div className="s">{rr.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: rr.capacity })} · {tRoom(`${rr.id}.floor`)}</div>
                                                 <div className="p">{tCommon('approx')} {formatPrice(code, roomPriceAmount(rr, code))}<span>{tCommon('perMonth')}</span></div>
                                             </button>
                                         ))}
@@ -285,7 +297,7 @@ export default function ReserveForm() {
                                         <label>{t('fields.stayMonths')}</label>
                                         <div className="v2-res-stepper">
                                             <button type="button" onClick={() => setMonths(months === 1 ? 0.5 : Math.max(0.5, months - 1))} aria-label="−">−</button>
-                                            <span className="n">{months === 0.5 ? '2' : months}<small>{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit')}</small></span>
+                                            <span className="n">{months === 0.5 ? '2' : months}<small>{months === 0.5 ? tCommon('weeksUnit') : tCommon('monthsUnit', { count: months })}</small></span>
                                             <button type="button" onClick={() => setMonths(months === 0.5 ? 1 : Math.min(12, months + 1))} aria-label="+">＋</button>
                                         </div>
                                     </div>
@@ -293,13 +305,13 @@ export default function ReserveForm() {
                                         <label>{t('fields.guests')}</label>
                                         <div className="v2-res-stepper">
                                             <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} aria-label="−">−</button>
-                                            <span className="n">{guests}<small>{tCommon('guestsUnit')}</small></span>
+                                            <span className="n">{guests}<small>{tCommon('guestsUnit', { count: guests })}</small></span>
                                             <button type="button" onClick={() => setGuests(Math.min(r.capacity, guests + 1))} aria-label="+">＋</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="v2-res-hint">
-                                    {t('fields.checkoutLabel')}: <strong>{checkout}</strong> · {tRoom(`${r.id}.name`)} {t('fields.capacityHint')} {r.capacity}{t('fields.guestsUnit')}
+                                    {t('fields.checkoutLabel')}: <strong>{checkout}</strong> · {t('fields.capacityHint', { room: tRoom(`${r.id}.name`), count: r.capacity })}
                                 </div>
                             </div>
                         </div>
@@ -317,11 +329,12 @@ export default function ReserveForm() {
                                 <div className="v2-res-row cols2">
                                     <div className="v2-res-field">
                                         <label>{t('fields.name')} <span className="req">{t('fields.required')}</span></label>
-                                        <input type="text" placeholder={t('fields.namePlaceholder')} value={name} onChange={e => setName(e.target.value)} required />
+                                        <input type="text" maxLength={100} placeholder={t('fields.namePlaceholder')} value={name} onChange={e => setName(e.target.value)} required />
                                     </div>
                                     <div className="v2-res-field">
                                         <label>{t('fields.nationality')}</label>
                                         <select value={nationality} onChange={e => setNationality(e.target.value)}>
+                                            <option value="">{t('fields.nationalityNone')}</option>
                                             {Object.entries(nationalities).map(([code, label]) => (
                                                 <option key={code} value={code}>{label}</option>
                                             ))}
@@ -334,8 +347,8 @@ export default function ReserveForm() {
                                         <input type="email" placeholder={t('fields.emailPlaceholder')} value={email} onChange={e => setEmail(e.target.value)} required />
                                     </div>
                                     <div className="v2-res-field">
-                                        <label>{t('fields.phone')} <span className="req">{t('fields.required')}</span></label>
-                                        <input type="tel" placeholder={t('fields.phonePlaceholder')} value={phone} onChange={e => setPhone(e.target.value)} required />
+                                        <label>{t('fields.phone')}</label>
+                                        <input type="tel" maxLength={PHONE_MAX_LENGTH} placeholder={t('fields.phonePlaceholder')} value={phone} onChange={e => setPhone(e.target.value)} />
                                     </div>
                                 </div>
                                 <div className="v2-res-field">
@@ -355,7 +368,7 @@ export default function ReserveForm() {
                                 </div>
                                 <div className="v2-res-field">
                                     <label>{t('fields.otherRequests')}</label>
-                                    <textarea rows={3} placeholder={t('fields.otherRequestsPlaceholder')} value={notes} onChange={e => setNotes(e.target.value)} />
+                                    <textarea rows={3} maxLength={2000} placeholder={t('fields.otherRequestsPlaceholder')} value={notes} onChange={e => setNotes(e.target.value)} />
                                 </div>
                                 <div className="v2-res-hint">
                                     {t('fields.idNote')}
@@ -377,23 +390,28 @@ export default function ReserveForm() {
                                     <input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} />
                                     <div>
                                         <div className="t">
-                                            <button
-                                                type="button"
-                                                className="v2-res-rules-link"
-                                                onClick={e => { e.preventDefault(); setRulesOpen(true); }}
-                                            >
-                                                {t('terms.rulesLinkText')}
-                                            </button>
-                                            {t('terms.joiner')}
-                                            <Link
-                                                href="/faq#terms"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="v2-res-rules-link"
-                                            >
-                                                {t('terms.termsLinkText')}
-                                            </Link>
-                                            {t('terms.agreeSuffix')} <span className="req">{t('fields.required')}</span>
+                                            {t.rich('terms.agreeLabel', {
+                                                rules: (chunks) => (
+                                                    <button
+                                                        type="button"
+                                                        className="v2-res-rules-link"
+                                                        onClick={e => { e.preventDefault(); setRulesOpen(true); }}
+                                                    >
+                                                        {chunks}
+                                                    </button>
+                                                ),
+                                                terms: (chunks) => (
+                                                    <Link
+                                                        href="/faq#terms"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="v2-res-rules-link"
+                                                    >
+                                                        {chunks}
+                                                    </Link>
+                                                ),
+                                            })}{' '}
+                                            <span className="req">{t('fields.required')}</span>
                                         </div>
                                         <div className="s">{t('terms.agreeDescription')}</div>
                                     </div>
@@ -422,11 +440,14 @@ export default function ReserveForm() {
                             </button>
                             <div style={{ fontSize: 11.5, color: 'var(--v2-muted)', marginTop: 10, textAlign: 'center' }}>
                                 {t('submit.disclaimer1')}<br />
-                                {t('submit.disclaimer2Prefix')}
-                                <a href="#" style={{ color: 'var(--v2-mocha)', textDecoration: 'underline' }}>
-                                    {t('submit.disclaimer2Link')}
-                                </a>
-                                {t('submit.disclaimer2Suffix')}
+                                {/* 同意の擬制ではなく告知（問い合わせへの対応は本人の依頼に基づく処理）。新しいタブで開き、入力内容を失わせない */}
+                                {t.rich('submit.privacyNotice', {
+                                    privacy: (chunks) => (
+                                        <Link href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--v2-mocha)', textDecoration: 'underline' }}>
+                                            {chunks}
+                                        </Link>
+                                    ),
+                                })}
                             </div>
                         </div>
                     </form>
@@ -453,13 +474,13 @@ export default function ReserveForm() {
                             </div>
                             <div className="v2-res-summary-body">
                                 <div className="v2-res-summary-name">{tRoom(`${r.id}.name`)}</div>
-                                <div className="v2-res-summary-meta">{r.size}{tCommon('metersSq')} · {r.capacity}{tCommon('guestsUnit')} · {r.floor}</div>
+                                <div className="v2-res-summary-meta">{r.size}{tCommon('metersSq')} · {tCommon('guestsCount', { count: r.capacity })} · {tRoom(`${r.id}.floor`)}</div>
                             </div>
                             <div className="v2-res-summary-stay">
                                 <div><span className="k">{t('summary.stayKeys.in')}</span><span className="v">{checkin}</span></div>
                                 <div><span className="k">{t('summary.stayKeys.out')}</span><span className="v">{checkout}</span></div>
-                                <div><span className="k">{t('summary.stayKeys.period')}</span><span className="v">{months === 0.5 ? '2' + tCommon('weeksUnit') : months + tCommon('monthsUnit')}</span></div>
-                                <div><span className="k">{t('summary.stayKeys.guests')}</span><span className="v">{guests}{tCommon('guestsUnit')}</span></div>
+                                <div><span className="k">{t('summary.stayKeys.period')}</span><span className="v">{duration}</span></div>
+                                <div><span className="k">{t('summary.stayKeys.guests')}</span><span className="v">{guestsLabel}</span></div>
                             </div>
                             <div className="v2-res-summary-pricing">
                                 <div className="line">
@@ -473,7 +494,7 @@ export default function ReserveForm() {
                                     </div>
                                 )}
                                 <div className="line">
-                                    <span className="l">{t('summary.electricityLine')}</span>
+                                    <span className="l">{t('summary.electricityLine', { count: guests })}</span>
                                     <span className="r">{tCommon('approx')} {formatPrice(code, elec)}</span>
                                 </div>
                                 <div className="line">
@@ -494,7 +515,7 @@ export default function ReserveForm() {
                             <div className="v2-res-summary-deposit">
                                 <div className="k">{t('summary.depositTitle')}</div>
                                 <div className="v">
-                                    {tCommon('approx')} {formatPrice(code, total)}{' '}
+                                    {tCommon('approx')} {formatPrice(code, upfront)}{' '}
                                     <small>{t('summary.depositSuffix')}</small>
                                 </div>
                                 <div className="note">{t('summary.balanceNote')}</div>
