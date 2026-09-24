@@ -114,6 +114,17 @@ export class SpreadsheetService {
   }
 
   /**
+   * イレギュラーフラグ（L列）を更新
+   */
+  static updateIrregularFlag(rowNum: number, flag: string): void {
+    const sheet = this.getSheet(CONFIG.SHEET_NAMES.INQUIRIES);
+    if (!sheet) return;
+    withRetry(`updateIrregularFlag(row ${rowNum})`, () =>
+      sheet.getRange(rowNum, COLUMNS.INQUIRIES.IRREGULAR_FLAG).setValue(flag)
+    );
+  }
+
+  /**
    * 行のデータをオブジェクトとして取得
    */
   static getInquiryByRow(rowNum: number): InquiryData | null {

@@ -7,6 +7,11 @@ export const CONFIG = {
   GMAIL_LABEL_QUERY: 'is:unread label:inbox subject:"Booking Inquiry"', // 調整必要
   POLLING_INTERVAL_MINUTES: 5,
   DELAY_FOR_AUTO_REPLY_MINUTES: 15,
+  // 自動返信の上限（WO-PB-3F F1。公開フォームを踏み台にした第三者へのスパム送信を件数で止める）
+  /** 1 日（スクリプトのタイムゾーン）の自動返信の上限。Settings シートの DAILY_AUTO_REPLY_CAP で上書き（未設定・数でなければこの値） */
+  DEFAULT_DAILY_AUTO_REPLY_CAP: 20,
+  /** 同じアドレスへは、この時間内に 1 通まで */
+  SAME_ADDRESS_AUTO_REPLY_HOURS: 24,
 };
 
 export const COLUMNS = {

@@ -6,8 +6,9 @@ Webサイトからの予約問い合わせをプロキシ経由で受信し、�
 
 1. **予約フォーム** (`ReserveForm.tsx`) ➔ Next.js API Route (`app/api/reserve/route.ts`)
 2. **API Route** ➔ GAS Webhook (`doPost`) （※安全なサーバー間通信でCORS回避＆URL保護）
-3. **GAS (`doPost`)** ➔ スプレッドシート (`Inquiries`) へ記録
+3. **GAS (`doPost`)** ➔ スプレッドシート (`Inquiries`) へ記録（受信時刻はサーバー時刻。送り手の `submitted_at` は使わない）
 4. **GAS 定期トリガー (10〜15分おき)** ➔ 受信から15分経過した正常な問い合わせへ一次自動送信(フラグありの場合は下書き作成)。いずれの場合も `Settings.NOTIFICATION_EMAIL` へ担当者通知メールを送信。行ごとに隔離して処理し、失敗した行は `エラー` に退避して担当者へまとめて通知（後述「障害時の挙動」）
+   * **送信上限（WO-PB-3F）**: 自動送信の直前に「同じアドレスへ24時間以内に自動返信済み」「今日（スクリプトのタイムゾーン）の自動返信が `DAILY_AUTO_REPLY_CAP` 件に到達」を判定し、当たれば送らずに下書き＋`IrregularFlag` に理由を追記＋担当者へ1実行1通で通知（行ごとの通知は出さない）。件数はシートの行（旗なしで、`1次送信待ち`・`エラー` 以外の状態＝自動返信を経た行）の受信日時で数える
 5. **担当者ステータス変更 (onEdit)** ➔ 「空室」「満室」「キャンセル待ち」の最終回答メールを「新規下書き」作成
 6. **日次トリガー** ➔ 宿泊30前になったキャンセル待ち顧客を担当者へメールリマインド通知
 
@@ -70,7 +71,7 @@ Web アプリは「全員（匿名）」に公開されるため、URL を知っ
 * I列: `Guests` (人数)
 * J列: `Remarks` (備考)
 * K列: `PeriodCategory` (`1ヶ月以内` / `1ヶ月以上先`)
-* L列: `IrregularFlag` (`なし` / `定員超過...` / `規約外キーワード...` / `過去日付検知...`)
+* L列: `IrregularFlag` (`なし` / `定員超過...` / `規約外キーワード...` / `過去日付検知...` / `メール形式不正` / `氏名にURL` / `同一アドレスへ24時間以内に自動返信済み` / `1日の自動返信上限(N件)に到達`)
 * M列: `Status` (`1次送信待ち`, `1次送信済`, `空室`, `満室`, `キャンセル待ち`, `最終送信待ち`, `エラー`)
 * N列: `WhatsAppText` (自動生成されるオーナー向け英語テキスト)
 * O列: `MessageId` (リクエスト追跡ID)
@@ -79,6 +80,7 @@ Web アプリは「全員（匿名）」に公開されるため、URL を知っ
 * A列: `Key` / B列: `Value`
 * `NG_KEYWORDS`: `cancel, refund, terms, 規約, discount`
 * `NOTIFICATION_EMAIL`: `(担当者のメールアドレス)`
+* `DAILY_AUTO_REPLY_CAP`: `20`（任意。1日の自動返信の上限。未設定・数でなければ 20、`0` で自動送信を止めてすべて下書き）
 
 ### 3. Templates シート（シート名: `Templates`）
 * A列: `TemplateID` (例: `1MonthLater_ja`, `1MonthLater_en`, `1MonthWithin_ja`, `Available_ja`, `Full_ja`, `AcceptWaiting_ja`)
