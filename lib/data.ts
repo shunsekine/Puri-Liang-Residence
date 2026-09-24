@@ -1,33 +1,7 @@
-// Shared data exported from the prototype's src/shared.jsx.
-// Strings are duplicated here for type safety — the page components also pull
-// some strings from next-intl messages (messages/{ja,en,id}.json). When data
-// fields contain Japanese phrasing only, that's intentional placeholder content
-// for the JP/EN/ID multi-locale wrapper — translate via the messages file.
-//
-// 2026-05 update reflects all V2 Bohemian Natural content decisions:
-//   - 9 inclusions (down from 15)
-//   - "同じ敷地" wording (not "同じ建物")
-//   - 2週間から (not 1ヶ月から)
-//   - JPY/USD displays are approximations (約 / approx.)
-//   - King Studio: 3F, king-size bed only
-//   - Twin Studio: 2F, 2 × semi-double beds
-//   - House rules: pool times removed
-//   - Cancellation: full refund (minus bank fee) up to 7 days before check-in, non-refundable after (2026-09)
-//   - Workspace section removed from Home
-//   - East/West/South/North crossroads on Location
-
-// -----------------------------------------------------------------------------
-// Brand
-// -----------------------------------------------------------------------------
-
-export const BRAND = {
-  name: 'Puri Liang',
-  fullName: 'Puri Liang Residence',
-  address: 'Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali',
-  addressShort: 'Sidakarya, Denpasar Selatan, Bali',
-  email: 'puriliangresidence.bali@gmail.com', // 公開せず、システム送信用途のみで使用
-  whatsapp: '+62 813-xxxx-xxxx',
-} as const;
+// Shared site data (numbers, image paths, room specs, currency helpers).
+// Localized copy lives in messages/{ja,en,id}.json; this file holds only values that are the same
+// in every locale. Owner-confirmed business rules (prices, deposit, cancellation, electricity, languages)
+// are listed in PROJECT_CONTEXT.md「事業ルール」— keep the messages, this file and the GAS templates in step.
 
 // -----------------------------------------------------------------------------
 // Image paths (public/images/*)

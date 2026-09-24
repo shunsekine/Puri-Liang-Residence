@@ -1,51 +1,5 @@
 {
-  "Navigation": {
-    "home": "Home",
-    "features": "Features",
-    "rooms": "Rooms",
-    "location": "Location",
-    "reserve": "Reserve"
-  },
-  "Hero": {
-    "title": "Smart & Comfortable Long-term Stay in Bali",
-    "subtitle": "A functional and affordable base for remote work and surfing. Live like a local in Sidakarya, Denpasar Selatan, Bali.",
-    "splitTitle": "Your Cozy Home Base in Bali.<br />Work, Live, & Connect in a Quiet Neighborhood.",
-    "splitDesc": "Experience authentic Balinese living with a reliable workspace.<br />Not a resort, but a comfortable community for digital nomads.",
-    "cta": "View Details",
-    "splitCta": "See Features"
-  },
   "Home": {
-    "communityTitle": "Our Community & Vibe",
-    "eventTitle": "Community Events",
-    "eventDesc": "Weekly dinners, skill shares, and local outings.",
-    "wellnessTitle": "Wellness & Connection",
-    "wellnessDesc": "Daily yoga, meditation space, and meetups.",
-    "localTitle": "Local Integration",
-    "localDesc": "Connect with neighbors and experience true Bali.",
-    "lifeTitle": "Authentic Bali Life & Comfort",
-    "spaceTitle": "Thoughtful Living Spaces",
-    "spaceDesc": "Private, fully equipped apartments with kitchenettes and cozy décor.",
-    "spaceLink": "View Apartments →",
-    "realBaliTitle": "Experience the Real Bali",
-    "realBaliDesc": "Located in a peaceful neighborhood, steps away from local markets and culture.",
-    "realBaliLink": "See Location →",
-    "workspaceSectionTitle": "Comfortable Workspace",
-    "workspaceMainTitle": "Your Reliable Office Away from Home.",
-    "workspaceDesc": "High-speed internet, quiet zones, and comfortable setups for productive days.",
-    "feat1": "Dedicated Work Areas",
-    "feat2": "Wi-Fi",
-    "feat3": "Sound-Insulated Rooms",
-    "workspaceCta": "See Workspace Details",
-    "testimonialTitle": "What Our Residents Say",
-    "test1Text": "\"Puri Liang is the perfect blend of community and solitude. The workspace is incredible, and I've met amazing people here.\"",
-    "test1Author": "— Alex, Digital Nomad",
-    "test2Text": "\"More than just an apartment, It's a home. The surf trips make it even more special, and the internet is rock solid.\"",
-    "test2Author": "— Sarah, Freelancer",
-    "test3Text": "\"A true hidden gem. Quiet, authentic, and beautifully comfortable. The staff go above and beyond.\"",
-    "test3Author": "— Michael, Entrepreneur",
-    "ctaTitle": "Ready to Make Bali Your Home?",
-    "ctaDesc": "Join our community of remote workers and adventurers.",
-    "ctaBtn": "Book Your Stay",
     "hero": {
       "title1": "A month of",
       "title2": "living in",
@@ -74,8 +28,7 @@
     "roomsPreview": {
       "eyebrow": "Rooms",
       "title": "Three distinct ways to live.",
-      "lead": "Whether you need a spacious villa for the family or a private studio for focused work, choose from three unique layouts designed for your lifestyle.",
-      "detailCta": "Details →"
+      "lead": "Whether you need a spacious villa for the family or a private studio for focused work, choose from three unique layouts designed for your lifestyle."
     },
     "amenities": {
       "eyebrow": "Inclusions",
@@ -99,13 +52,6 @@
     }
   },
   "Features": {
-    "title": "Why Choose Puri Liang",
-    "workTitle": "Wi-Fi & Workspace",
-    "workDesc": "Reliable internet connection and dedicated desks for focused work. Perfect for digital nomads.",
-    "lifeTitle": "Surfer Friendly",
-    "lifeDesc": "Board storage, outdoor showers, and easy access to the best surf breaks in the area.",
-    "costTitle": "Community & Convenience",
-    "costDesc": "Connect with like-minded people and enjoy nearby cafes, shops, and local amenities.",
     "hero": {
       "eyebrow": "Features",
       "title1": "No flashy features —",
@@ -222,13 +168,6 @@
     }
   },
   "Rooms": {
-    "title": "Our Rooms",
-    "villa": "Villa",
-    "kingStudio": "King Studio Room",
-    "twinStudio": "Twin Studio Room",
-    "priceMonthly": "¥{price} / Month",
-    "capacity": "Max: {count} Guest(s)",
-    "size": "Size: {size}㎡",
     "hero": {
       "eyebrow": "Rooms",
       "title1": "Three room types, three",
@@ -239,8 +178,7 @@
     "specLabels": {
       "size": "Size",
       "sleeps": "Sleeps",
-      "floor": "Floor",
-      "bath": "Bath"
+      "floor": "Floor"
     },
     "priceNote": "{currency} / month · 2-week minimum",
     "reserveCta": "Reserve →",
@@ -289,32 +227,19 @@
     }
   },
   "Brand": {
-    "name": "Puri Liang",
     "fullName": "Puri Liang Residence",
-    "tagline": "Live, work, and unwind in Bali — by the month.",
-    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
-    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
-    "email": "puriliangresidence.bali@gmail.com",
-    "whatsapp": "+62 813-xxxx-xxxx"
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali"
   },
   "Common": {
     "from": "From",
     "perMonth": " / month",
-    "perMonthLong": "/ month · 2-week minimum",
     "approx": "approx.",
     "currencyNote": "Prices are set in IDR; USD amounts are approximate.",
     "priceRefNote": "Reference price · paid in IDR by bank transfer",
-    "yen": "yen",
     "monthsUnit": "{count, plural, one {month} other {months}}",
     "weeksUnit": "weeks",
     "guestsUnit": "{count, plural, one {guest} other {guests}}",
     "metersSq": "m²",
-    "kmUnit": "km",
-    "minutesUnit": "min",
-    "byCar": "by car",
-    "onFoot": "on foot",
-    "yearFounded": "Est. 2024",
-    "photoPlaceholder": "To be updated",
     "monthsCount": "{count, plural, one {# month} other {# months}}",
     "weeksCount": "{count, plural, one {# week} other {# weeks}}",
     "guestsCount": "{count, plural, one {# guest} other {# guests}}"
@@ -342,24 +267,8 @@
       "Neighborhood",
       "Story"
     ],
-    "contactLinks": [
-      "Email",
-      "WhatsApp",
-      "Instagram"
-    ],
-    "copyright": "© 2026 Puri Liang Residence",
     "termsLink": "Terms & Conditions",
     "privacyLink": "Privacy Policy"
-  },
-  "Band": {
-    "items": [
-      "Long-stay residence",
-      "Wi-Fi included",
-      "Weekly housekeeping",
-      "10% off from 3 months",
-      "EN · ID",
-      "Est. 2024"
-    ]
   },
   "RoomData": {
     "villa": {
@@ -469,7 +378,6 @@
     "includedRow1": "Wi-Fi / water / housekeeping",
     "includedRow2": "Towel changes (twice a week)",
     "included": "✓ Included",
-    "total": "Total",
     "totalMonths": "Total ({months, plural, one {# month} other {# months}})",
     "total2Weeks": "Total (2 weeks)",
     "monthlyAvg": "Monthly average:",
@@ -916,7 +824,6 @@
       "leadPrefix": "We'll reply to ",
       "leadDefault": "the email address you provided",
       "leadSuffix": " within 2 business days with availability and a final quote. If you don't see our reply, please check your spam folder.",
-      "subtitle": "Here's the information you submitted — please keep it for your records.",
       "grid": {
         "room": "Room",
         "period": "Length of stay",
@@ -934,12 +841,6 @@
       "resendButton": "Send another request",
       "greeting": "Thank you, {name}!",
       "greetingDefault": "Thank you!"
-    },
-    "faqHeader": {
-      "eyebrow": "FAQ · Booking questions",
-      "title": "Things worth knowing before booking",
-      "lead": "Pricing, payment, cancellation, minimum stay — see the FAQ page for the full list.",
-      "cta": "See all FAQ →"
     }
   },
   "Terms": {

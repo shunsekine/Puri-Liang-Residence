@@ -1,51 +1,5 @@
 {
-  "Navigation": {
-    "home": "Beranda",
-    "features": "Fasilitas",
-    "rooms": "Kamar",
-    "location": "Lokasi",
-    "reserve": "Reservasi"
-  },
-  "Hero": {
-    "title": "Tinggal jangka panjang di Bali, dengan cerdas dan nyaman.",
-    "subtitle": "Basis fungsional dan terjangkau untuk kerja remote dan surfing. Tinggal seperti penduduk lokal di Sidakarya, Denpasar Selatan, Bali.",
-    "splitTitle": "Basis nyaman Anda di Bali.<br />Bekerja, tinggal, dan terhubung di lingkungan yang tenang.",
-    "splitDesc": "Rasakan kehidupan Bali yang autentik dengan ruang kerja yang dapat diandalkan.<br />Bukan resor, tapi komunitas nyaman untuk digital nomad.",
-    "cta": "Lihat detail",
-    "splitCta": "Lihat fasilitas"
-  },
   "Home": {
-    "communityTitle": "Komunitas & Suasana Kami",
-    "eventTitle": "Acara Komunitas",
-    "eventDesc": "Makan malam mingguan, berbagi keahlian, dan jalan-jalan lokal.",
-    "wellnessTitle": "Kesehatan & Koneksi",
-    "wellnessDesc": "Yoga harian, ruang meditasi, dan pertemuan.",
-    "localTitle": "Integrasi dengan Lokal",
-    "localDesc": "Berkenalan dengan tetangga dan rasakan Bali yang sesungguhnya.",
-    "lifeTitle": "Hidup Bali Autentik & Nyaman",
-    "spaceTitle": "Ruang Tinggal yang Dipikirkan Matang",
-    "spaceDesc": "Apartemen pribadi lengkap dengan dapur mini dan dekorasi yang nyaman.",
-    "spaceLink": "Lihat kamar →",
-    "realBaliTitle": "Rasakan Bali Sesungguhnya",
-    "realBaliDesc": "Berlokasi di lingkungan tenang, hanya beberapa langkah dari pasar dan budaya lokal.",
-    "realBaliLink": "Lihat lokasi →",
-    "workspaceSectionTitle": "Ruang Kerja yang Nyaman",
-    "workspaceMainTitle": "Kantor Andalan Anda, Jauh dari Rumah.",
-    "workspaceDesc": "Internet cepat, zona tenang, dan setup nyaman untuk hari-hari yang produktif.",
-    "feat1": "Area Kerja Khusus",
-    "feat2": "Wi-Fi",
-    "feat3": "Ruang Kedap Suara",
-    "workspaceCta": "Lihat detail ruang kerja",
-    "testimonialTitle": "Suara Penghuni Kami",
-    "test1Text": "\"Puri Liang adalah perpaduan sempurna antara komunitas dan kesendirian. Ruang kerjanya luar biasa, dan saya bertemu orang-orang hebat di sini.\"",
-    "test1Author": "— Alex, Digital Nomad",
-    "test2Text": "\"Lebih dari sekadar apartemen, ini adalah rumah. Trip surfing membuatnya lebih istimewa, dan internetnya sangat stabil.\"",
-    "test2Author": "— Sarah, Freelancer",
-    "test3Text": "\"Permata tersembunyi yang sesungguhnya. Tenang, autentik, dan sangat nyaman. Staf melayani di atas dan di luar yang diharapkan.\"",
-    "test3Author": "— Michael, Pengusaha",
-    "ctaTitle": "Siap menjadikan Bali rumah Anda?",
-    "ctaDesc": "Bergabunglah dengan komunitas pekerja remote dan petualang kami.",
-    "ctaBtn": "Pesan tempat tinggal Anda",
     "hero": {
       "title1": "Sebulan,",
       "title2": "tinggal di",
@@ -74,8 +28,7 @@
     "roomsPreview": {
       "eyebrow": "Kamar",
       "title": "Tiga tipe kamar, tiga gaya hidup.",
-      "lead": "Dari unit Villa untuk keluarga hingga studio untuk satu orang — tiga tipe kamar dengan kegunaan dan kapasitas berbeda, semuanya di lokasi yang sama.",
-      "detailCta": "Detail →"
+      "lead": "Dari unit Villa untuk keluarga hingga studio untuk satu orang — tiga tipe kamar dengan kegunaan dan kapasitas berbeda, semuanya di lokasi yang sama."
     },
     "amenities": {
       "eyebrow": "Sudah termasuk",
@@ -99,13 +52,6 @@
     }
   },
   "Features": {
-    "title": "Mengapa Memilih Puri Liang",
-    "workTitle": "Wi-Fi & Ruang Kerja",
-    "workDesc": "Koneksi internet yang dapat diandalkan dan meja khusus untuk bekerja dengan fokus. Sempurna untuk digital nomad.",
-    "lifeTitle": "Ramah Surfer",
-    "lifeDesc": "Penyimpanan papan, shower outdoor, dan akses mudah ke spot surfing terbaik di kawasan ini.",
-    "costTitle": "Komunitas & Kemudahan",
-    "costDesc": "Terhubung dengan orang-orang sevisi dan nikmati kafe, toko, dan fasilitas lokal di sekitar.",
     "hero": {
       "eyebrow": "Fasilitas",
       "title1": "Bukan fitur yang mencolok —",
@@ -222,13 +168,6 @@
     }
   },
   "Rooms": {
-    "title": "Kamar Kami",
-    "villa": "Villa",
-    "kingStudio": "King Studio",
-    "twinStudio": "Twin Studio",
-    "priceMonthly": "¥{price} / bulan",
-    "capacity": "Maks: {count} tamu",
-    "size": "Luas: {size}㎡",
     "hero": {
       "eyebrow": "Kamar",
       "title1": "Tiga tipe kamar, tiga",
@@ -239,8 +178,7 @@
     "specLabels": {
       "size": "Luas",
       "sleeps": "Kapasitas",
-      "floor": "Letak",
-      "bath": "Kamar mandi"
+      "floor": "Letak"
     },
     "priceNote": "{currency} / bulan · minimal 2 minggu",
     "reserveCta": "Reservasi →",
@@ -289,32 +227,19 @@
     }
   },
   "Brand": {
-    "name": "Puri Liang",
     "fullName": "Puri Liang Residence",
-    "tagline": "Tinggal, bekerja, dan rileks di Bali — sebulan demi sebulan.",
-    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali",
-    "addressShort": "Sidakarya, Denpasar Selatan, Bali",
-    "email": "puriliangresidence.bali@gmail.com",
-    "whatsapp": "+62 813-xxxx-xxxx"
+    "address": "Jl. Tukad Balian Selatan No.12, Sidakarya, Denpasar Selatan, Bali"
   },
   "Common": {
     "from": "Mulai dari",
     "perMonth": " / bulan",
-    "perMonthLong": "/ bulan · minimal 2 minggu",
     "approx": "sekitar",
     "currencyNote": "Harga ditetapkan dalam rupiah (IDR).",
     "priceRefNote": "Harga acuan · pembayaran via transfer bank (IDR)",
-    "yen": "yen",
     "monthsUnit": "bulan",
     "weeksUnit": "minggu",
     "guestsUnit": "orang",
     "metersSq": "m²",
-    "kmUnit": "km",
-    "minutesUnit": "menit",
-    "byCar": "dengan mobil",
-    "onFoot": "jalan kaki",
-    "yearFounded": "Est. 2024",
-    "photoPlaceholder": "Segera diperbarui",
     "monthsCount": "{count} bulan",
     "weeksCount": "{count} minggu",
     "guestsCount": "{count} orang"
@@ -342,24 +267,8 @@
       "Lingkungan",
       "Cerita"
     ],
-    "contactLinks": [
-      "Email",
-      "WhatsApp",
-      "Instagram"
-    ],
-    "copyright": "© 2026 Puri Liang Residence",
     "termsLink": "Syarat & Ketentuan",
     "privacyLink": "Kebijakan Privasi"
-  },
-  "Band": {
-    "items": [
-      "Tempat tinggal jangka panjang",
-      "Fasilitas Wi-Fi",
-      "Housekeeping mingguan",
-      "Diskon 10% mulai 3 bulan",
-      "EN · ID",
-      "Est. 2024"
-    ]
   },
   "RoomData": {
     "villa": {
@@ -469,7 +378,6 @@
     "includedRow1": "Wi-Fi / air / housekeeping",
     "includedRow2": "Ganti handuk 2× seminggu",
     "included": "✓ Termasuk",
-    "total": "Total",
     "totalMonths": "Total ({months} bulan)",
     "total2Weeks": "Total (2 minggu)",
     "monthlyAvg": "Rata-rata per bulan",
@@ -916,7 +824,6 @@
       "leadPrefix": "Dalam 2 hari kerja, kami akan mengirimkan info ketersediaan kamar dan penawaran harga final ke ",
       "leadDefault": "alamat email yang Anda masukkan",
       "leadSuffix": ". Jika balasan kami tidak masuk, mohon periksa folder spam Anda.",
-      "subtitle": "Berikut data yang Anda kirim — mohon disimpan sebagai catatan.",
       "grid": {
         "room": "Kamar",
         "period": "Lama tinggal",
@@ -934,12 +841,6 @@
       "resendButton": "Kirim permintaan lain",
       "greeting": "Terima kasih, {name}!",
       "greetingDefault": "Terima kasih!"
-    },
-    "faqHeader": {
-      "eyebrow": "FAQ · Pertanyaan reservasi",
-      "title": "Hal yang perlu diketahui sebelum reservasi",
-      "lead": "Harga, pembayaran, pembatalan, durasi minimum — lihat halaman FAQ untuk daftar lengkap.",
-      "cta": "Lihat semua FAQ →"
     }
   },
   "Terms": {
