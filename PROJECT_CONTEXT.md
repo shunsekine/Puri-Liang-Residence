@@ -9,7 +9,7 @@
 
 ## ① 安定情報（更新＝ユーザーの明確な指示時のみ）
 
-最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `27d5822`（site-update-2026-09）
+最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `3556d41`（main）
 
 ### 概要とオーナーとのスタンス
 
@@ -73,6 +73,8 @@
 - **GAS のトリガーとデプロイは `puriliangresidence.bali@gmail.com` で行う**: スクリプトとシートの所有者は個人アカウントだが、顧客への送信はトリガーを作ったアカウントから出る。個人アカウントで認可・手動実行すると個人の Gmail から顧客へ送られうる。
 - **GAS のコードはリポジトリが正本**: エディタで直接直したら `gas-booking-automation/src` にも反映する。Templates シートの文面はリポジトリ外（上の事業ルールと揃える）。
 - **GAS 失敗通知**は件名でなく本文の表で判定する（`gas-booking-automation/README.md`「失敗通知メールの読み方」）。
+- **本番の GAS プロジェクト**は `1dEFqku0rLFM34SWz-8Sn7cjCX_aYCQf6gbKTmI79YTrL1349CXIi1lFn`（予約管理表_v1.0 に紐づく「無題のプロジェクト」）。同じシートに紐づく 2026-07-25 作成の同名プロジェクトは未使用（トリガー・実行なし）。触らない。
+- **`Inquiries` の空行は意図したもの**: テスト行は行を消さず中身だけ消す（ID が `getLastRow` 採番のため、行を消すと ID が再利用される。最終行を消すときは A 列の ID だけ残す）。2026-09-24 に `INQ-001`〜`004`・`INQ-006` をこの方法で片付けた。
 - **VM 共用**: 他エージェントのプロセス・作業を予告なく止めない・上書きしない。
 
 ### デプロイ / 環境
@@ -86,7 +88,7 @@
 
 ## ③ 引継ぎ・作業状態（随時更新）
 
-最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `27d5822`
+最終更新: 2026-09-24 / Claude (claude-opus-5-5) / 基準 SHA `3556d41`
 
 ### in_flight
 
@@ -94,12 +96,10 @@
 
 ### 次にやること（優先順）
 
-0. **【高】本番反映**: 済＝`Inquiries` の P〜S 列見出し・Templates の差し替えと `_id` 追加（ユーザー、2026-09-24）。残り＝テスト行 `INQ-001`〜`004` の中身を消す（行は削除しない。ID が再利用される）→ `site-update-2026-09` を main へ → `build-gs.sh` の `dist/` を貼る（`Retention` は新規）→ puriliang で新バージョンのデプロイと `onStatusEdit`（編集時）・`anonymizeExpiredInquiries`（月次）のトリガー作成 → 本番から 1 件送って P〜R 列を確認（手順は `gas-booking-automation/README.md`）。
-1. **【高】最終回答の下書きが作られていなかった**（2026-09-24 に実行ログで確認: 本番は `onEdit` がシンプルトリガーとしてだけ動き、Gmail を呼べない）。コードは `onStatusEdit` に改名済み。GAS 反映時に `onStatusEdit` のインストール型トリガー（スプレッドシートから・編集時）を puriliang で作る。
-2. **WO-PB-3F の残り**: F3・F5・F6・段階 A の秘密の空白除去（変換のスクリプト化 `build-gs.sh`・1 スコープ検査・README の手順は済み）（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md`）。
-3. **Templates の文面をリポジトリで管理するか検討**（今はシートにしかなく、2026-09 に事業ルールとずれていた）。
-4. Google Search Console で再インデックス申請（`/privacy` 追加を含む）。
-5. Next.js 16 の `middleware.ts` → `proxy.ts` 移行（廃止予定の警告）。
+1. **WO-PB-3F の残り**: F3・F5・F6・段階 A の秘密の空白除去（変換のスクリプト化 `build-gs.sh`・1 スコープ検査・README の手順は済み）（`docs/2026-09-24-WO-PB-3F-reserve-abuse.md`）。
+2. **Templates の文面をリポジトリで管理するか検討**（今はシートにしかなく、2026-09 に事業ルールとずれていた）。
+3. Google Search Console で再インデックス申請（`/privacy` 追加を含む）。
+4. Next.js 16 の `middleware.ts` → `proxy.ts` 移行（廃止予定の警告）。
 
 ### 経緯の所在
 
