@@ -14,9 +14,12 @@
 //      セルのメモに日付付きで 1 行。担当者が手で書いたメモは消さない）。constructor 等のプロトタイプのキーも英語
 //   ⑥ 最終回答の下書きを作れない（Gmail の失敗）: 分かる文言で例外・ステータスは担当者が選んだまま・セルにメモ
 //   ⑦ Main は onEdit という名前の関数を公開しない（シンプルトリガーとして動くと Gmail を呼べず、インストール型と二重にも動く）
+//   ⑧ 差し込む日付（{CheckIn} {CheckOut}）は、日本語の文面では「2026年11月4日」（スクリプトのタイムゾーン）。英語・インドネシア語は
+//      従来どおり toLocaleDateString（2026-09-25 の本番確認で、日本語のメールに米国式の 11/4/2026 が入っていた）
 // 検出力の確認（2026-09-24）: 変更前の src（96f449d。文面はシートから読む）をビルドして GAS_BUILD_DIR で実行し、30 件中 28 件が
 //   落ちることを確認した（Templates モジュールが無い・シートを読む・ステータスのメモの文言）。変更前も通る 2 件: ⑥ の例外とメモ、
 //   ⑦ onEdit を公開しない（どちらも従来の挙動の回帰検査）。③ は DEPOSIT_IDR を 2500000 に・全額返金を 14 日前に変えた lib/data.ts（DATA_TS）で、それぞれ FAIL を確認した。
+// ⑧ の検出力（2026-09-25）: 変更前の src（dbee59a）で日本語の 2 件（⑧・④⑤ の ja）が落ちることを確認した（11/4/2026 が入る）。英語・fr は変更前も通る。
 const assert = require('assert');
 const { readFileSync } = require('fs');
 const { join } = require('path');
@@ -77,7 +80,12 @@ global.GmailApp = {
 };
 global.Utilities = {
   sleep: () => {},
-  formatDate: (d, tz) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d),
+  // Utilities.formatDate の代わり（使う記号は yyyy MM M dd d だけ。ほかの記号が来たら落とす）
+  formatDate: (d, tz, fmt) => {
+    const [y, m, day] = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).split('-');
+    assert.ok(!/[^yMd年月日\-]/.test(fmt), `formatDate のスタブが知らない書式: ${fmt}`);
+    return fmt.replace(/yyyy|MM|M|dd|d/g, (t) => ({ yyyy: y, MM: m, M: String(+m), dd: day, d: String(+day) })[t]);
+  },
 };
 global.Session = { getScriptTimeZone: () => TZ };
 console.warn = () => {}; console.error = () => {};
@@ -122,9 +130,15 @@ function editStatus(id, value) {
   return onStatusEdit({ range: { getSheet: () => ({ getName: () => 'Inquiries' }), getRow: () => rowNum, getColumn: () => STATUS_COLUMN }, value });
 }
 const noteOf = (id) => notes[`${inquiries.findIndex((r) => r[0] === id) + 1},${STATUS_COLUMN}`];
+/** 差し込む日付の期待値（⑧。日本語は「2026年11月4日」＝スクリプトのタイムゾーン、ほかは toLocaleDateString） */
+function mailDate(d, lang) {
+  if (lang !== 'ja') return d.toLocaleDateString();
+  const [y, m, day] = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).split('-');
+  return `${+y}年${+m}月${+day}日`;
+}
 /** EmailService と同じ差し込み（row() の値） */
-const filled = (text, id) => text.replace(/{ID}/g, id).replace(/{Name}/g, 'Guest ' + id)
-  .replace(/{CheckIn}/g, new Date(now + 40 * DAY).toLocaleDateString()).replace(/{CheckOut}/g, new Date(now + 70 * DAY).toLocaleDateString())
+const filled = (text, id, lang = 'en') => text.replace(/{ID}/g, id).replace(/{Name}/g, 'Guest ' + id)
+  .replace(/{CheckIn}/g, mailDate(new Date(now + 40 * DAY), lang)).replace(/{CheckOut}/g, mailDate(new Date(now + 70 * DAY), lang))
   .replace(/{RoomType}/g, 'Villa').replace(/{Guests}/g, '2');
 
 // ---------------------------------------------------------------- ① ② 文面の形
@@ -185,7 +199,7 @@ for (const lang of LANGS) {
     templatesSheetRead = 0;
     EmailService.sendAutoReplies();
     const want = tpl('1MonthLater', lang);
-    assert.deepStrictEqual(customerMails().map((m) => [m.subject, m.body]), [[want.subject, filled(want.body || '', 'INQ-001')]]);
+    assert.deepStrictEqual(customerMails().map((m) => [m.subject, m.body]), [[want.subject, filled(want.body || '', 'INQ-001', lang)]]);
     assert.strictEqual(templatesSheetRead, 0, 'Templates シートを読んだ');
     assert.strictEqual(status('INQ-001'), '1次送信済');
     assert.ok(!/※/.test(ownerMails()[0].body), '代用していないのに注記');
@@ -219,7 +233,7 @@ for (const [value, kind] of Object.entries(FINAL)) {
     templatesSheetRead = 0;
     editStatus('INQ-001', value);
     const want = tpl(kind, 'id');
-    assert.deepStrictEqual(calls.drafts.map((d) => [d.subject, d.body]), [[`Re: ${want.subject} (INQ-001)`, filled(want.body || '', 'INQ-001')]]);
+    assert.deepStrictEqual(calls.drafts.map((d) => [d.subject, d.body]), [[`Re: ${want.subject} (INQ-001)`, filled(want.body || '', 'INQ-001', 'id')]]);
     assert.strictEqual(templatesSheetRead, 0, 'Templates シートを読んだ');
     assert.strictEqual(status('INQ-001'), '最終送信待ち');
     assert.strictEqual(noteOf('INQ-001'), undefined);
@@ -239,6 +253,33 @@ t('⑥ 最終回答: 下書きを作れない → 例外・ステータスはそ
   assert.strictEqual(calls.drafts.length, 0);
   assert.strictEqual(status('INQ-001'), '空室', '最終送信待ちにしてはいけない（下書きが無い）');
   assert.match(String(noteOf('INQ-001')), /【エラー】/);
+});
+
+// ---------------------------------------------------------------- ⑧ 差し込む日付
+/** チェックイン 2026-11-04・チェックアウト 2026-12-04（フォームの YYYY-MM-DD を GAS が new Date で読んだ値＝UTC の 0 時） */
+function fixedDateRow(lang) {
+  const r = row('INQ-001', lang);
+  r[5] = new Date('2026-11-04');
+  r[6] = new Date('2026-12-04');
+  return r;
+}
+t('⑧ 日本語の一次返信の日付は「2026年11月4日」', () => {
+  reset([fixedDateRow('ja')]);
+  EmailService.sendAutoReplies();
+  const body = customerMails()[0]?.body || '';
+  assert.match(body, /・チェックイン: 2026年11月4日\n/);
+  assert.match(body, /・チェックアウト: 2026年12月4日\n/);
+});
+t('⑧ 英語の一次返信の日付は従来どおり（toLocaleDateString）', () => {
+  reset([fixedDateRow('en')]);
+  EmailService.sendAutoReplies();
+  const body = customerMails()[0]?.body || '';
+  assert.ok(body.includes(`- Check-in: ${new Date('2026-11-04').toLocaleDateString()}\n`), body.slice(0, 200));
+});
+t('⑧ 対応外の言語（fr）は英語の文面で、日付も英語と同じ', () => {
+  reset([fixedDateRow('fr')]);
+  EmailService.sendAutoReplies();
+  assert.ok((customerMails()[0]?.body || '').includes(`- Check-in: ${new Date('2026-11-04').toLocaleDateString()}\n`));
 });
 
 // ---------------------------------------------------------------- ⑦
