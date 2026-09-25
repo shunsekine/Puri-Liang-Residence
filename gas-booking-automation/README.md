@@ -41,16 +41,18 @@ Web アプリは「全員（匿名）」に公開されるため、URL を知っ
 ## 反映手順（GAS のコードを変えたとき）
 
 リポジトリの `src/*.ts` が正本。`clasp push` は使えない（`import`/`export` を含むため、そのままでは Apps Script に貼れない）。
-作業はすべて **`puriliangresidence.bali@gmail.com` でログインした Apps Script エディタ**で行う（トリガーとデプロイは操作したアカウントで動く。個人アカウントで行うと個人の Gmail から顧客へ送られうる）。
+**トリガーの作成・新バージョンのデプロイ・関数の手動実行は `puriliangresidence.bali@gmail.com` で行う**（操作したアカウントで動く。個人アカウントで行うと個人の Gmail から顧客へ送られうる）。コードの貼り付けと保存は、所有者の個人アカウントでもよい（保存しただけでは何も実行されない）。
 
 1. **変換**: `bash gas-booking-automation/build-gs.sh` → `gas-booking-automation/dist/<名前>.js` ができる（import/export を外して全ファイルを 1 つのグローバル空間として tsc で変換。型だけの Types は出ない）。`npm run gas:check` はこの形でも全テストを通す。
-2. **貼り付け**: `dist/` の各ファイルの中身を、エディタの同名ファイルに全文置き換えで貼る。リポジトリで増えたファイルはエディタにも足す。
+2. **貼り付け**: `dist/` の各ファイルの中身を、エディタの同名ファイルに全文置き換えで貼る。リポジトリで増えたファイルはエディタにも足し、**それを使うファイルより先に保存する**（途中で定期トリガーが動くと `ReferenceError` で行が「エラー」になる）。保存はツールバーの保存ボタン（全ファイルをまとめて保存）。貼った後にページを再読み込みし、中身が `dist/` と一致することを確かめる。
 3. **デプロイ**: `doPost`（Webhook）に関わる変更は「デプロイを管理 → 鉛筆（編集）→ バージョン: 新バージョン → デプロイ」。**「新しいデプロイ」は別 URL を作る**ので使わない。定期トリガー・編集時トリガーから呼ばれる処理は、保存した最新のコードで動く。
-4. **確認**: 本番フォームから 1 件送り、応答が `success:true` で `Inquiries` に記帳されたことを確かめてテスト行を消す（匿名で実行される `doPost` はエディタの「実行数」でログを開けない）。
+4. **確認**:
+   * 新バージョンが動いているか: `GAS_WEBHOOK_URL` に JSON でない本文を送ると `{"success":false,"error":"internal"}` が返り、「実行数」にそのバージョンの `doPost` が載る（記帳・送信なし。`curl -sL --data 'not-json' <URL>`。`-X POST` を付けるとリダイレクト先にも POST して「ファイルを開けません」のページになる）
+   * 記帳まで確かめるとき: 本番フォーム（または `/api/reserve`）から 1 件送り、記帳を確かめたら **15 分以内に** B〜S 列を消す（一次返信は受信の 15 分後なので、それより前に消せばメールは出ない）。A 列の ID は残す
 
 ## 初回セットアップ（作り直すとき）
 
-1. スプレッドシートを作り、「拡張機能 → Apps Script」を開く。下記「スプレッドシート構成」の 3 シートと見出しを用意する。
+1. スプレッドシートを作り、「拡張機能 → Apps Script」を開く。下記「スプレッドシート構成」の 2 シート（`Inquiries`・`Settings`）と見出しを用意する。
 2. 「反映手順」の 1〜2 で全ファイルを貼る。
 3. 「デプロイ → 新しいデプロイ」（初回だけ）: 種類 **Web アプリ** / 次のユーザーとして実行 **自分** / アクセスできるユーザー **全員**。発行された URL を Vercel の `GAS_WEBHOOK_URL` に入れ、「Webhook の共有秘密」の手順で `WEBHOOK_SECRET` と `GAS_WEBHOOK_SECRET` を設定する（未設定だと全件拒否）。
 4. トリガー（`puriliangresidence.bali@gmail.com` で作成）:
@@ -95,7 +97,7 @@ P〜S 列の**見出しは自動では入らない**ので、1 行目に手で `
 
 ### 3. Templates シート（使わない）
 
-2026-09-24 に文面を `src/Templates.ts` へ移した。GAS はこのシートを読まない（残っていても消しても動く）。混乱を避けるなら、シートのタブ名を `Templates（旧・未使用）` に変えるか削除する。
+文面は `src/Templates.ts`（下記）。本番のシートの旧タブは「Templates（旧・未使用）」に改名済みで、GAS は読まない（消してもよい）。
 
 ## メールの文面（`src/Templates.ts`）
 
@@ -126,7 +128,8 @@ P〜S 列の**見出しは自動では入らない**ので、1 行目に手で `
 | `Service Spreadsheets failed while accessing document` が **単発**（表の行が1〜数件で、以後の実行は成功） | Google 側の一過性エラー。**対応不要** |
 | 同じエラーが **連続**（表の行が多数、または翌日も届く） | スプレッドシートの共有解除・削除・認可失効を疑う。要対応 |
 | `Invalid email: …` | 顧客メール（`…`が顧客アドレス）または `NOTIFICATION_EMAIL` が不正。該当行を修正 |
-| `Authorization is required` / `SyntaxError: Cannot use import statement` | 再認可、またはトランスパイル前の `.ts` を push した疑い。要対応 |
+| `Authorization is required` / `SyntaxError: Cannot use import statement` | 再認可、または変換前の `.ts` を貼った疑い（`dist/` の `.js` を貼る）。要対応 |
+| `ReferenceError: … is not defined` | 貼り忘れ・保存漏れのファイルがある（新しく足したファイル等）。「反映手順」の 2 をやり直す |
 | `You do not have permission to call GmailApp…`（Function: `onEdit`） | エディタに `onEdit` という名前の関数が残っている（シンプルトリガーとして動く）。`Main` を最新に貼り直し、`onStatusEdit` のインストール型トリガーを確認する |
 
 ---
@@ -157,7 +160,7 @@ npm run gas:check   # 型チェック + スタブ付き合成テスト（test/*.
 | `test/sendAutoReplies.test.js` | リトライ・行単位の隔離 |
 | `test/doPost.test.js` | Webhook の共有秘密 |
 | `test/abuse.test.js` | WO-PB-3F（受信時刻・メール形式・自動返信の上限） |
-| `test/hardening.test.js` | WO-PB-3F の残り（数式の無害化・`doPost` の例外を固定文言に・秘密の前後の空白） |
+| `test/hardening.test.js` | WO-PB-3F の残り（数式の無害化・`doPost` の例外を固定文言に・秘密の前後の空白）と WhatsApp テキストの日付 |
 | `test/optionalFields.test.js` | 電話・国籍・滞在目的の記帳と再検証（電話の規則が `lib/phone.ts` と同じこと） |
 | `test/templates.test.js` | メールの文面（全種類×3 言語・差し込み文字・事業ルールの値が `lib/data.ts` と一致）と選び方（シートを読まない・対応外の言語は英語で代用） |
 | `test/retention.test.js` | 保存期間の匿名化（境界 730/731 日・触らない行・まとめ書き・ID の照合） |
