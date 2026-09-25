@@ -5,7 +5,7 @@ import { CONFIG } from './Config';
 // 読み飛ばしが起きた。コードにしたので、全種類×3 言語がそろっていること・差し込み文字・事業ルールの値（デポジット・電気の目安・
 // キャンセルの日数）が lib/data.ts と一致することを test/templates.test.js が検査する。
 // 文面を変えたら build-gs.sh の出力を貼り直す（README「反映手順」。トリガーから呼ばれるので、保存した時点で使われる）。
-// 差し込み: {ID} {Name} {CheckIn} {CheckOut} {RoomType} {Guests}（EmailService.replacePlaceholders）。日付の書式は言語ごと（MAIL_DATE_PATTERNS）
+// 差し込み: {ID} {Name} {CheckIn} {CheckOut} {RoomType} {Guests}（EmailService.replacePlaceholders）。日付の書き方は言語ごと（MAIL_DATE_FORMATS）
 
 export type TemplateKind = '1MonthLater' | '1MonthWithin' | 'Available' | 'Full' | 'AcceptWaiting';
 export type TemplateLanguage = 'ja' | 'en' | 'id';
@@ -215,17 +215,32 @@ export const MAIL_TEMPLATES: Record<TemplateKind, Record<TemplateLanguage, MailT
   },
 };
 
+/** 月名（英語・インドネシア語）。Utilities.formatDate の月名はサーバーのロケール次第なので、自前で持つ */
+const MAIL_MONTH_NAMES: Record<'en' | 'id', string[]> = {
+  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  id: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+};
 /**
- * 差し込む日付（{CheckIn} {CheckOut}）の書式（Utilities.formatDate の記号・スクリプトのタイムゾーン）。null は toLocaleDateString
- * （GAS の既定は米国式の 11/4/2026）。日本語は 2026-09-25 のユーザー指示で日本式にした
+ * 日付の書き方（年・月・日の数から）。数字だけの 11/4/2026 は、米国式なら 11 月 4 日・インドネシアや英国式なら 4 月 11 日と読めるので、
+ * 英語・インドネシア語は月名にする（2026-09-25 ユーザー指示）
  */
-const MAIL_DATE_PATTERNS: Record<TemplateLanguage, string | null> = { ja: 'yyyy年M月d日', en: null, id: null };
+const MAIL_DATE_FORMATS: Record<TemplateLanguage, (y: number, m: number, d: number) => string> = {
+  ja: (y, m, d) => `${y}年${m}月${d}日`,
+  en: (y, m, d) => `${d} ${MAIL_MONTH_NAMES.en[m - 1]} ${y}`,
+  id: (y, m, d) => `${d} ${MAIL_MONTH_NAMES.id[m - 1]} ${y}`,
+};
 
-/** 文面に差し込む日付。言語が ja・en・id 以外なら英語と同じ（英語の文面で代用するため） */
+/**
+ * 文面・担当者への通知・WhatsApp テキストに入れる日付（スクリプトのタイムゾーンの年月日）。
+ * 言語が ja・en・id 以外なら英語の形（英語の文面で代用するため）
+ */
 export function formatMailDate(date: Date, language: string): string {
   const lang = String(language ?? '').trim();
-  const pattern = Object.prototype.hasOwnProperty.call(MAIL_DATE_PATTERNS, lang) ? MAIL_DATE_PATTERNS[lang as TemplateLanguage] : null;
-  return pattern ? Utilities.formatDate(date, Session.getScriptTimeZone(), pattern) : date.toLocaleDateString();
+  const format = Object.prototype.hasOwnProperty.call(MAIL_DATE_FORMATS, lang)
+    ? MAIL_DATE_FORMATS[lang as TemplateLanguage]
+    : MAIL_DATE_FORMATS[CONFIG.TEMPLATE_FALLBACK_LANGUAGE as TemplateLanguage];
+  const [y, m, d] = Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd').split('-').map(Number);
+  return format(y, m, d);
 }
 
 /**

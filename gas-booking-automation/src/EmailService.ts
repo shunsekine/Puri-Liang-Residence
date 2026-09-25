@@ -296,8 +296,8 @@ export class EmailService {
       `ID: ${inquiry.id}`,
       `Name: ${inquiry.name}`,
       `Email: ${inquiry.email}`,
-      `Check-in: ${inquiry.checkIn.toLocaleDateString()}`,
-      `Check-out: ${inquiry.checkOut.toLocaleDateString()}`,
+      `Check-in: ${formatMailDate(inquiry.checkIn, 'en')}`,
+      `Check-out: ${formatMailDate(inquiry.checkOut, 'en')}`,
       `Room: ${inquiry.roomType}`,
       `Guests: ${inquiry.guests}`,
       // 任意項目（未回答は "-"）。WhatsApp 文面（N列）には入れない

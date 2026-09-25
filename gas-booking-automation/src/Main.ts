@@ -4,6 +4,7 @@ import { SpreadsheetService } from './SpreadsheetService';
 import { RetentionService } from './Retention';
 import { CONFIG, COLUMNS } from './Config';
 import { errorMessage } from './Retry';
+import { formatMailDate } from './Templates';
 
 /**
  * Webhook (POSTリクエスト) のエントリポイント
@@ -131,7 +132,7 @@ export function sendReminders(): void {
         const id = row[COLUMNS.INQUIRIES.ID - 1];
         const name = row[COLUMNS.INQUIRIES.NAME - 1];
         const subject = `【リマインダー】キャンセル待ち再確認: ${id} (${name}様)`;
-        const body = `宿泊の30日前になりました。\n\nID: ${id}\nName: ${name}\nCheck-in: ${checkIn.toLocaleDateString()}\n\nオーナーに再度空室状況を確認し、顧客へご連絡をお願いします。`;
+        const body = `宿泊の30日前になりました。\n\nID: ${id}\nName: ${name}\nCheck-in: ${formatMailDate(checkIn, 'en')}\n\nオーナーに再度空室状況を確認し、顧客へご連絡をお願いします。`;
         
         GmailApp.sendEmail(notifyEmail, subject, body);
       }

@@ -33,7 +33,12 @@ global.SpreadsheetApp = {
 };
 global.PropertiesService = { getScriptProperties: () => ({ getProperty: (k) => (k in scriptProps ? scriptProps[k] : null) }) };
 global.ContentService = { MimeType: { JSON: 'json' }, createTextOutput: (s) => ({ body: JSON.parse(s), setMimeType() { return this; } }) };
-global.Utilities = { sleep: () => {} };
+// formatDate・Session は WhatsApp テキストの日付（Templates.formatMailDate）が使う。yyyy-MM-dd だけを返す
+global.Utilities = {
+  sleep: () => {},
+  formatDate: (d, tz, fmt) => { assert.strictEqual(fmt, 'yyyy-MM-dd'); return new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d); },
+};
+global.Session = { getScriptTimeZone: () => 'Asia/Tokyo' };
 console.warn = () => {}; console.error = () => {};
 
 const { doPost } = require(process.env.GAS_BUILD_DIR + '/Main');
@@ -102,6 +107,13 @@ t('F3 誤検知しない: 普通の値・途中の = はそのまま', () => {
 });
 t("F3 電話は ' が 1 つだけ（+ で始まる番号を二重にしない）", () => {
   assert.strictEqual(record({ phone: '+62 812-3456-7890' })[COL.PHONE], "'+62 812-3456-7890");
+});
+
+// ---- WhatsApp テキスト（オーナー向け・英語）の日付は「4 November 2026」（米国式の 11/4/2026 はインドネシア語の読み手に 4 月 11 日に読める）。
+//      検出力: 変更前の src（9747d02）で落ちることを確認した（2026-09-25）
+t('WhatsApp テキストの日付は読み違えない形', () => {
+  const row = record({ checkin: '2026-11-04', checkout: '2026-12-04' });
+  assert.match(row[COL.WHATSAPP], /- Check-in: 4 November 2026\n- Check-out: 4 December 2026\n/);
 });
 
 // ---- F6: doPost の例外は固定文言

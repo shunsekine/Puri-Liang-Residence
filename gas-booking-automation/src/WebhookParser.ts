@@ -1,4 +1,5 @@
 import { InquiryData } from './Types';
+import { formatMailDate } from './Templates';
 
 /** プロキシ（app/api/reserve/route.ts）が本文に付ける共有秘密のフィールド名。doPost は HTTP ヘッダーを読めないため本文で渡す。 */
 export const WEBHOOK_SECRET_FIELD = 'webhook_secret';
@@ -171,7 +172,7 @@ export class WebhookParser {
     const checkInDay = new Date(inquiry.checkIn);
     checkInDay.setHours(0, 0, 0, 0);
     if (checkInDay.getTime() < today.getTime()) {
-      flags.push(`過去日付検知(チェックイン: ${inquiry.checkIn.toLocaleDateString()})`);
+      flags.push(`過去日付検知(チェックイン: ${formatMailDate(inquiry.checkIn, 'ja')})`);
     }
 
     // 4. メール形式（WO-PB-3F F1）。route でも検証するが、判定は記帳する側にも置く（旗付きは自動送信せず下書き）
