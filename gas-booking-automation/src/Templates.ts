@@ -5,7 +5,7 @@ import { CONFIG } from './Config';
 // 読み飛ばしが起きた。コードにしたので、全種類×3 言語がそろっていること・差し込み文字・事業ルールの値（デポジット・電気の目安・
 // キャンセルの日数）が lib/data.ts と一致することを test/templates.test.js が検査する。
 // 文面を変えたら build-gs.sh の出力を貼り直す（README「反映手順」。トリガーから呼ばれるので、保存した時点で使われる）。
-// 差し込み: {ID} {Name} {CheckIn} {CheckOut} {RoomType} {Guests}（EmailService.replacePlaceholders）
+// 差し込み: {ID} {Name} {CheckIn} {CheckOut} {RoomType} {Guests}（EmailService.replacePlaceholders）。日付の書式は言語ごと（MAIL_DATE_PATTERNS）
 
 export type TemplateKind = '1MonthLater' | '1MonthWithin' | 'Available' | 'Full' | 'AcceptWaiting';
 export type TemplateLanguage = 'ja' | 'en' | 'id';
@@ -214,6 +214,19 @@ export const MAIL_TEMPLATES: Record<TemplateKind, Record<TemplateLanguage, MailT
     },
   },
 };
+
+/**
+ * 差し込む日付（{CheckIn} {CheckOut}）の書式（Utilities.formatDate の記号・スクリプトのタイムゾーン）。null は toLocaleDateString
+ * （GAS の既定は米国式の 11/4/2026）。日本語は 2026-09-25 のユーザー指示で日本式にした
+ */
+const MAIL_DATE_PATTERNS: Record<TemplateLanguage, string | null> = { ja: 'yyyy年M月d日', en: null, id: null };
+
+/** 文面に差し込む日付。言語が ja・en・id 以外なら英語と同じ（英語の文面で代用するため） */
+export function formatMailDate(date: Date, language: string): string {
+  const lang = String(language ?? '').trim();
+  const pattern = Object.prototype.hasOwnProperty.call(MAIL_DATE_PATTERNS, lang) ? MAIL_DATE_PATTERNS[lang as TemplateLanguage] : null;
+  return pattern ? Utilities.formatDate(date, Session.getScriptTimeZone(), pattern) : date.toLocaleDateString();
+}
 
 /**
  * 種類と言語の文面。言語が ja・en・id 以外（秘密を知る者の直接 POST など）なら英語（CONFIG.TEMPLATE_FALLBACK_LANGUAGE）で代用し、

@@ -100,7 +100,7 @@ P〜S 列の**見出しは自動では入らない**ので、1 行目に手で `
 ## メールの文面（`src/Templates.ts`）
 
 * 種類は `1MonthLater` `1MonthWithin`（一次返信。今は同じ文面）`Available` `Full` `AcceptWaiting`（最終回答の下書き。件名は `Re: {件名} ({ID})`）の 5 つ × `ja` `en` `id`
-* 差し込みは `{ID}` `{Name}` `{CheckIn}` `{CheckOut}` `{RoomType}` `{Guests}`（`EmailService.replacePlaceholders`）
+* 差し込みは `{ID}` `{Name}` `{CheckIn}` `{CheckOut}` `{RoomType}` `{Guests}`（`EmailService.replacePlaceholders`）。日付は日本語だけ `2026年11月4日`、英語・インドネシア語は GAS の既定（米国式 `11/4/2026`）。書式は `Templates.ts` の `MAIL_DATE_PATTERNS`
 * **変えるとき**: `src/Templates.ts` を直す → `npm run gas:check`（全種類×3 言語がそろっていること・差し込み文字・デポジット／電気の目安／全額返金の日数が `lib/data.ts` と一致することを `test/templates.test.js` が検査）→ 上の「反映手順」で貼る。一次返信・最終回答はトリガーから呼ばれるので、**貼って保存した時点で新しい文面が使われる**（新バージョンのデプロイは不要）
 * 料金・支払い・キャンセル・電気の値を変えるときは、`lib/data.ts`・サイトの文言（`messages/*.json`）・この文面を揃える（揃っていなければ検査が落ちる）
 

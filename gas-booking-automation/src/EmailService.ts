@@ -2,7 +2,7 @@ import { SpreadsheetService } from './SpreadsheetService';
 import { InquiryData } from './Types';
 import { CONFIG, COLUMNS, PRE_FIRST_REPLY_STATUSES } from './Config';
 import { errorMessage } from './Retry';
-import { TemplateKind, mailTemplateFor } from './Templates';
+import { TemplateKind, formatMailDate, mailTemplateFor } from './Templates';
 
 const HOUR_MS = 60 * 60 * 1000;
 /** 最終回答のステータス → テンプレートの種類（Templates.ts） */
@@ -371,8 +371,8 @@ export class EmailService {
     return text
       .replace(/{ID}/g, inquiry.id || '')
       .replace(/{Name}/g, inquiry.name)
-      .replace(/{CheckIn}/g, inquiry.checkIn.toLocaleDateString())
-      .replace(/{CheckOut}/g, inquiry.checkOut.toLocaleDateString())
+      .replace(/{CheckIn}/g, formatMailDate(inquiry.checkIn, inquiry.language))
+      .replace(/{CheckOut}/g, formatMailDate(inquiry.checkOut, inquiry.language))
       .replace(/{RoomType}/g, inquiry.roomType)
       .replace(/{Guests}/g, inquiry.guests.toString());
   }
