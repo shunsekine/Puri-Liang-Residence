@@ -74,7 +74,7 @@
 - **GAS のコードとメールの文面はリポジトリが正本**: エディタで直接直したら `gas-booking-automation/src` にも反映する。文面は 2026-09-24 に Templates シートから `src/Templates.ts` へ移した（シートは読まない）。
 - **GAS 失敗通知**は件名でなく本文の表で判定する（`gas-booking-automation/README.md`「失敗通知メールの読み方」）。
 - **本番の GAS プロジェクト**は `1dEFqku0rLFM34SWz-8Sn7cjCX_aYCQf6gbKTmI79YTrL1349CXIi1lFn`（予約管理表_v1.0 に紐づく「無題のプロジェクト」）。同じシートに紐づいていた 2026-07-25 作成の空のプロジェクト（`1leeIINn…`）は 2026-09-25 にユーザーが削除した。エディタは直接 URL で開く（Chrome で puriliang が既定以外のアカウント＝`/u/3/` だと、Sheets の「拡張機能 → Apps Script」は「unable to open the file」になる。所有者の `/u/0/` と、puriliang の直接 URL `script.google.com/u/3/home/projects/1dEFqku0…/edit` は開ける＝2026-09-25 確認）。シートの旧 Templates タブは「Templates（旧・未使用）」に改名済み（GAS は読まない）。
-- **`Inquiries` の空行は意図したもの**: テスト行は行を消さず中身だけ消す（ID が `getLastRow` 採番のため、行を消すと ID が再利用される。最終行を消すときは A 列の ID だけ残す）。2026-09-24 に `INQ-001`〜`004`（7/25 のテスト）と、本番確認用の `INQ-006`（一次返信）・`INQ-007`（`onStatusEdit` の最終回答の下書き）をこの方法で片付けた。
+- **`Inquiries` の空行は意図したもの**: テスト行は行を消さず中身だけ消す（ID が `getLastRow` 採番のため、行を消すと ID が再利用される。最終行を消すときは A 列の ID だけ残す）。2026-09-25 に最終行の A 列まで消されていたため、本番確認の試験行が使用済みの `INQ-006` を再利用した（片付けは B〜S 列だけ・A 列の ID は残した）。
 - **VM 共用**: 他エージェントのプロセス・作業を予告なく止めない・上書きしない。
 
 ### デプロイ / 環境
