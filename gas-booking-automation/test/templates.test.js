@@ -14,12 +14,14 @@
 //      セルのメモに日付付きで 1 行。担当者が手で書いたメモは消さない）。constructor 等のプロトタイプのキーも英語
 //   ⑥ 最終回答の下書きを作れない（Gmail の失敗）: 分かる文言で例外・ステータスは担当者が選んだまま・セルにメモ
 //   ⑦ Main は onEdit という名前の関数を公開しない（シンプルトリガーとして動くと Gmail を呼べず、インストール型と二重にも動く）
-//   ⑧ 差し込む日付（{CheckIn} {CheckOut}）は、日本語の文面では「2026年11月4日」（スクリプトのタイムゾーン）。英語・インドネシア語は
-//      従来どおり toLocaleDateString（2026-09-25 の本番確認で、日本語のメールに米国式の 11/4/2026 が入っていた）
+//   ⑧ 差し込む日付（{CheckIn} {CheckOut}）は、読み違えない形（スクリプトのタイムゾーン）: 日本語「2026年11月4日」・英語「4 November 2026」・
+//      インドネシア語「4 November 2026」（月名はインドネシア語。Desember 等）。対応外の言語は英語と同じ。担当者への通知の Check-in も英語の形
+//      （2026-09-25 まで GAS の既定の米国式 11/4/2026 で、インドネシア語の読み手には 4 月 11 日に読める）
 // 検出力の確認（2026-09-24）: 変更前の src（96f449d。文面はシートから読む）をビルドして GAS_BUILD_DIR で実行し、30 件中 28 件が
 //   落ちることを確認した（Templates モジュールが無い・シートを読む・ステータスのメモの文言）。変更前も通る 2 件: ⑥ の例外とメモ、
 //   ⑦ onEdit を公開しない（どちらも従来の挙動の回帰検査）。③ は DEPOSIT_IDR を 2500000 に・全額返金を 14 日前に変えた lib/data.ts（DATA_TS）で、それぞれ FAIL を確認した。
-// ⑧ の検出力（2026-09-25）: 変更前の src（dbee59a）で日本語の 2 件（⑧・④⑤ の ja）が落ちることを確認した（11/4/2026 が入る）。英語・fr は変更前も通る。
+// ⑧ の検出力（2026-09-25）: 日本語は変更前の src（dbee59a）で 2 件（⑧・④⑤ の ja）が落ちることを確認した（11/4/2026 が入る）。
+//   英語・インドネシア語・通知の形は変更前の src（9747d02）で、⑧ の 4 件と ④⑤ の en・id の 2 件が落ちることを確認した（最終回答の文面には日付が無い）。
 const assert = require('assert');
 const { readFileSync } = require('fs');
 const { join } = require('path');
@@ -130,11 +132,13 @@ function editStatus(id, value) {
   return onStatusEdit({ range: { getSheet: () => ({ getName: () => 'Inquiries' }), getRow: () => rowNum, getColumn: () => STATUS_COLUMN }, value });
 }
 const noteOf = (id) => notes[`${inquiries.findIndex((r) => r[0] === id) + 1},${STATUS_COLUMN}`];
-/** 差し込む日付の期待値（⑧。日本語は「2026年11月4日」＝スクリプトのタイムゾーン、ほかは toLocaleDateString） */
+/** 差し込む日付の期待値（⑧。スクリプトのタイムゾーンの年月日を、言語ごとの形に） */
+const EN_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const ID_MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 function mailDate(d, lang) {
-  if (lang !== 'ja') return d.toLocaleDateString();
-  const [y, m, day] = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).split('-');
-  return `${+y}年${+m}月${+day}日`;
+  const [y, m, day] = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d).split('-').map(Number);
+  if (lang === 'ja') return `${y}年${m}月${day}日`;
+  return `${day} ${(lang === 'id' ? ID_MONTHS : EN_MONTHS)[m - 1]} ${y}`;
 }
 /** EmailService と同じ差し込み（row() の値） */
 const filled = (text, id, lang = 'en') => text.replace(/{ID}/g, id).replace(/{Name}/g, 'Guest ' + id)
@@ -270,16 +274,31 @@ t('⑧ 日本語の一次返信の日付は「2026年11月4日」', () => {
   assert.match(body, /・チェックイン: 2026年11月4日\n/);
   assert.match(body, /・チェックアウト: 2026年12月4日\n/);
 });
-t('⑧ 英語の一次返信の日付は従来どおり（toLocaleDateString）', () => {
+t('⑧ 英語の一次返信の日付は「4 November 2026」', () => {
   reset([fixedDateRow('en')]);
   EmailService.sendAutoReplies();
   const body = customerMails()[0]?.body || '';
-  assert.ok(body.includes(`- Check-in: ${new Date('2026-11-04').toLocaleDateString()}\n`), body.slice(0, 200));
+  assert.match(body, /- Check-in: 4 November 2026\n/);
+  assert.match(body, /- Check-out: 4 December 2026\n/);
+});
+t('⑧ インドネシア語の一次返信の日付は「4 November 2026」（月名はインドネシア語）', () => {
+  reset([fixedDateRow('id')]);
+  EmailService.sendAutoReplies();
+  const body = customerMails()[0]?.body || '';
+  assert.match(body, /- Check-in: 4 November 2026\n/);
+  assert.match(body, /- Check-out: 4 Desember 2026\n/);
 });
 t('⑧ 対応外の言語（fr）は英語の文面で、日付も英語と同じ', () => {
   reset([fixedDateRow('fr')]);
   EmailService.sendAutoReplies();
-  assert.ok((customerMails()[0]?.body || '').includes(`- Check-in: ${new Date('2026-11-04').toLocaleDateString()}\n`));
+  assert.match(customerMails()[0]?.body || '', /- Check-in: 4 November 2026\n/);
+});
+t('⑧ 担当者への通知の Check-in・Check-out も英語の形（言語に関係なく）', () => {
+  reset([fixedDateRow('ja')]);
+  EmailService.sendAutoReplies();
+  const body = ownerMails()[0]?.body || '';
+  assert.match(body, /^Check-in: 4 November 2026$/m);
+  assert.match(body, /^Check-out: 4 December 2026$/m);
 });
 
 // ---------------------------------------------------------------- ⑦

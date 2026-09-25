@@ -1,6 +1,7 @@
 import { CONFIG, COLUMNS } from './Config';
 import { InquiryData, InquiryStatus } from './Types';
 import { withRetry } from './Retry';
+import { formatMailDate } from './Templates';
 
 type SheetValues = ReturnType<GoogleAppsScript.Spreadsheet.Range['getValues']>;
 
@@ -213,8 +214,9 @@ export class SpreadsheetService {
    * WhatsApp用の確認テキスト生成
    */
   private static generateWhatsAppText(inquiry: InquiryData): string {
-    const ci = inquiry.checkIn.toLocaleDateString();
-    const co = inquiry.checkOut.toLocaleDateString();
+    // オーナー向けの英語の文面。数字だけの日付は 4 月 11 日とも読めるので月名にする（Templates.formatMailDate）
+    const ci = formatMailDate(inquiry.checkIn, 'en');
+    const co = formatMailDate(inquiry.checkOut, 'en');
     let text = `Hi, new inquiry received (${inquiry.id}):\n- Name: ${inquiry.name}\n- Check-in: ${ci}\n- Check-out: ${co}\n- Room: ${inquiry.roomType}\n- Guests: ${inquiry.guests}`;
     if (inquiry.irregularFlag && inquiry.irregularFlag !== 'なし') {
       text += `\n*NOTE*: ${inquiry.irregularFlag}`;

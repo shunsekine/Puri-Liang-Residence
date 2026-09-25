@@ -26,7 +26,11 @@ global.SpreadsheetApp = {
 };
 global.PropertiesService = { getScriptProperties: () => ({ getProperty: (k) => (k in scriptProps ? scriptProps[k] : null) }) };
 global.ContentService = { MimeType: { JSON: 'json' }, createTextOutput: (s) => ({ body: JSON.parse(s), setMimeType() { return this; } }) };
-global.Utilities = { sleep: () => {} };
+global.Utilities = {
+  sleep: () => {},
+  formatDate: (d, tz) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d),
+};
+global.Session = { getScriptTimeZone: () => 'Asia/Tokyo' };
 console.warn = () => {}; console.error = () => {};
 
 const { doPost } = require(process.env.GAS_BUILD_DIR + '/Main');
