@@ -112,6 +112,8 @@ P〜S 列の**見出しは自動では入らない**ので、1 行目に手で `
 
 背景: 2026-09-09 に `processAutoReplies` が Google 側の一過性エラー
 `Service Spreadsheets failed while accessing document with id …` で1回失敗した（自己回復済み・実害なし）。
+2026-09-29 18:52 JST にも `Document <ID> is missing (perhaps it was deleted, or you don't have read access?)` で1回失敗した。
+最初の読み取りが約5分止まってから失敗し、再試行3回も同じ文面だった。シートは実在・共有も不変で、以後の失敗・タイムアウトは無い（実害なし）。
 このクラスのエラーは GAS 運用で周期的に起きるため、以下の構造で吸収する。
 
 * **リトライ（`src/Retry.ts`）**: スプレッドシートの読み書きは指数バックオフ付きで最大4回試行する（待機 1s→2s→4s）。
@@ -125,12 +127,14 @@ P〜S 列の**見出しは自動では入らない**ので、1 行目に手で `
 
 | 本文の特徴 | 判定 |
 |---|---|
-| `Service Spreadsheets failed while accessing document` が **単発**（表の行が1〜数件で、以後の実行は成功） | Google 側の一過性エラー。**対応不要** |
+| `Service Spreadsheets failed while accessing document` または `Document <ID> is missing (perhaps it was deleted…)` が **単発**（表の行が1〜数件で、以後の実行は成功） | Google 側の一過性エラー。**対応不要**。後者は削除・共有解除と同じ文面なので、下の確かめ方で「以後の実行は成功」を見てから判断する |
 | 同じエラーが **連続**（表の行が多数、または翌日も届く） | スプレッドシートの共有解除・削除・認可失効を疑う。要対応 |
 | `Invalid email: …` | 顧客メール（`…`が顧客アドレス）または `NOTIFICATION_EMAIL` が不正。該当行を修正 |
 | `Authorization is required` / `SyntaxError: Cannot use import statement` | 再認可、または変換前の `.ts` を貼った疑い（`dist/` の `.js` を貼る）。要対応 |
 | `ReferenceError: … is not defined` | 貼り忘れ・保存漏れのファイルがある（新しく足したファイル等）。「反映手順」の 2 をやり直す |
 | `You do not have permission to call GmailApp…`（Function: `onEdit`） | エディタに `onEdit` という名前の関数が残っている（シンプルトリガーとして動く）。`Main` を最新に貼り直し、`onStatusEdit` のインストール型トリガーを確認する |
+
+「以後の実行は成功」の確かめ方: エディタの「実行数」でフィルタ「ステータス」を「失敗しました」「タイムアウト」にする（過去7日分が出る）。通知の行と同じ件数しか無く、フィルタを外した一覧の最新の実行が「完了」なら単発。時刻はブラウザのタイムゾーンで表示される。
 
 ---
 
