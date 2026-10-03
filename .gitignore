@@ -48,3 +48,6 @@ next-env.d.ts
 
 # GAS: build-gs.sh の出力（貼り付け用。src/*.ts から生成）
 /gas-booking-automation/dist/
+
+# Claude Code の worktree（作業用の写し。残ると grep に古い写しが混ざる）
+.claude/worktrees/
