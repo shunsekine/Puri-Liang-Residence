@@ -9,7 +9,7 @@
 
 ## ① 安定情報（更新＝ユーザーの明確な指示時のみ）
 
-最終更新: 2026-09-25 / Claude (claude-opus-5-5) / 基準 SHA `e7551e7`（main）
+最終更新: 2026-10-09 / Claude (claude-opus-5-5) / 基準 SHA `579a589`（main）
 
 ### 概要とオーナーとのスタンス
 
@@ -51,6 +51,7 @@
 | GAS | `npm run gas:check`（型チェック＋スタブ付き合成テスト） | 0 |
 | 公開物の最低ライン（§11 ③⑤）と翻訳の契約 | `npm run check:public`（検出力の自己テスト・秘密・env allowlist・ログの PII・route の契約テスト・翻訳のキー一致／ICU 構文／空リンク `href="#"`／プライバシーポリシーへの導線） | 0 |
 | モデル層監査 | `python3 /home/ubuntu/agent-global-rules/audit_model_layer.py . --gate` | 0 |
+| 文書の量の予算と「個人情報の棚卸し」欄 | `python3 /home/ubuntu/agent-global-rules/check_context_size.py .` | 0（欄の欠落は 2026-11-01 から FAIL） |
 
 - GAS の**実機**への反映を検証する手段は無い。反映手順と反映後の確認は `gas-booking-automation/README.md`。
 
@@ -58,6 +59,12 @@
 
 無い（データは Google Sheets が保持。書込は GAS `SpreadsheetService.ts` の 1 モジュール＋人手の状態変更。route は値を持たない proxy）
 - §11 ①②: **該当なし**（ログイン・会員データ・ブラウザから読める DB が無い。Sheets への外部書込口 `doPost` は共有秘密で fail-closed。担保＝`gas:check` の `doPost.test.js`）。ログインや読み出し API を足した時点で実テストが要る
+
+### 個人情報の棚卸し
+区分: 公開アプリ
+- 何を・どこに・期間: 上の「事業ルール」の個人情報と「技術と構成」の予約の流れ（予約フォーム → GAS → Google Sheets・Gmail）
+- 立場: オーナーの事業の予約を当方が受け付けて管理する（上の「概要とオーナーとのスタンス」）
+- 当たる型と担保: 上の「不変条件と担保場所」と検証手段の `check:public`。点検の残りは非公開の作業指示書で管理する（このリポは公開のため、ここに書かない）
 
 ### コーディング規約
 
