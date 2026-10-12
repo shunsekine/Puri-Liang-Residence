@@ -159,6 +159,7 @@ export async function POST(request: Request) {
     }
 
     let gasReply: unknown;
+    let gasStatus = 0;
     try {
       const gasRes = await fetch(gasUrl, {
         method: 'POST',
@@ -168,9 +169,16 @@ export async function POST(request: Request) {
         // 組み立て直した項目だけを送る（クライアントの本文は展開しない。webhook_secret を送ってきても届かない）
         body: JSON.stringify({ ...parsed, webhook_secret: secret }),
       });
-      gasReply = await gasRes.json().catch(() => ({ success: true }));
+      gasStatus = gasRes.status;
+      // JSON でない応答（Google のエラーページ等）は記帳できたか分からないので失敗にする。以前は成功扱いで、記帳されないまま
+      // フォームに「送信完了」と出えた（2026-10-13。GAS のタイムアウト調査で発見）
+      gasReply = await gasRes.json().catch(() => null);
     } catch (error) {
       console.error('[API /api/reserve] Error proxying to GAS:', error);
+      return fail(502);
+    }
+    if (gasReply === null) {
+      console.error(`[API /api/reserve] GAS replied with a non-JSON body (HTTP ${gasStatus})`);
       return fail(502);
     }
 
