@@ -1,10 +1,12 @@
 import { SpreadsheetService } from './SpreadsheetService';
 import { InquiryData } from './Types';
-import { CONFIG, COLUMNS, PRE_FIRST_REPLY_STATUSES } from './Config';
+import { CONFIG, COLUMNS, PRE_FIRST_REPLY_STATUSES, SENDING_STATUS } from './Config';
 import { errorMessage } from './Retry';
 import { TemplateKind, formatMailDate, mailTemplateFor } from './Templates';
 
 const HOUR_MS = 60 * 60 * 1000;
+/** 「送信中」のまま残っていた行の、担当者への通知の文面（行ごと） */
+const INTERRUPTED_MESSAGE = '前回の実行が一次返信の途中で打ち切られました（送れたか不明なので送り直していません）。Gmail の送信済みと下書きを確かめ、届いていれば「1次送信済」（下書きなら「最終送信待ち」）に、無ければ「1次送信待ち」に戻してください';
 /** 最終回答のステータス → テンプレートの種類（Templates.ts） */
 const FINAL_ANSWER_TEMPLATE_KINDS: Record<string, TemplateKind> = { '空室': 'Available', '満室': 'Full', 'キャンセル待ち': 'AcceptWaiting' };
 
@@ -118,6 +120,16 @@ export class EmailService {
       const row = data[i];
       const status = row[COLUMNS.INQUIRIES.STATUS - 1];
       const timestamp = new Date(row[COLUMNS.INQUIRIES.TIMESTAMP - 1]);
+      if (status === SENDING_STATUS) {
+        // 前回の実行が Gmail の操作の途中で打ち切られた行（6 分の上限など。打ち切りは catch を通らない）。送れたか分からないので
+        // 送り直さず、「エラー」にして担当者に確かめてもらう
+        const rowNum = i + 1;
+        const id = String(row[COLUMNS.INQUIRIES.ID - 1]);
+        console.error(`[sendAutoReplies] row ${rowNum} (${id}) was left as ${SENDING_STATUS}`);
+        failures.push({ rowNum, id, error: INTERRUPTED_MESSAGE });
+        this.markAsError(rowNum);
+        continue;
+      }
       if (status !== '1次送信待ち') continue;
 
       // 受信から15分以上経過しているかチェック
@@ -143,13 +155,8 @@ export class EmailService {
 
         // 同じ行で毎回失敗し続ける（10〜15分ごとに通知が飛ぶ）のを防ぐため 'エラー' に退避。
         // 担当者が原因を直して '1次送信待ち' に戻せば再処理される。
-        // ここも失敗した場合は '1次送信待ち' のまま残り、次回実行で再試行される
-        // （sendEmail 成功後に updateStatus が失敗したケースでは二重送信になりうる。残存リスクとして許容）。
-        try {
-          SpreadsheetService.updateStatus(rowNum, 'エラー');
-        } catch (e) {
-          console.error(`[sendAutoReplies] failed to mark row ${rowNum} as error: ${errorMessage(e)}`);
-        }
+        // ここも失敗した場合は、Gmail を操作する前なら '1次送信待ち'（次回に再試行）、後なら '送信中'（次回に「エラー」へ）のまま残る
+        this.markAsError(rowNum);
       }
     }
 
@@ -158,6 +165,15 @@ export class EmailService {
     }
     if (held.length > 0) {
       this.notifyOwnerOfHeld(held);
+    }
+  }
+
+  /** 行を「エラー」にする。失敗しても実行は止めない（ログだけ） */
+  private static markAsError(rowNum: number): void {
+    try {
+      SpreadsheetService.updateStatus(rowNum, 'エラー');
+    } catch (e) {
+      console.error(`[sendAutoReplies] failed to mark row ${rowNum} as error: ${errorMessage(e)}`);
     }
   }
 
@@ -242,6 +258,9 @@ export class EmailService {
 
     const body = this.replacePlaceholders(template.body, inquiry);
     const subject = this.replacePlaceholders(template.subject, inquiry);
+
+    // Gmail を操作する前に「送信中」にする（Config.SENDING_STATUS）。この後で実行が打ち切られても、次の実行は送り直さない
+    SpreadsheetService.updateStatus(rowNum, SENDING_STATUS);
 
     if (inquiry.irregularFlag && inquiry.irregularFlag !== 'なし') {
       // イレギュラーがある場合は下書きとして作成

@@ -27,6 +27,8 @@
 //   検出力の確認（2026-09-24）: 変更前の route.ts（c81039b）に対して実行し、新規 11 件中 10 件が落ちることを確認した
 //     ― F5 2 件（転送された・200）、F6 6 件（壊れた本文と空の本文が 500、通信失敗が 500、GAS の失敗応答と ID を透過、503 に英語の
 //     message）、秘密 2 件（空白込みで転送・空白だけで転送）。多バイトの備考 2,000 文字が通ることの 1 件は変更前も通る。
+// ⑪ GAS の応答が JSON でなければ 502（2026-10-13。以前は成功扱いで、記帳されないまま「送信完了」と出えた）
+//   検出力の確認（2026-10-13）: 変更前の route.ts（1c1be87）に対して実行し、⑪ が 200 で落ちることを確認した
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -58,12 +60,19 @@ const routePath = process.env.ROUTE_UNDER_TEST ?? join(root, 'app/api/reserve/ro
 const { POST } = loadTs(routePath)
 
 const forwarded = []
-/** GAS の応答（⑩ で差し替える）。throw すると fetch 自体の失敗 */
+/** GAS の応答（⑩ で差し替える）。throw すると fetch 自体の失敗、NOT_JSON を返すと本文が JSON でない応答（⑪） */
 let gasReply = () => ({ success: true, id: 'INQ-TEST' })
+const NOT_JSON = Symbol('not-json')
 globalThis.fetch = async (url, init) => {
   forwarded.push({ url, body: JSON.parse(init.body) })
   const reply = gasReply()
-  return { json: async () => reply }
+  return {
+    status: 200,
+    json: async () => {
+      if (reply === NOT_JSON) throw new SyntaxError(`Unexpected token '<', "<!DOCTYPE html>" is not valid JSON`)
+      return reply
+    },
+  }
 }
 console.warn = () => {}
 console.error = () => {}
@@ -394,6 +403,16 @@ await t('⑩ F6 GAS への通信が失敗しても、例外の文言（URL を�
 })
 await t('⑩ F6 GAS の失敗応答は中身を透過せず { success: false } だけを返す', async () => {
   gasReply = () => ({ success: false, error: 'internal', message: 'Exception: synthetic detail' })
+  try {
+    res = await POST(req(formPayload()))
+    assert.equal(res.status, 502, `status ${res.status}`)
+    assert.deepEqual(res.data, { success: false })
+  } finally {
+    gasReply = () => ({ success: true, id: 'INQ-TEST' })
+  }
+})
+await t('⑪ GAS の応答が JSON でない（Google のエラーページ等）なら 502（成功扱いにしない）', async () => {
+  gasReply = () => NOT_JSON
   try {
     res = await POST(req(formPayload()))
     assert.equal(res.status, 502, `status ${res.status}`)

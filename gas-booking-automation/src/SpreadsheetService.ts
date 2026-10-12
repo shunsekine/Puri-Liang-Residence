@@ -1,6 +1,6 @@
 import { CONFIG, COLUMNS } from './Config';
 import { InquiryData, InquiryStatus } from './Types';
-import { withRetry } from './Retry';
+import { RETRY, withRetry } from './Retry';
 import { formatMailDate } from './Templates';
 
 type SheetValues = ReturnType<GoogleAppsScript.Spreadsheet.Range['getValues']>;
@@ -23,9 +23,13 @@ export class SpreadsheetService {
   /**
    * シートの全データを取得（一過性エラーはリトライ）。シートが無ければ null
    */
-  static getAllValues(name: string): SheetValues | null {
-    return withRetry(`getAllValues(${name})`, () => {
-      const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name);
+  static getAllValues(sheetName: string): SheetValues | null {
+    return withRetry(`getAllValues(${sheetName})`, () => {
+      // 開くのと読むののどちらが遅いかを分けて残す（全体の所要時間は withRetry がログに書く）
+      const started = Date.now();
+      const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+      const opened = Date.now() - started;
+      if (opened >= RETRY.SLOW_CALL_MS) console.warn(`[getAllValues] opening ${sheetName} took ${Math.round(opened / 1000)}s`);
       return sheet ? sheet.getDataRange().getValues() : null;
     });
   }

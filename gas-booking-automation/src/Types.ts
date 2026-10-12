@@ -1,6 +1,7 @@
 export type InquiryStatus = 
   | 'New'
   | '1次送信待ち'
+  | '送信中' // 一次返信で Gmail を操作する直前に書く（Config.SENDING_STATUS）。次の実行で残っていれば、途中で打ち切られた行
   | '1次送信済'
   | 'オーナー確認中'
   | '空室'
