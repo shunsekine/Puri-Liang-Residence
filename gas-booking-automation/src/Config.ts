@@ -27,6 +27,15 @@ export const CONFIG = {
  */
 export const PRE_FIRST_REPLY_STATUSES: readonly string[] = ['', 'New', '1次送信待ち', 'エラー'];
 
+/**
+ * 一次返信で Gmail を操作する（送信・下書き）直前に行へ書く状態。送った後に「1次送信済」等へ書き換える。
+ * 実行が 6 分の上限で打ち切られると try/catch も通らないので、送った後の書き換えの前に止まると「1次送信待ち」のまま残り、
+ * 次の実行が二重に送る（2026-10-12 のタイムアウト調査で発見）。先にこの状態にしておけば、次の実行は残った行を送り直さず
+ * 「エラー」にして担当者に確かめてもらう（送信は高々 1 回）。
+ * PRE_FIRST_REPLY_STATUSES に入れない: 送ったかもしれない行なので、自動返信の上限では送った側に数える
+ */
+export const SENDING_STATUS = '送信中';
+
 export const COLUMNS = {
   INQUIRIES: {
     ID: 1, // A

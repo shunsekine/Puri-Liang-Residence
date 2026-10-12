@@ -2,6 +2,7 @@ import { WebhookParser, WEBHOOK_SECRET_FIELD, WEBHOOK_SECRET_PROPERTY } from './
 import { EmailService } from './EmailService';
 import { SpreadsheetService } from './SpreadsheetService';
 import { RetentionService } from './Retention';
+import { StallGuard } from './StallGuard';
 import { CONFIG, COLUMNS } from './Config';
 import { errorMessage } from './Retry';
 import { formatMailDate } from './Templates';
@@ -46,10 +47,17 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
 }
 
 /**
- * 10〜15分おきの定期トリガー（タイムドリブン）から実行される一次対応処理
+ * 10〜15分おきの定期トリガー（タイムドリブン）から実行される一次対応処理。
+ * 打ち切り（6 分の上限）が続いたら StallGuard が定期実行を間引く。エディタからの手動実行（e が無い）は間引かない
  */
-export function processAutoReplies() {
-  EmailService.sendAutoReplies();
+export function processAutoReplies(e?: GoogleAppsScript.Events.TimeDriven) {
+  const startMs = Date.now();
+  if (!StallGuard.begin(startMs, !e)) return;
+  try {
+    EmailService.sendAutoReplies();
+  } finally {
+    StallGuard.end(startMs, Date.now());
+  }
 }
 
 /**
