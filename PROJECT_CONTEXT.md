@@ -95,7 +95,7 @@
 
 ## ③ 引継ぎ・作業状態（随時更新）
 
-最終更新: 2026-10-01 / Claude (claude-opus-5-5) / 基準 SHA `5797d83`
+最終更新: 2026-10-13 / Claude (claude-opus-5-5) / 基準 SHA `1c1be87`
 
 ### in_flight
 
@@ -103,7 +103,8 @@
 
 ### 次にやること（優先順）
 
-1. （任意）2026-10-09 頃に Search Console の URL 検査で、2026-09-25 に再インデックスを申請した 15 件（`/privacy`・`/faq`・`/rooms`・`/reserve`・トップ × 3 言語）が「登録されています」になったか確認する。サイトマップ（21 件）も同日に再送信済み。
+1. 10/12 のタイムアウト対策（ブランチ `claude/puri-liang-execution-timeout-edc8f1`。内容は GAS README「障害時の挙動」）の本番反映: ① PR のマージ（ユーザー。`route.ts` が Vercel に出る）② GAS への貼り付け（README「反映手順」1〜2。新しいファイル `StallGuard` を `Main` より先に保存。`doPost` は変えていないので新バージョンのデプロイは不要）。反映後、「実行数」で `processAutoReplies` が完了していることを確かめる
+2. （任意）2026-10-09 頃に Search Console の URL 検査で、2026-09-25 に再インデックスを申請した 15 件（`/privacy`・`/faq`・`/rooms`・`/reserve`・トップ × 3 言語）が「登録されています」になったか確認する。サイトマップ（21 件）も同日に再送信済み。
 
 ### 経緯の所在
 
